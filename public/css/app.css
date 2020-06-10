@@ -10933,7 +10933,6 @@ body {
 }
 
 .parallax {
-  /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -10943,5 +10942,13 @@ body {
 .background-1 {
   height: 100vh;
   background-image: url("/img/home/background-img1.jpg");
+}
+
+.background-1 .container {
+  color: white;
+}
+
+.background-1 .container h1 {
+  letter-spacing: 10px;
 }
 
