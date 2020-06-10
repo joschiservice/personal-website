@@ -10,3 +10,15 @@
 body{
     font-family: "Roboto";
 }
+.parallax {
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .background-1{
+    height: 100vh;
+    background-image: url('/img/home/background-img1.jpg');
+  }
