@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Robot');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Variables
 @import 'variables';
@@ -7,8 +7,12 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+//Animate.css
+@import '~animate.css/animate';
+
 body{
     font-family: "Roboto";
+    display: none;
 }
 .parallax {
     background-attachment: fixed;
@@ -26,3 +30,16 @@ body{
   .background-1 .container h1{
       letter-spacing: 10px;
   }
+
+//NAVBAR
+.nav-dark{
+    background-color: rgb(44, 43, 44);
+    transition: background-color 0.5s ease;
+}
+.transparent{
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.5s ease;
+}
+.nav-link{
+    color: white !important;
+}
