@@ -9,7 +9,7 @@
     <div class="about-me">
         <div class="container py-5 text-white">
             <h1 class="title">{{__('home.about_me_title')}}</h1>
-            <p class="h5 text pt-3">{{__('home.about_me_text_p1')}}</p>
+            <p class="h5 text pt-3">{{__('home.about_me_text')}}</p>
         </div>
     </div>
 @endsection

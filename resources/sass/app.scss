@@ -10,6 +10,12 @@
 //Animate.css
 @import '~animate.css/animate';
 
+//FontAwesome
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
 body{
     font-family: "Roboto";
     display: none;

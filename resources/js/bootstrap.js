@@ -1,4 +1,5 @@
 window._ = require('lodash');
+import Cookies from 'js-cookie';
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -42,4 +43,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 //TOAST INIT
 $('.toast').toast();
-$('#web_repo_info').toast('show');
+if(!Cookies.get('web_repo_toast'))
+    $('#web_repo_info').toast('show');
+
+$('#web_repo_info').on('hide.bs.toast', function () {
+    Cookies.set('web_repo_toast', true, { expires : 10, path    : '/',  });
+});
