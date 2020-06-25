@@ -12,6 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/cookieconsent.min.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -19,10 +20,36 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/cookieconsent.min.css') }}" />
+    <script>
+        window.onload = function() {
+            $(function() {
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#252e39"
+                        },
+                        "button": {
+                            "background": "#14a7d0"
+                        }
+                    },
+                    "theme": "edgeless",
+                    "type": "opt-out",
+                    "content": {
+                        "message": "{{__('cookieconsent_popup.message')}}",
+                        "dismiss": "{{__('cookieconsent_popup.dismiss')}}",
+                    },
+                    elements: {
+                        deny: '<a aria-label="deny cookies" tabindex="0" class="cc-btn cc-deny" href="https://google.de/">{{__("cookieconsent_popup.deny")}}</a>',
+                    }
+                });
+            });
+        };
+    </script>
 </head>
 
 <body>
-    
+
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top transparent pt-4">
             <div class="container">
@@ -37,7 +64,7 @@
                         <a class="nav-item nav-link" href="#">{{__('navbar.photo_and_video')}}</a>
                     </div>
                     <div class="navbar-nav d-flex justify-content-end">
-                            <a class="nav-item nav-link" href="#">{{__('navbar.contact')}}</a>
+                        <a class="nav-item nav-link" href="#">{{__('navbar.contact')}}</a>
                     </div>
                 </div>
             </div>
@@ -45,16 +72,16 @@
         <div class="toast m-0" data-autohide="false" style="position: fixed; bottom: 15px; right: 15px;" data-autohide="false" id="web_repo_info">
             <div class="toast-header">
                 <i class="fab fa-github-square pr-1"></i>
-              <strong class="mr-auto">{{__('webrepoinfo.author')}}</strong>
-              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                <strong class="mr-auto">{{__('webrepoinfo.author')}}</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="toast-body">
                 {{__('webrepoinfo.content_p1')}} <a href="https://github.com/joschiservice/my-personal-website">{{__('webrepoinfo.content_p2')}}</a>
             </div>
         </div>
-         @yield('content')
+        @yield('content')
     </div>
 </body>
 

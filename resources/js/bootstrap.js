@@ -1,27 +1,5 @@
 window._ = require('lodash');
 import Cookies from 'js-cookie';
-import CC from "cookieconsent";
-
-
-window.cookieconsent.initialise({
-    "palette": {
-      "popup": {
-        "background": "#252e39"
-      },
-      "button": {
-        "background": "#14a7d0"
-      }
-    },
-    "theme": "edgeless",
-    "type": "opt-out",
-    "content": {
-      "message": "This website uses cookies to ensure you get the best experience on our website",
-      "dismiss": "Got it!",
-      "deny": "Decline",
-      "link": "Leran more!",
-      "href": "/cookiepolicy"
-    }
-  });
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
