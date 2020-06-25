@@ -33,13 +33,54 @@ body{
 
 //NAVBAR
 .nav-dark{
-    background-color: rgb(44, 43, 44);
-    transition: background-color 0.5s ease;
+    background-color: white;
+    transition: background-color .5s !important;
+    -webkit-transition: background-color .5s!important;
+    -o-transition: background-color .5s!important;
+    -moz-transition: background-color .5s!important;
 }
 .transparent{
     background-color: rgba(0, 0, 0, 0);
-    transition: background-color 0.5s ease;
+    transition: background-color .5s!important;
+    -webkit-transition: background-color .5s!important;
+    -o-transition: background-color .5s!important;
+    -moz-transition: background-color .5s!important;
 }
 .nav-link{
     color: white !important;
+    transition: color .5s!important;
+    -webkit-transition: color .5s!important;
+    -o-transition: color .5s!important;
+    -moz-transition: color .5s!important;
+}
+.nav-dark .nav-link{
+  color: black !important;
+  transition: color .5s!important;
+    -webkit-transition: color .5s!important;
+    -o-transition: color .5s!important;
+    -moz-transition: color .5s!important;
+}
+.nav-dark .navbar-brand{
+  color: black !important;
+  transition: color .5s!important;
+    -webkit-transition: color .5s!important;
+    -o-transition: color .5s!important;
+    -moz-transition: color .5s!important;
+}
+.navbar{
+  transition: padding-top 1s!important;
+    -webkit-transition: padding-top 1s!important;
+    -o-transition: padding-top 1s!important;
+    -moz-transition: padding-top 1s!important;
+}
+
+//ABOUT ME SECTION
+.about-me{
+  background-color: #202020;
+}
+.about-me .title{
+  letter-spacing: 10px;
+}
+.about-me .text{
+  line-height: 30px;
 }

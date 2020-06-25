@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top transparent pt-4">
             <div class="container">
@@ -41,6 +42,18 @@
                 </div>
             </div>
         </nav>
+        <div class="toast m-0" data-autohide="false" style="position: fixed; bottom: 15px; right: 15px;" data-autohide="false" id="web_repo_info">
+            <div class="toast-header">
+                <i class="fab fa-github-square"></i>
+              <strong class="mr-auto">{{__('webrepoinfo.author')}}</strong>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                {{__('webrepoinfo.content_p1')}} <a href="https://github.com/joschiservice/my-personal-website">{{__('webrepoinfo.content_p2')}}</a>
+            </div>
+        </div>
          @yield('content')
     </div>
 </body>

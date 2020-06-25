@@ -6,7 +6,10 @@
             <h3>{{__('home.hero_subtitle')}}</h3>
         </div>
     </div>
-    <div style="height:100vh;">
-
+    <div class="about-me">
+        <div class="container py-5 text-white">
+            <h1 class="title">{{__('home.about_me_title')}}</h1>
+            <p class="h5 text pt-3">{{__('home.about_me_text_p1')}}</p>
+        </div>
     </div>
 @endsection
