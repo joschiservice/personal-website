@@ -37,7 +37,8 @@
                     "type": "opt-out",
                     "content": {
                         "message": "{{__('cookieconsent_popup.message')}}",
-                        "dismiss": "{{__('cookieconsent_popup.dismiss')}}",
+                        "allow": "{{__('cookieconsent_popup.allow')}}",
+                        "link": "{{__('cookieconsent_popup.learn_more')}}",
                     },
                     elements: {
                         deny: '<a aria-label="deny cookies" tabindex="0" class="cc-btn cc-deny" href="https://google.de/">{{__("cookieconsent_popup.deny")}}</a>',

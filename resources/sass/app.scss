@@ -73,6 +73,10 @@ body{
     -o-transition: color .5s!important;
     -moz-transition: color .5s!important;
 }
+.navbar-dark .navbar-toggler{
+  border-color: black;
+  background-color: black;
+}
 .navbar{
   transition: padding-top 1s!important;
     -webkit-transition: padding-top 1s!important;
@@ -80,13 +84,19 @@ body{
     -moz-transition: padding-top 1s!important;
 }
 
-//ABOUT ME SECTION
-.about-me{
+//MAIN CONTENT
+.main-content{
   background-color: #202020;
 }
-.about-me .title{
+.main-content h1{
   letter-spacing: 10px;
 }
-.about-me .text{
+.main-content p{
   line-height: 30px;
+}
+.main-content hr{
+  background-color: white;
+}
+.card-custom{
+  background-color: #2c2c2c;
 }
