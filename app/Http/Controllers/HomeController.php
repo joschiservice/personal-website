@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dd(GitHub::me()->organizations());
+        dd(GitHub::me()->repositories());
         return view('home');
     }
 }
