@@ -18,3 +18,5 @@ Route::get('/', 'MainPageController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/photos', 'PhotoController@index')->name('photos');
