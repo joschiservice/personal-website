@@ -27,7 +27,7 @@
                                     <div class="card-body">
                                       <h5 class="card-title">VTCManager</h5>
                                       <p class="card-text">{{$VTCManagerOrg["description"]}}</p>
-                                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                                      <a href="{{$VTCManagerOrg["html_url"]}}" class="btn btn-primary">Projekt ansehen</a>
                                     </div>
                                 </div>
                             </div>
