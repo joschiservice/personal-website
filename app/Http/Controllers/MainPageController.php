@@ -9,6 +9,7 @@ class MainPageController extends Controller
 {
     public function index(){
         $VTCManagerOrg = GitHub::organization()->show("VTCManager");
-        return view("main", ["VTCManagerOrg" => $VTCManagerOrg]);
+        $MyWebsiteRepo = GitHub::repository()->show("joschiservice", "personal-website");
+        return view("main", ["VTCManagerOrg" => $VTCManagerOrg, "MyWebsiteRepo" => $MyWebsiteRepo]);
     }
 }

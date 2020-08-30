@@ -21,6 +21,7 @@
                     <p class="h5 pt-3">{{__('home.my_projects_text')}}</p>
                     <div class="pt-3">
                         <div class="row">
+                            @if(!empty($VTCManagerOrg))
                             <div class="col-lg">
                                 <div class="card card-custom shadow-lg rounded" style="width: 100%;">
                                     <img class="card-img-top" src="{{$VTCManagerOrg["avatar_url"]}}" alt="VTCManager avatar">
@@ -31,16 +32,19 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
+                            @if(!empty($MyWebsiteRepo))
                             <div class="col-lg">
                                 <div class="card card-custom shadow-lg rounded" style="width: 100%;">
-                                    <img class="card-img-top" src="https://images.hdqwalls.com/wallpapers/2019-tesla-model-y-4k-or.jpg" alt="Card image cap">
+                                    <img class="card-img-top" src="{{$MyWebsiteRepo["owner"]["avatar_url"]}}" alt="My websites' avatar">
                                     <div class="card-body">
-                                      <h5 class="card-title">Card title</h5>
-                                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                                      <h5 class="card-title">Meine Webseite</h5>
+                                      <p class="card-text">{{$MyWebsiteRepo["description"]}}</p>
+                                      <a href="{{$MyWebsiteRepo["html_url"]}}" class="btn btn-primary">Projekt ansehen</a>
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="col-lg">
                                 <div class="card card-custom shadow-lg rounded" style="width: 100%;">
                                     <img class="card-img-top" src="https://images.hdqwalls.com/wallpapers/2019-tesla-model-y-4k-or.jpg" alt="Card image cap">
