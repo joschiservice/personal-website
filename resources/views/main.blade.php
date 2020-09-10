@@ -26,9 +26,9 @@
                                 <div class="card card-custom shadow-lg rounded" style="width: 100%;">
                                     <img class="card-img-top" src="{{$VTCManagerOrg["avatar_url"]}}" alt="VTCManager avatar">
                                     <div class="card-body">
-                                      <h5 class="card-title">VTCManager</h5>
+                                      <h5 class="card-title">{{$VTCManagerOrg["login"]}}</h5>
                                       <p class="card-text">{{$VTCManagerOrg["description"]}}</p>
-                                      <a href="{{$VTCManagerOrg["html_url"]}}" class="btn btn-primary">Projekt ansehen</a>
+                                      <a href="{{$VTCManagerOrg["html_url"]}}" class="btn btn-primary"><i class="fas fa-share-square"></i> Projekt auf Github ansehen</a>
                                     </div>
                                 </div>
                             </div>
@@ -36,11 +36,11 @@
                             @if(!empty($MyWebsiteRepo))
                             <div class="col-lg">
                                 <div class="card card-custom shadow-lg rounded" style="width: 100%;">
-                                    <img class="card-img-top" src="{{$MyWebsiteRepo["owner"]["avatar_url"]}}" alt="My websites' avatar">
+                                    <img class="card-img-top" src="https://repository-images.githubusercontent.com/271281822/00124f80-f398-11ea-95cd-0ba4c29195e1" alt="My websites' avatar">
                                     <div class="card-body">
-                                      <h5 class="card-title">Meine Webseite</h5>
+                                      <h5 class="card-title">{{$MyWebsiteRepo["name"]}}</h5>
                                       <p class="card-text">{{$MyWebsiteRepo["description"]}}</p>
-                                      <a href="{{$MyWebsiteRepo["html_url"]}}" class="btn btn-primary">Projekt ansehen</a>
+                                      <a href="{{$MyWebsiteRepo["html_url"]}}" class="btn btn-primary"><i class="fas fa-share-square"></i> Repository auf Github ansehen</a>
                                     </div>
                                 </div>
                             </div>
