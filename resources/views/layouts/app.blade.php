@@ -52,7 +52,7 @@
 <body>
 
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top transparent pt-4">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top pt-4">
             <div class="container">
                 <a class="navbar-brand" href="#">{{__('navbar.title')}}</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="{{__('navbar.toggler')}}">
