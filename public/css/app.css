@@ -20906,3 +20906,9 @@ body {
   z-index: 1000;
 }
 
+.project-thumb {
+  background-position: center;
+  background-size: cover;
+  min-height: 338px;
+}
+

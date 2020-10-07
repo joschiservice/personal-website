@@ -10,4 +10,5 @@ return [
     //My Projects
     'my_projects_title' => 'MEINE PROJEKTE',
     'my_projects_text' => 'Seitdem ich mich mit dem Coding beschäftigt habe, habe ich mich in diversen eigenen Projekten, aber auch in vielen Fremdprojekten engagiert.',
+    'my_projects_remark' => 'Die nachfolgende Auflistung enthält Daten, die von Github.com abgerufen worden sind.'
 ];
