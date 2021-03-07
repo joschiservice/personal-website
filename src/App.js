@@ -1,7 +1,15 @@
-function App() {
+import {
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
+
+const App = () => {
   return (
-    <div className="App">
-    </div>
+    <Router>
+      <Switch>
+          
+      </Switch>
+    </Router>
   );
 }
 
