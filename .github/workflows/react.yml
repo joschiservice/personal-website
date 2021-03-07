@@ -1,0 +1,23 @@
+name: Build and test Website
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          check-latest: true
+          
+      - name: Install latest version of npm
+        run: sudo npm i -g npm
+          
+      - name: Install dependencies
+        run: sudo npm install
+
+      - name: Run the tests
+        run: sudo CI=true npm test
