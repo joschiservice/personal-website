@@ -7,6 +7,8 @@ Feel free to suggest new features in the [issues](https://github.com/joschiservi
 
 ## Used packages
 This is a list of additional packages used in this project:
+- [Tailwind CSS](https://tailwindcss.com/): CSS Framework
+- [@craco/craco](https://www.npmjs.com/package/@craco/craco): required by tailwindcss
 
 ## Set up and run the project
 To set up the repository and start the website locally, run the following commands:
