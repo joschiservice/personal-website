@@ -71,7 +71,7 @@ export function WorkExperienceSection() {
         </Typography>
 
         <Grid container spacing={3} columns={8}>
-          {WORK_EXPERIENCE_DATA.map(item => <WorkExperienceItem item={item} />)}
+          {WORK_EXPERIENCE_DATA.map((item, pos) => <WorkExperienceItem key={pos} item={item} />)}
         </Grid>
       </Container>
     </Box>
@@ -91,10 +91,10 @@ function WorkExperienceItem({item}: {item: WorkExperience}) {
         <Typography color={grey[500]} mb={1}>{item.subTitle}</Typography>
         <Typography>{item.description}</Typography>
         <ul style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0 }}>
-          {item.tasks.map(task => <li><Typography>{task}</Typography></li>)}
+          {item.tasks.map((task, pos) => <li key={pos}><Typography>{task}</Typography></li>)}
         </ul>
         <Stack direction="row" spacing={0.8} mt={2}>
-          {item.skills.map(skill => <SkillChip skill={skill}/>)}
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill}/>)}
         </Stack>
       </Grid>
     </>

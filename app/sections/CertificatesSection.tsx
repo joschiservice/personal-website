@@ -1,10 +1,7 @@
 "use client"
 
-import {Box, Button, Container, Grid, Stack, styled, Typography} from "@mui/material";
+import {Box, Container, Grid, Stack, Typography} from "@mui/material";
 import {grey} from "@mui/material/colors";
-import dayjs from "dayjs";
-import DownloadIcon from "@mui/icons-material/Download";
-import Link from "next/link";
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import {OptionalLink} from "@/app/components/OptionalLink";
 import {SkillChip} from "@/app/components/SkillChip";
@@ -26,6 +23,7 @@ const CERTIFICATES: Certificate[] = [
       "Full-Stack Development",
       "Cloud Computing",
       "Serverless Computing",
+      "CI/CD",
       "Microservices",
       "React.js",
       "Python",
@@ -49,7 +47,7 @@ export function CertificatesSection() {
         </Typography>
 
         <Grid container spacing={3} columns={8}>
-          {CERTIFICATES.map(certificate => <CertificateItem item={certificate} />)}
+          {CERTIFICATES.map((certificate, pos) => <CertificateItem key={pos} item={certificate} />)}
         </Grid>
       </Container>
     </Box>
@@ -72,7 +70,7 @@ function CertificateItem({item}: { item: Certificate }) {
         </Box>
         <Typography color={grey[500]} mb={1}>{item.type}</Typography>
         <Stack direction="row" spacing={1} mt={2} flexWrap="wrap" useFlexGap>
-          {item.skills.map(skill => <SkillChip variant="certificate" skill={skill}/>)}
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="certificate" skill={skill}/>)}
         </Stack>
       </Grid>
     </>

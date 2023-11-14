@@ -66,7 +66,7 @@ export function ProjectsSection() {
         </Typography>
 
         <Grid container spacing={3} columns={8}>
-          {PROJECTS.map(certificate => <ProjectItem item={certificate} />)}
+          {PROJECTS.map((certificate, pos) => <ProjectItem key={pos} item={certificate} />)}
         </Grid>
       </Container>
     </Box>
@@ -90,7 +90,7 @@ function ProjectItem({ item }: { item: Project }) {
         <Typography color={grey[500]} mb={1}>{item.type}</Typography>
         <Typography>{item.description}</Typography>
         <Stack direction="row" spacing={1} mt={2} flexWrap="wrap" useFlexGap>
-          {item.skills.map(skill => <SkillChip variant="project" skill={skill}/>)}
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="project" skill={skill}/>)}
         </Stack>
       </Grid>
     </>
