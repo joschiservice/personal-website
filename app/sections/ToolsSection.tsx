@@ -52,8 +52,8 @@ export function ToolsSection() {
           Tools, Frameworks & Services
         </Typography>
 
-        <Grid container spacing={6}>
-          {TOOLS.map((tool, pos) => <ToolItem item={tool}/>)}
+        <Grid container spacing={6} columns={4}>
+          {TOOLS.map((tool, pos) => <ToolItem key={pos} item={tool}/>)}
         </Grid>
       </Container>
     </Box>
@@ -62,9 +62,9 @@ export function ToolsSection() {
 
 function ToolItem({ item }: { item: Tool }) {
   return (
-    <Grid item xs="auto">
+    <Grid item xs={2} md={1}>
       <Stack direction="row" spacing={2} alignItems="center">
-        <Image width={item.hideText ? 100 : 50} height={50} src={"/img/tools/" + item.name + ".png"} alt={item.name} style={{objectFit: "contain"}} />
+        <Image width={item.hideText ? 130 : 50} height={50} src={"/img/tools/" + item.name + ".png"} alt={item.name} style={{objectFit: "contain"}} />
         {!item.hideText && <Typography fontSize={22} fontWeight={500}>{item.name}</Typography>}
       </Stack>
     </Grid>
