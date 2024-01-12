@@ -64,7 +64,7 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
 
 export function WorkExperienceSection() {
   return (
-    <Box py={8}>
+    <Box py={8} id="experience">
       <Container maxWidth="md">
         <Typography variant="h4" align="center" mb={4} fontWeight={500}>
           Professional Experience

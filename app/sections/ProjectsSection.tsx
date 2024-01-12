@@ -59,7 +59,7 @@ const PROJECTS: Project[] = [
 
 export function ProjectsSection() {
   return (
-    <Box py={8}>
+    <Box py={8} id="projects">
       <Container maxWidth="md">
         <Typography variant="h4" align="center" mb={4} fontWeight={500}>
           Projects

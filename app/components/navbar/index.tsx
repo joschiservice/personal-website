@@ -19,10 +19,10 @@ export function Navbar({}: Props) {
       <NavbarBox minWidth={800} minHeight={20} mx="auto" my={2} display="flex" sx={{ justifyContent: 'space-between' }} borderRadius={6} py={0.7} px={2}>
         <Typography fontSize={22} fontWeight={800}>JH</Typography>
         <Stack direction="row" alignItems="center" spacing={4}>
-          <NavbarItem title="Home" href="/#about-me" />
+          <NavbarItem title="Home" href="/" />
           <NavbarItem title="About" href="/#about-me" />
-          <NavbarItem title="Experience" href="/#about-me" />
-          <NavbarItem title="Projects" href="/#about-me" />
+          <NavbarItem title="Experience" href="/#experience" />
+          <NavbarItem title="Projects" href="/#projects" />
         </Stack>
         <Box />
       </NavbarBox>
