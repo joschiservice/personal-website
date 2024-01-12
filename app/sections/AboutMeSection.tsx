@@ -15,7 +15,7 @@ export function AboutMeSection() {
           <br/><br/>
           Currently, I am primarily working on full-stack web, iOS and C# WPF applications. In my free time, I sometimes work on small casual projects, but primarily on <TextLink href="https://www.nextgendrive.net/products/sparky" text="Sparky" />, a companion mobile app for Kia & Hyundai drivers.
           <br/><br/>
-          When I'm not at the computer, I'm usually checking out electric vehicle events, working on my own electric vehicle (a <TextLink text="Kia e-Soul SK3" href="https://www.nextgendrive.net/products/ng-one"/>, hanging out with friends, or playing around in virtual reality.
+          When I&apos;m not at the computer, I&apos;m usually checking out electric vehicle events, working on my own electric vehicle (a <TextLink text="Kia e-Soul SK3" href="https://www.nextgendrive.net/products/ng-one"/>, hanging out with friends, or playing around in virtual reality.
         </Typography>
       </Container>
     </Box>
