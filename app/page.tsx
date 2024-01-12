@@ -5,6 +5,7 @@ import {CertificatesSection} from "@/app/sections/CertificatesSection";
 import {ProjectsSection} from "@/app/sections/ProjectsSection";
 import {Navbar} from "@/app/components/navbar";
 import {ToolsSection} from "@/app/sections/ToolsSection";
+import type { Metadata } from 'next';
 
 export default function Home() {
   return (
@@ -18,4 +19,9 @@ export default function Home() {
       <ToolsSection />
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'Joschua Haß',
+  description: 'Full-stack developer with 4+ years of experience',
 }
