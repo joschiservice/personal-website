@@ -23,6 +23,7 @@ export function Navbar({}: Props) {
           <NavbarItem title="About" href="/#about-me" />
           <NavbarItem title="Experience" href="/#experience" />
           <NavbarItem title="Projects" href="/#projects" />
+          <NavbarItem title="Imprint" href="/imprint" />
         </Stack>
         <Box />
       </NavbarBox>
