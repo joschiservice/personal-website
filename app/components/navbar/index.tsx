@@ -11,7 +11,7 @@ interface Props {
 const NavbarBox = styled(Box)({
   backdropFilter: "saturate(180%) blur(16px)",
   background: 'rgba(33,33,33,0.6)',
-  boxShadow: '0px 0px 30px 2px rgba(0,0,0,0.6)'
+  boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.4)'
 });
 
 const ITEMS = [
