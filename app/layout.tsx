@@ -9,6 +9,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import { Navbar } from './components/navbar';
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -24,7 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+      <ThemeRegistry options={{ key: 'mui' }}>
+        <Navbar />
+        {children}
+        </ThemeRegistry>
       </body>
     </html>
   )
