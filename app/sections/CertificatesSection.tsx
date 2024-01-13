@@ -1,6 +1,6 @@
 "use client"
 
-import {Box, Container, Grid, Stack, Typography} from "@mui/material";
+import {Box, Container, Grid, Stack, Typography, useTheme} from "@mui/material";
 import {grey} from "@mui/material/colors";
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import {OptionalLink} from "@/app/components/OptionalLink";
@@ -55,20 +55,39 @@ export function CertificatesSection() {
 }
 
 function CertificateItem({item}: { item: Certificate }) {
+  const theme = useTheme();
+  
   return (
     <>
-      <Grid item xs={2}>
+      <Grid item xs={false} sm={2} sx={{
+        [theme.breakpoints.down('sm')]: {
+          display: 'none'
+        },
+      }}>
         <Typography color={grey[400]} mt={0.4} align="left">
           {getFormattedTimeSpan(item.date, item.date)}
         </Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={10} sm={6}>
         <Box display="flex" justifyItems="end">
           <OptionalLink href={item.link}>
-            <Typography fontSize={19} fontWeight={400}>{item.name}{item.link && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
+            <Typography fontSize={19} fontWeight={500}>{item.name}{item.link && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
           </OptionalLink>
         </Box>
-        <Typography color={grey[500]} mb={1}>{item.type}</Typography>
+        <Typography color={grey[500]} mb={1} sx={{
+          [theme.breakpoints.down('sm')]: {
+            display: 'none'
+          },
+        }}>
+          {item.type}
+        </Typography>
+        <Typography color={grey[500]} mb={1} sx={{
+          [theme.breakpoints.up('sm')]: {
+            display: 'none'
+          },
+        }}>
+          {item.type} — <span style={{whiteSpace: 'nowrap'}}>{getFormattedTimeSpan(item.date, item.date)}</span>
+        </Typography>
         <Stack direction="row" spacing={1} mt={2} flexWrap="wrap" useFlexGap>
           {item.skills.map((skill, pos) => <SkillChip key={pos} variant="certificate" skill={skill}/>)}
         </Stack>

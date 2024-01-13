@@ -17,10 +17,17 @@ export const theme = createTheme({
         hero: {
             fontSize: '4rem',
             fontWeight: 700,
-            lineHeight: "5rem"
+            lineHeight: "5rem",
+            [superTheme.breakpoints.down('sm')]: {
+                fontSize: '2.5rem',
+                lineHeight: '3rem'
+            },
         },
         heroSubText: {
-            fontSize: '1rem'
+            fontSize: '1rem',
+            [superTheme.breakpoints.down('sm')]: {
+                fontSize: '0.9rem'
+            },
         }
     },
     components: {

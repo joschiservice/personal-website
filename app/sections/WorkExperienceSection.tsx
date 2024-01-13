@@ -1,11 +1,11 @@
 "use client"
 
-import {Box, Container, Grid, Stack, styled, Typography} from "@mui/material";
+import { Box, Container, Grid, Stack, styled, Typography, useTheme } from "@mui/material";
 import dayjs from "dayjs";
-import {blue, grey, lightGreen} from "@mui/material/colors";
+import { blue, grey, lightGreen } from "@mui/material/colors";
 import Link from "next/link";
-import {SkillChip} from "@/app/components/SkillChip";
-import {getFormattedTimeSpan} from "@/app/lib/date";
+import { SkillChip } from "@/app/components/SkillChip";
+import { getFormattedTimeSpan } from "@/app/lib/date";
 
 interface WorkExperience {
   start: Date;
@@ -78,23 +78,42 @@ export function WorkExperienceSection() {
   )
 }
 
-function WorkExperienceItem({item}: {item: WorkExperience}) {
+function WorkExperienceItem({ item }: { item: WorkExperience }) {
+  const theme = useTheme();
+
   return (
     <>
-      <Grid item xs={2}>
+      <Grid item xs={false} sm={2} sx={{
+        [theme.breakpoints.down('sm')]: {
+          display: 'none'
+        },
+      }}>
         <Typography color={grey[400]} mt={0.4} align="left">
           {getFormattedTimeSpan(item.start, item.end)}
         </Typography>
       </Grid>
-      <Grid item xs={6}>
-        <Typography fontSize={19} fontWeight={400}>{item.position} @ {item.company}</Typography>
-        <Typography color={grey[500]} mb={1}>{item.subTitle}</Typography>
+      <Grid item xs={10} sm={6}>
+        <Typography fontSize={19} fontWeight={500}>{item.position} @ {item.company}</Typography>
+        <Typography color={grey[500]} mb={1} sx={{
+          [theme.breakpoints.down('sm')]: {
+            display: 'none'
+          },
+        }}>
+          {item.subTitle}
+        </Typography>
+        <Typography color={grey[500]} mb={1} sx={{
+          [theme.breakpoints.up('sm')]: {
+            display: 'none'
+          },
+        }}>
+          {item.subTitle} — <span style={{whiteSpace: 'nowrap'}}>{getFormattedTimeSpan(item.start, item.end)}</span>
+        </Typography>
         <Typography>{item.description}</Typography>
         <ul style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0 }}>
           {item.tasks.map((task, pos) => <li key={pos}><Typography>{task}</Typography></li>)}
         </ul>
         <Stack direction="row" spacing={0.8} mt={2}>
-          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill}/>)}
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill} />)}
         </Stack>
       </Grid>
     </>

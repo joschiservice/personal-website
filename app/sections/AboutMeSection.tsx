@@ -10,7 +10,7 @@ export function AboutMeSection() {
           About Me
         </Typography>
         <Typography color={grey[400]}>
-          Back in the days when I was 15 and still went to school, I was already very passionate about software engineering. As one of my favorite tools for creating virtual trucking companies with others for the game Euro Truck Simulator 2 decided to shut down its operations,
+          Back in the days when I was 15 years old and still went to school, I was already very passionate about software engineering. As one of my favorite tools for creating virtual trucking companies with others for the game Euro Truck Simulator 2 decided to shut down its operations,
           I decided to build a replacement application for everyone who still wants to continue using such a tool.
           <br/><br/>
           Currently, I am primarily working on full-stack web, iOS and C# WPF applications. In my free time, I sometimes work on small casual projects, but primarily on <TextLink href="https://www.nextgendrive.net/products/sparky" text="Sparky" />, a companion mobile app for Kia & Hyundai drivers.

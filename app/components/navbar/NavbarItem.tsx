@@ -1,8 +1,8 @@
 "use client"
 
-import {styled, Typography} from "@mui/material";
+import { styled, Typography } from "@mui/material";
 import Link from "next/link";
-import {lightBlue} from "@mui/material/colors";
+import { lightBlue } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Link as ScrollLink } from 'react-scroll';
@@ -10,6 +10,8 @@ import { Link as ScrollLink } from 'react-scroll';
 interface Props {
   title: string;
   href: string;
+  isMobile?: boolean;
+  onClick?: () => void;
 }
 
 const StyledLink = styled(Link)({
@@ -35,7 +37,7 @@ const StyledScrollLink = styled(ScrollLink)({
   },
 });
 
-export function NavbarItem({title, href}: Props) {
+export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
   const currentPathName = usePathname();
 
   const [currentLinkType, setCurrentLinkType] = useState(0); // 0 = default href link, 1 = smooth scroll link
@@ -53,15 +55,17 @@ export function NavbarItem({title, href}: Props) {
     }
   }, [currentPathName, href]);
 
+  const innerComp = isMobile ? <Typography fontSize={28} fontWeight={500}>{title}</Typography> : <Typography>{title}</Typography>;
+
   return (
     currentLinkType == 1 ? (
-      <StyledScrollLink to={targetElement} smooth={true}>
-        <Typography>{title}</Typography>
+      <StyledScrollLink to={targetElement} smooth={true} onClick={onClick}>
+        {innerComp}
       </StyledScrollLink>
     ) : (
-      <StyledLink href={href}>
-      <Typography>{title}</Typography>
-    </StyledLink>
+      <StyledLink href={href} onClick={onClick}>
+        {innerComp}
+      </StyledLink>
     )
   )
 }
