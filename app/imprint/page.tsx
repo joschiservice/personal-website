@@ -11,8 +11,8 @@ export default function Imprint() {
             </Typography>
             <Typography variant="h5" sx={{ marginTop: "16px" }}>Contact Information</Typography>
             <Typography>
-                Phone: <Link href={"tel:" + trimInside(process.env.CONTACT_PHONE || '')}>{process.env.CONTACT_PHONE}</Link><br />
-                E-Mail: <Link href={"mailto:" + process.env.CONTACT_EMAIL}>{process.env.CONTACT_EMAIL}</Link><br />
+                Phone: <Link href={"tel:" + trimInside(process.env.NEXT_PUBLIC_CONTACT_PHONE || '')}>{process.env.NEXT_PUBLIC_CONTACT_PHONE}</Link><br />
+                E-Mail: <Link href={"mailto:" + process.env.NEXT_PUBLIC_CONTACT_EMAIL}>{process.env.NEXT_PUBLIC_CONTACT_EMAIL}</Link><br />
                 <br />
                 To Westen 5<br />
                 25770 Hemmingstedt, Germany<br />
