@@ -3,16 +3,12 @@
 import { Box, Stack, styled, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { NavbarItem } from "@/app/components/navbar/NavbarItem";
 import { MobileNavbar } from "./MobileNavbarMenu";
+import Link from "next/link";
+import { lightBlue } from "@mui/material/colors";
 
 interface Props {
   items: [];
 }
-
-const NavbarBox = styled(Box)({
-  backdropFilter: "saturate(180%) blur(16px)",
-  background: 'rgba(33,33,33,0.6)',
-  boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.4)'
-});
 
 const ITEMS = [
   { title: 'Home', href: '/' },
@@ -20,7 +16,7 @@ const ITEMS = [
   { title: 'Experience', href: '/#experience' },
   { title: 'Projects', href: '/#projects' },
   { title: 'Imprint', href: '/imprint' }
-]
+];
 
 export function Navbar() {
   const theme = useTheme();
@@ -32,7 +28,7 @@ export function Navbar() {
           minWidth: 800
         },
       }} borderRadius={6} py={0.7} px={2}>
-        <Typography fontSize={22} fontWeight={800}>JH</Typography>
+        <NavbarTitle href="/">JH</NavbarTitle>
         <MobileNavbar items={ITEMS} />
         <DesktopNavbar />
       </NavbarBox>
@@ -60,3 +56,20 @@ function DesktopNavbar() {
     </Box>
   )
 }
+
+const NavbarBox = styled(Box)({
+  backdropFilter: "saturate(180%) blur(16px)",
+  background: 'rgba(33,33,33,0.6)',
+  boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.4)'
+});
+
+const NavbarTitle = styled(Link)({
+  fontSize: 22,
+  fontWeight: 700,
+  color: "white",
+  textDecoration: "none",
+  transition: "color .3s ease-in-out",
+  '&:hover': {
+    color: lightBlue[400],
+  },
+});
