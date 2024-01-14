@@ -8,6 +8,7 @@ import { CSSProperties } from "react";
 import { ContactButton } from "@/app/components/buttons/ContactButton";
 import { DownloadCvButton } from "@/app/components/buttons/DownloadCvButton";
 import { ScrollDownButton } from "@/app/components/buttons/ScrollDownButton";
+import { SocialLinks } from "../components/SocialLinks";
 
 export function HomePageHeroSection() {
   const theme = useTheme();
@@ -27,10 +28,14 @@ export function HomePageHeroSection() {
           }}>
             Full-stack developer specializing in the development of web and desktop applications with 4 years of experience (2.5 years in a professional setting).
           </Typography>
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} sx={{
+            marginBottom: 4
+            }}>
             <ContactButton />
             <DownloadCvButton />
           </Stack>
+
+          <SocialLinks />
 
           <ScrollDownButton scrollToId="about-me" />
         </Box>
