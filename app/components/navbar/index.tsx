@@ -2,9 +2,10 @@
 
 import { Box, Stack, styled, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { NavbarItem } from "@/app/components/navbar/NavbarItem";
-import { MobileNavbar } from "./MobileNavbarMenu";
+import { MobileNavbar, MobileNavbarButton } from "./MobileNavbarMenu";
 import Link from "next/link";
 import { lightBlue } from "@mui/material/colors";
+import { useState } from "react";
 
 interface Props {
   items: [];
@@ -20,6 +21,7 @@ const ITEMS = [
 
 export function Navbar() {
   const theme = useTheme();
+  const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
 
   return (
     <Box position="fixed" display="flex" width="100vw" zIndex={100}>
@@ -29,9 +31,10 @@ export function Navbar() {
         },
       }} borderRadius={6} py={0.7} px={2}>
         <NavbarTitle href="/">JH</NavbarTitle>
-        <MobileNavbar items={ITEMS} />
+        <MobileNavbarButton isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
         <DesktopNavbar />
       </NavbarBox>
+      <MobileNavbar items={ITEMS} isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
     </Box>
   )
 }

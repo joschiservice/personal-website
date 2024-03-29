@@ -29,7 +29,7 @@ export default function RootLayout({
       <ThemeRegistry options={{ key: 'mui' }}>
         <Navbar />
         {children}
-        </ThemeRegistry>
+      </ThemeRegistry>
       </body>
     </html>
   )

@@ -1,18 +1,18 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Stack, styled, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { NavbarItem } from './NavbarItem';
 
-interface Props {
-    items: { title: string; href: string; }[]
+interface Props extends MobileNavBtnProps {
+    items: { title: string; href: string; }[];
 }
 
 const MenuPopup = styled(Box)({
     position: 'fixed',
     top: 0,
-    right: 0,
-    width: '100vw',
+    left: 0,
+    width: '100%',
     height: '100vh',
 
     backdropFilter: "saturate(180%) blur(16px)",
@@ -23,10 +23,13 @@ const MenuPopup = styled(Box)({
     transitionDuration: '250ms',
 });
 
-export function MobileNavbar({ items }: Props) {
-    const theme = useTheme();
+interface MobileNavBtnProps {
+    isOpen: boolean;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
 
-    const [isOpen, setIsOpen] = useState(false);
+export function MobileNavbarButton({ isOpen, setIsOpen }: MobileNavBtnProps) {
+    const theme = useTheme();
 
     function toggleNavbar() {
         setIsOpen(!isOpen);
@@ -44,15 +47,27 @@ export function MobileNavbar({ items }: Props) {
             },
         }}>
             <MenuIcon onClick={toggleNavbar} />
-
-            <MenuPopup sx={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }} p={4}>
-                <Box display='flex' justifyContent='end'>
-                    <CloseIcon onClick={toggleNavbar} />
-                </Box>
-                <Stack spacing={2} mt={4}>
-                    {items.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} isMobile={true} onClick={toggleNavbar} />)}
-                </Stack>
-            </MenuPopup>
         </Box>
+    )
+}
+
+export function MobileNavbar({ items, isOpen, setIsOpen }: Props) {
+    function toggleNavbar() {
+        setIsOpen(!isOpen);
+
+        // Prevent body scroll, when menu is open
+        document.body.style.overflow = isOpen ? 'auto' : 'hidden';
+        document.body.style.position = isOpen ? 'absolute' : 'fixed';
+    }
+
+    return (
+        <MenuPopup sx={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }} p={4}>
+            <Box display='flex' justifyContent='end'>
+                <CloseIcon onClick={toggleNavbar} />
+            </Box>
+            <Stack spacing={2} mt={4}>
+                {items.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} isMobile={true} onClick={toggleNavbar} />)}
+            </Stack>
+        </MenuPopup>
     )
 }
