@@ -106,13 +106,13 @@ function WorkExperienceItem({ item }: { item: WorkExperience }) {
             display: 'none'
           },
         }}>
-          {item.subTitle} — <span style={{whiteSpace: 'nowrap'}}>{getFormattedTimeSpan(item.start, item.end)}</span>
+          {item.subTitle} — <span style={{ whiteSpace: 'nowrap' }}>{getFormattedTimeSpan(item.start, item.end)}</span>
         </Typography>
         <Typography>{item.description}</Typography>
         <ul style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0 }}>
           {item.tasks.map((task, pos) => <li key={pos}><Typography>{task}</Typography></li>)}
         </ul>
-        <Stack direction="row" spacing={0.8} mt={2}>
+        <Stack direction="row" spacing={0.8} mt={2} flexWrap="wrap" useFlexGap>
           {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill} />)}
         </Stack>
       </Grid>
