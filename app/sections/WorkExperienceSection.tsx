@@ -1,15 +1,13 @@
 "use client"
 
-import { Box, Container, Grid, Stack, styled, Typography, useTheme } from "@mui/material";
-import dayjs from "dayjs";
-import { blue, grey, lightGreen } from "@mui/material/colors";
-import Link from "next/link";
+import { Box, Container, Grid, Stack, Typography, useTheme } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { SkillChip } from "@/app/components/SkillChip";
 import { getFormattedTimeSpan } from "@/app/lib/date";
 
 interface WorkExperience {
   start: Date;
-  end: Date;
+  end?: Date;
   position: string;
   subTitle: string;
   description: JSX.Element;
@@ -21,12 +19,36 @@ interface WorkExperience {
 
 const WORK_EXPERIENCE_DATA: WorkExperience[] = [
   {
+    start: new Date(2024, 1, 0),
+    position: 'Full-Stack Developer',
+    subTitle: 'Full-Time',
+    description: <>
+      During my full-time position, I am entrusted with the following:
+    </>,
+    tasks: [
+      'Oversseing an internal business-critical web application and two customer-facing websites',
+      'Implementing data exchange using REST APIs and FTP services',
+      'Introducing, designing and improving front-end and back-end features',
+      'Refactoring the existing codebase',
+      'Managing and enhancing CI/CD pipelines'
+    ],
+    skills: [
+      'React (TypeScript)',
+      'Shopify & Shopify Hydrogen',
+      'PHP (Laravel & Vue.js)',
+      'Docker',
+      'TailwindCSS'
+    ],
+    companyLink: '',
+    company: 'Elektrohub'
+  },
+  {
     start: new Date(2022, 4),
     end: new Date(2024, 0),
     position: 'Application Developer',
     subTitle: 'Apprenticeship',
     description: <>
-      During this apprenticeship, I dealt with the following areas of responsibility:
+      During my apprenticeship, I undertook the following responsibilities:
     </>,
     tasks: [
       'Creation of several desktop applications (text editor with IntelliSense features, calculator, demo app of a web content renderer with additional optimizations)',
@@ -48,11 +70,11 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
     position: 'Embedded Software Developer',
     subTitle: 'Internship',
     description: <>
-      During this internship, I dealt with the following topics:
+      During my internship, I focused on the following:
     </>,
     tasks: [
       'Development of microcontroller software',
-      'Reading & processing sensor data'
+      'Reading & processing real-time sensor data'
     ],
     skills: [
       'Embedded Systems'

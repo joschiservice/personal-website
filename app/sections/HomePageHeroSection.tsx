@@ -26,7 +26,7 @@ export function HomePageHeroSection() {
               marginBottom: 2
             },
           }}>
-            Full-stack developer specializing in the development of web and desktop applications with 4 years of experience (2.5 years in a professional setting).
+            Full-stack developer specializing in the development of web and desktop applications with 4 years of experience (3 years in a professional setting).
           </Typography>
           <Stack direction="row" spacing={2} sx={{
             marginBottom: 4
