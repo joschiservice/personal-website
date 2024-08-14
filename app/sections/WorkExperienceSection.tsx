@@ -80,7 +80,7 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
       'Embedded Systems'
     ],
     companyLink: '',
-    company: 'Senvion Germany'
+    company: 'Siemens Gamesa Renewable Energy, S.A.U'
   }
 ]
 
