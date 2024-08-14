@@ -4,6 +4,8 @@ import { Box, Container, Grid, Stack, Typography, useTheme } from "@mui/material
 import { grey } from "@mui/material/colors";
 import { SkillChip } from "@/app/components/SkillChip";
 import { getFormattedTimeSpan } from "@/app/lib/date";
+import { OptionalLink } from "../components/OptionalLink";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 
 interface WorkExperience {
   start: Date;
@@ -39,7 +41,7 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
       'Docker',
       'TailwindCSS'
     ],
-    companyLink: '',
+    companyLink: 'https://www.elektrohub.de',
     company: 'Elektrohub'
   },
   {
@@ -61,7 +63,7 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
       'WPF',
       '.NET'
     ],
-    companyLink: '',
+    companyLink: 'https://www.nistech.de',
     company: 'Nistech'
   },
   {
@@ -79,7 +81,7 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
     skills: [
       'Embedded Systems'
     ],
-    companyLink: '',
+    companyLink: 'https://www.siemensgamesa.com/global/en/home.html',
     company: 'Siemens Gamesa Renewable Energy, S.A.U'
   }
 ]
@@ -115,7 +117,9 @@ function WorkExperienceItem({ item }: { item: WorkExperience }) {
         </Typography>
       </Grid>
       <Grid item xs={10} sm={6}>
-        <Typography fontSize={19} fontWeight={500}>{item.position} @ {item.company}</Typography>
+        <OptionalLink href={item.companyLink}>
+          <Typography fontSize={19} fontWeight={500}>{item.position} @ {item.company}{item.companyLink && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
+        </OptionalLink>
         <Typography color={grey[500]} mb={1} sx={{
           [theme.breakpoints.down('sm')]: {
             display: 'none'
