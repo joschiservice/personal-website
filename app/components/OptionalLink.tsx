@@ -20,7 +20,7 @@ const StyledLink = styled(Link)({
 
 export function OptionalLink({href, children}: Props) {
   if (href) {
-    return <StyledLink href={href}>{children}</StyledLink>;
+    return <StyledLink href={href} target="_blank">{children}</StyledLink>;
   }
 
   return children;
