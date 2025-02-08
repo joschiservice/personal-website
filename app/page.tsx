@@ -4,6 +4,7 @@ import {WorkExperienceSection} from "@/app/sections/WorkExperienceSection";
 import {CertificatesSection} from "@/app/sections/CertificatesSection";
 import {ProjectsSection} from "@/app/sections/ProjectsSection";
 import {ToolsSection} from "@/app/sections/ToolsSection";
+import { FlightRadarSection } from "./sections/FlightRadarSection";
 import type { Metadata } from 'next';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <CertificatesSection />
       <ProjectsSection />
       <ToolsSection />
+      <FlightRadarSection />
     </div>
   )
 }
