@@ -22,24 +22,31 @@ interface WorkExperience {
 const WORK_EXPERIENCE_DATA: WorkExperience[] = [
   {
     start: new Date(2024, 1, 0),
-    position: 'Full-Stack Developer',
+    position: 'Lead Full-Stack Engineer',
     subTitle: 'Full-Time',
     description: <>
-      During my full-time position, I am entrusted with the following:
+      In my full-time role, I am responsible for leading and delivering high-impact projects, developing scalable applications,
+      optimizing workflows, and leveraging emerging technologies to drive business success.
     </>,
     tasks: [
-      'Oversseing an internal business-critical web application and two customer-facing websites',
-      'Implementing data exchange using REST APIs and FTP services',
-      'Introducing, designing and improving front-end and back-end features',
-      'Refactoring the existing codebase',
-      'Managing and enhancing CI/CD pipelines'
+      'Led development of a mission-critical internal web app, ensuring scalability, security, and reliability',
+      'Built and maintained a customer-facing website to streamline car accessory purchases, boosting engagement and sales',
+      'Developing a modular e-commerce management platform, empowering businesses to manage catalogs, orders, and interactions efficiently',
+      'Launched a generative AI tool on the Shopify App Store, helping merchants in creating blog content and enhance digital marketing',
+      'Integrated data systems via REST APIs and FTP services, improving interoperability and data-driven decision-making',
+      'Enhanced front-end and back-end features across multiple frameworks, optimizing performance and user experience',
+      'Refactored legacy codebases for better maintainability, performance, and scalability',
+      'Optimized CI/CD pipelines, accelerating release cycles and improving deployment efficiency'
     ],
     skills: [
-      'React (TypeScript)',
+      'React (Next.js)',
+      'Node.js (Nest.js)',
+      'Vue.js',
+      'TypeScript',
       'Shopify & Shopify Hydrogen',
-      'PHP (Laravel & Vue.js)',
+      'PHP (Laravel)',
       'Docker',
-      'TailwindCSS'
+      'TailwindCSS',
     ],
     companyLink: 'https://www.elektrohub.de',
     company: 'Elektrohub'
