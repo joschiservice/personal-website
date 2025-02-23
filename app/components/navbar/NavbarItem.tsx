@@ -55,7 +55,11 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
     }
   }, [currentPathName, href]);
 
-  const innerComp = isMobile ? <Typography fontSize={28} fontWeight={500}>{title}</Typography> : <Typography>{title}</Typography>;
+  const innerComp = isMobile ? <Typography
+    sx={{
+      fontSize: 28,
+      fontWeight: 500
+    }}>{title}</Typography> : <Typography>{title}</Typography>;
 
   return (
     currentLinkType == 1 ? (

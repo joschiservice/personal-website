@@ -7,10 +7,12 @@ interface Props {
 
 export function HeroText({ children }: Props) {
   return (
-    <Typography variant="hero" mb={2}>
+    (<Typography variant="hero" sx={{
+      mb: 2
+    }}>
       { children }
-    </Typography>
-  )
+    </Typography>)
+  );
 }
 
 declare module '@mui/material/styles' {

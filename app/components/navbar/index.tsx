@@ -24,7 +24,13 @@ export function Navbar() {
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
 
   return (
-    <Box position="fixed" display="flex" width="100vw" zIndex={100}>
+    (<Box
+      sx={{
+        position: "fixed",
+        display: "flex",
+        width: "100vw",
+        zIndex: 100
+      }}>
       <NavbarBox minHeight={20} mx="auto" my={2} display="flex" sx={{
         justifyContent: 'space-between', minWidth: '90%', [theme.breakpoints.up('md')]: {
           minWidth: 800
@@ -35,15 +41,15 @@ export function Navbar() {
         <DesktopNavbar />
       </NavbarBox>
       <MobileNavbar items={ITEMS} isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
-    </Box>
-  )
+    </Box>)
+  );
 }
 
 function DesktopNavbar() {
   const theme = useTheme();
 
   return (
-    <Box sx={{
+    (<Box sx={{
       display: "flex",
       justifyContent: 'space-between',
       width: "100%",
@@ -52,12 +58,14 @@ function DesktopNavbar() {
       },
     }}>
       <Box />
-      <Stack direction="row" alignItems="center" spacing={4}>
+      <Stack direction="row" spacing={4} sx={{
+        alignItems: "center"
+      }}>
         {ITEMS.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} />)}
       </Stack>
       <Box />
-    </Box>
-  )
+    </Box>)
+  );
 }
 
 const NavbarBox = styled(Box)({

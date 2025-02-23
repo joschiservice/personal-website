@@ -14,18 +14,27 @@ export function HomePageHeroSection() {
   const theme = useTheme();
 
   return (
-    <Container maxWidth="lg">
-      <Box minHeight="100vh" display="flex" alignItems="center">
+    (<Container maxWidth="lg">
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center"
+        }}>
         <Box>
           <HeroText>
             Hi<span style={{ color: grey[500] }}>,</span><br />I am <ColorGlowTransitionAnimation fromColor="white" toColor={blue[500]} toColorGlow={blue[700]}>Joschua Haß</ColorGlowTransitionAnimation>
           </HeroText>
-          <Typography variant="heroSubText" maxWidth={560} sx={{
-            marginBottom: 4,
-            [theme.breakpoints.down('sm')]: {
-              marginBottom: 2
-            },
-          }}>
+          <Typography
+            variant="heroSubText"
+            sx={{
+              maxWidth: 560,
+              marginBottom: 4,
+
+              [theme.breakpoints.down('sm')]: {
+                marginBottom: 2
+              }
+            }}>
             Full-stack developer specializing in the development of web and desktop applications with 4 years of experience (3 years in a professional setting).
           </Typography>
           <Stack direction="row" spacing={2} sx={{
@@ -40,8 +49,8 @@ export function HomePageHeroSection() {
           <ScrollDownButton scrollToId="about-me" />
         </Box>
       </Box>
-    </Container>
-  )
+    </Container>)
+  );
 }
 
 declare module '@mui/material/styles' {

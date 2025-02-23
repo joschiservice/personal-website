@@ -61,13 +61,19 @@ export function MobileNavbar({ items, isOpen, setIsOpen }: Props) {
     }
 
     return (
-        <MenuPopup sx={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }} p={4}>
-            <Box display='flex' justifyContent='end'>
+        (<MenuPopup sx={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }} p={4}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'end'
+                }}>
                 <CloseIcon onClick={toggleNavbar} />
             </Box>
-            <Stack spacing={2} mt={4}>
+            <Stack spacing={2} sx={{
+                mt: 4
+            }}>
                 {items.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} isMobile={true} onClick={toggleNavbar} />)}
             </Stack>
-        </MenuPopup>
-    )
+        </MenuPopup>)
+    );
 }

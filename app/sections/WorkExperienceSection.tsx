@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Container, Grid, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Container, Grid2, Stack, Typography, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { SkillChip } from "@/app/components/SkillChip";
 import { getFormattedTimeSpan } from "@/app/lib/date";
@@ -101,9 +101,9 @@ export function WorkExperienceSection() {
           Professional Experience
         </Typography>
 
-        <Grid container spacing={3} columns={8}>
+        <Grid2 container spacing={3} columns={8}>
           {WORK_EXPERIENCE_DATA.map((item, pos) => <WorkExperienceItem key={pos} item={item} />)}
-        </Grid>
+        </Grid2>
       </Container>
     </Box>
   )
@@ -112,43 +112,50 @@ export function WorkExperienceSection() {
 function WorkExperienceItem({ item }: { item: WorkExperience }) {
   const theme = useTheme();
 
-  return (
-    <>
-      <Grid item xs={false} sm={2} sx={{
+  return (<>
+    <Grid2
+      sx={{
+        [theme.breakpoints.down('sm')]: {
+          display: 'none'
+        },
+      }}
+      size={{
+        xs: false,
+        sm: 2
+      }}>
+      <Typography color={grey[400]} mt={0.4} align="left">
+        {getFormattedTimeSpan(item.start, item.end)}
+      </Typography>
+    </Grid2>
+    <Grid2
+      size={{
+        xs: 10,
+        sm: 6
+      }}>
+      <OptionalLink href={item.companyLink}>
+        <Typography fontSize={19} fontWeight={500}>{item.position} @ {item.company}{item.companyLink && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
+      </OptionalLink>
+      <Typography color={grey[500]} mb={1} sx={{
         [theme.breakpoints.down('sm')]: {
           display: 'none'
         },
       }}>
-        <Typography color={grey[400]} mt={0.4} align="left">
-          {getFormattedTimeSpan(item.start, item.end)}
-        </Typography>
-      </Grid>
-      <Grid item xs={10} sm={6}>
-        <OptionalLink href={item.companyLink}>
-          <Typography fontSize={19} fontWeight={500}>{item.position} @ {item.company}{item.companyLink && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
-        </OptionalLink>
-        <Typography color={grey[500]} mb={1} sx={{
-          [theme.breakpoints.down('sm')]: {
-            display: 'none'
-          },
-        }}>
-          {item.subTitle}
-        </Typography>
-        <Typography color={grey[500]} mb={1} sx={{
-          [theme.breakpoints.up('sm')]: {
-            display: 'none'
-          },
-        }}>
-          {item.subTitle} — <span style={{ whiteSpace: 'nowrap' }}>{getFormattedTimeSpan(item.start, item.end)}</span>
-        </Typography>
-        <Typography>{item.description}</Typography>
-        <ul style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0 }}>
-          {item.tasks.map((task, pos) => <li key={pos}><Typography>{task}</Typography></li>)}
-        </ul>
-        <Stack direction="row" spacing={0.8} mt={2} flexWrap="wrap" useFlexGap>
-          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill} />)}
-        </Stack>
-      </Grid>
-    </>
-  )
+        {item.subTitle}
+      </Typography>
+      <Typography color={grey[500]} mb={1} sx={{
+        [theme.breakpoints.up('sm')]: {
+          display: 'none'
+        },
+      }}>
+        {item.subTitle} — <span style={{ whiteSpace: 'nowrap' }}>{getFormattedTimeSpan(item.start, item.end)}</span>
+      </Typography>
+      <Typography>{item.description}</Typography>
+      <ul style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0 }}>
+        {item.tasks.map((task, pos) => <li key={pos}><Typography>{task}</Typography></li>)}
+      </ul>
+      <Stack direction="row" spacing={0.8} mt={2} flexWrap="wrap" useFlexGap>
+        {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill} />)}
+      </Stack>
+    </Grid2>
+  </>);
 }
