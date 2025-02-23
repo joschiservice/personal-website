@@ -6,13 +6,14 @@ import { SkillChip } from "@/app/components/SkillChip";
 import { getFormattedTimeSpan } from "@/app/lib/date";
 import { OptionalLink } from "../components/OptionalLink";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { ReactElement } from "react";
 
 interface WorkExperience {
   start: Date;
   end?: Date;
   position: string;
   subTitle: string;
-  description: JSX.Element;
+  description: ReactElement;
   tasks: string[];
   skills: string[];
   companyLink: string;
