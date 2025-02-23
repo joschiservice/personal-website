@@ -23,7 +23,7 @@ const StyledLink = styled(Link)({
   },
 });
 
-const StyledScrollLink = styled(ScrollLink)({
+const StyledScrollLink = styled<any>(ScrollLink)({
   color: "white",
   textDecoration: "none",
   transition: "color .3s ease-in-out",
