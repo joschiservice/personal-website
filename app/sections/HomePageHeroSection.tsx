@@ -14,7 +14,7 @@ export function HomePageHeroSection() {
   const theme = useTheme();
 
   return (
-    (<Container maxWidth="lg">
+    (<Container id="root" maxWidth="lg">
       <Box
         sx={{
           minHeight: "100vh",

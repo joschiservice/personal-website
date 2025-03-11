@@ -47,8 +47,8 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
     const [pathName, elementName] = href.split('#');
 
     // Is current page?
-    if (pathName == currentPathName && elementName != undefined) {
-      setTargetElement(elementName);
+    if (pathName == currentPathName) {
+      setTargetElement(elementName?? 'root');
       setCurrentLinkType(1);
     } else {
       setCurrentLinkType(0);
