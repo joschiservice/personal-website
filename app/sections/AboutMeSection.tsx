@@ -2,7 +2,7 @@ import {TextLink} from "@/app/components/TextLink";
 
 export function AboutMeSection() {
   return (
-    <section id="about-me" className="py-16 bg-gradient-to-b from-[rgba(18,18,18,1)] via-[rgba(8,34,43,1)] to-[rgba(18,18,18,1)]">
+    <section id="about-me" className="py-16 bg-linear-to-b from-[rgba(18,18,18,1)] via-[rgba(8,34,43,1)] to-[rgba(18,18,18,1)]">
       <div className="container mx-auto max-w-4xl px-4">
         <h2 className="text-3xl font-medium text-center mb-6">
           About Me

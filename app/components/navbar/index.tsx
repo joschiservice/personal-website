@@ -17,7 +17,7 @@ export function Navbar() {
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
 
   return (
-    <div className="fixed flex w-screen z-[100]">
+    <div className="fixed flex w-screen z-100">
       <div className="min-h-[20px] mx-auto my-4 flex justify-between min-w-[90%] md:min-w-[800px] rounded-[24px] py-[5.6px] px-4 backdrop-blur-[16px] backdrop-saturate-[180%] bg-[rgba(33,33,33,0.6)] shadow-[0px_0px_24px_0px_rgba(0,0,0,0.4)]">
         <NavbarTitle href="/">JH</NavbarTitle>
         <MobileNavbarButton isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />

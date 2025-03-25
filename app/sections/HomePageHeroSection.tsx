@@ -9,7 +9,7 @@ import { ContactButton } from "../components/buttons/ContactButton";
 
 export function HomePageHeroSection() {
   return (
-    <div className="container mx-auto max-w-screen-lg px-4" id="root">
+    <div className="container mx-auto max-w-(--breakpoint-lg) px-4" id="root">
       <div className="min-h-screen flex items-center">
         <div>
           <HeroText>
