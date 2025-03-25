@@ -1,72 +1,33 @@
 "use client"
 
-import { blue, grey } from "@mui/material/colors";
 import { HeroText } from "@/app/components/HeroText";
 import { ColorGlowTransitionAnimation } from "@/app/animations/ColorGlowTransitionAnimation";
-import { Box, Container, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { CSSProperties } from "react";
-import { ContactButton } from "@/app/components/buttons/ContactButton";
-import { DownloadCvButton } from "@/app/components/buttons/DownloadCvButton";
 import { ScrollDownButton } from "@/app/components/buttons/ScrollDownButton";
 import { SocialLinks } from "../components/SocialLinks";
+import { DownloadCvButton } from "../components/buttons/DownloadCvButton";
+import { ContactButton } from "../components/buttons/ContactButton";
 
 export function HomePageHeroSection() {
-  const theme = useTheme();
-
   return (
-    (<Container id="root" maxWidth="lg">
-      <Box
-        sx={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center"
-        }}>
-        <Box>
+    <div className="container mx-auto max-w-screen-lg px-4" id="root">
+      <div className="min-h-screen flex items-center">
+        <div>
           <HeroText>
-            Hi<span style={{ color: grey[500] }}>,</span><br />I am <ColorGlowTransitionAnimation fromColor="white" toColor={blue[500]} toColorGlow={blue[700]}>Joschua Haß</ColorGlowTransitionAnimation>
+            Hi<span className="text-gray-400">,</span><br />I am <ColorGlowTransitionAnimation fromColor="white" toColor="#2196f3" toColorGlow="#1976d2">Joschua Haß</ColorGlowTransitionAnimation>
           </HeroText>
-          <Typography
-            variant="heroSubText"
-            sx={{
-              maxWidth: 560,
-              marginBottom: 4,
-
-              [theme.breakpoints.down('sm')]: {
-                marginBottom: 2
-              }
-            }}>
+          <p className="max-w-lg mb-8 sm:mb-4 text-gray-300 text-md">
             Full-stack developer specializing in the development of web and desktop applications with 4 years of experience (3 years in a professional setting).
-          </Typography>
-          <Stack direction="row" spacing={2} sx={{
-            marginBottom: 4
-            }}>
+          </p>
+          <div className="flex flex-row gap-4 mb-8">
             <ContactButton />
             <DownloadCvButton />
-          </Stack>
+          </div>
 
           <SocialLinks />
 
           <ScrollDownButton scrollToId="about-me" />
-        </Box>
-      </Box>
-    </Container>)
+        </div>
+      </div>
+    </div>
   );
-}
-
-declare module '@mui/material/styles' {
-  interface TypographyVariants {
-    heroSubText: CSSProperties;
-  }
-
-  // allow configuration using `createTheme`
-  interface TypographyVariantsOptions {
-    heroSubText?: CSSProperties;
-  }
-}
-
-// Update the Typography's variant prop options
-declare module '@mui/material/Typography' {
-  interface TypographyPropsVariantOverrides {
-    heroSubText: true;
-  }
 }

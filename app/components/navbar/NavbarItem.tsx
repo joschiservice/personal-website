@@ -1,11 +1,9 @@
 "use client"
 
-import { styled, Typography } from "@mui/material";
 import Link from "next/link";
-import { lightBlue } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Link as ScrollLink } from 'react-scroll';
+import { scroller } from 'react-scroll';
 
 interface Props {
   title: string;
@@ -13,29 +11,6 @@ interface Props {
   isMobile?: boolean;
   onClick?: () => void;
 }
-
-const StyledLink = styled(Link)({
-  color: "white",
-  textDecoration: "none",
-  transition: "color .3s ease-in-out",
-  '&:hover': {
-    color: lightBlue[400],
-  },
-});
-
-const StyledScrollLink = styled<any>(ScrollLink)({
-  color: "white",
-  textDecoration: "none",
-  transition: "color .3s ease-in-out",
-
-  // ScrollLink is not a href, so we need to apply these styles
-  cursor: 'pointer',
-  userSelect: 'none',
-
-  '&:hover': {
-    color: lightBlue[400],
-  },
-});
 
 export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
   const currentPathName = usePathname();
@@ -55,21 +30,31 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
     }
   }, [currentPathName, href]);
 
-  const innerComp = isMobile ? <Typography
-    sx={{
-      fontSize: 28,
-      fontWeight: 500
-    }}>{title}</Typography> : <Typography>{title}</Typography>;
+  const linkClasses = "text-white no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]";
+  const scrollLinkClasses = `${linkClasses} cursor-pointer select-none`;
+
+  const innerComp = isMobile ?
+    <span className="text-[28px] font-semibold">{title}</span> :
+    <span>{title}</span>;
 
   return (
     currentLinkType == 1 ? (
-      <StyledScrollLink to={targetElement} smooth={true} onClick={onClick}>
+      <span
+        onClick={() => {
+          scroller.scrollTo(targetElement, {
+            smooth: true,
+            duration: 500
+          });
+          if (onClick) onClick();
+        }}
+        className={scrollLinkClasses}
+      >
         {innerComp}
-      </StyledScrollLink>
+      </span>
     ) : (
-      <StyledLink href={href} onClick={onClick}>
+      <Link href={href} onClick={onClick} className={linkClasses}>
         {innerComp}
-      </StyledLink>
+      </Link>
     )
   )
 }

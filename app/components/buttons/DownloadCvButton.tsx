@@ -1,10 +1,14 @@
-import {Button} from "@mui/material";
-import DownloadIcon from '@mui/icons-material/Download';
+import { MdFileDownload } from 'react-icons/md';
 
 export function DownloadCvButton() {
   return (
-    <Button variant="outlined" startIcon={<DownloadIcon />} sx={{ textTransform: 'none' }} href="/docs/Joschua_Hass_CV.pdf" target="_blank">
-      Download CV
-    </Button>
+    <a
+      href="/docs/Joschua_Hass_CV.pdf"
+      target="_blank"
+      className="inline-flex items-center gap-2 px-2.5 py-2 border border-[#90caf9] text-[#90caf9] text-sm font-medium rounded hover:bg-blue-50 transition-colors"
+    >
+      <MdFileDownload className="h-5 w-5" />
+      <span>Download CV</span>
+    </a>
   )
 }

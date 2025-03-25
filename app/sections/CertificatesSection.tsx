@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Container,
-  Grid2,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { grey } from "@mui/material/colors";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { FiExternalLink } from "react-icons/fi";
 import { OptionalLink } from "@/app/components/OptionalLink";
 import { SkillChip } from "@/app/components/SkillChip";
 import { getFormattedTimeSpan } from "@/app/lib/date";
@@ -47,92 +38,45 @@ const CERTIFICATES: Certificate[] = [
 
 export function CertificatesSection() {
   return (
-    <Box py={8}>
-      <Container maxWidth="md">
-        <Typography variant="h4" align="center" mb={4} fontWeight={500}>
+    <section className="py-16" id="certificates">
+      <div className="container mx-auto max-w-4xl px-4">
+        <h2 className="text-3xl font-medium text-center mb-8">
           Certificates
-        </Typography>
+        </h2>
 
-        <Grid2 container spacing={3} columns={8}>
-          {CERTIFICATES.map((certificate, pos) => (
-            <CertificateItem key={pos} item={certificate} />
-          ))}
-        </Grid2>
-      </Container>
-    </Box>
+        <div className="grid grid-cols-1 gap-8">
+          {CERTIFICATES.map((certificate, pos) => <CertificateItem key={pos} item={certificate} />)}
+        </div>
+      </div>
+    </section>
   );
 }
 
 function CertificateItem({ item }: { item: Certificate }) {
-  const theme = useTheme();
-
   return (
-    <>
-      <Grid2
-        sx={{
-          [theme.breakpoints.down("sm")]: {
-            display: "none",
-          },
-        }}
-        size={{
-          xs: false,
-          sm: 2,
-        }}
-      >
-        <Typography color={grey[400]} mt={0.4} align="left">
+    <div className="grid grid-cols-1 sm:grid-cols-8 gap-4">
+      <div className="hidden sm:block sm:col-span-2">
+        <p className="text-gray-400 mt-1 text-left">
           {getFormattedTimeSpan(item.date, item.date)}
-        </Typography>
-      </Grid2>
-      <Grid2
-        size={{
-          xs: 10,
-          sm: 6,
-        }}
-      >
-        <Box display="flex" justifyItems="end">
-          <OptionalLink href={item.link}>
-            <Typography fontSize={19} fontWeight={500}>
-              {item.name}
-              {item.link && (
-                <ArrowOutwardIcon
-                  fontSize="small"
-                  style={{ marginBottom: "-3px", marginLeft: "2px" }}
-                />
-              )}
-            </Typography>
-          </OptionalLink>
-        </Box>
-        <Typography
-          color={grey[500]}
-          mb={1}
-          sx={{
-            [theme.breakpoints.down("sm")]: {
-              display: "none",
-            },
-          }}
-        >
+        </p>
+      </div>
+      <div className="col-span-1 sm:col-span-6">
+        <OptionalLink href={item.link}>
+          <h3 className="text-xl font-medium flex items-center">
+            {item.name}
+            {item.link && <FiExternalLink className="ml-1 mb-0.5 inline-block h-auto w-4" />}
+          </h3>
+        </OptionalLink>
+        <p className="text-gray-400 mb-2 hidden sm:block">
           {item.type}
-        </Typography>
-        <Typography
-          sx={{
-            color: grey[500],
-            mb: 1,
-            [theme.breakpoints.up("sm")]: {
-              display: "none",
-            },
-          }}
-        >
-          {item.type} —{" "}
-          <span style={{ whiteSpace: "nowrap" }}>
-            {getFormattedTimeSpan(item.date, item.date)}
-          </span>
-        </Typography>
-        <Stack direction="row" spacing={1} mt={2} flexWrap="wrap" useFlexGap>
-          {item.skills.map((skill, pos) => (
-            <SkillChip key={pos} variant="certificate" skill={skill} />
-          ))}
-        </Stack>
-      </Grid2>
-    </>
+        </p>
+        <p className="text-gray-500 mb-2 sm:hidden">
+          {item.type} — <span className="whitespace-nowrap">{getFormattedTimeSpan(item.date, item.date)}</span>
+        </p>
+        <div className="flex flex-wrap gap-2 mt-3">
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="certificate" skill={skill} />)}
+        </div>
+      </div>
+    </div>
   );
 }

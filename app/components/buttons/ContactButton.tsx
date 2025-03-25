@@ -1,16 +1,13 @@
-import {Button} from "@mui/material";
-import MessageIcon from '@mui/icons-material/Message';
+import { MdMessage } from 'react-icons/md';
 
 export function ContactButton() {
   return (
-    <Button variant="contained" startIcon={<MessageIcon />} color="highlightDark" sx={{ textTransform: 'none' }} href={"mailto:" + process.env.NEXT_PUBLIC_CONTACT_EMAIL}>
-      Get in touch
-    </Button>
+    <a
+      href={"mailto:" + process.env.NEXT_PUBLIC_CONTACT_EMAIL}
+      className="inline-flex items-center gap-2 px-2.5 py-2 bg-blue-700 text-white text-sm font-bold rounded shadow hover:bg-blue-800 transition-colors"
+    >
+      <MdMessage className="h-5 w-5" />
+      <span>Get in touch</span>
+    </a>
   )
-}
-
-declare module '@mui/material/Button' {
-  interface ButtonPropsColorOverrides {
-    highlightDark: true;
-  }
 }

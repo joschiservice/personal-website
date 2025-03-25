@@ -1,15 +1,9 @@
 "use client"
 
-import { Box, Stack, styled, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { useState } from "react";
+import Link from "next/link";
 import { NavbarItem } from "@/app/components/navbar/NavbarItem";
 import { MobileNavbar, MobileNavbarButton } from "./MobileNavbarMenu";
-import Link from "next/link";
-import { lightBlue } from "@mui/material/colors";
-import { useState } from "react";
-
-interface Props {
-  items: [];
-}
 
 const ITEMS = [
   { title: 'Home', href: '/' },
@@ -20,67 +14,39 @@ const ITEMS = [
 ];
 
 export function Navbar() {
-  const theme = useTheme();
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
 
   return (
-    (<Box
-      sx={{
-        position: "fixed",
-        display: "flex",
-        width: "100vw",
-        zIndex: 100
-      }}>
-      <NavbarBox minHeight={20} mx="auto" my={2} display="flex" sx={{
-        justifyContent: 'space-between', minWidth: '90%', [theme.breakpoints.up('md')]: {
-          minWidth: 800
-        },
-      }} borderRadius={6} py={0.7} px={2}>
+    <div className="fixed flex w-screen z-[100]">
+      <div className="min-h-[20px] mx-auto my-4 flex justify-between min-w-[90%] md:min-w-[800px] rounded-[24px] py-[5.6px] px-4 backdrop-blur-[16px] backdrop-saturate-[180%] bg-[rgba(33,33,33,0.6)] shadow-[0px_0px_24px_0px_rgba(0,0,0,0.4)]">
         <NavbarTitle href="/">JH</NavbarTitle>
         <MobileNavbarButton isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
         <DesktopNavbar />
-      </NavbarBox>
+      </div>
       <MobileNavbar items={ITEMS} isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
-    </Box>)
+    </div>
   );
 }
 
 function DesktopNavbar() {
-  const theme = useTheme();
-
   return (
-    (<Box sx={{
-      display: "flex",
-      justifyContent: 'space-between',
-      width: "100%",
-      [theme.breakpoints.down('md')]: {
-        display: 'none'
-      },
-    }}>
-      <Box />
-      <Stack direction="row" spacing={4} sx={{
-        alignItems: "center"
-      }}>
+    <div className="justify-between w-full md:flex hidden">
+      <div />
+      <div className="flex flex-row items-center space-x-8">
         {ITEMS.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} />)}
-      </Stack>
-      <Box />
-    </Box>)
+      </div>
+      <div />
+    </div>
   );
 }
 
-const NavbarBox = styled(Box)({
-  backdropFilter: "saturate(180%) blur(16px)",
-  background: 'rgba(33,33,33,0.6)',
-  boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.4)'
-});
-
-const NavbarTitle = styled(Link)({
-  fontSize: 22,
-  fontWeight: 700,
-  color: "white",
-  textDecoration: "none",
-  transition: "color .3s ease-in-out",
-  '&:hover': {
-    color: lightBlue[400],
-  },
-});
+function NavbarTitle({ href, children }: { href: string, children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="text-[22px] font-bold text-white no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]"
+    >
+      {children}
+    </Link>
+  );
+}

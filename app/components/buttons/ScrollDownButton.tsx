@@ -1,7 +1,7 @@
 'use client'
 
 import {animated, easings, useSpring} from "@react-spring/web";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { MdArrowDownward } from 'react-icons/md';
 import styles from './ScrollDownButton.module.css';
 
 interface Props {
@@ -38,7 +38,7 @@ export function ScrollDownButton({ scrollToId }: Props) {
   return (
     <animated.div style={{position: "absolute", left: 0, right: 0, marginRight: "auto", marginLeft: "auto", marginBottom: "20px", width: "20px", ...chevronDownAnim}}>
       <button onClick={onButtonClick} className={styles.scrollDownButton}>
-        <ArrowDownwardIcon fontSize="large" />
+        <MdArrowDownward className="h-8 w-8" />
       </button>
     </animated.div>
   )

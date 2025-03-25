@@ -1,4 +1,3 @@
-import {Box, Container, Grid2, Stack, Typography} from "@mui/material";
 import Image from "next/image";
 
 interface Tool {
@@ -46,41 +45,35 @@ const TOOLS: Tool[] = [
 
 export function ToolsSection() {
   return (
-    (<Box sx={{
-      py: 8
-    }}>
-      <Container maxWidth="md">
-        <Typography
-          variant="h4"
-          align="center"
-          sx={{
-            mb: 4,
-            fontWeight: 500
-          }}>
+    <section className="py-16" id="tools">
+      <div className="container mx-auto max-w-4xl px-4">
+        <h2 className="text-3xl font-medium text-center mb-8">
           Tools, Frameworks & Services
-        </Typography>
+        </h2>
 
-        <Grid2 container spacing={{ xs: 2, md: 4 }} columns={{ xs: 2, md: 4 }}>
-          {TOOLS.map((tool, pos) => <ToolItem key={pos} item={tool}/>)}
-        </Grid2>
-      </Container>
-    </Box>)
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+          {TOOLS.map((tool, pos) => <ToolItem key={pos} item={tool} />)}
+        </div>
+      </div>
+    </section>
   );
 }
 
 function ToolItem({ item }: { item: Tool }) {
   return (
-    (<Grid2 size={1}>
-      <Stack direction="row" spacing={2} sx={{
-        alignItems: "center"
-      }}>
-        <Image width={item.hideText ? 130 : 50} height={50} src={"/img/tools/" + item.name + ".png"} alt={item.name} style={{objectFit: "contain"}} />
-        {!item.hideText && <Typography
-          sx={{
-            fontSize: 18,
-            fontWeight: 500
-          }}>{item.name}</Typography>}
-      </Stack>
-    </Grid2>)
+    <div className="flex flex-row items-center space-x-2">
+      <Image
+        width={item.hideText ? 130 : 50}
+        height={50}
+        src={"/img/tools/" + item.name + ".png"}
+        alt={item.name}
+        className="object-contain"
+      />
+      {!item.hideText &&
+        <span className="text-lg font-medium">
+          {item.name}
+        </span>
+      }
+    </div>
   );
 }

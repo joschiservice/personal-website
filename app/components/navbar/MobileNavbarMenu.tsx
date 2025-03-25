@@ -1,79 +1,87 @@
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Stack, styled, useTheme } from '@mui/material';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { NavbarItem } from './NavbarItem';
+import { MdMenu, MdClose } from 'react-icons/md';
 
 interface Props extends MobileNavBtnProps {
     items: { title: string; href: string; }[];
 }
-
-const MenuPopup = styled(Box)({
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100vh',
-
-    backdropFilter: "saturate(180%) blur(16px)",
-    background: 'rgba(33,33,33,0.6)',
-
-    transition: 'ease-in-out',
-    transitionProperty: 'opacity',
-    transitionDuration: '250ms',
-});
 
 interface MobileNavBtnProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+// Helper function to handle scroll locking
+function toggleBodyScroll(isOpen: boolean) {
+    // The logic is inverted because the function is called before the state changes
+    // When isOpen is false, we're about to open the menu
+    if (!isOpen) {
+        // Save current scroll position and lock body when opening
+        const scrollY = window.scrollY;
+        document.body.dataset.scrollPosition = scrollY.toString();
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+    } else {
+        // Restore scroll position when closing
+        const scrollY = parseInt(document.body.dataset.scrollPosition || '0');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('position');
+        document.body.style.removeProperty('top');
+        document.body.style.removeProperty('width');
+        window.scrollTo(0, scrollY);
+    }
+}
+
 export function MobileNavbarButton({ isOpen, setIsOpen }: MobileNavBtnProps) {
-    const theme = useTheme();
-
     function toggleNavbar() {
+        toggleBodyScroll(isOpen);
         setIsOpen(!isOpen);
-
-        // Prevent body scroll, when menu is open
-        document.body.style.overflow = isOpen ? 'auto' : 'hidden';
-        document.body.style.position = isOpen ? 'absolute' : 'fixed';
     }
 
     return (
-        <Box sx={{
-            height: '100%', display: 'none', alignItems: 'center',
-            [theme.breakpoints.down('md')]: {
-                display: 'flex'
-            },
-        }}>
-            <MenuIcon onClick={toggleNavbar} />
-        </Box>
+        <div className="h-full flex md:hidden items-center">
+            <MdMenu
+                className="cursor-pointer h-6 w-6"
+                onClick={toggleNavbar}
+            />
+        </div>
     )
 }
 
 export function MobileNavbar({ items, isOpen, setIsOpen }: Props) {
     function toggleNavbar() {
+        toggleBodyScroll(isOpen);
         setIsOpen(!isOpen);
-
-        // Prevent body scroll, when menu is open
-        document.body.style.overflow = isOpen ? 'auto' : 'hidden';
-        document.body.style.position = isOpen ? 'absolute' : 'fixed';
     }
 
     return (
-        (<MenuPopup sx={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }} p={4}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'end'
-                }}>
-                <CloseIcon onClick={toggleNavbar} />
-            </Box>
-            <Stack spacing={2} sx={{
-                mt: 4
-            }}>
-                {items.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} isMobile={true} onClick={toggleNavbar} />)}
-            </Stack>
-        </MenuPopup>)
+        <div
+            className={`fixed top-0 left-0 w-full h-screen backdrop-blur-[16px] backdrop-saturate-[180%] bg-[rgba(33,33,33,0.6)] transition-opacity duration-250 ease-in-out p-8 ${
+                isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+        >
+            <div className="flex justify-end">
+                <button
+                    className="bg-transparent border-0 cursor-pointer p-0"
+                    onClick={toggleNavbar}
+                    aria-label="Close menu"
+                >
+                    <MdClose className="h-6 w-6" />
+                </button>
+            </div>
+            <div className="flex flex-col space-y-4 mt-8">
+                {items.map((item, index) => (
+                    <NavbarItem
+                        key={index}
+                        title={item.title}
+                        href={item.href}
+                        isMobile={true}
+                        onClick={toggleNavbar}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }

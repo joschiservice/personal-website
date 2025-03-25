@@ -1,44 +1,33 @@
-import { Stack, SvgIcon, styled } from "@mui/material";
 import Link from "next/link";
-import { grey, lightBlue } from "@mui/material/colors";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import InstagramIcon from '@mui/icons-material/Instagram';
-
-type SocialLink = { icon: any; href: string; };
+type IconType = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
 export function SocialLinks() {
     return (
-        <Stack direction="row" spacing={1}>
-            <SocialLink href={process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN} icon={LinkedInIcon} />
-            <SocialLink href={process.env.NEXT_PUBLIC_SOCIAL_GITHUB} icon={GitHubIcon} />
-            <SocialLink href={process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM} icon={InstagramIcon} />
-        </Stack>
+        <div className="flex flex-row gap-3">
+            <SocialLink href={process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN} icon={FaLinkedin} />
+            <SocialLink href={process.env.NEXT_PUBLIC_SOCIAL_GITHUB} icon={FaGithub} />
+            <SocialLink href={process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM} icon={FaInstagram} />
+        </div>
     )
 }
 
-const StyledLink = styled(Link)({
-    display: 'flex',
-    color: grey[400],
-    textDecoration: "none",
-    transition: "color .3s ease-in-out",
-    '&:hover': {
-      color: lightBlue[400],
-    }
-  });
-
 interface SocialLinkProps {
     href: string | undefined;
-    icon: typeof SvgIcon;
+    icon: IconType;
 }
 
-function SocialLink({ href, icon }: SocialLinkProps) {
-    const SpecificIcon = icon;
-
-    if (href === undefined) return;
+function SocialLink({ href, icon: Icon }: SocialLinkProps) {
+    if (!href) return null;
 
     return (
-        <StyledLink href={href}><SpecificIcon sx={{fontSize: 28}} /></StyledLink>
+        <Link
+            href={href}
+            target="_blank"
+            className="flex text-gray-300 no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]"
+        >
+            <Icon className="text-[26px]" />
+        </Link>
     )
 }

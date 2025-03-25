@@ -1,34 +1,13 @@
-import {Typography} from "@mui/material";
-import {CSSProperties} from "react";
+import React from "react";
 
 interface Props {
-  children: any;
+  children: React.ReactNode;
 }
 
 export function HeroText({ children }: Props) {
   return (
-    (<Typography variant="hero" sx={{
-      mb: 2
-    }}>
-      { children }
-    </Typography>)
+    <h1 className="text-[4rem] font-bold leading-[5rem] mb-4 ">
+      {children}
+    </h1>
   );
-}
-
-declare module '@mui/material/styles' {
-  interface TypographyVariants {
-    hero: CSSProperties;
-  }
-
-  // allow configuration using `createTheme`
-  interface TypographyVariantsOptions {
-    hero?: CSSProperties;
-  }
-}
-
-// Update the Typography's variant prop options
-declare module '@mui/material/Typography' {
-  interface TypographyPropsVariantOverrides {
-    hero: true;
-  }
 }

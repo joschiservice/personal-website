@@ -1,11 +1,9 @@
 "use client"
 
-import {Box, Container, Grid2, Stack, Typography, useTheme} from "@mui/material";
-import {grey} from "@mui/material/colors";
-import {OptionalLink} from "@/app/components/OptionalLink";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import {SkillChip} from "@/app/components/SkillChip";
-import {getFormattedTimeSpan} from "@/app/lib/date";
+import { getFormattedTimeSpan } from "@/app/lib/date";
+import { SkillChip } from "@/app/components/SkillChip";
+import { OptionalLink } from "@/app/components/OptionalLink";
+import { FiExternalLink } from "react-icons/fi";
 
 interface Project {
   title: string;
@@ -61,66 +59,46 @@ const PROJECTS: Project[] = [
 
 export function ProjectsSection() {
   return (
-    <Box py={8} id="projects">
-      <Container maxWidth="md">
-        <Typography variant="h4" align="center" mb={4} fontWeight={500}>
+    <section className="py-16" id="projects">
+      <div className="container mx-auto max-w-4xl px-4">
+        <h2 className="text-3xl font-medium text-center mb-8">
           Projects
-        </Typography>
+        </h2>
 
-        <Grid2 container spacing={3} columns={8}>
-          {PROJECTS.map((certificate, pos) => <ProjectItem key={pos} item={certificate} />)}
-        </Grid2>
-      </Container>
-    </Box>
+        <div className="grid grid-cols-1 gap-8">
+          {PROJECTS.map((project, pos) => <ProjectItem key={pos} item={project} />)}
+        </div>
+      </div>
+    </section>
   )
 }
 
 function ProjectItem({ item }: { item: Project }) {
-  const theme = useTheme();
-
-  return (<>
-    <Grid2
-      sx={{
-        [theme.breakpoints.down('sm')]: {
-          display: 'none'
-        },
-      }}
-      size={{
-        xs: false,
-        sm: 2
-      }}>
-      <Typography color={grey[400]} mt={0.4} align="left">
-        {getFormattedTimeSpan(item.start, item.end)}
-      </Typography>
-    </Grid2>
-    <Grid2
-      size={{
-        xs: 10,
-        sm: 6
-      }}>
-      <Box display="flex" justifyItems="end">
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-8 gap-4">
+      <div className="hidden sm:block sm:col-span-2">
+        <p className="text-gray-400 mt-1 text-left">
+          {getFormattedTimeSpan(item.start, item.end)}
+        </p>
+      </div>
+      <div className="col-span-1 sm:col-span-6">
         <OptionalLink href={item.link}>
-          <Typography fontSize={19} fontWeight={500}>{item.title}{item.link && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
+          <h3 className="text-xl font-medium flex items-center">
+            {item.title}
+            {item.link && <FiExternalLink className="ml-1 mb-0.5 inline-block h-auto w-4" />}
+          </h3>
         </OptionalLink>
-      </Box>
-      <Typography color={grey[500]} mb={1} sx={{
-        [theme.breakpoints.down('sm')]: {
-          display: 'none'
-        },
-      }}>
-        {item.type}
-      </Typography>
-      <Typography color={grey[500]} mb={1} sx={{
-        [theme.breakpoints.up('sm')]: {
-          display: 'none'
-        },
-      }}>
-        {item.type} — <span style={{whiteSpace: 'nowrap'}}>{getFormattedTimeSpan(item.start, item.end)}</span>
-      </Typography>
-      <Typography>{item.description}</Typography>
-      <Stack direction="row" spacing={1} mt={2} flexWrap="wrap" useFlexGap>
-        {item.skills.map((skill, pos) => <SkillChip key={pos} variant="project" skill={skill}/>)}
-      </Stack>
-    </Grid2>
-  </>);
+        <p className="text-gray-400 mb-2 hidden sm:block">
+          {item.type}
+        </p>
+        <p className="text-gray-500 mb-2 sm:hidden">
+          {item.type} — <span className="whitespace-nowrap">{getFormattedTimeSpan(item.start, item.end)}</span>
+        </p>
+        <p className="text-gray-300">{item.description}</p>
+        <div className="flex flex-wrap gap-2 mt-3">
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="project" skill={skill} />)}
+        </div>
+      </div>
+    </div>
+  );
 }

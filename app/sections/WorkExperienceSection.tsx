@@ -1,11 +1,9 @@
 "use client"
 
-import { Box, Container, Grid2, Stack, Typography, useTheme } from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { SkillChip } from "@/app/components/SkillChip";
 import { getFormattedTimeSpan } from "@/app/lib/date";
+import { SkillChip } from "@/app/components/SkillChip";
 import { OptionalLink } from "../components/OptionalLink";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { FiExternalLink } from "react-icons/fi";
 
 interface WorkExperience {
   start: Date;
@@ -95,67 +93,49 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
 
 export function WorkExperienceSection() {
   return (
-    <Box py={8} id="experience">
-      <Container maxWidth="md">
-        <Typography variant="h4" align="center" mb={4} fontWeight={500}>
+    <section className="py-16" id="experience">
+      <div className="container mx-auto max-w-4xl px-4">
+        <h2 className="text-3xl font-medium text-center mb-8">
           Professional Experience
-        </Typography>
+        </h2>
 
-        <Grid2 container spacing={3} columns={8}>
+        <div className="grid grid-cols-1 gap-8">
           {WORK_EXPERIENCE_DATA.map((item, pos) => <WorkExperienceItem key={pos} item={item} />)}
-        </Grid2>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </section>
   )
 }
 
 function WorkExperienceItem({ item }: { item: WorkExperience }) {
-  const theme = useTheme();
-
-  return (<>
-    <Grid2
-      sx={{
-        [theme.breakpoints.down('sm')]: {
-          display: 'none'
-        },
-      }}
-      size={{
-        xs: false,
-        sm: 2
-      }}>
-      <Typography color={grey[400]} mt={0.4} align="left">
-        {getFormattedTimeSpan(item.start, item.end)}
-      </Typography>
-    </Grid2>
-    <Grid2
-      size={{
-        xs: 10,
-        sm: 6
-      }}>
-      <OptionalLink href={item.companyLink}>
-        <Typography fontSize={19} fontWeight={500}>{item.position} @ {item.company}{item.companyLink && <ArrowOutwardIcon fontSize="small" style={{marginBottom: "-3px", marginLeft: "2px"}} />}</Typography>
-      </OptionalLink>
-      <Typography color={grey[500]} mb={1} sx={{
-        [theme.breakpoints.down('sm')]: {
-          display: 'none'
-        },
-      }}>
-        {item.subTitle}
-      </Typography>
-      <Typography color={grey[500]} mb={1} sx={{
-        [theme.breakpoints.up('sm')]: {
-          display: 'none'
-        },
-      }}>
-        {item.subTitle} — <span style={{ whiteSpace: 'nowrap' }}>{getFormattedTimeSpan(item.start, item.end)}</span>
-      </Typography>
-      <Typography>{item.description}</Typography>
-      <ul style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0 }}>
-        {item.tasks.map((task, pos) => <li key={pos}><Typography>{task}</Typography></li>)}
-      </ul>
-      <Stack direction="row" spacing={0.8} mt={2} flexWrap="wrap" useFlexGap>
-        {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill} />)}
-      </Stack>
-    </Grid2>
-  </>);
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-8 gap-4">
+      <div className="hidden sm:block sm:col-span-2">
+        <p className="text-gray-400 mt-1 text-left">
+          {getFormattedTimeSpan(item.start, item.end)}
+        </p>
+      </div>
+      <div className="col-span-1 sm:col-span-6">
+        <OptionalLink href={item.companyLink}>
+          <h3 className="text-xl font-medium flex items-center">
+            {item.position} @ {item.company}
+            {item.companyLink && <FiExternalLink className="ml-1 mb-0.5 inline-block h-auto w-4" />}
+          </h3>
+        </OptionalLink>
+        <p className="text-gray-400 mb-2 hidden sm:block">
+          {item.subTitle}
+        </p>
+        <p className="text-gray-500 mb-2 sm:hidden">
+          {item.subTitle} — <span className="whitespace-nowrap">{getFormattedTimeSpan(item.start, item.end)}</span>
+        </p>
+        <div className="text-gray-300">{item.description}</div>
+        <ul className="pl-5 my-2 list-disc">
+          {item.tasks.map((task, pos) => <li key={pos} className="text-gray-300">{task}</li>)}
+        </ul>
+        <div className="flex flex-wrap gap-2 mt-3">
+          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="work" skill={skill} />)}
+        </div>
+      </div>
+    </div>
+  );
 }

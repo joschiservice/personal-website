@@ -1,11 +1,10 @@
-import {HomePageHeroSection} from "@/app/sections/HomePageHeroSection";
-import {AboutMeSection} from "@/app/sections/AboutMeSection";
-import {WorkExperienceSection} from "@/app/sections/WorkExperienceSection";
-import {CertificatesSection} from "@/app/sections/CertificatesSection";
-import {ProjectsSection} from "@/app/sections/ProjectsSection";
-import {ToolsSection} from "@/app/sections/ToolsSection";
+import { HomePageHeroSection } from "@/app/sections/HomePageHeroSection";
+import { AboutMeSection } from "@/app/sections/AboutMeSection";
+import { WorkExperienceSection } from "@/app/sections/WorkExperienceSection";
+import { CertificatesSection } from "@/app/sections/CertificatesSection";
+import { ProjectsSection } from "@/app/sections/ProjectsSection";
+import { ToolsSection } from "@/app/sections/ToolsSection";
 import { FlightRadarSection } from "./sections/FlightRadarSection";
-import type { Metadata } from 'next';
 
 export default function Home() {
   return (
@@ -18,10 +17,5 @@ export default function Home() {
       <ToolsSection />
       <FlightRadarSection />
     </div>
-  )
-}
-
-export const metadata: Metadata = {
-  title: 'Joschua Haß',
-  description: 'Full-stack developer with 4+ years of experience',
+  );
 }
