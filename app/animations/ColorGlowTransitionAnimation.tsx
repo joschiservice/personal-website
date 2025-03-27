@@ -8,11 +8,10 @@ interface Props {
   toColor: string;
   toColorGlow: string;
 }
-
 export function ColorGlowTransitionAnimation({children, toColor, fromColor, toColorGlow}: Props) {
   const springs = useSpring({
-    from: { color: fromColor, filter: 'drop-shadow(0 0 0px ' + fromColor + ')' },
-    to: { color: toColor, filter: 'drop-shadow(0 0 6px ' + toColorGlow + ')' },
+    from: { color: fromColor, textShadow: '0 0 0px ' + fromColor },
+    to: { color: toColor, textShadow: '0 0 15px ' + toColorGlow },
     config: {
       easing: easings.easeInOutExpo,
       duration: 1000

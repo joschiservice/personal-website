@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Imprint() {
     return (
-        <div className="container mx-auto max-w-3xl pt-24">
+        <div className="container mx-auto max-w-3xl pt-24 px-4 sm:px-6 md:px-8">
             <h1 className="text-2xl font-bold">Imprint/Legal Disclosure</h1>
             <p className="mt-2">
                 Information in accordance with Section 5 TMG.<br />

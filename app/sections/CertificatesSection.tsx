@@ -1,9 +1,11 @@
 "use client";
 
-import { FiExternalLink } from "react-icons/fi";
-import { OptionalLink } from "@/app/components/OptionalLink";
-import { SkillChip } from "@/app/components/SkillChip";
-import { getFormattedTimeSpan } from "@/app/lib/date";
+import { SectionHeading } from "@/app/components/SectionHeading";
+import { GlassCard } from "../components/cards/GlassCard";
+import { CardSecondaryInfo } from "../components/cards/CardSecondaryInfo";
+import { CardTitle } from "../components/cards/CardTitle";
+import { CardChipsList } from "../components/cards/CardChipsList";
+import { FaCertificate } from "react-icons/fa";
 
 interface Certificate {
   date: Date;
@@ -38,14 +40,18 @@ const CERTIFICATES: Certificate[] = [
 
 export function CertificatesSection() {
   return (
-    <section className="py-16" id="certificates">
-      <div className="container mx-auto max-w-4xl px-4">
-        <h2 className="text-3xl font-medium text-center mb-8">
-          Certificates
-        </h2>
+    <section className="py-16 sm:py-20 md:py-28" id="certificates">
+      <div className="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8">
+        <SectionHeading
+          title="Certificates"
+          icon={FaCertificate}
+          gradient="from-teal-500/40 to-teal-300/40"
+        />
 
-        <div className="grid grid-cols-1 gap-8">
-          {CERTIFICATES.map((certificate, pos) => <CertificateItem key={pos} item={certificate} />)}
+        <div className="grid grid-cols-1 gap-10">
+          {CERTIFICATES.map((certificate, pos) => (
+            <CertificateItem key={pos} item={certificate} />
+          ))}
         </div>
       </div>
     </section>
@@ -54,29 +60,20 @@ export function CertificatesSection() {
 
 function CertificateItem({ item }: { item: Certificate }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-8 gap-4">
-      <div className="hidden sm:block sm:col-span-2">
-        <p className="text-gray-400 mt-1 text-left">
-          {getFormattedTimeSpan(item.date, item.date)}
-        </p>
-      </div>
-      <div className="col-span-1 sm:col-span-6">
-        <OptionalLink href={item.link}>
-          <h3 className="text-xl font-medium flex items-center">
-            {item.name}
-            {item.link && <FiExternalLink className="ml-1 mb-0.5 inline-block h-auto w-4" />}
-          </h3>
-        </OptionalLink>
-        <p className="text-gray-400 mb-2 hidden sm:block">
-          {item.type}
-        </p>
-        <p className="text-gray-500 mb-2 sm:hidden">
-          {item.type} — <span className="whitespace-nowrap">{getFormattedTimeSpan(item.date, item.date)}</span>
-        </p>
-        <div className="flex flex-wrap gap-2 mt-3">
-          {item.skills.map((skill, pos) => <SkillChip key={pos} variant="certificate" skill={skill} />)}
+    <GlassCard accentColor="teal">
+      <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
+        <CardSecondaryInfo
+          start={item.date}
+          end={item.date}
+          subTitle={item.type}
+        />
+
+        <div className="flex-1">
+          <CardTitle title={item.name} link={item.link} color="teal" />
+
+          <CardChipsList items={item.skills} color="teal" className="mt-6" />
         </div>
       </div>
-    </div>
+    </GlassCard>
   );
 }

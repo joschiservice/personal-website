@@ -1,14 +1,17 @@
-import { MdFileDownload } from 'react-icons/md';
+import { MdFileDownload } from "react-icons/md"
+import { GlassButton } from "./GlassButton"
 
 export function DownloadCvButton() {
   return (
-    <a
+    <GlassButton
       href="/docs/Joschua_Hass_CV.pdf"
       target="_blank"
-      className="inline-flex items-center gap-2 px-2.5 py-2 border border-[#90caf9] text-[#90caf9] text-sm font-medium rounded-sm hover:bg-blue-50 transition-colors"
+      ariaLabel="Download CV"
+      icon={<MdFileDownload className="h-5 w-5" />}
+      color="blue"
     >
-      <MdFileDownload className="h-5 w-5" />
-      <span>Download CV</span>
-    </a>
+      Download CV
+    </GlassButton>
   )
 }
+

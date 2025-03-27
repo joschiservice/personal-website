@@ -43,7 +43,7 @@ export function MobileNavbarButton({ isOpen, setIsOpen }: MobileNavBtnProps) {
     return (
         <div className="h-full flex md:hidden items-center">
             <MdMenu
-                className="cursor-pointer h-6 w-6"
+                className="cursor-pointer h-6 w-6 text-white hover:text-[#29b5f6] transition-colors duration-300"
                 onClick={toggleNavbar}
             />
         </div>
@@ -58,13 +58,13 @@ export function MobileNavbar({ items, isOpen, setIsOpen }: Props) {
 
     return (
         <div
-            className={`fixed top-0 left-0 w-full h-screen backdrop-blur-[16px] backdrop-saturate-[180%] bg-[rgba(33,33,33,0.6)] transition-opacity duration-250 ease-in-out p-8 ${
+            className={`fixed top-0 left-0 w-full h-screen backdrop-blur-[12px] backdrop-saturate-[150%] bg-[rgba(20,20,20,0.7)] transition-opacity duration-250 ease-in-out p-8 border-t border-[rgba(255,255,255,0.05)] ${
                 isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
         >
             <div className="flex justify-end">
                 <button
-                    className="bg-transparent border-0 cursor-pointer p-0"
+                    className="bg-transparent border-0 cursor-pointer p-0 text-white hover:text-[#29b5f6] transition-colors duration-300"
                     onClick={toggleNavbar}
                     aria-label="Close menu"
                 >
