@@ -5,8 +5,10 @@ interface SectionHeadingProps {
   className?: string;
   icon: IconType;
   gradient: string;
+  id?: string;
 }
-export function SectionHeading({ title, className = "", icon: Icon, gradient }: SectionHeadingProps) {
+
+export function SectionHeading({ title, className = "", icon: Icon, gradient, id }: SectionHeadingProps) {
   return (
     <div className={`flex flex-col items-center mb-8 sm:mb-10 md:mb-16 ${className}`}>
       <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mb-2 sm:mb-3 md:mb-4">
@@ -15,7 +17,7 @@ export function SectionHeading({ title, className = "", icon: Icon, gradient }: 
           <div className="absolute -inset-1 bg-white/10 rounded-full blur-sm"></div>
           <div className="absolute -inset-0.5 bg-gradient-to-r from-white/20 to-transparent rounded-full blur-md"></div>
         </div>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white/95 tracking-tight bg-clip-text bg-gradient-to-r from-blue-100 to-blue-50 text-center px-2 sm:px-4">
+        <h2 id={id} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white/95 tracking-tight bg-clip-text bg-gradient-to-r from-blue-100 to-blue-50 text-center px-2 sm:px-4">
           {title}
         </h2>
       </div>

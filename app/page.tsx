@@ -4,7 +4,8 @@ import { WorkExperienceSection } from "@/app/sections/WorkExperienceSection";
 import { CertificatesSection } from "@/app/sections/CertificatesSection";
 import { ProjectsSection } from "@/app/sections/ProjectsSection";
 import { ToolsSection } from "@/app/sections/ToolsSection";
-import { FlightRadarSection } from "./sections/FlightRadarSection";
+import { FlightRadarSection } from "@/app/sections/FlightRadarSection";
+import { InterestsSection } from "@/app/sections/InterestsSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <CertificatesSection />
       <ProjectsSection />
       <ToolsSection />
+      <InterestsSection />
       <FlightRadarSection />
     </div>
   );
