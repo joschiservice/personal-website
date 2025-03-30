@@ -10,10 +10,10 @@ import { HeroBackgroundAnimation } from "../animations/HeroBackgroundAnimation";
 
 export function HomePageHeroSection() {
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-screen">
       <HeroBackgroundAnimation>
         <div className="container mx-auto max-w-screen-lg px-4" id="root">
-          <div className="min-h-dvh flex items-center">
+          <div className="min-h-screen flex items-center">
             <div>
               <HeroText>
                 Hi<span className="text-gray-400">,</span><br />I am <ColorGlowTransitionAnimation fromColor="white" toColor="#2196f3" toColorGlow="#1976d2">Joschua Haß</ColorGlowTransitionAnimation>
