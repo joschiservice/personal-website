@@ -9,6 +9,14 @@ interface CardTitleProps {
   children?: ReactNode;
 }
 
+const hoverTextColorByTheme: Record<NonNullable<CardTitleProps["color"]>, string> = {
+  blue: "hover:text-blue-200/90",
+  purple: "hover:text-purple-200/90",
+  emerald: "hover:text-emerald-200/90",
+  amber: "hover:text-amber-200/90",
+  teal: "hover:text-teal-200/90",
+};
+
 export function CardTitle({
   title,
   link,
@@ -19,11 +27,11 @@ export function CardTitle({
     <>
       <OptionalLink
         href={link}
-        className={`text-xl sm:text-2xl font-medium text-white hover:text-${color}-200/90 transition-colors duration-300 flex items-center`}
+        className={`text-xl sm:text-2xl font-medium text-white transition-colors duration-300 flex items-center ${hoverTextColorByTheme[color]}`}
       >
         <span className="flex-1 break-words">{title}</span>
         {link && (
-          <FiExternalLink className={`ml-2 flex-shrink-0 h-4 w-4 sm:h-5 sm:w-5 text-${color}-400/70`} />
+          <FiExternalLink className="ml-2 flex-shrink-0 h-4 w-4 sm:h-5 sm:w-5 opacity-90 transition-colors" />
         )}
       </OptionalLink>
       {children}
