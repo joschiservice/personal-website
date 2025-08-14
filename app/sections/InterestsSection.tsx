@@ -179,6 +179,7 @@ export function InterestsSection() {
           >
             <motion.div
               whileTap={{ x: -5 }}
+              tabIndex={-1}
               transition={TAP_TRANSITION}
             >
               <FaChevronLeft className="text-white text-lg sm:text-xl" aria-hidden="true" />
@@ -197,6 +198,7 @@ export function InterestsSection() {
             <motion.div
               whileTap={{ x: 5 }}
               transition={TAP_TRANSITION}
+              tabIndex={-1}
             >
               <FaChevronRight className="text-white text-lg sm:text-xl" aria-hidden="true" />
             </motion.div>

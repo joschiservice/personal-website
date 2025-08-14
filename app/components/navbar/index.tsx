@@ -49,7 +49,7 @@ export function Navbar() {
   }, [pathname, searchParams]);
 
   return (
-    <div className="fixed flex w-screen z-100">
+    <nav className="fixed flex w-screen z-100" aria-label="Primary">
       <div className="relative min-h-[20px] mx-auto my-4 flex justify-between min-w-[90%] md:min-w-[800px] rounded-[24px] py-[5.6px] px-4 backdrop-blur-[12px] backdrop-saturate-[150%] bg-[rgba(20,20,20,0.7)] border border-[rgba(255,255,255,0.05)] shadow-[0px_0px_15px_0px_rgba(0,0,0,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-[10%] after:right-[10%] after:h-[1px] after:bg-gradient-to-r after:from-transparent after:via-[#29b5f6]/30 after:to-transparent overflow-hidden">
         {/* Scroll indicator */}
         <div
@@ -63,7 +63,7 @@ export function Navbar() {
         <DesktopNavbar />
       </div>
       <MobileNavbar items={ITEMS} isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
-    </div>
+    </nav>
   );
 }
 
@@ -83,6 +83,7 @@ function NavbarTitle({ href, children }: { href: string, children: React.ReactNo
   return (
     <Link
       href={href}
+      aria-label="Home"
       className="text-[22px] font-bold text-white no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]"
     >
       {children}

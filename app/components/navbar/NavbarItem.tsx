@@ -31,15 +31,18 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
   }, [currentPathName, href]);
 
   const linkClasses = "text-white no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]";
-  const scrollLinkClasses = `${linkClasses} cursor-pointer select-none`;
+  const scrollLinkClasses = `${linkClasses} cursor-pointer select-none bg-transparent border-0 inline-flex items-center`;
 
   const innerComp = isMobile ?
     <span className="text-[28px] font-semibold">{title}</span> :
     <span>{title}</span>;
 
+  const isActivePage = href === currentPathName;
+
   return (
     currentLinkType == 1 ? (
-      <span
+      <button
+        type="button"
         onClick={() => {
           scroller.scrollTo(targetElement, {
             smooth: true,
@@ -50,9 +53,9 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
         className={scrollLinkClasses}
       >
         {innerComp}
-      </span>
+      </button>
     ) : (
-      <Link href={href} onClick={onClick} className={linkClasses}>
+      <Link href={href} onClick={onClick} className={linkClasses} aria-current={isActivePage ? 'page' : undefined}>
         {innerComp}
       </Link>
     )

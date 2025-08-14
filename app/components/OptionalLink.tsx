@@ -14,6 +14,7 @@ export function OptionalLink({href, children, className = "text-white no-underli
       <Link
         href={href}
         target="_blank"
+        rel="noreferrer"
         className={className}
       >
         {children}

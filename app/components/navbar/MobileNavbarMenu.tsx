@@ -42,10 +42,16 @@ export function MobileNavbarButton({ isOpen, setIsOpen }: MobileNavBtnProps) {
 
     return (
         <div className="h-full flex md:hidden items-center">
-            <MdMenu
-                className="cursor-pointer h-6 w-6 text-white hover:text-[#29b5f6] transition-colors duration-300"
+            <button
+                type="button"
                 onClick={toggleNavbar}
-            />
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isOpen}
+                aria-controls="mobile-nav"
+                className="bg-transparent border-0 p-1 text-white hover:text-[#29b5f6] transition-colors duration-300"
+            >
+                <MdMenu className="h-6 w-6" aria-hidden="true" />
+            </button>
         </div>
     )
 }
@@ -58,6 +64,10 @@ export function MobileNavbar({ items, isOpen, setIsOpen }: Props) {
 
     return (
         <div
+            id="mobile-nav"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
             className={`fixed top-0 left-0 w-full h-screen backdrop-blur-[12px] backdrop-saturate-[150%] bg-[rgba(20,20,20,0.7)] transition-opacity duration-250 ease-in-out p-8 border-t border-[rgba(255,255,255,0.05)] ${
                 isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}

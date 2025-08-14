@@ -25,8 +25,9 @@ function SocialLink({ href, icon: Icon }: SocialLinkProps) {
         <Link
             href={href}
             target="_blank"
+            rel="noreferrer"
             className="flex text-gray-300 no-underline transition-all duration-300 ease-in-out hover:text-[#29b5f6]"
-            aria-label="Social media link"
+            aria-label={`Open ${href} in a new tab`}
         >
             <Icon className="text-[22px] sm:text-[26px] hover:shadow-[0px_0px_10px_rgba(41,181,246,0.4)] hover:drop-shadow-[0_0_5px_rgba(41,181,246,0.3)]" />
         </Link>

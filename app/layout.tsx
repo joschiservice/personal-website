@@ -20,7 +20,6 @@ export const viewport = {
   themeColor: '#121212',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
 }
 
 export default function RootLayout({
@@ -31,8 +30,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* Skip link for keyboard users */}
+        <a
+          href="#main-content"
+          className="skip-link"
+        >
+          Skip to main content
+        </a>
         <Navbar />
-        {children}
+        <main id="main-content" role="main">
+          {children}
+        </main>
         <Analytics />
       </body>
     </html>

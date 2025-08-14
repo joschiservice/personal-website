@@ -67,6 +67,7 @@ export function GlassButton({
                  before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:${variant.shimmer} before:to-transparent before:opacity-0 before:hover:opacity-100 before:active:opacity-100 before:transition-opacity before:duration-700 before:animate-shimmer
                  touch-manipulation`}
       rel={target === "_blank" ? "noreferrer" : undefined}
+      aria-describedby={target === "_blank" ? `${ariaLabel?.replace(/\s+/g, '-').toLowerCase() || 'link'}-new-tab` : undefined}
       aria-label={ariaLabel}
       onClick={onClick}
       onMouseDown={() => setIsPressed(true)}
@@ -95,8 +96,11 @@ export function GlassButton({
       {/* Subtle pulsing glow */}
       <span className={`absolute inset-0 rounded-xl ${variant.glow} blur-xl animate-pulse opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300`}></span>
 
-      {icon && <span className="relative transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-100">{icon}</span>}
+      {icon && <span className="relative transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-100" aria-hidden="true">{icon}</span>}
       <span className="relative">{children}</span>
+      {target === "_blank" && (
+        <span id={`${ariaLabel?.replace(/\s+/g, '-').toLowerCase() || 'link'}-new-tab`} className="sr-only">(opens in a new tab)</span>
+      )}
     </a>
   )
 }
