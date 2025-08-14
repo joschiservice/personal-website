@@ -3,7 +3,7 @@
 import { SectionHeading } from "@/app/components/SectionHeading";
 import { FaHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Image from "next/image";
-import { motion, type Transition, useDragControls } from "motion/react";
+import { motion, type Transition } from "motion/react";
 import { useState, useCallback, memo } from "react";
 
 /**
@@ -66,7 +66,6 @@ const TAP_TRANSITION: Transition = {
  */
 export function InterestsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const dragControls = useDragControls();
 
   /**
    * Handles pagination through the carousel
@@ -150,17 +149,20 @@ export function InterestsSection() {
                     zIndex: position === 0 ? 2 : 1,
                   }}
                   transition={SPRING_TRANSITION}
-                  drag="x"
-                  dragControls={dragControls}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.2}
-                  onDragEnd={(_, info) => handleDragEnd(info)}
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`${index + 1} of ${INTERESTS.length}`}
                   aria-hidden={position !== 0}
                 >
-                  <InterestCard interest={interest} />
+                  <motion.div
+                    className="h-full w-full"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(_, info) => handleDragEnd(info)}
+                  >
+                    <InterestCard interest={interest} />
+                  </motion.div>
                 </motion.div>
               );
             })}
@@ -168,7 +170,7 @@ export function InterestsSection() {
 
           {/* Navigation controls */}
           <motion.button
-            onClick={() => paginate(-1)}
+            onClick={() => paginate(1)}
             className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 hidden sm:block"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -186,7 +188,7 @@ export function InterestsSection() {
             </motion.div>
           </motion.button>
           <motion.button
-            onClick={() => paginate(1)}
+            onClick={() => paginate(-1)}
             className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 hidden sm:block"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
