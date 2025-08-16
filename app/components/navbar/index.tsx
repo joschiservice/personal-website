@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { NavbarItem } from "@/app/components/navbar/NavbarItem";
 import { MobileNavbar, MobileNavbarButton } from "./MobileNavbarMenu";
 
@@ -18,7 +18,6 @@ export function Navbar() {
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   // Function to calculate scroll progress
   const calculateScrollProgress = () => {
@@ -40,13 +39,19 @@ export function Navbar() {
 
   // Handle hash navigation by recalculating scroll progress after navigation
   useEffect(() => {
-    // Wait a small moment for the browser to complete the scroll to the hash target
-    const timeoutId = setTimeout(() => {
-      calculateScrollProgress();
-    }, 100);
+    const handleHashChange = () => {
+      setTimeout(() => {
+        calculateScrollProgress();
+      }, 100);
+    };
 
-    return () => clearTimeout(timeoutId);
-  }, [pathname, searchParams]);
+    window.addEventListener('hashchange', handleHashChange);
+    // Recalculate after pathname changes as well (non-hash navigation)
+    handleHashChange();
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [pathname]);
 
   return (
     <nav className="fixed flex w-screen z-100" aria-label="Primary">
