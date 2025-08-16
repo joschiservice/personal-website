@@ -1,6 +1,6 @@
 "use client"
 
-import {motion} from 'framer-motion'
+import React from 'react'
 
 interface Props {
   children: any;
@@ -10,12 +10,15 @@ interface Props {
 }
 export function ColorGlowTransitionAnimation({children, toColor, fromColor, toColorGlow}: Props) {
   return (
-    <motion.span
-      initial={{ color: fromColor, textShadow: `0 0 0px ${fromColor}` }}
-      animate={{ color: toColor, textShadow: `0 0 15px ${toColorGlow}` }}
-      transition={{ duration: 1, ease: [0.87, 0, 0.13, 1] }}
+    <span
+      className="glow-transition"
+      style={{
+        ['--from-color' as any]: fromColor,
+        ['--to-color' as any]: toColor,
+        ['--to-color-glow' as any]: toColorGlow,
+      } as React.CSSProperties}
     >
       {children}
-    </motion.span>
+    </span>
   )
 }
