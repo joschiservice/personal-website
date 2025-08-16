@@ -1,5 +1,4 @@
 "use client";
-
 import { SectionHeading } from "@/app/components/SectionHeading";
 import { GlassCard } from "../components/cards/GlassCard";
 import { CardSecondaryInfo } from "../components/cards/CardSecondaryInfo";
@@ -8,6 +7,8 @@ import { CardBodyText } from "../components/cards/CardBodyText";
 import { CardList } from "../components/cards/CardList";
 import { CardChipsList } from "../components/cards/CardChipsList";
 import { FaBriefcase } from "react-icons/fa";
+
+import type { JSX } from "react";
 
 interface WorkExperience {
   start: Date;

@@ -6,7 +6,7 @@ This repository contains the source code for my personal website built with Next
 - **Framework**: Next.js 14, React 18 (App Router under `app/`)
 - **Styling**: Tailwind CSS v4 (see `app/globals.css`)
 - **TypeScript**: Strict typing via `tsconfig.json`
-- **Animations**: Framer Motion / `motion`, `@react-spring/web`
+- **Animations**: Framer Motion / `motion`
 - **Utilities**: `dayjs`, `react-scroll`, `react-icons`
 - **Analytics**: `@vercel/analytics`
 
