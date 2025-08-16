@@ -1,34 +1,66 @@
-## Getting Started
+## Personal Website (Next.js 14)
 
-First, run the development server:
+This repository contains the source code for my personal website built with Next.js 14 (App Router), TypeScript, and Tailwind CSS v4. It showcases my profile, projects, work experience, tools, and interests with subtle animations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Tech stack
+- **Framework**: Next.js 14, React 18 (App Router under `app/`)
+- **Styling**: Tailwind CSS v4 (see `app/globals.css`), custom theme in `theme.js`
+- **TypeScript**: Strict typing via `tsconfig.json`
+- **Animations**: Framer Motion / `motion`, `@react-spring/web`
+- **Utilities**: `dayjs`, `react-scroll`, `react-icons`
+- **Analytics**: `@vercel/analytics`
+
+### Project structure (high level)
+```text
+app/
+  animations/               # Reusable animation components
+  components/               # UI components (buttons, cards, navbar, etc.)
+  sections/                 # Page sections (Hero, About, Projects, Tools, etc.)
+  app/page.tsx              # Home page
+  app/layout.tsx            # Root layout
+  app/globals.css           # Global styles (Tailwind v4)
+public/
+  docs/                     # Public documents (e.g., CV PDF)
+  img/                      # Various Images
+helpers/                    # Helper utilities
+theme.js                    # Theming tokens/config
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Getting started
+Prerequisites:
+- Node.js 18+ (recommended)
+- Yarn 1.x (project uses `yarn` as the package manager)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Install dependencies:
+```bash
+yarn
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Run the development server:
+```bash
+yarn dev
+```
+Open `http://localhost:3000`.
 
-## Learn More
+Build for production:
+```bash
+yarn build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the production server:
+```bash
+yarn start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Lint:
+```bash
+yarn lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Deployment
+The project is optimized for deployment on Vercel.
+- Push to the default branch and connect the repo on Vercel
+- Environment variables are not required for a basic deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### License
+All rights reserved. Feel free to reference the structure or ideas, but please do not reuse the content and branding as-is.
