@@ -4,7 +4,7 @@ import { GlassButton } from "./GlassButton"
 export function DownloadCvButton() {
   return (
     <GlassButton
-      href="/docs/Joschua_Hass_CV.pdf"
+      href="/cv"
       target="_blank"
       ariaLabel="Download CV"
       icon={<MdFileDownload className="h-5 w-5" />}
