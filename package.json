@@ -10,30 +10,30 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fontsource/roboto": "^5.0.8",
-    "@sentry/nextjs": "^10.5.0",
+    "@fontsource/roboto": "^5.2.8",
+    "@sentry/nextjs": "^10.15.0",
     "@vercel/analytics": "^1.5.0",
-    "@vercel/blob": "^1.1.1",
-    "dayjs": "^1.11.10",
-    "framer-motion": "^12.6.0",
-    "motion": "^12.6.2",
-    "next": "15.4.6",
+    "@vercel/blob": "^2.0.0",
+    "dayjs": "^1.11.18",
+    "framer-motion": "^12.23.22",
+    "motion": "^12.23.22",
+    "next": "15.5.4",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-icons": "^5.5.0",
-    "react-scroll": "^1.9.0"
+    "react-scroll": "^1.9.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.16",
-    "@types/node": "^20",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^20.19.17",
     "@types/react": "19.1.10",
     "@types/react-dom": "19.1.7",
     "@types/react-scroll": "^1.8.10",
-    "eslint": "^9.33.0",
-    "eslint-config-next": "15.4.6",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.0.16",
-    "typescript": "^5"
+    "eslint": "^9.36.0",
+    "eslint-config-next": "15.5.4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2"
   },
   "pnpm": {
     "overrides": {
@@ -41,5 +41,5 @@
       "@types/react-dom": "19.1.7"
     }
   },
-  "packageManager": "pnpm@10.15.0+sha512.486ebc259d3e999a4e8691ce03b5cac4a71cbeca39372a9b762cb500cfdf0873e2cb16abe3d951b1ee2cf012503f027b98b6584e4df22524e0c7450d9ec7aa7b"
+  "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
 }
