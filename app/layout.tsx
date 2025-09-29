@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { Navbar } from "./components/navbar";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
         <main id="main-content" role="main">
           {children}
         </main>
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
