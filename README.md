@@ -1,10 +1,10 @@
-## Personal Website (Next.js 14)
+## Personal Website (Next.js)
 
-This repository contains the source code for my personal website built with Next.js 14 (App Router), TypeScript, and Tailwind CSS v4. It showcases my profile, projects, work experience, tools, and interests with subtle animations.
+This repository contains the source code for my personal website built with Next.js (App Router), TypeScript, and Tailwind CSS. It showcases my profile, projects, work experience, tools, and interests with subtle animations.
 
 ### Tech stack
-- **Framework**: Next.js 14, React 18 (App Router under `app/`)
-- **Styling**: Tailwind CSS v4 (see `app/globals.css`)
+- **Framework**: Next.js, React (App Router under `app/`)
+- **Styling**: Tailwind CSS (see `app/globals.css`)
 - **TypeScript**: Strict typing via `tsconfig.json`
 - **Animations**: Framer Motion / `motion`
 - **Utilities**: `dayjs`, `react-scroll`, `react-icons`
@@ -28,32 +28,31 @@ helpers/                    # Helper utilities
 ### Getting started
 Prerequisites:
 - Node.js 18+ (recommended)
-- Yarn 1.x (project uses `yarn` as the package manager)
 
 Install dependencies:
 ```bash
-yarn
+pnpm install
 ```
 
 Run the development server:
 ```bash
-yarn dev
+pnpm dev
 ```
 Open `http://localhost:3000`.
 
 Build for production:
 ```bash
-yarn build
+pnpm build
 ```
 
 Start the production server:
 ```bash
-yarn start
+pnpm start
 ```
 
 Lint:
 ```bash
-yarn lint
+pnpm lint
 ```
 
 ### Deployment
