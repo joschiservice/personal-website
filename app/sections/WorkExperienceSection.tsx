@@ -25,6 +25,7 @@ interface WorkExperience {
 const WORK_EXPERIENCE_DATA: WorkExperience[] = [
   {
     start: new Date(2024, 1, 0),
+    end: new Date(2026, 1, 0),
     position: "Lead Full-Stack Engineer",
     subTitle: "Full-Time",
     description: (
