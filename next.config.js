@@ -1,26 +1,24 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    reactStrictMode: false, // Fix for react-spring not working properly
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'banners-my.flightradar24.com',
-                pathname: '/joschi_service.png'
-            }
-        ]
-    }
-}
-
-module.exports = nextConfig
-
-
-// Injected content via Sentry wizard below
-
 const { withSentryConfig } = require("@sentry/nextjs");
 
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: false, // Fix for react-spring not working properly
+  turbopack: {
+    root: __dirname,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "banners-my.flightradar24.com",
+        pathname: "/joschi_service.png",
+      },
+    ],
+  },
+};
+
 module.exports = withSentryConfig(
-  module.exports,
+  nextConfig,
   {
     // For all available options, see:
     // https://www.npmjs.com/package/@sentry/webpack-plugin#options
@@ -55,5 +53,5 @@ module.exports = withSentryConfig(
       // https://vercel.com/docs/cron-jobs
       automaticVercelMonitors: true,
     }
-  }
+  },
 );
