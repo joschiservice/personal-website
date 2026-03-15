@@ -271,6 +271,26 @@ export function HeroBackgroundAnimation({ children }: Props) {
     []
   );
 
+  const lightRaysStyle = useMemo(
+    () => ({
+      position: "absolute" as const,
+      top: "0%",
+      left: "50%",
+      width: "240vmax",
+      height: "240vmax",
+      opacity: 0.15,
+      filter: "blur(1px)",
+      translateX: "-50%",
+      translateY: "-50%",
+      willChange: "transform",
+      WebkitMaskImage:
+        "radial-gradient(circle at center, black 0%, black 52%, transparent 82%)",
+      maskImage:
+        "radial-gradient(circle at center, black 0%, black 52%, transparent 82%)",
+    }),
+    []
+  );
+
   return (
     <div className="relative w-full h-full overflow-hidden">
       {/* Base gradient background */}
@@ -279,17 +299,9 @@ export function HeroBackgroundAnimation({ children }: Props) {
       {/* Rotating light rays effect */}
       <motion.div
         style={{
-          position: "absolute",
-          top: "0%",
-          left: "50%",
-          width: "200%",
-          height: "200%",
-          opacity: 0.15,
           background: lightRaysBackground,
           rotate: rotation,
-          translateX: "-50%",
-          translateY: "-50%",
-          willChange: "transform",
+          ...lightRaysStyle,
         }}
         className="-z-25"
       />
