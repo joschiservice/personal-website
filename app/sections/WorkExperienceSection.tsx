@@ -24,27 +24,28 @@ interface WorkExperience {
 
 const WORK_EXPERIENCE_DATA: WorkExperience[] = [
   {
-    start: new Date(2024, 1, 0),
-    end: new Date(2026, 1, 0),
-    position: "Lead Full-Stack Engineer",
+    start: new Date(2024, 2, 1),
+    end: new Date(2026, 1, 9),
+    position: "Sole Full-Stack Engineer, E-Commerce & Operations",
     subTitle: "Full-Time",
     description: (
       <>
-        In my full-time role, I am responsible for leading and delivering
-        high-impact projects, developing scalable applications, optimizing
-        workflows, and leveraging emerging technologies to drive business
-        success.
+        As Elektrohub&apos;s sole engineer, I owned development of a
+        business-critical e-commerce and operations platform spanning order,
+        catalog, customer, and internal workflow systems. The role combined
+        product delivery, modernization, integrations, and production ownership.
       </>
     ),
     tasks: [
-      "Led development of a mission-critical internal web app, ensuring scalability, security, and reliability",
-      "Built and maintained a customer-facing website to streamline car accessory purchases, boosting engagement and sales",
-      "Developing a modular e-commerce management platform, empowering businesses to manage catalogs, orders, and interactions efficiently",
-      "Launched a generative AI tool on the Shopify App Store, helping merchants in creating blog content and enhance digital marketing",
-      "Integrated data systems via REST APIs and FTP services, improving interoperability and data-driven decision-making",
-      "Enhanced front-end and back-end features across multiple frameworks, optimizing performance and user experience",
-      "Refactored legacy codebases for better maintainability, performance, and scalability",
-      "Optimized CI/CD pipelines, accelerating release cycles and improving deployment efficiency",
+      "Modernized major platform areas from Laravel and PHP to NestJS and TypeScript, creating a more maintainable and scalable foundation for future work",
+      "Built and maintained five external integrations, primarily REST-based, including Shopify GraphQL and Hydrogen flows plus FTP-based order exchange with Galaxus",
+      "Reworked the internal B2B platform used by around 20 users into a significantly faster and more responsive React experience",
+      "Improved critical query performance from 10+ minutes to seconds, often reducing execution times by roughly 80%",
+      "Supported reliable processing of 10,000+ orders through platform improvements, analytics dashboards, automated testing, and operational ownership",
+      "Built and maintained customer-facing commerce experiences and a modular internal platform for catalogs, orders, and customer workflows",
+      "Shipped adjacent external work using Symfony PHP and Vue.js while continuing to improve legacy and modern codebases in parallel",
+      "Owned production infrastructure across Docker, CI/CD, DigitalOcean, Vercel, Sentry, backups, and release processes",
+      "Launched a generative AI Shopify app to help merchants create blog content and strengthen digital marketing workflows",
     ],
     skills: [
       "React (Next.js)",
@@ -60,29 +61,40 @@ const WORK_EXPERIENCE_DATA: WorkExperience[] = [
     company: "Elektrohub",
   },
   {
-    start: new Date(2022, 4),
-    end: new Date(2024, 0),
-    position: "Application Developer",
+    start: new Date(2021, 7, 1),
+    end: new Date(2024, 0, 1),
+    position: "Software Development Apprentice",
     subTitle: "Apprenticeship",
     description: (
-      <>During my apprenticeship, I undertook the following responsibilities:</>
+      <>
+        I took on real software engineering responsibility early and contributed
+        well beyond a typical apprenticeship scope, working on production desktop
+        software used by customers.
+      </>
     ),
     tasks: [
-      "Creation of several desktop applications (text editor with IntelliSense features, calculator, demo app of a web content renderer with additional optimizations)",
-      "Complete revision of the user interface and logic of certain program areas",
-      "Performance optimization for database queries",
-      "Maintenance of the software",
+      "Improved core UI and application logic in a C# .NET WPF software system through larger refactors and feature delivery",
+      "Optimized database queries, investigated production issues, tested changes thoroughly, and shipped new functionality used by customers",
+      "Added new product capabilities, including a medical data module and an IntelliSense-related feature",
+      "Built supporting desktop applications and prototypes, including a text editor with IntelliSense features, a calculator, and a demo web content renderer with additional optimizations",
+      "Maintained and evolved existing software while learning how to deliver changes safely in a production environment",
     ],
     skills: ["C#", "WPF", ".NET"],
     companyLink: "https://www.nistech.de",
     company: "Nistech",
   },
   {
-    start: new Date(2019, 2),
-    end: new Date(2019, 2),
+    start: new Date(2019, 2, 1),
+    end: new Date(2019, 2, 1),
     position: "Embedded Software Developer",
     subTitle: "Internship",
-    description: <>During my internship, I focused on the following:</>,
+    description: (
+      <>
+        During my internship, I worked close to hardware and real-time data
+        handling, which gave me an early foundation in reliability-focused
+        software development.
+      </>
+    ),
     tasks: [
       "Development of microcontroller software",
       "Reading & processing real-time sensor data",

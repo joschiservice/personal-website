@@ -14,28 +14,38 @@ interface Project {
   start: Date;
   end?: Date;
   skills: string[];
-  link: string;
+  link?: string;
   description: string;
 }
 
 const PROJECTS: Project[] = [
   {
+    title: "ShiftIQ - Intelligent Shift Management Platform",
+    type: "Product Engineering",
+    start: new Date(2026, 1, 1),
+    skills: ["Next.js", "NestJS", "TypeScript", "Python", "OR-Tools"],
+    description:
+      "I am building ShiftIQ as an intelligent shift management platform that combines a recruiter- and operator-friendly product experience with deeper scheduling logic in the backend. The platform uses NestJS and Next.js for the core application and Python with OR-Tools for automated planning and coordination workflows.",
+  },
+  {
     title: "Sparky - Cloud Vehicle Management Platform for Kia & Hyundai EVs",
-    type: "Software Development",
+    type: "Product Development",
     start: new Date(2022, 10),
+    end: new Date(2025, 4),
     skills: ["SwiftUI", "XCode", "Next.js", "Vercel"],
     link: "https://www.nextgendrive.net/products/sparky",
     description:
-      "I, as a Kia e-Soul owner, found myself frustrated with the limited features in the official KiaConnect app. So I decided to start making my own native iOS app with various enhancements like support for the Siri voice assistant, home screen widgets, live activities, dark mode, enhanced drive data and support for more than 2 climate control schedules. The API was built using Next.js and was deployed on Vercel. The native iOS app was built using SwiftUI.",
+      "As a Kia e-Soul owner, I wanted a better connected-car experience than the official Kia Connect app offered, so I built my own product. Sparky adds capabilities such as Siri support, widgets, Live Activities, richer drive data, dark mode, and more flexible climate scheduling. The backend API runs on Next.js and Vercel, while the native iOS app is built with SwiftUI.",
   },
   {
     title: "NG001 - My improved Kia e-Soul",
-    type: "Software & Hardware Development",
+    type: "Software & Hardware Engineering",
     start: new Date(2023, 7),
+    end: new Date(2025, 4),
     skills: ["Arduino", "C++", "CAD", "Electronics"],
     link: "https://www.nextgendrive.net/products/ng-one",
     description:
-      "Besides building a new mobile companion app for my car, I started enhancing the overall in-car experience by installing a completely custom ambient lighting system with a seamless & smart integration. The ambient light system should be visible at sunny days, but shouldn't distract the driver at nights and in dark tunnels, therefore I integrated a Arduino microcontroller to adjust the lights based on the data from the vehicle.",
+      "Alongside the mobile companion app, I started improving the in-car experience itself through a fully custom ambient lighting system with smart integration into the vehicle. To keep the system visible in daylight without becoming distracting at night or in tunnels, I used an Arduino-based controller that adapts the lighting behavior based on vehicle data.",
   },
   {
     title: "ArcticWolf - Reviving old Fortnite builds & live-data logging",
@@ -45,7 +55,7 @@ const PROJECTS: Project[] = [
     skills: ["C++", "UnrealEngine", "C#"],
     link: "https://github.com/joschiservice/ArcticWolf",
     description:
-      "When I was still an active Fortnite player, I wanted to dive into old versions/chapters of the game again. At that time, it was impossible, because that was not intended by the game developer. Therefore, I took an already existing mod and modified it to make it work for a specific build of the game and built a logger for live data about in-game events to detect interesting changes.",
+      "I adapted an existing mod to revive a specific older Fortnite build and extended it with live event logging to surface interesting in-game changes. It was a strong exercise in working with unfamiliar constraints, reverse-engineering behavior, and building useful tooling around an existing codebase.",
   },
 ];
 

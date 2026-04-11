@@ -18,33 +18,31 @@ export function AboutMeSection() {
 
         <div className="space-y-4">
           <SectionBodyText>
-            Back in the days when I was 15 years old and still went to school, I
-            was already very passionate about software engineering. As one of my
-            favorite tools for collaborating with others in virtual trucking
-            companies for the game &apos;Euro Truck Simulator 2&apos; decided to
-            shut down its operations, I decided to build a replacement
-            application for everyone who still wants to continue using such a
-            tool.
+            I started building software seriously as a teenager after one of my
+            favorite collaboration tools for virtual trucking companies in Euro
+            Truck Simulator 2 shut down. Instead of accepting that gap, I built a
+            replacement for the community and got pulled deeper into product
+            thinking, user needs, and shipping software people actually rely on.
           </SectionBodyText>
           <SectionBodyText>
-            Currently, I am primarily working on full-stack web, iOS and C# WPF
-            applications. In my free time, I sometimes work on small casual
-            projects, but primarily on{" "}
-            <TextLink
-              href="https://www.nextgendrive.net/products/sparky"
-              text="Sparky"
-            />
-            , a companion mobile app for Kia & Hyundai drivers.
+            Since then, I have grown into an engineer who is comfortable owning
+            the full stack: frontend experience, backend services, integrations,
+            performance bottlenecks, deployment pipelines, and day-to-day
+            production responsibility. My recent work has centered on e-commerce,
+            internal operations software, and modernizing legacy systems without
+            interrupting business-critical workflows.
           </SectionBodyText>
           <SectionBodyText>
-            When I&apos;m not at the computer, I&apos;m usually traveling
-            around, working on my own electric vehicle (a{" "}
-            <TextLink
-              text="Kia e-Soul SK3"
-              href="https://www.nextgendrive.net/products/ng-one"
-            />
-            ), hanging out with friends, doing photography or playing around in
-            virtual reality.
+            Outside of work, I still enjoy building smaller software experiments
+            across web, backend, mobile, and desktop when a problem feels worth
+            solving. I am especially interested in products that combine strong
+            usability with deeper technical complexity behind the scenes.
+          </SectionBodyText>
+          <SectionBodyText>
+            When I&apos;m not at the computer, I&apos;m usually traveling,
+            spending time with friends, doing photography, or flying in
+            Microsoft Flight Simulator. Aviation and travel are a big part of
+            what keeps me curious and energized outside of engineering.
           </SectionBodyText>
         </div>
       </div>

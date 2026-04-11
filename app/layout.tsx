@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: 'Joschua Haß',
-  description: 'Full-stack developer with 4+ years of experience',
+  description: 'Full-stack engineer building operations and product systems across React, Next.js, NestJS, TypeScript, and .NET.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',

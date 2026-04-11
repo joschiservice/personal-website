@@ -18,8 +18,11 @@ export function HomePageHeroSection() {
               <HeroText>
                 Hi<span className="text-gray-400">,</span><br />I am <ColorGlowTransitionAnimation fromColor="white" toColor="#2196f3" toColorGlow="#1976d2">Joschua Haß</ColorGlowTransitionAnimation>
               </HeroText>
-              <p className="max-w-lg mb-8 sm:mb-4 text-gray-300 text-sm sm:text-md leading-relaxed">
-                Full-stack developer specializing in the development of web and desktop applications with 5 years of experience (4 years in a professional setting).
+              <p className="max-w-2xl mb-5 text-gray-200 text-sm sm:text-base leading-relaxed">
+                Full-stack engineer focused on operations and product
+                systems. I build reliable applications end to end across React,
+                Next.js, NestJS, TypeScript, and .NET, with hands-on ownership of
+                architecture, integrations, performance, and production delivery.
               </p>
               <div className="flex flex-row gap-4 mb-8">
                 <ContactButton />
