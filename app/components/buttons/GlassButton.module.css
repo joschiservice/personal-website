@@ -1,0 +1,185 @@
+.root {
+  --button-border: rgba(147, 197, 253, 0.3);
+  --button-border-hover: rgba(191, 219, 254, 0.46);
+  --button-text: rgb(147, 197, 253);
+  --button-text-hover: rgb(219, 234, 254);
+  --button-surface-start: rgba(255, 255, 255, 0.14);
+  --button-surface-mid: rgba(96, 165, 250, 0.12);
+  --button-surface-end: rgba(37, 99, 235, 0.16);
+  --button-topline: rgba(255, 255, 255, 0.34);
+  --button-reflection-primary: rgba(255, 255, 255, 0.12);
+  --button-reflection-secondary: rgba(191, 219, 254, 0.1);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--button-border);
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--button-text);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  isolation: isolate;
+  touch-action: manipulation;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, var(--button-surface-start), var(--button-surface-mid) 52%, var(--button-surface-end));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 8px 24px rgba(0, 0, 0, 0.14);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease,
+    color 220ms ease;
+}
+
+.root::before,
+.root::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.root::before {
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.12) 42%, transparent 62%),
+    radial-gradient(120% 140% at 0% 0%, rgba(255, 255, 255, 0.12), transparent 44%);
+  opacity: 0.72;
+}
+
+.root::after {
+  inset: auto 0 0;
+  height: 58%;
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+  background: linear-gradient(180deg, transparent, rgba(3, 7, 18, 0.2));
+  opacity: 0.55;
+}
+
+.blue {
+  --button-border: rgba(147, 197, 253, 0.24);
+  --button-border-hover: rgba(219, 234, 254, 0.62);
+  --button-text: rgb(96, 165, 250);
+  --button-text-hover: rgb(239, 246, 255);
+  --button-surface-start: rgba(255, 255, 255, 0.09);
+  --button-surface-mid: rgba(96, 165, 250, 0.08);
+  --button-surface-end: rgba(37, 99, 235, 0.12);
+  --button-topline: rgba(255, 255, 255, 0.34);
+  --button-reflection-primary: rgba(255, 255, 255, 0.12);
+  --button-reflection-secondary: rgba(191, 219, 254, 0.1);
+}
+
+.white {
+  --button-border: rgba(255, 255, 255, 0.2);
+  --button-border-hover: rgba(255, 255, 255, 0.3);
+  --button-text: rgb(255, 255, 255);
+  --button-text-hover: rgb(239, 246, 255);
+  --button-surface-start: rgba(255, 255, 255, 0.16);
+  --button-surface-mid: rgba(125, 211, 252, 0.12);
+  --button-surface-end: rgba(59, 130, 246, 0.2);
+  --button-topline: rgba(255, 255, 255, 0.38);
+  --button-reflection-primary: rgba(255, 255, 255, 0.16);
+  --button-reflection-secondary: rgba(191, 219, 254, 0.12);
+}
+
+.root:hover {
+  transform: translate3d(0, -1px, 0);
+  border-color: var(--button-border-hover);
+  color: var(--button-text-hover);
+}
+
+.root:active {
+  transform: translate3d(0, 0, 0) scale(0.985);
+}
+
+.root:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 8px 24px rgba(0, 0, 0, 0.14),
+    0 0 0 2px color-mix(in srgb, var(--button-border-hover) 78%, transparent);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.root:hover .icon {
+  transform: translate3d(0, 0, 0) scale(1.04);
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+}
+
+.topline {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--button-topline);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.reflectionPrimary,
+.reflectionSecondary {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 999px;
+}
+
+.reflectionPrimary {
+  top: -12%;
+  left: 0.8rem;
+  width: 34%;
+  height: 58%;
+  background: var(--button-reflection-primary);
+  filter: blur(22px);
+}
+
+.reflectionSecondary {
+  right: 0.7rem;
+  bottom: -0.8rem;
+  width: 4rem;
+  height: 2.4rem;
+  background: var(--button-reflection-secondary);
+  filter: blur(18px);
+}
+
+@media (min-width: 640px) {
+  .root {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .icon {
+    transition: none;
+  }
+}
