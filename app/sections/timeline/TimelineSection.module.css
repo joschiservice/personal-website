@@ -4,6 +4,7 @@
   --timeline-highlight: rgba(103, 232, 249, 0.45);
   --rail-inset: clamp(1.5rem, 4vw, 4rem);
   --rail-gap: clamp(1.5rem, 2vw, 2rem);
+
   position: relative;
   padding: 1.25rem var(--rail-inset) 1rem;
   overflow: visible;

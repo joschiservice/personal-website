@@ -5,10 +5,10 @@ import { FaChevronDown } from "react-icons/fa";
 import styles from "./TimelineSection.module.css";
 
 export function ExperienceDetails({ tasks }: { tasks?: string[] }) {
-  if (!tasks?.length) return null;
-
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
+
+  if (!tasks?.length) return null;
 
   // Native <details> closes immediately when `open` is removed, which prevents
   // the panel collapse transition from playing consistently across browsers.

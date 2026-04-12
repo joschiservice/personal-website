@@ -99,6 +99,35 @@ export function TimelineDesktopRail() {
       <div className={styles.edgeFadeLeft} aria-hidden="true" />
       <div className={styles.edgeFadeRight} aria-hidden="true" />
 
+      <div className={styles.desktopStopControls}>
+        <div
+          className={`${styles.progressBadge} min-w-[92px] justify-center`}
+          aria-live="polite"
+        >
+          {activeLabel}
+        </div>
+        <button
+          type="button"
+          className={styles.navButton}
+          onClick={() => scrollToIndex(Math.max(activeIndex - 1, 0))}
+          disabled={activeIndex === 0}
+          aria-label="Show newer career stop"
+        >
+          <FaChevronLeft aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className={styles.navButton}
+          onClick={() =>
+            scrollToIndex(Math.min(activeIndex + 1, EXPERIENCE_STOPS.length - 1))
+          }
+          disabled={activeIndex === EXPERIENCE_STOPS.length - 1}
+          aria-label="Show older career stop"
+        >
+          <FaChevronRight aria-hidden="true" />
+        </button>
+      </div>
+
       <div ref={railRef} className={styles.desktopRail}>
         {EXPERIENCE_STOPS.map(({ experience, attachedMilestones }, index) => (
           <div
@@ -119,35 +148,6 @@ export function TimelineDesktopRail() {
                     {getFormattedTimeSpan(experience.start, experience.end)}
                   </p>
                 </div>
-              </div>
-
-              <div className={styles.desktopStopControls}>
-                <div
-                  className={`${styles.progressBadge} min-w-[92px] justify-center`}
-                  aria-live="polite"
-                >
-                  {activeLabel}
-                </div>
-                <button
-                  type="button"
-                  className={styles.navButton}
-                  onClick={() => scrollToIndex(Math.max(activeIndex - 1, 0))}
-                  disabled={activeIndex === 0}
-                  aria-label="Show newer career stop"
-                >
-                  <FaChevronLeft aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className={styles.navButton}
-                  onClick={() =>
-                    scrollToIndex(Math.min(activeIndex + 1, EXPERIENCE_STOPS.length - 1))
-                  }
-                  disabled={activeIndex === EXPERIENCE_STOPS.length - 1}
-                  aria-label="Show older career stop"
-                >
-                  <FaChevronRight aria-hidden="true" />
-                </button>
               </div>
             </div>
 
