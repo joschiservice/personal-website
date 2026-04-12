@@ -170,7 +170,7 @@ export function InterestsSection() {
 
           {/* Navigation controls */}
           <motion.button
-            onClick={() => paginate(1)}
+            onClick={() => paginate(-1)}
             className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 hidden sm:block"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -188,7 +188,7 @@ export function InterestsSection() {
             </motion.div>
           </motion.button>
           <motion.button
-            onClick={() => paginate(-1)}
+            onClick={() => paginate(1)}
             className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 hidden sm:block"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
