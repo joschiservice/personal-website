@@ -9,8 +9,7 @@ import { MobileNavbar, MobileNavbarButton } from "./MobileNavbarMenu";
 const ITEMS = [
   { title: 'Home', href: '/' },
   { title: 'About', href: '/#about-me' },
-  { title: 'Experience', href: '/#experience' },
-  { title: 'Projects', href: '/#projects' },
+  { title: 'Timeline', href: '/#experience' },
   { title: 'Imprint', href: '/imprint' }
 ];
 

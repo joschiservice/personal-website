@@ -1,0 +1,546 @@
+.desktopViewport {
+  --timeline-surface: rgba(6, 17, 31, 0.9);
+  --timeline-border: rgba(157, 218, 255, 0.18);
+  --timeline-highlight: rgba(103, 232, 249, 0.45);
+  --rail-inset: clamp(1.5rem, 4vw, 4rem);
+  --rail-gap: clamp(1.5rem, 2vw, 2rem);
+
+  position: relative;
+  padding: 1.25rem var(--rail-inset) 1rem;
+  overflow: visible;
+}
+
+.desktopRail {
+  position: relative;
+  display: flex;
+  gap: var(--rail-gap);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding: 2rem 0 1rem;
+  scrollbar-width: none;
+  scroll-padding-inline: 0;
+}
+
+.desktopRail::-webkit-scrollbar {
+  display: none;
+}
+
+.desktopStop {
+  position: relative;
+  flex: 0 0 100%;
+  max-width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.routeLine {
+  position: absolute;
+  left: 0;
+  right: calc(var(--rail-gap) * -1);
+  top: 3.25rem;
+  height: 1px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.desktopStop:last-child .routeLine {
+  right: 0;
+}
+
+.desktopStopHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.desktopStopMeta,
+.desktopStopControls {
+  display: flex;
+  align-items: center;
+}
+
+.desktopStopMeta {
+  gap: 1rem;
+  min-width: 0;
+  padding-left: .4rem;
+}
+
+.desktopStopControls {
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.markerShell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at center, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.05) 60%, transparent 75%),
+    rgba(11, 26, 43, 0.95);
+  border: 1px solid rgba(103, 232, 249, 0.35);
+  box-shadow:
+    0 0 0 6px rgba(34, 211, 238, 0.06),
+    0 18px 30px rgba(0, 0, 0, 0.3);
+}
+
+.markerCore {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(207, 250, 254, 0.95), rgba(34, 211, 238, 0.9));
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.55);
+}
+
+.routeLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(186, 230, 253, 0.72);
+}
+
+.routeMeta {
+  font-size: 0.86rem;
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.primaryCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  border: 1px solid var(--timeline-border);
+  background:
+    linear-gradient(180deg, rgba(13, 24, 39, 0.96), rgba(7, 15, 28, 0.94)),
+    linear-gradient(135deg, rgba(34, 211, 238, 0.1), transparent 45%);
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 1.75rem;
+  transition: border-color 240ms ease;
+}
+
+.desktopStop:first-child .primaryCard {
+  border-color: rgba(103, 232, 249, 0.32);
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(34, 211, 238, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.primaryCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 32%),
+    linear-gradient(130deg, rgba(148, 163, 184, 0.04), transparent 44%);
+  opacity: 0.9;
+  pointer-events: none;
+  transform: scale(1);
+  transform-origin: top right;
+  will-change: transform, opacity;
+  transition:
+    opacity 240ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@supports selector(.primaryCard:has(.detailsDisclosure[data-open="true"])) {
+  .primaryCard:has(.detailsDisclosure[data-open="true"]) {
+    border-color: rgba(103, 232, 249, 0.28);
+  }
+
+  .primaryCard:has(.detailsDisclosure[data-open="true"])::before {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.cardTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.primaryBadge,
+.secondaryBadge,
+.subTitleBadge,
+.progressBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.primaryBadge {
+  padding: 0.38rem 0.72rem;
+  color: rgba(207, 250, 254, 0.9);
+  background: rgba(14, 116, 144, 0.22);
+}
+
+.secondaryBadge {
+  padding: 0.3rem 0.62rem;
+  color: rgba(226, 232, 240, 0.88);
+  background: rgba(30, 41, 59, 0.55);
+}
+
+.subTitleBadge {
+  padding: 0.38rem 0.72rem;
+  color: rgba(226, 232, 240, 0.74);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.progressBadge {
+  padding: 0.58rem 0.9rem;
+  color: rgba(224, 242, 254, 0.88);
+  background: rgba(14, 26, 43, 0.92);
+  border-color: rgba(125, 211, 252, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  background: rgba(10, 20, 34, 0.92);
+  color: rgba(224, 242, 254, 0.9);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.navButton:hover:enabled {
+  transform: translateY(-1px);
+  border-color: rgba(125, 211, 252, 0.4);
+  background: rgba(12, 28, 46, 0.98);
+}
+
+.navButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.skillRow,
+.secondarySkillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.detailsDisclosure {
+  margin-top: 1.5rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(5, 12, 23, 0.45);
+  overflow: hidden;
+}
+
+.detailsSummary {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.95rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  color: rgba(226, 232, 240, 0.86);
+  font-size: 0.84rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.detailsSummary:hover {
+  background: rgba(8, 19, 34, 0.72);
+  color: rgba(240, 249, 255, 0.96);
+}
+
+.detailsSummary:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.6);
+  outline-offset: -2px;
+}
+
+.detailsSummaryMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(125, 211, 252, 0.82);
+}
+
+.detailsIcon {
+  will-change: transform;
+  transition: transform 180ms ease;
+}
+
+.detailsDisclosure[data-open="true"] .detailsSummary {
+  background: rgba(8, 19, 34, 0.82);
+}
+
+.detailsDisclosure[data-open="true"] .detailsIcon {
+  transform: rotate(180deg);
+}
+
+.detailsPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  contain: layout paint;
+  transition:
+    grid-template-rows 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 140ms ease-out,
+    visibility 0s linear 180ms;
+}
+
+.detailsDisclosure[data-open="true"] .detailsPanel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    grid-template-rows 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 140ms ease-out,
+    visibility 0s linear 0s;
+}
+
+.detailsPanelInner {
+  overflow: hidden;
+}
+
+.detailsPanelContent {
+  padding: 0 1rem 1rem;
+  opacity: 0;
+  transform: translateY(-0.2rem);
+  will-change: transform, opacity;
+  transition:
+    opacity 140ms ease-out,
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.detailsDisclosure[data-open="true"] .detailsPanelContent {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.detailsList {
+  list-style: disc;
+  padding-left: 2rem;
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.detailsListItem::marker {
+  color: rgba(125, 211, 252, 0.7);
+}
+
+.skillRow {
+  margin-top: 1.5rem;
+}
+
+.secondarySkillRow {
+  margin-top: 1rem;
+}
+
+.primarySkillChip,
+.secondarySkillChip,
+.certificateSkillChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 0.8rem;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.primarySkillChip {
+  color: rgba(224, 242, 254, 0.9);
+  background: rgba(8, 47, 73, 0.52);
+}
+
+.secondarySkillChip {
+  color: rgba(216, 245, 255, 0.84);
+  background: rgba(30, 64, 175, 0.18);
+}
+
+.certificateSkillChip {
+  color: rgba(204, 251, 241, 0.85);
+  background: rgba(13, 148, 136, 0.16);
+}
+
+.attachedRail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-left: 1.75rem;
+}
+
+.attachedRail::before {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  top: 0;
+  bottom: 1rem;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(125, 211, 252, 0.42),
+    rgba(125, 211, 252, 0.08)
+  );
+}
+
+.attachedCard {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--timeline-surface);
+  padding: 1.1rem 1.1rem 1rem;
+}
+
+.attachedStem {
+  position: absolute;
+  left: -1rem;
+  top: 1.3rem;
+  width: 1rem;
+  height: 1px;
+  background: rgba(125, 211, 252, 0.35);
+}
+
+.projectCard {
+  background:
+    linear-gradient(180deg, rgba(13, 21, 38, 0.92), rgba(9, 16, 31, 0.94)),
+    linear-gradient(135deg, rgba(96, 165, 250, 0.08), transparent 50%);
+}
+
+.certificateCard {
+  background:
+    linear-gradient(180deg, rgba(9, 25, 28, 0.92), rgba(7, 18, 20, 0.94)),
+    linear-gradient(135deg, rgba(20, 184, 166, 0.1), transparent 50%);
+}
+
+.edgeFadeLeft,
+.edgeFadeRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--rail-inset);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.edgeFadeLeft {
+  left: 0;
+  background: linear-gradient(90deg, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0));
+}
+
+.edgeFadeRight {
+  right: 0;
+  background: linear-gradient(270deg, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0));
+}
+
+.mobileStop {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.mobileRail {
+  position: relative;
+  flex: 0 0 1.5rem;
+}
+
+.mobileMarker {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.125rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(207, 250, 254, 0.95), rgba(34, 211, 238, 0.88));
+  box-shadow:
+    0 0 0 0.35rem rgba(34, 211, 238, 0.08),
+    0 0 18px rgba(34, 211, 238, 0.35);
+}
+
+.mobileConnector {
+  position: absolute;
+  top: 1.95rem;
+  bottom: -2rem;
+  left: 0.64rem;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(125, 211, 252, 0.45),
+    rgba(125, 211, 252, 0.08)
+  );
+}
+
+@media (max-width: 1279px) {
+  .primaryCard {
+    padding: 1.4rem;
+    border-radius: 1.4rem;
+  }
+
+  .attachedCard {
+    padding: 1rem;
+  }
+
+  .desktopStopHeader {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .routeLabel {
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+  }
+
+  .routeMeta {
+    margin-top: 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desktopRail {
+    scroll-behavior: auto;
+  }
+
+  .navButton {
+    transition: none;
+  }
+
+  .detailsSummary,
+  .detailsIcon,
+  .detailsPanelContent,
+  .detailsPanel {
+    transition: none;
+  }
+}
