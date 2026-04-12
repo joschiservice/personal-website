@@ -114,7 +114,7 @@ export function InterestsSection() {
 
   return (
     <section
-      className="py-12 sm:py-20 md:py-28 relative overflow-hidden"
+      className="relative overflow-x-hidden py-12 sm:py-20 md:py-28"
       id="interests"
       aria-labelledby="interests-heading"
     >
@@ -137,10 +137,12 @@ export function InterestsSection() {
           <div className="relative h-full flex items-center justify-center">
             {INTERESTS.map((interest, index) => {
               const position = getItemPosition(index);
+              const isActive = position === 0;
+
               return (
                 <motion.div
                   key={index}
-                  className="absolute w-full max-w-4xl h-[400px] sm:h-[500px] md:h-[600px]"
+                  className="absolute h-[400px] w-full max-w-4xl transform-gpu [backface-visibility:hidden] [will-change:transform,opacity] sm:h-[500px] md:h-[600px]"
                   initial={false}
                   animate={{
                     x: `${position * 100}%`,
@@ -155,13 +157,14 @@ export function InterestsSection() {
                   aria-hidden={position !== 0}
                 >
                   <motion.div
-                    className="h-full w-full"
-                    drag="x"
+                    className="h-full w-full transform-gpu [backface-visibility:hidden] [will-change:transform]"
+                    drag={isActive ? "x" : false}
                     dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.2}
+                    dragElastic={0.12}
+                    dragMomentum={false}
                     onDragEnd={(_, info) => handleDragEnd(info)}
                   >
-                    <InterestCard interest={interest} />
+                    <InterestCard interest={interest} isActive={isActive} />
                   </motion.div>
                 </motion.div>
               );
@@ -171,7 +174,7 @@ export function InterestsSection() {
           {/* Navigation controls */}
           <motion.button
             onClick={() => paginate(-1)}
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 hidden sm:block"
+            className="absolute left-2 top-1/2 z-10 hidden -translate-y-1/2 transform-gpu rounded-full border border-white/20 bg-white/10 p-2 transition-all duration-300 [backface-visibility:hidden] [will-change:transform,opacity] hover:bg-white/20 sm:left-4 sm:block sm:p-3"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             initial={{ opacity: 0.7 }}
@@ -189,7 +192,7 @@ export function InterestsSection() {
           </motion.button>
           <motion.button
             onClick={() => paginate(1)}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 hidden sm:block"
+            className="absolute right-2 top-1/2 z-10 hidden -translate-y-1/2 transform-gpu rounded-full border border-white/20 bg-white/10 p-2 transition-all duration-300 [backface-visibility:hidden] [will-change:transform,opacity] hover:bg-white/20 sm:right-4 sm:block sm:p-3"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             initial={{ opacity: 0.7 }}
@@ -240,10 +243,20 @@ export function InterestsSection() {
  *
  * @param interest - The interest data to display
  */
-const InterestCard = memo(({ interest }: { interest: Interest }) => {
+const InterestCard = memo(({
+  interest,
+  isActive,
+}: {
+  interest: Interest;
+  isActive: boolean;
+}) => {
   return (
-    <div className="relative h-full w-full">
-      <div className="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-white/10 overflow-hidden group h-full">
+    <div className="relative h-full w-full [contain:paint]">
+      <div className="group absolute inset-0 h-full overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:rounded-3xl">
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent"
+          aria-hidden="true"
+        ></div>
         {/* Hover-activated gradient background */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${interest.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
@@ -257,9 +270,9 @@ const InterestCard = memo(({ interest }: { interest: Interest }) => {
             alt={`Background image for ${interest.title}`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 900px"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-            priority={true}
-            loading="eager"
+            className="object-cover transform-gpu transition-transform duration-700 [backface-visibility:hidden] [will-change:transform] group-hover:scale-110"
+            priority={isActive}
+            loading={isActive ? "eager" : "lazy"}
             aria-hidden="true"
           />
           {/* Text readability gradient overlay */}
