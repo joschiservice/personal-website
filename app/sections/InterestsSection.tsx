@@ -24,7 +24,7 @@ const INTERESTS: Interest[] = [
   {
     title: "日本 (Japan)",
     description:
-      "My bank account has a recurring 'Japan trip' category that's seen more action than my grocery budget. Four spontaneous trips last year (one because I literally changed flight plans mid-journey) and I'm now learning Japanese daily - though my vocabulary is suspiciously focused on food-ordering phrases. From getting lost in bamboo forests to accidentally ordering mysterious dishes that turned out delicious, I'm hopelessly addicted to Japan's culture, cuisine, and breathtaking landscapes. My friends now introduce me as 'our friend who will somehow relate this conversation to Japan in 3... 2... 1...'",
+      "I keep telling myself each Japan trip will be the last one for a while, and then I somehow book another. I went four times last year, changed flights mid-trip once, and now study Japanese daily with a vocabulary that is still disproportionately useful in restaurants. The mix of culture, food, and scenery has fully won me over, and my friends can usually tell when I am about to bring Japan into the conversation again.",
     image: "/img/interests/Japan.png",
     color: "from-red-500/40 to-red-300/40",
     icon: "🗾",
@@ -32,7 +32,7 @@ const INTERESTS: Interest[] = [
   {
     title: "Aviation",
     description:
-      "Obsessed with aviation to the point where my bank account files complaints about my flight sim addon purchases. Proud Lufthansa Group frequent flyer who can identify an A350 by its engine sound alone (the best aircraft ever built, obviously). My YouTube algorithm has given up suggesting anything non-aviation related. Whether I'm executing a perfect butter landing in the sim or watching yet another 'worst turbulence ever' video, my head is perpetually in the clouds.",
+      "Aviation has been a long-running and slightly expensive hobby. I spend a lot of time in Microsoft Flight Simulator, read far too much about aircraft, and can get unreasonably enthusiastic about cabin layouts, engine sounds, and why the A350 is excellent. My YouTube recommendations gave up on showing me unrelated content a long time ago.",
     image: "/img/interests/Aviation.png",
     color: "from-blue-500/40 to-blue-300/40",
     icon: "✈️",
@@ -40,7 +40,7 @@ const INTERESTS: Interest[] = [
   {
     title: "Software Development",
     description:
-      "Obviously, right? A deep passion for creating elegant solutions to complex problems. From web applications to mobile apps, I can get locked in for hours, forgetting that food and sleep exist. The thrill of building something from scratch and seeing it come to life is unmatched. I thrive on staying ahead of the curve - because who doesn't love spending weekends learning a framework that'll be obsolete next month?",
+      "Software development is the interest that keeps turning into side projects. I like building products that feel simple on the surface and solid underneath, whether that means a web app, mobile app, or a tool for some annoyingly specific problem. I also have a healthy respect for the industry's habit of declaring everything revolutionary right before replacing it six months later.",
     image: "/img/interests/Coding.png",
     color: "from-purple-500/40 to-purple-300/40",
     icon: "💻",
