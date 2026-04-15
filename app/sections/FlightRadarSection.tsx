@@ -25,8 +25,9 @@ export function FlightRadarSection() {
             <Image
               src={flightRadarSectionContent.imageSrc}
               alt={flightRadarSectionContent.imageAlt}
-              width={400}
-              height={100}
+              width={320}
+              height={70}
+              sizes="(max-width: 400px) 100vw, 400px"
               className="w-full h-auto filter invert hue-rotate-180"
             />
           </Link>
