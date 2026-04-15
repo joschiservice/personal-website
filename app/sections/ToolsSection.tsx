@@ -2,88 +2,17 @@
 
 import Image from "next/image";
 import { SectionHeading } from "@/app/components/SectionHeading";
+import {
+  toolsSectionContent,
+  type Tool,
+  type ToolCategory,
+} from "@/app/data/toolsSection";
 import { motion, AnimatePresence, LayoutGroup } from "motion/react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { FaTools } from "react-icons/fa";
 
-interface Tool {
-  name: string;
-  hideText?: boolean;
-  category?: "IDE" | "AI" | "Framework" | "Platform" | "Service";
-}
-
-const TOOLS: Tool[] = [
-  // Frameworks
-  {
-    name: "React.js",
-    category: "Framework",
-  },
-  {
-    name: "Next.js",
-    category: "Framework",
-    hideText: true,
-  },
-  {
-    name: "Nest.js",
-    category: "Framework",
-  },
-  {
-    name: "TailwindCSS",
-    category: "Framework",
-  },
-  {
-    name: "Laravel",
-    category: "Framework",
-  },
-
-  // IDEs - Development environments
-  {
-    name: "WebStorm",
-    category: "IDE",
-  },
-  {
-    name: "Cursor",
-    category: "IDE",
-  },
-  {
-    name: "XCode",
-    category: "IDE",
-  },
-
-  // Platforms - Deployment and hosting
-  {
-    name: "Vercel",
-    category: "Platform",
-    hideText: true,
-  },
-  {
-    name: "GitHub",
-    category: "Platform",
-  },
-  {
-    name: "DigitalOcean",
-    category: "Platform",
-  },
-  {
-    name: "Shopify",
-    category: "Platform",
-  },
-
-  // Services and AI tools
-  {
-    name: "Sentry",
-    category: "Service",
-  },
-  {
-    name: "ChatGPT",
-    category: "AI",
-  },
-];
-
-const categories = ["IDE", "AI", "Framework", "Platform", "Service"];
-
 export function ToolsSection() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<ToolCategory | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [gridHeight, setGridHeight] = useState(0);
   /**
@@ -94,7 +23,7 @@ export function ToolsSection() {
     return () => {
       if (!gridRef.current) return;
 
-      const items = TOOLS.filter(
+      const items = toolsSectionContent.items.filter(
         (tool) => !selectedCategory || tool.category === selectedCategory
       );
       const columns =
@@ -133,14 +62,14 @@ export function ToolsSection() {
 
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8">
         <SectionHeading
-          title="Tools, Frameworks & Services"
+          title={toolsSectionContent.title}
           icon={FaTools}
           gradient="from-orange-500/40 to-orange-300/40"
         />
 
         {/* Category selector */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
-          {categories.map((category) => (
+          {toolsSectionContent.categories.map((category) => (
             <motion.button
               key={category}
               onClick={() =>
@@ -171,7 +100,7 @@ export function ToolsSection() {
         >
           <LayoutGroup>
             <AnimatePresence mode="popLayout">
-              {TOOLS.filter(
+              {toolsSectionContent.items.filter(
                 (tool) =>
                   !selectedCategory || tool.category === selectedCategory
               ).map((tool) => (

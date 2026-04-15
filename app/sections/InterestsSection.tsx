@@ -1,51 +1,14 @@
 "use client";
 
 import { SectionHeading } from "@/app/components/SectionHeading";
+import {
+  interestsSectionContent,
+  type Interest,
+} from "@/app/data/interestsSection";
 import { FaHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Image from "next/image";
 import { motion, type Transition } from "motion/react";
 import { useState, useCallback, memo } from "react";
-
-/**
- * Represents an interest item with its display properties
- */
-interface Interest {
-  title: string;
-  description: string;
-  image: string;
-  color: string;
-  icon?: string;
-}
-
-/**
- * Static data for personal interests
- */
-const INTERESTS: Interest[] = [
-  {
-    title: "日本 (Japan)",
-    description:
-      "I keep telling myself each Japan trip will be the last one for a while, and then I somehow book another. I went four times last year, changed flights mid-trip once, and now study Japanese daily with a vocabulary that is still disproportionately useful in restaurants. The mix of culture, food, and scenery has fully won me over, and my friends can usually tell when I am about to bring Japan into the conversation again.",
-    image: "/img/interests/Japan.png",
-    color: "from-red-500/40 to-red-300/40",
-    icon: "🗾",
-  },
-  {
-    title: "Aviation",
-    description:
-      "Aviation has been a long-running and slightly expensive hobby. I spend a lot of time in Microsoft Flight Simulator, read far too much about aircraft, and can get unreasonably enthusiastic about cabin layouts, engine sounds, and why the A350 is excellent. My YouTube recommendations gave up on showing me unrelated content a long time ago.",
-    image: "/img/interests/Aviation.png",
-    color: "from-blue-500/40 to-blue-300/40",
-    icon: "✈️",
-  },
-  {
-    title: "Software Development",
-    description:
-      "Software development is the interest that keeps turning into side projects. I like building products that feel simple on the surface and solid underneath, whether that means a web app, mobile app, or a tool for some annoyingly specific problem. I also have a healthy respect for the industry's habit of declaring everything revolutionary right before replacing it six months later.",
-    image: "/img/interests/Coding.png",
-    color: "from-purple-500/40 to-purple-300/40",
-    icon: "💻",
-  },
-];
 
 const SPRING_TRANSITION: Transition = {
   type: "spring",
@@ -73,7 +36,9 @@ export function InterestsSection() {
    */
   const paginate = useCallback((newDirection: number) => {
     setCurrentIndex(
-      (prev) => (prev + newDirection + INTERESTS.length) % INTERESTS.length
+      (prev) =>
+        (prev + newDirection + interestsSectionContent.items.length) %
+        interestsSectionContent.items.length
     );
   }, []);
 
@@ -120,7 +85,7 @@ export function InterestsSection() {
     >
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <SectionHeading
-          title="Interests & Passions"
+          title={interestsSectionContent.title}
           icon={FaHeart}
           gradient="from-pink-500/40 to-pink-300/40"
           id="interests-heading"
@@ -135,7 +100,7 @@ export function InterestsSection() {
           tabIndex={0}
         >
           <div className="relative h-full flex items-center justify-center">
-            {INTERESTS.map((interest, index) => {
+            {interestsSectionContent.items.map((interest, index) => {
               const position = getItemPosition(index);
               const isActive = position === 0;
 
@@ -153,7 +118,7 @@ export function InterestsSection() {
                   transition={SPRING_TRANSITION}
                   role="group"
                   aria-roledescription="slide"
-                  aria-label={`${index + 1} of ${INTERESTS.length}`}
+                  aria-label={`${index + 1} of ${interestsSectionContent.items.length}`}
                   aria-hidden={position !== 0}
                 >
                   <motion.div
@@ -215,7 +180,7 @@ export function InterestsSection() {
             role="tablist"
             aria-label="Slide indicators"
           >
-            {INTERESTS.map((_, index) => (
+            {interestsSectionContent.items.map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => handleIndicatorClick(index)}

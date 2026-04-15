@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { FiExternalLink } from "react-icons/fi";
-import { getFormattedTimeSpan } from "../../lib/date";
-import styles from "./TimelineSection.module.css";
-import { ExperienceDetails } from "./ExperienceDetails";
 import {
   type CareerMilestone,
   getMilestoneBadgeLabel,
-} from "./timelineData";
+} from "@/app/data/timelineSection";
+import { getFormattedTimeSpan } from "../../lib/date";
+import styles from "./TimelineSection.module.css";
+import { ExperienceDetails } from "./ExperienceDetails";
 
 export function ExperienceCard({
   experience,

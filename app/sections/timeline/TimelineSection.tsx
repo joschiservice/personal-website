@@ -1,10 +1,13 @@
 import { FaRoute } from "react-icons/fa";
 import { SectionHeading } from "@/app/components/SectionHeading";
 import { SectionBodyText } from "@/app/components/SectionBodyText";
+import {
+  EXPERIENCE_STOPS,
+  timelineSectionContent,
+} from "@/app/data/timelineSection";
 import { getFormattedTimeSpan } from "../../lib/date";
 import styles from "./TimelineSection.module.css";
 import { TimelineDesktopRail } from "./TimelineDesktopRail";
-import { EXPERIENCE_STOPS } from "./timelineData";
 import { AttachedMilestoneCard, ExperienceCard } from "./timelineShared";
 
 export function TimelineSection() {
@@ -16,16 +19,14 @@ export function TimelineSection() {
     >
       <div className="container mx-auto max-w-360 px-4 sm:px-6 md:px-8">
         <SectionHeading
-          title="Career Timeline"
+          title={timelineSectionContent.title}
           icon={FaRoute}
           gradient="from-cyan-500/40 to-blue-300/40"
           id="career-timeline-heading"
         />
 
         <SectionBodyText className="mb-12 sm:mb-16">
-          From embedded systems to desktop software to full-stack product ownership,
-          this is the route so far, including the side builds and credentials that
-          shaped it.
+          {timelineSectionContent.description}
         </SectionBodyText>
 
         <div className="hidden lg:block">

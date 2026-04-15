@@ -22,7 +22,13 @@ export interface ExperienceStop {
   attachedMilestones: CareerMilestone[];
 }
 
-const CAREER_MILESTONES: CareerMilestone[] = [
+export const timelineSectionContent = {
+  title: "Career Timeline",
+  description:
+    "From embedded systems to desktop software to full-stack product ownership, this is the route so far, including the side builds and credentials that shaped it.",
+} as const;
+
+const careerMilestones: CareerMilestone[] = [
   {
     id: "elektrohub",
     kind: "experience",
@@ -182,7 +188,7 @@ const CAREER_MILESTONES: CareerMilestone[] = [
   },
 ];
 
-const ATTACHED_MILESTONES: Record<string, string> = {
+const attachedMilestones: Record<string, string> = {
   shiftiq: "elektrohub",
   sparky: "elektrohub",
   ng001: "elektrohub",
@@ -190,18 +196,18 @@ const ATTACHED_MILESTONES: Record<string, string> = {
   "ibm-full-stack-certificate": "nistech",
 };
 
-const EXPERIENCES = CAREER_MILESTONES.filter(
-  (milestone) => milestone.kind === "experience"
-).sort(sortNewestFirst);
+const experiences = careerMilestones
+  .filter((milestone) => milestone.kind === "experience")
+  .sort(sortNewestFirst);
 
-const SECONDARY_MILESTONES = CAREER_MILESTONES.filter(
-  (milestone) => milestone.kind !== "experience"
-).sort(sortNewestFirst);
+const secondaryMilestones = careerMilestones
+  .filter((milestone) => milestone.kind !== "experience")
+  .sort(sortNewestFirst);
 
-const ATTACHED_MILESTONES_BY_EXPERIENCE = SECONDARY_MILESTONES.reduce<
+const attachedMilestonesByExperience = secondaryMilestones.reduce<
   Record<string, CareerMilestone[]>
 >((grouped, milestone) => {
-  const experienceId = ATTACHED_MILESTONES[milestone.id];
+  const experienceId = attachedMilestones[milestone.id];
   if (!experienceId) return grouped;
 
   grouped[experienceId] ??= [];
@@ -209,9 +215,9 @@ const ATTACHED_MILESTONES_BY_EXPERIENCE = SECONDARY_MILESTONES.reduce<
   return grouped;
 }, {});
 
-export const EXPERIENCE_STOPS: ExperienceStop[] = EXPERIENCES.map((experience) => ({
+export const EXPERIENCE_STOPS: ExperienceStop[] = experiences.map((experience) => ({
   experience,
-  attachedMilestones: ATTACHED_MILESTONES_BY_EXPERIENCE[experience.id] ?? [],
+  attachedMilestones: attachedMilestonesByExperience[experience.id] ?? [],
 }));
 
 export function getMilestoneBadgeLabel(kind: MilestoneKind) {

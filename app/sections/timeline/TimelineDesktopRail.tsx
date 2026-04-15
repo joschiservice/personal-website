@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { EXPERIENCE_STOPS } from "@/app/data/timelineSection";
 import { getFormattedTimeSpan } from "../../lib/date";
 import styles from "./TimelineSection.module.css";
-import { EXPERIENCE_STOPS } from "./timelineData";
 import { AttachedMilestoneCard, ExperienceCard } from "./timelineShared";
 
 function formatProgress(currentIndex: number, total: number) {

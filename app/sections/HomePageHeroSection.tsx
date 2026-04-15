@@ -3,6 +3,7 @@
 import { HeroText } from "@/app/components/HeroText";
 import { ColorGlowTransitionAnimation } from "@/app/animations/ColorGlowTransitionAnimation";
 import { ScrollDownButton } from "@/app/components/buttons/ScrollDownButton";
+import { heroSectionContent } from "@/app/data/heroSection";
 import { SocialLinks } from "../components/SocialLinks";
 import { DownloadCvButton } from "../components/buttons/DownloadCvButton";
 import { ContactButton } from "../components/buttons/ContactButton";
@@ -16,13 +17,16 @@ export function HomePageHeroSection() {
           <div className="min-h-screen flex items-center">
             <div>
               <HeroText>
-                Hi<span className="text-gray-400">,</span><br />I am <ColorGlowTransitionAnimation fromColor="white" toColor="#2196f3" toColorGlow="#1976d2">Joschua Haß</ColorGlowTransitionAnimation>
+                {heroSectionContent.greeting}
+                <span className="text-gray-400">,</span>
+                <br />
+                I am{" "}
+                <ColorGlowTransitionAnimation fromColor="white" toColor="#2196f3" toColorGlow="#1976d2">
+                  {heroSectionContent.name}
+                </ColorGlowTransitionAnimation>
               </HeroText>
               <p className="max-w-2xl mb-5 text-gray-200 text-sm sm:text-base leading-relaxed">
-                Full-stack engineer focused on operations and product
-                systems. I build reliable applications end to end across React,
-                Next.js, NestJS, TypeScript, and .NET, with hands-on ownership of
-                architecture, integrations, performance, and production delivery.
+                {heroSectionContent.description}
               </p>
               <div className="flex flex-row gap-4 mb-8">
                 <ContactButton />
