@@ -486,19 +486,32 @@ function ToolItem({
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
               <div className="relative">
-                <Image
-                  width={item.hideText ? 80 : 60}
-                  height={item.hideText ? 80 : 60}
-                  className={`${
-                    item.hideText
-                      ? "h-[100px] w-[100px] sm:h-[120px] sm:w-[120px]"
-                      : "h-[60px] w-[60px] sm:h-[80px] sm:w-[80px]"
-                  } rounded-2xl object-contain transition-transform duration-300 ${
-                    isExpanded ? "scale-110" : "scale-100"
-                  }`}
-                  src={"/img/tools/" + item.name + ".png"}
-                  alt={item.name}
-                />
+                {item.imageName ? (
+                  <Image
+                    width={item.hideText ? 80 : 60}
+                    height={item.hideText ? 80 : 60}
+                    className={`${
+                      item.hideText
+                        ? "h-[100px] w-[100px] sm:h-[120px] sm:w-[120px]"
+                        : "h-[60px] w-[60px] sm:h-[80px] sm:w-[80px]"
+                    } rounded-2xl object-contain transition-transform duration-300 ${
+                      isExpanded ? "scale-110" : "scale-100"
+                    }`}
+                    src={"/img/tools/" + item.imageName + ".png"}
+                    alt={item.name}
+                  />
+                ) : (
+                  <div
+                    className={`flex items-center justify-center rounded-2xl border border-white/12 bg-white/8 text-center font-semibold uppercase tracking-[0.18em] text-white/80 transition-transform duration-300 ${
+                      item.hideText
+                        ? "h-[100px] w-[100px] text-2xl sm:h-[120px] sm:w-[120px] sm:text-3xl"
+                        : "h-[60px] w-[60px] text-base sm:h-[80px] sm:w-[80px] sm:text-xl"
+                    } ${isExpanded ? "scale-110" : "scale-100"}`}
+                    aria-label={item.name}
+                  >
+                    {getToolMonogram(item.name)}
+                  </div>
+                )}
                 <div
                   className={`absolute inset-0 bg-blue-500/20 blur-xl transition-opacity duration-300 ${
                     isExpanded ? "opacity-100" : "opacity-0"
@@ -596,4 +609,13 @@ function ToolItem({
       </motion.div>
     </motion.div>
   );
+}
+
+function getToolMonogram(name: string) {
+  return name
+    .split(/[\s./-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
 }
