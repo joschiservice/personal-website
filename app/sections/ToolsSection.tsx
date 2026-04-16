@@ -40,26 +40,33 @@ const toolCategoryStyles: Record<
     statValue: string;
   }
 > = {
-  "Frameworks & Libraries": {
+  Frameworks: {
     badge: "border-sky-300/25 bg-sky-400/10 text-sky-100",
     borderGlow: "from-sky-300/25 via-white/5 to-cyan-300/20",
     halo: "from-sky-400/22 via-cyan-300/10 to-transparent",
     glow: "rgba(56, 189, 248, 0.34)",
     statValue: "text-sky-100",
   },
-  "Backend & Platform": {
+  Libraries: {
     badge: "border-amber-300/30 bg-amber-300/10 text-amber-100",
     borderGlow: "from-amber-300/25 via-orange-300/10 to-rose-300/20",
     halo: "from-amber-300/24 via-orange-300/12 to-transparent",
     glow: "rgba(251, 191, 36, 0.34)",
     statValue: "text-amber-100",
   },
-  "Cloud & Operations": {
+  Platform: {
     badge: "border-emerald-300/25 bg-emerald-400/10 text-emerald-100",
     borderGlow: "from-emerald-300/25 via-cyan-300/10 to-blue-300/20",
     halo: "from-emerald-300/24 via-cyan-300/10 to-transparent",
     glow: "rgba(52, 211, 153, 0.32)",
     statValue: "text-emerald-100",
+  },
+  "Cloud & Ops": {
+    badge: "border-cyan-300/25 bg-cyan-400/10 text-cyan-100",
+    borderGlow: "from-cyan-300/25 via-sky-300/10 to-blue-300/20",
+    halo: "from-cyan-300/24 via-sky-300/10 to-transparent",
+    glow: "rgba(34, 211, 238, 0.32)",
+    statValue: "text-cyan-100",
   },
   Tools: {
     badge: "border-indigo-300/25 bg-indigo-400/10 text-indigo-100",
@@ -288,8 +295,7 @@ function ToolItem({
   const pointerX = useMotionValue(50);
   const pointerY = useMotionValue(50);
 
-  const accent =
-    toolCategoryStyles[item.category ?? "Frameworks & Libraries"];
+  const accent = toolCategoryStyles[item.category ?? "Frameworks"];
   const isExpanded = isHovering || isPinned;
   const foilBackground = useMotionTemplate`
     radial-gradient(circle at ${pointerX}% ${pointerY}%, ${accent.glow} 0%, rgba(255,255,255,0.12) 14%, transparent 42%),

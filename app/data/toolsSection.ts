@@ -1,7 +1,8 @@
 export const toolCategories = [
-  "Frameworks & Libraries",
-  "Backend & Platform",
-  "Cloud & Operations",
+  "Frameworks",
+  "Libraries",
+  "Platform",
+  "Cloud & Ops",
   "Tools",
   "Other",
 ] as const;
@@ -31,7 +32,7 @@ export const toolsSectionContent = {
     {
       name: "NestJS",
       imageName: "Nest.js",
-      category: "Frameworks & Libraries",
+      category: "Frameworks",
       rarity: "Epic",
       title: "Service Architect",
       flavor:
@@ -45,7 +46,7 @@ export const toolsSectionContent = {
     {
       name: "Next.js",
       imageName: "Next.js",
-      category: "Frameworks & Libraries",
+      category: "Frameworks",
       hideText: true,
       rarity: "Legendary",
       title: "Route Runner",
@@ -59,7 +60,7 @@ export const toolsSectionContent = {
     {
       name: "React",
       imageName: "React.js",
-      category: "Frameworks & Libraries",
+      category: "Libraries",
       rarity: "Legendary",
       title: "State Tamer",
       flavor: "Interactive interfaces built from composable pieces that scale cleanly.",
@@ -72,7 +73,7 @@ export const toolsSectionContent = {
     {
       name: "TanStack Query",
       imageName: "TanStack",
-      category: "Frameworks & Libraries",
+      category: "Libraries",
       rarity: "Epic",
       title: "Cache Strategist",
       flavor:
@@ -86,7 +87,7 @@ export const toolsSectionContent = {
     {
       name: "GraphQL",
       imageName: "GraphQL",
-      category: "Backend & Platform",
+      category: "Platform",
       rarity: "Epic",
       title: "Schema Broker",
       flavor: "Precise data contracts that keep frontend and backend aligned.",
@@ -99,7 +100,7 @@ export const toolsSectionContent = {
     {
       name: "Docker",
       imageName: "Docker",
-      category: "Backend & Platform",
+      category: "Platform",
       rarity: "Rare",
       title: "Container Pilot",
       flavor: "Consistent local and production environments without ritual.",
@@ -112,7 +113,7 @@ export const toolsSectionContent = {
     {
       name: "PostgreSQL",
       imageName: "PostgreSQL",
-      category: "Backend & Platform",
+      category: "Platform",
       rarity: "Epic",
       title: "Data Vault",
       flavor: "Reliable relational modeling for systems that need real structure.",
@@ -125,7 +126,7 @@ export const toolsSectionContent = {
     {
       name: "DigitalOcean",
       imageName: "DigitalOcean",
-      category: "Cloud & Operations",
+      category: "Cloud & Ops",
       rarity: "Rare",
       title: "Droplet Wrangler",
       flavor: "Lean infrastructure with straightforward control and low friction.",
@@ -138,7 +139,7 @@ export const toolsSectionContent = {
     {
       name: "Vercel",
       imageName: "Vercel",
-      category: "Cloud & Operations",
+      category: "Cloud & Ops",
       hideText: true,
       rarity: "Legendary",
       title: "Deploy Alchemist",
@@ -154,7 +155,7 @@ export const toolsSectionContent = {
       name: "AWS",
       imageName: "AWS",
       hideText: true,
-      category: "Cloud & Operations",
+      category: "Cloud & Ops",
       rarity: "Epic",
       title: "Scale Arsenal",
       flavor: "Cloud primitives for systems that need breadth, control, and reach.",
@@ -167,7 +168,7 @@ export const toolsSectionContent = {
     {
       name: "Sentry",
       imageName: "Sentry",
-      category: "Cloud & Operations",
+      category: "Cloud & Ops",
       rarity: "Rare",
       title: "Stack Trace Detective",
       flavor: "Finds issues early and makes production behavior explainable.",
