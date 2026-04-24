@@ -282,7 +282,7 @@ function ToolItem({
   onClose: () => void;
 }) {
   const [isHovering, setIsHovering] = useState(false);
-  const [viewportOffsetX, setViewportOffsetX] = useState(0);
+  const [viewportOffset, setViewportOffset] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
   const expandedShellRef = useRef<HTMLDivElement>(null);
   const rotateX = useSpring(0, TOOL_CARD_SPRING);
@@ -331,33 +331,39 @@ function ToolItem({
 
   useEffect(() => {
     if (!isTouchMode || !isExpanded) {
-      setViewportOffsetX(0);
+      setViewportOffset({ x: 0, y: 0 });
       return;
     }
 
-    const updateViewportOffset = () => {
+    const centerExpandedCard = () => {
       const shell = expandedShellRef.current;
       if (!shell) return;
 
       const rect = shell.getBoundingClientRect();
-      const viewportPadding = 12;
-      let nextOffset = 0;
+      const viewport = window.visualViewport;
+      const viewportCenterX =
+        (viewport?.offsetLeft ?? 0) + (viewport?.width ?? window.innerWidth) / 2;
+      const viewportCenterY =
+        (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight) / 2;
+      const cardCenterX = rect.left + rect.width / 2;
+      const cardCenterY = rect.top + rect.height / 2;
 
-      if (rect.left < viewportPadding) {
-        nextOffset = viewportPadding - rect.left;
-      } else if (rect.right > window.innerWidth - viewportPadding) {
-        nextOffset = window.innerWidth - viewportPadding - rect.right;
-      }
-
-      setViewportOffsetX(nextOffset);
+      setViewportOffset({
+        x: viewportCenterX - cardCenterX,
+        y: viewportCenterY - cardCenterY,
+      });
     };
 
-    const rafId = window.requestAnimationFrame(updateViewportOffset);
-    window.addEventListener("resize", updateViewportOffset);
+    const rafId = window.requestAnimationFrame(centerExpandedCard);
+    window.addEventListener("resize", centerExpandedCard);
+    window.visualViewport?.addEventListener("resize", centerExpandedCard);
+    window.visualViewport?.addEventListener("scroll", centerExpandedCard);
 
     return () => {
       window.cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", updateViewportOffset);
+      window.removeEventListener("resize", centerExpandedCard);
+      window.visualViewport?.removeEventListener("resize", centerExpandedCard);
+      window.visualViewport?.removeEventListener("scroll", centerExpandedCard);
     };
   }, [isExpanded, isTouchMode]);
 
@@ -421,8 +427,8 @@ function ToolItem({
         }}
         onPointerMove={handlePointerMove}
         animate={{
-          x: isTouchMode ? viewportOffsetX : 0,
-          y: isExpanded ? -18 : 0,
+          x: isTouchMode ? viewportOffset.x : 0,
+          y: isTouchMode ? viewportOffset.y : isExpanded ? -18 : 0,
         }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
         style={{
@@ -546,13 +552,13 @@ function ToolItem({
                 className="flex h-62 w-59 flex-col justify-between p-4 sm:h-70 sm:w-68 sm:p-5"
                 initial={false}
                 animate={
-                  isHovering
+                  isExpanded
                     ? { opacity: 1, scale: 1, y: 0 }
                     : { opacity: 0, scale: 0.96, y: 18 }
                 }
                 transition={{
-                  duration: isHovering ? 0.22 : 0.16,
-                  delay: isHovering ? 0.14 : 0,
+                  duration: isExpanded ? 0.22 : 0.16,
+                  delay: isExpanded ? 0.14 : 0,
                   ease: "easeOut",
                 }}
               >
