@@ -97,6 +97,13 @@ export function ToolsSection() {
   const [isTouchMode, setIsTouchMode] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const [gridHeight, setGridHeight] = useState(0);
+  const stableToolIndexes = useMemo(
+    () =>
+      new Map(
+        toolsSectionContent.items.map((tool, index) => [tool.name, index + 1])
+      ),
+    []
+  );
   /**
    * Memoized grid height calculation function to prevent unnecessary recalculations
    * when component re-renders. Only recreates when selectedCategory changes.
@@ -209,7 +216,7 @@ export function ToolsSection() {
               {toolsSectionContent.items.filter(
                 (tool) =>
                   !selectedCategory || tool.category === selectedCategory
-              ).map((tool, index) => (
+              ).map((tool) => (
                 <motion.div
                   key={tool.name}
                   layout="position"
@@ -242,7 +249,7 @@ export function ToolsSection() {
                 >
                   <ToolItem
                     item={tool}
-                    index={index}
+                    stableIndex={stableToolIndexes.get(tool.name) ?? 0}
                     isPinned={activeToolName === tool.name}
                     isTouchMode={isTouchMode}
                     onTogglePinned={() =>
@@ -268,14 +275,14 @@ export function ToolsSection() {
 
 function ToolItem({
   item,
-  index,
+  stableIndex,
   isPinned,
   isTouchMode,
   onTogglePinned,
   onClose,
 }: {
   item: Tool;
-  index: number;
+  stableIndex: number;
   isPinned: boolean;
   isTouchMode: boolean;
   onTogglePinned: () => void;
@@ -285,6 +292,7 @@ function ToolItem({
   const [viewportOffset, setViewportOffset] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
   const expandedShellRef = useRef<HTMLDivElement>(null);
+  const viewportOffsetRef = useRef(viewportOffset);
   const rotateX = useSpring(0, TOOL_CARD_SPRING);
   const rotateY = useSpring(0, TOOL_CARD_SPRING);
   const shineOpacity = useSpring(0, {
@@ -302,6 +310,11 @@ function ToolItem({
     linear-gradient(140deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02) 34%, transparent 70%)
   `;
 
+  const updateViewportOffset = (nextOffset: { x: number; y: number }) => {
+    viewportOffsetRef.current = nextOffset;
+    setViewportOffset(nextOffset);
+  };
+
   const resetCard = () => {
     setIsHovering(false);
     rotateX.set(0);
@@ -309,6 +322,30 @@ function ToolItem({
     pointerX.set(50);
     pointerY.set(50);
     shineOpacity.set(0);
+  };
+
+  const centerExpandedCard = () => {
+    if (!isTouchMode || !isExpanded) {
+      updateViewportOffset({ x: 0, y: 0 });
+      return;
+    }
+
+    const shell = expandedShellRef.current;
+    if (!shell) return;
+
+    const rect = shell.getBoundingClientRect();
+    const viewport = window.visualViewport;
+    const viewportCenterX =
+      (viewport?.offsetLeft ?? 0) + (viewport?.width ?? window.innerWidth) / 2;
+    const viewportCenterY =
+      (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight) / 2;
+    const cardCenterX = rect.left + rect.width / 2 - viewportOffsetRef.current.x;
+    const cardCenterY = rect.top + rect.height / 2 - viewportOffsetRef.current.y;
+
+    updateViewportOffset({
+      x: viewportCenterX - cardCenterX,
+      y: viewportCenterY - cardCenterY,
+    });
   };
 
   const handlePointerMove = (
@@ -330,29 +367,11 @@ function ToolItem({
   };
 
   useEffect(() => {
+    centerExpandedCard();
+
     if (!isTouchMode || !isExpanded) {
-      setViewportOffset({ x: 0, y: 0 });
       return;
     }
-
-    const centerExpandedCard = () => {
-      const shell = expandedShellRef.current;
-      if (!shell) return;
-
-      const rect = shell.getBoundingClientRect();
-      const viewport = window.visualViewport;
-      const viewportCenterX =
-        (viewport?.offsetLeft ?? 0) + (viewport?.width ?? window.innerWidth) / 2;
-      const viewportCenterY =
-        (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight) / 2;
-      const cardCenterX = rect.left + rect.width / 2;
-      const cardCenterY = rect.top + rect.height / 2;
-
-      setViewportOffset({
-        x: viewportCenterX - cardCenterX,
-        y: viewportCenterY - cardCenterY,
-      });
-    };
 
     const rafId = window.requestAnimationFrame(centerExpandedCard);
     window.addEventListener("resize", centerExpandedCard);
@@ -393,18 +412,11 @@ function ToolItem({
       role="button"
       tabIndex={0}
       aria-expanded={isExpanded}
-      onClick={() => {
-        if (isTouchMode) {
-          onTogglePinned();
-        }
-      }}
+      onClick={onTogglePinned}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-
-          if (isTouchMode) {
-            onTogglePinned();
-          }
+          onTogglePinned();
         }
       }}
     >
@@ -611,7 +623,7 @@ function ToolItem({
                     {item.flavor}
                   </p>
                   <span className="rounded-full border border-white/10 bg-white/6 px-2 py-1 text-[9px] font-medium text-white/45 sm:text-[10px]">
-                    #{String(index + 1).padStart(2, "0")}
+                    #{String(stableIndex).padStart(2, "0")}
                   </span>
                 </div>
               </motion.div>
