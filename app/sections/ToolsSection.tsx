@@ -501,7 +501,7 @@ function ToolItem({
           </div>
 
           <div
-            className="relative z-10 h-full w-full overflow-hidden rounded-[inherit]"
+            className="relative z-10 h-full w-full rounded-[inherit]"
             style={{ transform: "translateZ(44px)" }}
           >
             <motion.div
