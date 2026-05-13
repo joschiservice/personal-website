@@ -460,11 +460,12 @@ function ToolItem({
 
         <div
           ref={expandedShellRef}
-          className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden border border-white/10 transition-all duration-300 ${
+          className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-white/10 transition-all duration-300 ${
             isExpanded
               ? "h-[calc(100%+7rem)] w-[min(calc(100vw-1.5rem),calc(100%+4rem))] rounded-[1.6rem] bg-white/[0.08] p-5 shadow-[0_34px_90px_rgba(0,0,0,0.48)] sm:h-[calc(100%+8rem)] sm:w-[calc(100%+4.5rem)] sm:p-6"
               : "h-full w-full rounded-[1rem] bg-white/5 p-4 sm:p-6"
           }`}
+          style={{ transformStyle: "preserve-3d" }}
         >
           <div
             className={`pointer-events-none absolute inset-0 rounded-[inherit] bg-slate-950/35 backdrop-blur-xl transition-opacity duration-300 ${
@@ -499,9 +500,12 @@ function ToolItem({
             <div className="absolute inset-0 rounded-[inherit] bg-[repeating-linear-gradient(180deg,rgba(255,255,255,0.06)_0,rgba(255,255,255,0.06)_1px,transparent_1px,transparent_12px)] opacity-30" />
           </div>
 
-          <div style={{ transform: "translateZ(44px)" }}>
+          <div
+            className="relative z-10 h-full w-full overflow-hidden rounded-[inherit]"
+            style={{ transform: "translateZ(44px)" }}
+          >
             <motion.div
-              className="relative z-10 flex h-full flex-col items-center justify-center space-y-2 sm:space-y-4"
+              className="relative flex h-full flex-col items-center justify-center space-y-2 sm:space-y-4"
               animate={
                 isExpanded
                   ? { opacity: 0.12, scale: 0.82, y: -24 }
@@ -556,7 +560,7 @@ function ToolItem({
           </div>
 
           <div
-            className="pointer-events-none absolute inset-0 z-20"
+            className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-[inherit]"
             style={{ transform: "translateZ(72px)" }}
           >
             <div className="flex h-full items-center justify-center">
