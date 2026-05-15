@@ -116,7 +116,7 @@ export function ToolsSection() {
         (tool) => !selectedCategory || tool.category === selectedCategory
       );
       const columns =
-        window.innerWidth >= 1024 ? 4 : window.innerWidth >= 768 ? 3 : 2;
+        window.innerWidth >= 1024 ? 4 : window.innerWidth >= 640 ? 3 : 2;
       const rows = Math.ceil(items.length / columns);
 
       // Calculate height based on 155px per row (including gap)
@@ -289,6 +289,7 @@ function ToolItem({
   onClose: () => void;
 }) {
   const [isHovering, setIsHovering] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [viewportOffset, setViewportOffset] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
   const expandedShellRef = useRef<HTMLDivElement>(null);
@@ -330,6 +331,11 @@ function ToolItem({
       return;
     }
 
+    if (prefersReducedMotion) {
+      updateViewportOffset({ x: 0, y: 0 });
+      return;
+    }
+
     const shell = expandedShellRef.current;
     if (!shell) return;
 
@@ -361,10 +367,33 @@ function ToolItem({
 
     pointerX.set(x);
     pointerY.set(y);
+
+    if (prefersReducedMotion) {
+      rotateX.set(0);
+      rotateY.set(0);
+      shineOpacity.set(0);
+      return;
+    }
+
     rotateY.set(centeredX / 4.2);
     rotateX.set(-centeredY / 3.8);
     shineOpacity.set(1);
   };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const syncReducedMotion = (event?: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event?.matches ?? mediaQuery.matches);
+    };
+
+    syncReducedMotion();
+    mediaQuery.addEventListener("change", syncReducedMotion);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncReducedMotion);
+    };
+  }, []);
 
   useEffect(() => {
     centerExpandedCard();
@@ -384,7 +413,7 @@ function ToolItem({
       window.visualViewport?.removeEventListener("resize", centerExpandedCard);
       window.visualViewport?.removeEventListener("scroll", centerExpandedCard);
     };
-  }, [isExpanded, isTouchMode]);
+  }, [isExpanded, isTouchMode, prefersReducedMotion]);
 
   useEffect(() => {
     if (!isTouchMode || !isPinned) return;
