@@ -27,7 +27,7 @@ helpers/                    # Helper utilities
 
 ### Getting started
 Prerequisites:
-- Node.js 18+ (recommended)
+- Node.js 20.9+ (Node.js 24 LTS recommended)
 
 Install dependencies:
 ```bash
@@ -53,6 +53,22 @@ pnpm start
 Lint:
 ```bash
 pnpm lint
+```
+
+### End-to-end testing
+Install the Chromium browser used by Playwright once:
+```bash
+pnpm exec playwright install chromium
+```
+
+Run the Playwright smoke suite:
+```bash
+pnpm test:e2e
+```
+
+Open Playwright's interactive test runner:
+```bash
+pnpm test:e2e:ui
 ```
 
 ### Deployment

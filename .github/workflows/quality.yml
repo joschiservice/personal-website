@@ -1,0 +1,56 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_PUBLIC_CONTACT_EMAIL: e2e@example.com
+      NEXT_PUBLIC_CONTACT_PHONE: "+49 123 456789"
+      NEXT_PUBLIC_SOCIAL_LINKEDIN: https://example.com/linkedin
+      NEXT_PUBLIC_SOCIAL_GITHUB: https://example.com/github
+      NEXT_PUBLIC_SOCIAL_INSTAGRAM: https://example.com/instagram
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Lint application
+        run: pnpm lint
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Run Playwright smoke suite
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
