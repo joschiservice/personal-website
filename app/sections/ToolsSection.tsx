@@ -20,6 +20,7 @@ import {
   useEffect,
   useRef,
   useMemo,
+  useCallback,
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { FaTools } from "react-icons/fa";
@@ -159,10 +160,6 @@ export function ToolsSection() {
     };
   }, []);
 
-  useEffect(() => {
-    setActiveToolName(null);
-  }, [selectedCategory]);
-
   return (
     <section
       className="py-16 sm:py-20 md:py-28 relative overflow-hidden"
@@ -185,11 +182,12 @@ export function ToolsSection() {
           {toolsSectionContent.categories.map((category) => (
             <motion.button
               key={category}
-              onClick={() =>
+              onClick={() => {
+                setActiveToolName(null);
                 setSelectedCategory(
                   selectedCategory === category ? null : category
-                )
-              }
+                );
+              }}
               className={`px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300
                 ${
                   selectedCategory === category
@@ -311,10 +309,10 @@ function ToolItem({
     linear-gradient(140deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02) 34%, transparent 70%)
   `;
 
-  const updateViewportOffset = (nextOffset: { x: number; y: number }) => {
+  const updateViewportOffset = useCallback((nextOffset: { x: number; y: number }) => {
     viewportOffsetRef.current = nextOffset;
     setViewportOffset(nextOffset);
-  };
+  }, []);
 
   const resetCard = () => {
     setIsHovering(false);
@@ -325,7 +323,7 @@ function ToolItem({
     shineOpacity.set(0);
   };
 
-  const centerExpandedCard = () => {
+  const centerExpandedCard = useCallback(() => {
     if (!isTouchMode || !isExpanded) {
       updateViewportOffset({ x: 0, y: 0 });
       return;
@@ -352,7 +350,7 @@ function ToolItem({
       x: viewportCenterX - cardCenterX,
       y: viewportCenterY - cardCenterY,
     });
-  };
+  }, [isExpanded, isTouchMode, prefersReducedMotion, updateViewportOffset]);
 
   const handlePointerMove = (
     event: ReactPointerEvent<HTMLDivElement>
@@ -396,13 +394,13 @@ function ToolItem({
   }, []);
 
   useEffect(() => {
-    centerExpandedCard();
-
+    const rafId = window.requestAnimationFrame(centerExpandedCard);
     if (!isTouchMode || !isExpanded) {
-      return;
+      return () => {
+        window.cancelAnimationFrame(rafId);
+      };
     }
 
-    const rafId = window.requestAnimationFrame(centerExpandedCard);
     window.addEventListener("resize", centerExpandedCard);
     window.visualViewport?.addEventListener("resize", centerExpandedCard);
     window.visualViewport?.addEventListener("scroll", centerExpandedCard);
@@ -413,7 +411,7 @@ function ToolItem({
       window.visualViewport?.removeEventListener("resize", centerExpandedCard);
       window.visualViewport?.removeEventListener("scroll", centerExpandedCard);
     };
-  }, [isExpanded, isTouchMode, prefersReducedMotion]);
+  }, [centerExpandedCard, isExpanded, isTouchMode]);
 
   useEffect(() => {
     if (!isTouchMode || !isPinned) return;

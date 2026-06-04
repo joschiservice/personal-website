@@ -33,7 +33,13 @@ export function Navbar() {
 
   // Reset scroll progress when navigating to a new page (not just hash changes)
   useEffect(() => {
-    setScrollProgress(0);
+    const frameId = window.requestAnimationFrame(() => {
+      setScrollProgress(0);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
   }, [pathname]);
 
   // Handle hash navigation by recalculating scroll progress after navigation

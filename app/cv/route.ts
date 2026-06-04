@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getCachedCvUrl } from "@/app/lib/cv"
 
 export const revalidate = 3600
+export const dynamic = "force-dynamic"
 
 export async function GET() {
   const url = await getCachedCvUrl()
@@ -10,5 +11,4 @@ export async function GET() {
   }
   return NextResponse.redirect(url, { status: 302 })
 }
-
 
