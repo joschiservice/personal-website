@@ -3,7 +3,6 @@
   "author": "Joschua Haß",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@11.1.2",
   "engines": {
     "node": ">=20.9.0"
   },
