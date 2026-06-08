@@ -27,7 +27,7 @@ jobs:
       - name: 'notify vercel'
         uses: 'vercel/repository-dispatch/actions/status@v1'
         with:
-          name: Vercel - personal-website-ya47: Quality
+          name: 'Vercel - personal-website-ya47: Quality'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
