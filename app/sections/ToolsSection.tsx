@@ -414,7 +414,7 @@ function ToolItem({
   }, [centerExpandedCard, isExpanded, isTouchMode]);
 
   useEffect(() => {
-    if (!isTouchMode || !isPinned) return;
+    if (!isPinned) return;
 
     const handlePointerDown = (event: PointerEvent) => {
       if (!cardRef.current?.contains(event.target as Node)) {
@@ -422,10 +422,18 @@ function ToolItem({
       }
     };
 
+    const handleScroll = () => {
+      if (!isTouchMode) {
+        onClose();
+      }
+    };
+
     document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("scroll", handleScroll, true);
 
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("scroll", handleScroll, true);
     };
   }, [isPinned, isTouchMode, onClose]);
 
@@ -440,10 +448,19 @@ function ToolItem({
       tabIndex={0}
       aria-expanded={isExpanded}
       onClick={onTogglePinned}
+      onBlur={(event) => {
+        if (isPinned && !event.currentTarget.contains(event.relatedTarget as Node)) {
+          onClose();
+        }
+      }}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           onTogglePinned();
+        }
+        if (event.key === "Escape" && isPinned) {
+          event.preventDefault();
+          onClose();
         }
       }}
     >
