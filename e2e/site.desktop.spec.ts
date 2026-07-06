@@ -37,6 +37,10 @@ test("renders the home page and primary actions", async ({ page }) => {
     "target",
     "_blank"
   )
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://www.jhass.dev"
+  )
 })
 
 test("smoothly navigates to home page sections", async ({ page }) => {
@@ -63,6 +67,10 @@ test("renders imprint contact links", async ({ page }) => {
   await expect(page.getByRole("link", { name: "+49 123 456789" })).toHaveAttribute(
     "href",
     "tel:+49123456789"
+  )
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://www.jhass.dev/imprint"
   )
 })
 

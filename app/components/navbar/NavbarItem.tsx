@@ -14,7 +14,8 @@ interface Props {
 export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
   const currentPathName = usePathname();
   const [pathName, elementName] = href.split('#');
-  const isScrollLink = pathName === currentPathName;
+  const isScrollLink =
+    pathName === currentPathName && (href.includes('#') || href === '/');
   const targetElement = elementName ?? 'root';
 
   const linkClasses = "text-white no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]";
@@ -24,7 +25,10 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
     <span className="text-[28px] font-semibold">{title}</span> :
     <span>{title}</span>;
 
-  const isActivePage = href === currentPathName;
+  const isActivePage =
+    href === currentPathName ||
+    (href !== '/' && !href.includes('#') && currentPathName.startsWith(`${href}/`));
+  const activeClasses = isActivePage ? " text-[#29b5f6]" : "";
 
   return (
     isScrollLink ? (
@@ -42,7 +46,7 @@ export function NavbarItem({ title, href, isMobile = false, onClick }: Props) {
         {innerComp}
       </button>
     ) : (
-      <Link href={href} onClick={onClick} className={linkClasses} aria-current={isActivePage ? 'page' : undefined}>
+      <Link href={href} onClick={onClick} className={`${linkClasses}${activeClasses}`} aria-current={isActivePage ? 'page' : undefined}>
         {innerComp}
       </Link>
     )

@@ -1,4 +1,5 @@
 const { withSentryConfig } = require("@sentry/nextjs");
+const { withContentCollections } = require("@content-collections/next");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -17,7 +18,7 @@ const nextConfig = {
   },
 };
 
-module.exports = withSentryConfig(
+const sentryConfig = withSentryConfig(
   nextConfig,
   {
     // For all available options, see:
@@ -55,3 +56,5 @@ module.exports = withSentryConfig(
     }
   },
 );
+
+module.exports = withContentCollections(sentryConfig);

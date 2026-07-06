@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import { trimInside } from "@/helpers";
 import Link from "next/link";
+import { siteConfig } from "@/app/lib/site";
+
+export const metadata: Metadata = {
+    title: "Imprint",
+    alternates: {
+        canonical: "/imprint",
+    },
+    openGraph: {
+        type: "website",
+        siteName: siteConfig.name,
+        title: `Imprint · ${siteConfig.name}`,
+        description: siteConfig.description,
+        url: "/imprint",
+    },
+};
 
 export default function Imprint() {
     return (

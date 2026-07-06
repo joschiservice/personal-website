@@ -10,6 +10,7 @@ const ITEMS = [
   { title: 'Home', href: '/' },
   { title: 'About', href: '/#about-me' },
   { title: 'Timeline', href: '/#experience' },
+  { title: 'Blog', href: '/blog' },
   { title: 'Imprint', href: '/imprint' }
 ];
 
