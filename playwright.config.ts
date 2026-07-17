@@ -1,6 +1,9 @@
 import { defineConfig, devices } from "@playwright/test"
 
-const baseURL = "http://127.0.0.1:3000"
+const reuseExistingServer = process.env.PLAYWRIGHT_REUSE_EXISTING_SERVER === "true"
+const baseURL = reuseExistingServer
+  ? "http://localhost:3000"
+  : "http://127.0.0.1:3000"
 const testEnv = {
   NEXT_PUBLIC_CONTACT_EMAIL: "e2e@example.com",
   NEXT_PUBLIC_CONTACT_PHONE: "+49 123 456789",
@@ -30,7 +33,7 @@ export default defineConfig({
       ...testEnv,
     },
     url: baseURL,
-    reuseExistingServer: false,
+    reuseExistingServer,
     timeout: 120_000,
   },
   projects: [

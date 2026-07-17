@@ -4,13 +4,7 @@ import type { BlogPost } from "@/content-types";
 export type { BlogPost } from "@/content-types";
 
 const posts = allPosts as BlogPost[];
-
-const dateFormatter = new Intl.DateTimeFormat("en", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
+const blogDateFormatters = new Map<string, Intl.DateTimeFormat>();
 
 function comparePosts(left: BlogPost, right: BlogPost) {
   const byDate = right.publishedAt.localeCompare(left.publishedAt);
@@ -64,6 +58,17 @@ export function getPostNavigation(post: BlogPost) {
   };
 }
 
-export function formatBlogDate(date: string) {
-  return dateFormatter.format(new Date(`${date}T00:00:00.000Z`));
+export function formatBlogDate(date: string, locale = "en") {
+  let formatter = blogDateFormatters.get(locale);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+    blogDateFormatters.set(locale, formatter);
+  }
+
+  return formatter.format(new Date(`${date}T00:00:00.000Z`));
 }

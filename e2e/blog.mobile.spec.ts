@@ -5,10 +5,10 @@ test("navigates to the blog from the mobile menu", async ({ page }) => {
 
   await page.getByRole("button", { name: "Open menu" }).click()
   const mobileNavigation = page.getByRole("dialog", { name: "Mobile navigation" })
-  await mobileNavigation.getByRole("link", { name: "Blog" }).click()
+  await mobileNavigation.getByRole("link", { name: "Notes" }).click()
 
   await expect(page).toHaveURL(/\/blog$/)
-  await expect(mobileNavigation).toHaveClass(/opacity-0 pointer-events-none/)
+  await expect(page.locator("#mobile-nav")).toHaveAttribute("data-open", "false")
   await expect(
     page.getByRole("heading", {
       name: "Ideas, tradeoffs, and things worth writing down.",

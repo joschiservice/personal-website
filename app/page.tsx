@@ -7,30 +7,49 @@ import { FlightRadarSection } from "@/app/sections/FlightRadarSection";
 import { InterestsSection } from "@/app/sections/InterestsSection";
 import { LatestPostsSection } from "@/app/sections/LatestPostsSection";
 import { siteConfig } from "@/app/lib/site";
+import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { defaultLocale, localeAlternates, localeHref } from "@/app/i18n/config";
+import { hasCvForLocale } from "@/app/lib/cv";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    siteName: siteConfig.name,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    url: "/",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale, dictionary } = await getRequestDictionary();
+  const canonical = localeHref(locale, "/");
 
-export default function Home() {
+  return {
+    alternates: { canonical, languages: localeAlternates("/") },
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.name,
+      title: dictionary.metadata.title,
+      description: dictionary.metadata.description,
+      url: canonical,
+    },
+  };
+}
+
+export default async function Home() {
+  const { locale, dictionary } = await getRequestDictionary();
+  const localizedCvAvailable = locale === defaultLocale
+    ? false
+    : await hasCvForLocale(locale).catch(() => false);
+
   return (
-    <div>
-      <HomePageHeroSection />
-      <AboutMeSection />
-      <LatestPostsSection />
-      <TimelineSection />
-      <ToolsSection />
-      <InterestsSection />
-      <FlightRadarSection />
+    <div className="site-shell">
+      <HomePageHeroSection
+        copy={dictionary.hero}
+        locale={locale}
+        localizedCvAvailable={localizedCvAvailable}
+      />
+      <AboutMeSection copy={dictionary.about} />
+      <LatestPostsSection
+        copy={dictionary.writing}
+        blogCopy={dictionary.blog}
+        locale={locale}
+      />
+      <TimelineSection copy={dictionary.timeline} locale={locale} />
+      <ToolsSection copy={dictionary.tools} locale={locale} />
+      <InterestsSection copy={dictionary.interests} />
+      <FlightRadarSection copy={dictionary.flightRadar} />
     </div>
   );
 }

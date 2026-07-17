@@ -1,59 +1,66 @@
 import type { Metadata } from "next";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/600.css";
-import "@fontsource/roboto/700.css";
+import "@fontsource/manrope/400.css";
+import "@fontsource/manrope/500.css";
+import "@fontsource/manrope/600.css";
+import "@fontsource/manrope/700.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
 import "./globals.css";
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Navbar } from "./components/navbar";
+import { SiteFooter } from "./components/system/SiteFooter";
 import { siteConfig } from "./lib/site";
+import { getRequestDictionary } from "./i18n/getDictionary";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.name,
-    template: `%s · ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  openGraph: {
-    type: 'website',
-    siteName: siteConfig.name,
-    title: siteConfig.name,
-    description: siteConfig.description,
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const { dictionary } = await getRequestDictionary();
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: dictionary.metadata.title,
+      template: `%s · ${siteConfig.name}`,
+    },
+    description: dictionary.metadata.description,
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.name,
+      title: dictionary.metadata.title,
+      description: dictionary.metadata.description,
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "black-translucent",
+    },
+  };
 }
 
 export const viewport = {
-  themeColor: '#121212',
-  width: 'device-width',
+  themeColor: "#050912",
+  width: "device-width",
   initialScale: 1,
-}
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { locale, dictionary } = await getRequestDictionary();
+
   return (
-    <html lang="en">
+    <html lang={locale} data-scroll-behavior="smooth">
       <body>
-        {/* Skip link for keyboard users */}
-        <a
-          href="#main-content"
-          className="skip-link"
-        >
-          Skip to main content
+        <a href="#main-content" className="skip-link">
+          {dictionary.accessibility.skipToContent}
         </a>
-        <Navbar />
-        <main id="main-content" role="main">
+        <Navbar locale={locale} copy={dictionary.nav} />
+        <main id="main-content" tabIndex={-1}>
           {children}
         </main>
+        <SiteFooter locale={locale} copy={dictionary.footer} />
         <SpeedInsights />
         <Analytics />
       </body>

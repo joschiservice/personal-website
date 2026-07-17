@@ -9,9 +9,10 @@ import {
 } from "react-icons/hi2";
 import { BlogCard } from "@/app/components/blog/BlogCard";
 import { CopyLinkButton } from "@/app/components/blog/CopyLinkButton";
-import { mdxComponents } from "@/app/components/blog/MdxComponents";
+import { createMdxComponents } from "@/app/components/blog/MdxComponents";
 import { TableOfContents } from "@/app/components/blog/TableOfContents";
 import { ZoomableBlogImage } from "@/app/components/blog/ZoomableBlogImage";
+import { Container } from "@/app/components/system/Container";
 import {
   formatBlogDate,
   getDevelopmentDrafts,
@@ -21,6 +22,8 @@ import {
   getRelatedPosts,
 } from "@/app/lib/blog";
 import { siteConfig } from "@/app/lib/site";
+import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { localeHref } from "@/app/i18n/config";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -36,6 +39,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const { locale } = await getRequestDictionary();
   const post = getPostBySlug(slug);
   if (!post) return {};
 
@@ -46,12 +50,12 @@ export async function generateMetadata({
     description: post.description,
     keywords: post.tags,
     alternates: {
-      canonical: post.url,
+      canonical: localeHref(locale, post.url),
     },
     robots: post.draft ? { index: false, follow: false } : undefined,
     openGraph: {
       type: "article",
-      url: post.url,
+      url: localeHref(locale, post.url),
       title: post.title,
       description: post.description,
       publishedTime: post.publishedAt,
@@ -70,14 +74,20 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
+  const { locale, dictionary } = await getRequestDictionary();
+  const copy = dictionary.blog;
+  const mdxComponents = createMdxComponents(copy);
   const post = getPostBySlug(slug);
   if (!post) notFound();
+  const readingTimeLabel = locale === "ja"
+    ? `${post.readingTimeMinutes}${copy.minRead}`
+    : `${post.readingTimeMinutes} ${copy.minRead}`;
 
   const relatedPosts = post.draft ? [] : getRelatedPosts(post);
   const { newer, older } = post.draft
     ? { newer: undefined, older: undefined }
     : getPostNavigation(post);
-  const canonicalUrl = new URL(post.url, siteConfig.url).toString();
+  const canonicalUrl = new URL(localeHref(locale, post.url), siteConfig.url).toString();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -96,7 +106,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <div className="blog-article-shell">
-      <div className="blog-ambient blog-ambient--article" aria-hidden="true" />
+      <div className="blog-reading-progress" aria-hidden="true" />
       {!post.draft ? (
         <script
           type="application/ld+json"
@@ -106,33 +116,45 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         />
       ) : null}
 
-      <article className="relative z-10 pb-24 pt-28 sm:pt-36">
-        <header className="blog-article-header container mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8">
-          <Link href="/blog" className="blog-back-link">
-            <HiArrowLeft aria-hidden="true" />
-            All writing
-          </Link>
-
-          {post.draft ? <span className="blog-draft-badge">Draft preview</span> : null}
-          <div className="blog-article-tags" aria-label="Tags">
-            {post.tags.map((tag) => (
-              <span key={tag}>{tag}</span>
-            ))}
+      <article>
+        <section className="blog-article-hero">
+          <div className="blog-article-hero__art" aria-hidden="true">
+            <span className="blog-article-hero__arc blog-article-hero__arc--blue" />
+            <span className="blog-article-hero__arc blog-article-hero__arc--warm" />
+            <span className="blog-article-hero__orbit" />
           </div>
-          <h1>{post.title}</h1>
-          <p className="blog-article-description">{post.description}</p>
-          <div className="blog-article-meta">
-            <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt)}</time>
-            <span aria-hidden="true">·</span>
-            <span>
-              <HiOutlineClock aria-hidden="true" />
-              {post.readingTimeMinutes} min read
-            </span>
-            <CopyLinkButton />
-          </div>
-        </header>
 
-        <div className="blog-cover container mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8">
+          <Container as="header" className="blog-article-header">
+            <Link href={localeHref(locale, "/blog")} className="blog-back-link">
+              <HiArrowLeft aria-hidden="true" />
+              {copy.allWriting}
+            </Link>
+
+            {post.draft ? <span className="blog-draft-badge">{copy.draftPreview}</span> : null}
+            <div className="blog-article-tags" aria-label={copy.tags}>
+              {post.tags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+            <h1>{post.title}</h1>
+            <p className="blog-article-description">{post.description}</p>
+            <div className="blog-article-meta">
+              <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt, locale)}</time>
+              <span aria-hidden="true">/</span>
+              <span>
+                <HiOutlineClock aria-hidden="true" />
+                {readingTimeLabel}
+              </span>
+              <CopyLinkButton
+                label={copy.copyLink}
+                copiedLabel={copy.copied}
+                failedLabel={copy.copyFailed}
+              />
+            </div>
+          </Container>
+        </section>
+
+        <Container className="blog-cover">
           <ZoomableBlogImage
             src={post.cover.src}
             alt={post.cover.alt}
@@ -144,27 +166,32 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             style={{ width: "100%", height: "auto" }}
             frameClassName="blog-cover-frame"
             aspectRatio={16 / 9}
+            enlargeLabel={copy.enlargeImage}
+            fullscreenLabel={copy.fullscreenImage}
+            closeLabel={copy.closeFullscreenImage}
           />
-        </div>
+        </Container>
 
-        <div className="blog-reader container mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
-          <TableOfContents toc={post.toc} />
-          <div className="blog-prose">
-            <MDXContent code={post.compiledContent} components={mdxComponents} />
-          </div>
-        </div>
+        <section className="blog-article-body">
+          <Container className="blog-reader">
+            <TableOfContents toc={post.toc} label={copy.onThisPage} ariaLabel={copy.tableOfContents} />
+            <div className="blog-prose">
+              <MDXContent code={post.compiledContent} components={mdxComponents} />
+            </div>
+          </Container>
+        </section>
 
         {newer || older ? (
-          <nav className="blog-post-navigation container mx-auto max-w-4xl px-4 sm:px-6 md:px-8" aria-label="More articles">
+          <nav className="site-container blog-post-navigation" aria-label={copy.moreArticles}>
             {newer ? (
-              <Link href={newer.url} className="blog-post-nav-link blog-post-nav-link--newer">
+              <Link href={localeHref(locale, newer.url)} className="blog-post-nav-link blog-post-nav-link--newer">
                 <HiArrowLeft aria-hidden="true" />
-                <span><small>Newer</small>{newer.title}</span>
+                <span><small>{copy.newer}</small>{newer.title}</span>
               </Link>
             ) : <span />}
             {older ? (
-              <Link href={older.url} className="blog-post-nav-link blog-post-nav-link--older">
-                <span><small>Older</small>{older.title}</span>
+              <Link href={localeHref(locale, older.url)} className="blog-post-nav-link blog-post-nav-link--older">
+                <span><small>{copy.older}</small>{older.title}</span>
                 <HiArrowRight aria-hidden="true" />
               </Link>
             ) : null}
@@ -172,14 +199,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         ) : null}
 
         {relatedPosts.length > 0 ? (
-          <section className="blog-related container mx-auto max-w-6xl px-4 sm:px-6 md:px-8" aria-labelledby="related-writing-title">
+          <section className="site-container blog-related" aria-labelledby="related-writing-title">
             <div className="blog-related-heading">
-              <span>Keep reading</span>
-              <h2 id="related-writing-title">Related writing</h2>
+              <span>{copy.keepReading}</span>
+              <h2 id="related-writing-title">{copy.related}</h2>
             </div>
             <div className="blog-grid blog-grid--pair">
               {relatedPosts.map((relatedPost) => (
-                <BlogCard key={relatedPost.slug} post={relatedPost} variant="compact" />
+                <BlogCard
+                  key={relatedPost.slug}
+                  post={relatedPost}
+                  variant="compact"
+                  locale={locale}
+                  copy={copy}
+                />
               ))}
             </div>
           </section>

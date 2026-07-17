@@ -3,10 +3,11 @@ const { withContentCollections } = require("@content-collections/next");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // Fix for react-spring not working properly
+  reactStrictMode: true,
   turbopack: {
     root: __dirname,
   },
+  allowedDevOrigins: ['192.168.178.111'],
   images: {
     remotePatterns: [
       {

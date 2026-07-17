@@ -1,89 +1,81 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FaRss } from "react-icons/fa";
-import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { HiArrowRight } from "react-icons/hi2";
 import { BlogPostGrid } from "@/app/components/blog/BlogPostGrid";
+import { Container } from "@/app/components/system/Container";
 import { getDevelopmentDrafts, getPublishedPosts } from "@/app/lib/blog";
+import { localeAlternates, localeHref } from "@/app/i18n/config";
+import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { siteConfig } from "@/app/lib/site";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Notes from Joschua Haß on software engineering, product craft, and building reliable systems.",
-  alternates: {
-    canonical: "/blog",
-    types: {
-      "application/rss+xml": "/blog/rss.xml",
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale, dictionary } = await getRequestDictionary();
+  const canonical = localeHref(locale, "/blog");
+  return {
+    title: dictionary.blog.metadataTitle,
+    description: dictionary.blog.metadataDescription,
+    alternates: {
+      canonical,
+      languages: localeAlternates("/blog"),
+      types: { "application/rss+xml": "/blog/rss.xml" },
     },
-  },
-  openGraph: {
-    title: "Blog · Joschua Haß",
-    description:
-      "Notes on software engineering, product craft, and building reliable systems.",
-    url: "/blog",
-  },
-};
+    openGraph: {
+      title: `${dictionary.blog.metadataTitle} · ${siteConfig.name}`,
+      description: dictionary.blog.metadataDescription,
+      url: canonical,
+    },
+  };
+}
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const { locale, dictionary } = await getRequestDictionary();
+  const copy = dictionary.blog;
   const posts = getPublishedPosts();
   const drafts = getDevelopmentDrafts();
 
   return (
-    <div className="blog-page-shell">
-      <div className="blog-ambient" aria-hidden="true" />
-      <section className="blog-index-hero">
-        <div className="container relative z-10 mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8">
-          <header className="blog-index-header">
-            <div className="blog-index-kicker">
-              <HiOutlinePencilSquare aria-hidden="true" />
-              Field notes
-            </div>
-            <h1>
-              Ideas, tradeoffs, and things <span>worth writing down.</span>
-            </h1>
-            <p>
-              Notes on building thoughtful products, untangling technical systems,
-              and what I learn along the way.
-            </p>
-            <Link href="/blog/rss.xml" className="blog-rss-link">
-              <FaRss aria-hidden="true" />
-              Follow via RSS
-            </Link>
-          </header>
-        </div>
+    <div className="journal-page">
+      <section className="journal-hero">
+        <div className="journal-hero__art" aria-hidden="true" />
+        <Container>
+          <p className="system-label">{copy.label}</p>
+          <h1>{copy.title}</h1>
+          <p>{copy.intro}</p>
+          <Link href="/blog/rss.xml" className="text-action">
+            {copy.rss}
+            <HiArrowRight aria-hidden="true" />
+          </Link>
+        </Container>
       </section>
 
-      <div className="blog-index-content container relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 md:px-8">
-
-        {posts.length > 0 ? (
-          <BlogPostGrid posts={posts} />
-        ) : (
-          <section className="blog-empty-state" aria-labelledby="blog-empty-title">
-            <HiOutlinePencilSquare className="blog-empty-icon" aria-hidden="true" />
-            <div>
-              <p className="blog-empty-label">First dispatch pending</p>
-              <h2 id="blog-empty-title">The notebook is open.</h2>
-              <p>
-                I am shaping the first few pieces now. In the meantime, the rest
-                of the site has plenty of projects and stories to explore.
-              </p>
-              <Link href="/#experience">Explore my work</Link>
+      <section className="journal-index editorial-section">
+        <Container>
+          {posts.length > 0 ? (
+            <BlogPostGrid posts={posts} locale={locale} copy={copy} />
+          ) : (
+            <div className="journal-empty">
+              <p className="system-label">{copy.emptyLabel}</p>
+              <h2>{copy.emptyTitle}</h2>
+              <p>{copy.emptyBody}</p>
+              <Link href={localeHref(locale, "/#experience")} className="text-action">
+                {copy.exploreWork}
+                <HiArrowRight aria-hidden="true" />
+              </Link>
             </div>
-          </section>
-        )}
+          )}
 
-        {drafts.length > 0 ? (
-          <section className="blog-drafts" aria-labelledby="blog-drafts-title">
-            <div className="blog-drafts-heading">
+          {drafts.length > 0 ? (
+            <section className="journal-drafts" aria-labelledby="blog-drafts-title">
               <div>
-                <span>Local development only</span>
-                <h2 id="blog-drafts-title">Draft previews</h2>
+                <p className="system-label">{copy.localOnly}</p>
+                <h2 id="blog-drafts-title">{copy.drafts}</h2>
+                <p>{copy.draftsBody}</p>
               </div>
-              <p>These entries are never included in a production build.</p>
-            </div>
-            <BlogPostGrid posts={drafts} />
-          </section>
-        ) : null}
-      </div>
+              <BlogPostGrid posts={drafts} locale={locale} copy={copy} />
+            </section>
+          ) : null}
+        </Container>
+      </section>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.pnpm-store/
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -46,3 +47,7 @@ next-env.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Local design QA artifacts
+/.codex-audit/
+/design-qa.md

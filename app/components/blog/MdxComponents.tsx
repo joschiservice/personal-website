@@ -4,6 +4,7 @@ import type { MDXComponents } from "mdx/types";
 import { HiOutlineLink } from "react-icons/hi2";
 import { BlogImage } from "./BlogImage";
 import { Callout } from "./Callout";
+import type { Dictionary } from "@/app/i18n/getDictionary";
 
 function HeadingLink({
   as: Tag,
@@ -42,10 +43,19 @@ function MdxLink({ href = "", children, ...props }: ComponentPropsWithoutRef<"a"
   );
 }
 
-export const mdxComponents: MDXComponents = {
-  a: MdxLink,
-  h2: (props) => <HeadingLink as="h2" {...props} />,
-  h3: (props) => <HeadingLink as="h3" {...props} />,
-  BlogImage,
-  Callout,
-};
+export function createMdxComponents(copy: Dictionary["blog"]): MDXComponents {
+  return {
+    a: MdxLink,
+    h2: (props) => <HeadingLink as="h2" {...props} />,
+    h3: (props) => <HeadingLink as="h3" {...props} />,
+    BlogImage: (props) => (
+      <BlogImage
+        {...props}
+        enlargeLabel={copy.enlargeImage}
+        fullscreenLabel={copy.fullscreenImage}
+        closeLabel={copy.closeFullscreenImage}
+      />
+    ),
+    Callout,
+  };
+}

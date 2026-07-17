@@ -1,16 +1,45 @@
 "use client";
 
-import { useState } from "react";
-import { HiOutlineCheck, HiOutlineLink } from "react-icons/hi2";
+import { useEffect, useRef, useState } from "react";
+import { HiOutlineCheck, HiOutlineExclamationTriangle, HiOutlineLink } from "react-icons/hi2";
 
-export function CopyLinkButton() {
-  const [copied, setCopied] = useState(false);
+type CopyStatus = "idle" | "copied" | "failed";
+
+export function CopyLinkButton({
+  label = "Copy link",
+  copiedLabel = "Copied",
+  failedLabel = "Copy failed",
+}: {
+  label?: string;
+  copiedLabel?: string;
+  failedLabel?: string;
+}) {
+  const [status, setStatus] = useState<CopyStatus>("idle");
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(
+    () => () => {
+      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+    },
+    []
+  );
 
   async function copyLink() {
-    await navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
+    if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+
+    try {
+      if (!navigator.clipboard) throw new Error("Clipboard API unavailable");
+      await navigator.clipboard.writeText(window.location.href);
+      setStatus("copied");
+    } catch {
+      setStatus("failed");
+    }
+
+    resetTimerRef.current = setTimeout(() => setStatus("idle"), 1800);
   }
+
+  const currentLabel =
+    status === "copied" ? copiedLabel : status === "failed" ? failedLabel : label;
 
   return (
     <button
@@ -19,12 +48,14 @@ export function CopyLinkButton() {
       className="blog-copy-link"
       aria-live="polite"
     >
-      {copied ? (
+      {status === "copied" ? (
         <HiOutlineCheck aria-hidden="true" />
+      ) : status === "failed" ? (
+        <HiOutlineExclamationTriangle aria-hidden="true" />
       ) : (
         <HiOutlineLink aria-hidden="true" />
       )}
-      {copied ? "Copied" : "Copy link"}
+      {currentLabel}
     </button>
   );
 }

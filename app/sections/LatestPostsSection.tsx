@@ -1,48 +1,54 @@
 import Link from "next/link";
-import { HiArrowRight, HiOutlinePencilSquare } from "react-icons/hi2";
-import { SectionHeading } from "@/app/components/SectionHeading";
+import { HiArrowRight } from "react-icons/hi2";
+import { Container } from "@/app/components/system/Container";
+import { SectionIntro } from "@/app/components/system/SectionIntro";
 import { BlogCard } from "@/app/components/blog/BlogCard";
 import { getPublishedPosts } from "@/app/lib/blog";
+import { localeHref, type Locale } from "@/app/i18n/config";
+import type { Dictionary } from "@/app/i18n/getDictionary";
 
-export function LatestPostsSection() {
+export function LatestPostsSection({
+  copy,
+  blogCopy,
+  locale,
+}: {
+  copy: Dictionary["writing"];
+  blogCopy: Dictionary["blog"];
+  locale: Locale;
+}) {
   const posts = getPublishedPosts().slice(0, 3);
   if (posts.length === 0) return null;
 
   return (
     <section
       id="latest-writing"
+      className="editorial-section writing-section"
       aria-labelledby="latest-writing-heading"
-      className="latest-writing-section"
     >
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-        <SectionHeading
-          title="Latest Writing"
-          icon={HiOutlinePencilSquare}
-          gradient="from-cyan-500/50 via-blue-400/50 to-violet-400/50"
+      <Container>
+        <SectionIntro
+          label={copy.label}
+          title={copy.title}
+          description={copy.intro}
           id="latest-writing-heading"
+          align="split"
         />
-        <p className="latest-writing-intro">
-          Notes on building thoughtful products, navigating technical tradeoffs,
-          and the occasional rabbit hole worth sharing.
-        </p>
-
-        <div className={`latest-writing-grid latest-writing-grid--${posts.length}`}>
-          {posts.map((post) => (
+        <div className="writing-section__grid">
+          {posts.map((post, index) => (
             <BlogCard
               key={post.slug}
               post={post}
-              variant={posts.length === 1 ? "feature" : "standard"}
+              variant={index === 0 ? "feature" : "standard"}
+              locale={locale}
+              copy={blogCopy}
             />
           ))}
         </div>
-
-        <div className="latest-writing-action">
-          <Link href="/blog">
-            Explore all writing
-            <HiArrowRight aria-hidden="true" />
-          </Link>
-        </div>
-      </div>
+        <Link href={localeHref(locale, "/blog")} className="text-action">
+          {copy.allWriting}
+          <HiArrowRight aria-hidden="true" />
+        </Link>
+      </Container>
     </section>
   );
 }

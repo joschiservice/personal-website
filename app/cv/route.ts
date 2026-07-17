@@ -1,14 +1,13 @@
-import { NextResponse } from "next/server"
-import { getCachedCvUrl } from "@/app/lib/cv"
+import { NextResponse } from "next/server";
+import { getCvUrl } from "@/app/lib/cv";
 
-export const revalidate = 3600
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 
-export async function GET() {
-  const url = await getCachedCvUrl()
+export async function GET(request: Request) {
+  const locale = new URL(request.url).searchParams.get("lang") ?? "en";
+  const url = await getCvUrl(locale);
   if (!url) {
-    return NextResponse.json({ error: "CV not found" }, { status: 404 })
+    return NextResponse.json({ error: "CV not found" }, { status: 404 });
   }
-  return NextResponse.redirect(url, { status: 302 })
+  return NextResponse.redirect(url, { status: 302 });
 }
-

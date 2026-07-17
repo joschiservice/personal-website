@@ -1,106 +1,90 @@
 import Link from "next/link";
-import { FiExternalLink } from "react-icons/fi";
-import {
-  type CareerMilestone,
-  getMilestoneBadgeLabel,
-} from "@/app/data/timelineSection";
-import { getFormattedTimeSpan } from "../../lib/date";
+import { HiArrowUpRight } from "react-icons/hi2";
+import type { CareerMilestone } from "@/app/data/timelineSection";
+import type { Locale } from "@/app/i18n/config";
+import type { Dictionary } from "@/app/i18n/getDictionary";
+import { getFormattedTimeSpan } from "@/app/lib/date";
 import styles from "./TimelineSection.module.css";
 import { ExperienceDetails } from "./ExperienceDetails";
 
+type TimelineCopy = Dictionary["timeline"];
+
 export function ExperienceCard({
   experience,
-  children,
+  copy,
 }: {
   experience: CareerMilestone;
-  children?: React.ReactNode;
+  copy: TimelineCopy;
 }) {
   return (
-    <article className={styles.primaryCard}>
-      <div className={styles.cardTopRow}>
-        <span className={styles.primaryBadge}>
-          {getMilestoneBadgeLabel(experience.kind)}
-        </span>
-        <span className={styles.subTitleBadge}>{experience.subTitle}</span>
+    <div className={styles.primary}>
+      <div className={styles.primaryMeta}>
+        <span>{copy.kinds[experience.kind]}</span>
+        <span>{experience.subTitle}</span>
       </div>
-
-      <div className="mt-5" data-emphasis={experience.emphasis}>
-        <MilestoneHeading
-          title={experience.title}
-          organization={experience.organization}
-          link={experience.link}
-        />
-      </div>
-
-      <p className="mt-5 text-[15px] leading-7 text-white/80">
-        {experience.summary}
-      </p>
-
-      <ExperienceDetails tasks={experience.tasks} />
-
+      <MilestoneHeading milestone={experience} />
+      <p className={styles.summary}>{experience.summary}</p>
+      {experience.impact?.length ? (
+        <dl
+          className={styles.impactGrid}
+          aria-label={`${experience.organization ?? experience.title} ${copy.impactLabel}`}
+        >
+          {experience.impact.map((item) => (
+            <div key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+      <ExperienceDetails tasks={experience.tasks} label={copy.readMore} />
       {experience.skills?.length ? (
-        <div className={styles.skillRow}>
+        <div className={styles.skills}>
           {experience.skills.map((skill) => (
-            <span key={skill} className={styles.primarySkillChip}>
-              {skill}
-            </span>
+            <span key={skill}>{skill}</span>
           ))}
         </div>
       ) : null}
-
-      {children}
-    </article>
+    </div>
   );
 }
 
 export function AttachedMilestoneCard({
   milestone,
+  copy,
+  locale,
 }: {
   milestone: CareerMilestone;
+  copy: TimelineCopy;
+  locale: Locale;
 }) {
-  const isCertificate = milestone.kind === "certificate";
+  const className =
+    milestone.emphasis === "primary"
+      ? `${styles.attached} ${styles.attachedFeatured}`
+      : styles.attached;
 
   return (
-    <article
-      className={`${styles.attachedCard} ${
-        isCertificate ? styles.certificateCard : styles.projectCard
-      }`}
-    >
-      <div className={styles.attachedStem} aria-hidden="true" />
-      <div className="flex items-center justify-between gap-3">
-        <span className={styles.secondaryBadge}>
-          {getMilestoneBadgeLabel(milestone.kind)}
-        </span>
-        <span className={styles.routeMeta}>
-          {getFormattedTimeSpan(milestone.start, milestone.end)}
+    <article className={className}>
+      <div className={styles.attachedMeta}>
+        <span>{copy.kinds[milestone.kind]}</span>
+        <span>
+          {getFormattedTimeSpan(
+            milestone.start,
+            milestone.end,
+            locale,
+            copy.present
+          )}
         </span>
       </div>
-
-      <p className={`${styles.routeLabel} mt-4`}>{milestone.routeLabel}</p>
-
-      <div className="mt-3" data-emphasis={milestone.emphasis}>
-        <MilestoneHeading
-          title={milestone.title}
-          organization={milestone.subTitle}
-          link={milestone.link}
-        />
-      </div>
-
-      <p className="mt-4 text-sm leading-6 text-white/75">{milestone.summary}</p>
-
+      <p className={styles.attachedRoute}>{milestone.routeLabel}</p>
+      <MilestoneHeading milestone={milestone} />
+      <p className={styles.attachedSubtitle}>{milestone.subTitle}</p>
+      <p className={styles.attachedSummary}>{milestone.summary}</p>
+      <ExperienceDetails tasks={milestone.tasks} label={copy.readMore} />
       {milestone.skills?.length ? (
-        <div className={styles.secondarySkillRow}>
+        <div className={styles.smallSkills}>
           {milestone.skills.map((skill) => (
-            <span
-              key={skill}
-              className={
-                isCertificate
-                  ? styles.certificateSkillChip
-                  : styles.secondarySkillChip
-              }
-            >
-              {skill}
-            </span>
+            <span key={skill}>{skill}</span>
           ))}
         </div>
       ) : null}
@@ -108,49 +92,24 @@ export function AttachedMilestoneCard({
   );
 }
 
-function MilestoneHeading({
-  title,
-  organization,
-  link,
-}: {
-  title: string;
-  organization?: string;
-  link?: string;
-}) {
-  const titleContent = (
+function MilestoneHeading({ milestone }: { milestone: CareerMilestone }) {
+  const content = (
     <>
-      <span className="text-2xl font-semibold leading-tight text-white transition-colors duration-300 group-hover:text-cyan-100">
-        {title}
-      </span>
-      {link ? (
-        <FiExternalLink
-          className="mt-1 h-4 w-4 shrink-0 text-cyan-200/80 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-          aria-hidden="true"
-        />
-      ) : null}
+      <span>{milestone.title}</span>
+      {milestone.link ? <HiArrowUpRight aria-hidden="true" /> : null}
     </>
   );
 
   return (
-    <div>
-      {link ? (
-        <Link
-          href={link}
-          target="_blank"
-          rel="noreferrer"
-          className="group inline-flex items-start gap-2 text-left"
-        >
-          {titleContent}
+    <div className={styles.heading}>
+      {milestone.link ? (
+        <Link href={milestone.link} target="_blank" rel="noreferrer">
+          {content}
         </Link>
       ) : (
-        <div className="inline-flex items-start gap-2 text-left">{titleContent}</div>
+        <h3>{content}</h3>
       )}
-
-      {organization ? (
-        <p className="mt-2 text-sm uppercase tracking-[0.3em] text-cyan-100/55">
-          {organization}
-        </p>
-      ) : null}
+      {milestone.organization ? <p>{milestone.organization}</p> : null}
     </div>
   );
 }

@@ -1,6 +1,14 @@
 import type { BlogTocItem } from "@/content-types";
 
-export function TableOfContents({ toc }: { toc: BlogTocItem[] }) {
+export function TableOfContents({
+  toc,
+  label = "On this page",
+  ariaLabel = "Table of contents",
+}: {
+  toc: BlogTocItem[];
+  label?: string;
+  ariaLabel?: string;
+}) {
   if (toc.length === 0) return null;
 
   const links = (
@@ -16,11 +24,11 @@ export function TableOfContents({ toc }: { toc: BlogTocItem[] }) {
   return (
     <>
       <details className="blog-toc-mobile">
-        <summary>On this page</summary>
+        <summary>{label}</summary>
         {links}
       </details>
-      <aside className="blog-toc-desktop" aria-label="Table of contents">
-        <p>On this page</p>
+      <aside className="blog-toc-desktop" aria-label={ariaLabel}>
+        <p>{label}</p>
         {links}
       </aside>
     </>

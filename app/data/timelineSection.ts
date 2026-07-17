@@ -1,6 +1,11 @@
 export type MilestoneKind = "experience" | "project" | "certificate";
 export type MilestoneEmphasis = "primary" | "secondary";
 
+export interface CareerImpact {
+  label: string;
+  value: string;
+}
+
 export interface CareerMilestone {
   id: string;
   kind: MilestoneKind;
@@ -11,8 +16,9 @@ export interface CareerMilestone {
   end?: Date;
   subTitle: string;
   summary: string;
-  skills?: string[];
-  tasks?: string[];
+  impact?: readonly CareerImpact[];
+  skills?: readonly string[];
+  tasks?: readonly string[];
   routeLabel: string;
   emphasis: MilestoneEmphasis;
 }
@@ -25,31 +31,54 @@ export interface ExperienceStop {
 export const timelineSectionContent = {
   title: "Career Timeline",
   description:
-    "From embedded systems to desktop software to full-stack product ownership, this is the route so far, including the side builds and credentials that shaped it.",
+    "Professional roles, independent products, and credentials—from embedded systems and desktop software to full-stack product ownership and optimization.",
 } as const;
 
 const careerMilestones: CareerMilestone[] = [
+  {
+    id: "independent-products",
+    kind: "experience",
+    title: "Independent Product Engineer",
+    organization: "ShiftIQ · RosterSpec",
+    start: new Date(2025, 11, 1),
+    subTitle: "Product Engineering & Optimization",
+    summary:
+      "ShiftIQ and the solver work that became RosterSpec began together. Working directly with a care-service manager, I built ShiftIQ into a post-MVP workforce scheduling product close to pilot readiness. Its reusable scheduling core now continues as RosterSpec, which I am preparing for a public open-source release.",
+    impact: [
+      { label: "Product stage", value: "Post-MVP" },
+      { label: "Domain validation", value: "Care-service manager" },
+      { label: "Planning workflow", value: "Hours → minutes" },
+      { label: "Current work", value: "Release preparation" },
+    ],
+    routeLabel: "Independent Product Track",
+    emphasis: "primary",
+  },
   {
     id: "elektrohub",
     kind: "experience",
     title: "Sole Full-Stack Engineer, E-Commerce & Operations",
     organization: "Elektrohub",
     link: "https://www.elektrohub.de",
-    start: new Date(2024, 2, 1),
-    end: new Date(2026, 1, 9),
+    start: new Date(2024, 1, 1),
+    end: new Date(2026, 0, 9),
     subTitle: "Full-Time",
     summary:
-      "As Elektrohub's sole engineer, I owned development of a business-critical e-commerce and operations platform spanning order, catalog, customer, and internal workflow systems.",
+      "As Elektrohub's sole engineer, I rebuilt and operated a business-critical e-commerce and operations platform, owning product discovery, architecture, integrations, delivery, and production reliability end to end.",
+    impact: [
+      { label: "Role scope", value: "Sole engineer" },
+      { label: "Production", value: "10,000+ orders" },
+      { label: "Performance", value: "~80% faster" },
+      { label: "Largest gain", value: "10+ min → seconds" },
+    ],
     tasks: [
-      "Modernized major platform areas from Laravel and PHP to NestJS and TypeScript, creating a more maintainable and scalable foundation for future work",
-      "Built and maintained five external integrations, primarily REST-based, including Shopify GraphQL and Hydrogen flows plus FTP-based order exchange with Galaxus",
-      "Reworked the internal B2B platform used by around 20 users into a significantly faster and more responsive React experience",
-      "Improved critical query performance from 10+ minutes to seconds, often reducing execution times by roughly 80%",
-      "Supported reliable processing of 10,000+ orders through platform improvements, analytics dashboards, automated testing, and operational ownership",
-      "Built and maintained customer-facing commerce experiences and a modular internal platform for catalogs, orders, and customer workflows",
-      "Shipped adjacent external work using Symfony PHP and Vue.js while continuing to improve legacy and modern codebases in parallel",
-      "Owned production infrastructure across Docker, CI/CD, DigitalOcean, Vercel, Sentry, backups, and release processes",
-      "Launched a generative AI Shopify app to help merchants create blog content and strengthen digital marketing workflows",
+      "Rebuilt the core Laravel and Vue.js platform with NestJS, Next.js, TypeScript, and PostgreSQL to improve maintainability, observability, testing, and future extensibility",
+      "Designed a modular connector architecture for four external integrations—Galaxus, JTL Wawi, JTL Fulfillment Network, and Shopify—plus the company's custom B2B commerce platform",
+      "Reworked the B2B platform used by more than 20 users into a faster, more responsive React experience focused on search and efficient ordering workflows",
+      "Improved important workflows and database operations by approximately 80% on average, with the largest cases falling from more than ten minutes to seconds",
+      "Supported reliable processing of more than 10,000 orders through platform improvements, analytics dashboards, automated testing, and operational ownership",
+      "Owned infrastructure and production operations across Docker, GitHub Actions, DigitalOcean, Vercel, PostgreSQL, Sentry, backups, releases, and incident response",
+      "Gathered requirements directly from employees, management, and B2B customers, then prioritized work by user value, business impact, complexity, and effort",
+      "Built an internal LLM-assisted tool for drafting Shopify blog content and shipped adjacent client work using Symfony, PHP, and Vue.js",
     ],
     skills: [
       "React (Next.js)",
@@ -74,13 +103,20 @@ const careerMilestones: CareerMilestone[] = [
     end: new Date(2024, 0, 1),
     subTitle: "Apprenticeship",
     summary:
-      "I took on real software engineering responsibility early and contributed well beyond a typical apprenticeship scope, working on production desktop software used by customers.",
+      "During an accelerated 2.5-year apprenticeship, I contributed to production desktop software, modernized legacy C# and WPF areas, and completed an IHK final project focused on maintainable data access and responsive UX.",
+    impact: [
+      { label: "Program", value: "3 years → 2.5" },
+      { label: "IHK result", value: "83 points · Good" },
+      { label: "Final project", value: "62 hours" },
+      { label: "Query work", value: "5 queries → 1" },
+    ],
     tasks: [
-      "Improved core UI and application logic in a C# .NET WPF software system through larger refactors and feature delivery",
-      "Optimized database queries, investigated production issues, tested changes thoroughly, and shipped new functionality used by customers",
-      "Added new product capabilities, including a medical data module and an IntelliSense-related feature",
-      "Built supporting desktop applications and prototypes, including a text editor with IntelliSense features, a calculator, and a demo web content renderer with additional optimizations",
-      "Maintained and evolved existing software while learning how to deliver changes safely in a production environment",
+      "Modernized established areas of the Qualli.life desktop product using C#, .NET Framework, WPF, XAML, MVVM, Entity Framework, and relational databases",
+      "Refactored and migrated application areas from Visual Basic to C#, improved user interfaces, investigated production issues, tested changes, and shipped functionality used by customers",
+      "Built an IntelliSense-like autocomplete and syntax-highlighting experience for domain-specific placeholders in document and print templates",
+      "Worked on a separate medical data module and contributed to database-backed application logic in a mature production codebase",
+      "Redesigned the foundation of the contact module for my IHK final project, including asynchronous loading, permissions, printing, multi-user scenarios, and centralized data access",
+      "Reduced one final-project database operation from five queries to one while improving separation of responsibilities and avoiding unnecessary writes",
     ],
     skills: ["C#", "WPF", ".NET"],
     routeLabel: "Systems Leg",
@@ -96,7 +132,7 @@ const careerMilestones: CareerMilestone[] = [
     end: new Date(2019, 2, 1),
     subTitle: "Internship",
     summary:
-      "During my internship, I worked close to hardware and real-time data handling, which gave me an early foundation in reliability-focused software development.",
+      "During this embedded software internship, I developed microcontroller software and processed real-time sensor data, gaining an early foundation in hardware-adjacent engineering.",
     tasks: [
       "Development of microcontroller software",
       "Reading & processing real-time sensor data",
@@ -108,13 +144,51 @@ const careerMilestones: CareerMilestone[] = [
   {
     id: "shiftiq",
     kind: "project",
-    title: "ShiftIQ - Intelligent Shift Management Platform",
-    start: new Date(2026, 1, 1),
-    subTitle: "Product Engineering",
+    title: "ShiftIQ — Intelligent Workforce Scheduling Platform",
+    start: new Date(2025, 11, 1),
+    end: new Date(2026, 3, 30),
+    subTitle: "Workforce Scheduling Product",
     summary:
-      "I am building ShiftIQ as an intelligent shift management platform that combines a recruiter- and operator-friendly product experience with deeper scheduling logic in the backend.",
-    skills: ["Next.js", "NestJS", "TypeScript", "Python", "OR-Tools"],
-    routeLabel: "Next Build",
+      "Built around a real care-service scheduling process, ShiftIQ models contracts, absences, vacations, employee preferences, staffing requirements, and configurable hard and soft constraints. Its Python, FastAPI, and OR-Tools solver generates complete candidate schedules in minutes, replacing hours of manual construction with a review-and-adjustment workflow. The product reached post-MVP and near-pilot readiness before rollout was paused because replacing the intended customer's contracted software was not commercially viable.",
+    tasks: [
+      "Translated a care-service manager's real planning process into product requirements and human-centered scheduling workflows",
+      "Built employee, contract, absence, vacation, preference, staffing, notification, printing, and schedule review capabilities",
+      "Implemented a dedicated Python, FastAPI, and OR-Tools solver for configurable operational constraints and employee preferences",
+      "Reached post-MVP and near-pilot readiness before commercial validation revealed that the intended customer's existing vendor contract made switching impractical",
+    ],
+    skills: ["Next.js", "NestJS", "PostgreSQL", "Python", "FastAPI", "OR-Tools"],
+    routeLabel: "Product Build",
+    emphasis: "primary",
+  },
+  {
+    id: "rosterspec",
+    kind: "project",
+    title: "RosterSpec — Open-Source Scheduling Solver",
+    start: new Date(2025, 11, 1),
+    subTitle: "Open-Source Optimization System",
+    summary:
+      "RosterSpec began alongside ShiftIQ as its reusable solver foundation. It is now being generalized into an open-source scheduling system that expresses domain requirements as explicit, testable hard and soft constraints. I am preparing the public repository and documentation, and exploring an interactive playground for demonstrating how rule changes affect generated plans.",
+    tasks: [
+      "Developed the reusable solver foundation in parallel with ShiftIQ rather than treating optimization as product-specific application logic",
+      "Generalized scheduling rules into structured, testable constraints suitable for reuse across workforce-planning scenarios",
+      "Added an experimental LLM evaluation harness for exploring language models within structured and verifiable engineering workflows",
+      "Preparing the codebase, documentation, and examples for its public open-source release",
+    ],
+    skills: ["Python", "OR-Tools", "Constraint Programming", "LLM Evaluation"],
+    routeLabel: "Open-Source Continuation",
+    emphasis: "primary",
+  },
+  {
+    id: "ihk-qualification",
+    kind: "certificate",
+    title: "German IHK Qualification — Software Development",
+    start: new Date(2024, 0, 1),
+    end: new Date(2024, 0, 1),
+    subTitle: "Recognized Vocational Qualification",
+    summary:
+      "Completed the standard three-year Fachinformatiker für Anwendungsentwicklung apprenticeship in 2.5 years with 83 points (Good); the qualification corresponds to German and European Qualifications Framework Level 4.",
+    skills: ["EQF Level 4", "83 points · Good"],
+    routeLabel: "Qualification Milestone",
     emphasis: "secondary",
   },
   {
@@ -189,10 +263,12 @@ const careerMilestones: CareerMilestone[] = [
 ];
 
 const attachedMilestones: Record<string, string> = {
-  shiftiq: "elektrohub",
+  shiftiq: "independent-products",
+  rosterspec: "independent-products",
   sparky: "elektrohub",
   ng001: "elektrohub",
   arcticwolf: "nistech",
+  "ihk-qualification": "nistech",
   "ibm-full-stack-certificate": "nistech",
 };
 
@@ -227,6 +303,9 @@ export function getMilestoneBadgeLabel(kind: MilestoneKind) {
 }
 
 function sortNewestFirst(a: CareerMilestone, b: CareerMilestone) {
+  if (!a.end && b.end) return -1;
+  if (a.end && !b.end) return 1;
+
   return getMilestoneSortTime(b) - getMilestoneSortTime(a);
 }
 

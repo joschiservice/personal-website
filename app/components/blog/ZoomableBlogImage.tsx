@@ -20,6 +20,9 @@ import { HiOutlineArrowsPointingOut, HiXMark } from "react-icons/hi2";
 interface ZoomableBlogImageProps extends ImageProps {
   frameClassName?: string;
   aspectRatio?: number;
+  enlargeLabel?: string;
+  fullscreenLabel?: string;
+  closeLabel?: string;
 }
 
 type LightboxStyle = CSSProperties & {
@@ -30,6 +33,9 @@ export function ZoomableBlogImage({
   frameClassName = "",
   aspectRatio,
   alt,
+  enlargeLabel = "Enlarge image",
+  fullscreenLabel = "Fullscreen image",
+  closeLabel = "Close fullscreen image",
   ...imageProps
 }: ZoomableBlogImageProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -132,7 +138,7 @@ export function ZoomableBlogImage({
             }}
             role="dialog"
             aria-modal="true"
-            aria-label={`Fullscreen image: ${alt}`}
+            aria-label={`${fullscreenLabel}: ${alt}`}
           >
             <button
               ref={closeButtonRef}
@@ -144,7 +150,7 @@ export function ZoomableBlogImage({
                 right: "1rem",
                 zIndex: 1,
               }}
-              aria-label="Close fullscreen image"
+              aria-label={closeLabel}
               onPointerDown={() => {
                 restoreFocusWithoutRingRef.current = true;
               }}
@@ -196,7 +202,7 @@ export function ZoomableBlogImage({
         type="button"
         className={`blog-zoomable-image ${frameClassName}`.trim()}
         style={{ display: "block", position: "relative", width: "100%" }}
-        aria-label={`Enlarge image: ${alt}`}
+        aria-label={`${enlargeLabel}: ${alt}`}
         aria-haspopup="dialog"
         onPointerDown={() => {
           restoreFocusWithoutRingRef.current = true;

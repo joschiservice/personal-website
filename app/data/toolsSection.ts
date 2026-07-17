@@ -1,4 +1,5 @@
 export const toolCategories = [
+  "Languages",
   "Frameworks",
   "Libraries",
   "Platform",
@@ -29,6 +30,34 @@ export const toolsSectionContent = {
   title: "Tools, Frameworks & Services",
   categories: toolCategories,
   items: [
+    {
+      name: "TypeScript",
+      imageName: "TypeScript",
+      category: "Languages",
+      rarity: "Legendary",
+      title: "Type Smith",
+      flavor:
+        "The center of my stack, from product interfaces to services and shared contracts.",
+      stats: [
+        { label: "Contracts", value: "Explicit" },
+        { label: "Refactors", value: "Confident" },
+        { label: "Stack Reach", value: "End-to-End" },
+      ],
+    },
+    {
+      name: "Node.js",
+      imageName: "NodeJS",
+      category: "Platform",
+      rarity: "Legendary",
+      title: "Runtime Captain",
+      flavor:
+        "Production services, integrations, background work, and full-stack delivery in one ecosystem.",
+      stats: [
+        { label: "Services", value: "Operational" },
+        { label: "Integrations", value: "Connected" },
+        { label: "Runtime", value: "Proven" },
+      ],
+    },
     {
       name: "NestJS",
       imageName: "Nest.js",

@@ -6,6 +6,9 @@ export interface BlogImageProps {
   width: number;
   height: number;
   caption?: string;
+  enlargeLabel?: string;
+  fullscreenLabel?: string;
+  closeLabel?: string;
 }
 
 export function BlogImage({
@@ -14,6 +17,9 @@ export function BlogImage({
   width,
   height,
   caption,
+  enlargeLabel,
+  fullscreenLabel,
+  closeLabel,
 }: BlogImageProps) {
   return (
     <figure className="blog-figure">
@@ -24,6 +30,9 @@ export function BlogImage({
         height={height}
         sizes="(max-width: 768px) 100vw, 760px"
         frameClassName="blog-figure-frame"
+        enlargeLabel={enlargeLabel}
+        fullscreenLabel={fullscreenLabel}
+        closeLabel={closeLabel}
       />
       {caption ? <figcaption>{caption}</figcaption> : null}
     </figure>
