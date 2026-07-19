@@ -66,14 +66,14 @@ const milestoneTranslations: Record<string, MilestoneTranslation> = {
     ],
     routeLabel: "システム開発",
   },
-  "siemens-gamesa": {
+  senvion: {
     title: "組み込みソフトウェア開発者",
     subTitle: "インターンシップ",
     summary:
-      "組み込みソフトウェアのインターンとして、マイクロコントローラー向けソフトウェアを開発し、リアルタイムのセンサーデータを処理しました。ハードウェアに近いエンジニアリングの基礎を得た経験です。",
+      "Senvion Deutschlandでの設備技術開発インターンとして、マイクロコントローラー向けソフトウェア、モーター制御、センサーデータ処理に取り組みました。事業は後にSiemens Gamesaの一部となりました。",
     tasks: [
       "マイクロコントローラー向けソフトウェアの開発",
-      "リアルタイムセンサーデータの読み取りと処理",
+      "モーター制御とセンサーデータの読み取り・処理",
     ],
     skills: ["組み込みシステム"],
     routeLabel: "最初の実務経験",

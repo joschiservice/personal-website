@@ -123,19 +123,18 @@ const careerMilestones: CareerMilestone[] = [
     emphasis: "primary",
   },
   {
-    id: "siemens-gamesa",
+    id: "senvion",
     kind: "experience",
     title: "Embedded Software Developer",
-    organization: "Siemens Gamesa Renewable Energy, S.A.U",
-    link: "https://www.siemensgamesa.com/global/en/home.html",
+    organization: "Senvion Deutschland",
     start: new Date(2019, 2, 1),
     end: new Date(2019, 2, 1),
     subTitle: "Internship",
     summary:
-      "During this embedded software internship, I developed microcontroller software and processed real-time sensor data, gaining an early foundation in hardware-adjacent engineering.",
+      "During this engineering internship, I developed microcontroller software, controlled motors, and processed sensor data, gaining an early foundation in hardware-adjacent engineering. The business later became part of Siemens Gamesa.",
     tasks: [
       "Development of microcontroller software",
-      "Reading & processing real-time sensor data",
+      "Motor control and sensor-data processing",
     ],
     skills: ["Embedded Systems"],
     routeLabel: "First Departure",
