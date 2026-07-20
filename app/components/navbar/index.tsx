@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 import {
   localeHref,
@@ -163,7 +163,10 @@ export function Navbar({
               ref={index === 0 ? firstMobileLinkRef : undefined}
               key={item.href}
               href={item.href}
-              onClick={() => setIsOpen(false)}
+              onClick={(event) => {
+                scrollToCurrentHash(event);
+                setIsOpen(false);
+              }}
               style={{ "--nav-index": index } as React.CSSProperties}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
@@ -244,8 +247,30 @@ function NavigationLink({
     hrefPath !== "/" && (pathname === hrefPath || pathname.startsWith(`${hrefPath}/`));
 
   return (
-    <Link href={href} aria-current={isActive ? "page" : undefined}>
+    <Link
+      href={href}
+      aria-current={isActive ? "page" : undefined}
+      onClick={scrollToCurrentHash}
+    >
       {title}
     </Link>
   );
+}
+
+function scrollToCurrentHash(event: MouseEvent<HTMLAnchorElement>) {
+  const target = new URL(event.currentTarget.href);
+  if (
+    !target.hash ||
+    target.pathname !== window.location.pathname ||
+    target.search !== window.location.search ||
+    target.hash !== window.location.hash
+  ) {
+    return;
+  }
+
+  const section = document.getElementById(decodeURIComponent(target.hash.slice(1)));
+  if (!section) return;
+
+  event.preventDefault();
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
 }
