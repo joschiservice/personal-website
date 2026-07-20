@@ -1917,7 +1917,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
 .blog-prose ul,
 .blog-prose ol,
 .blog-prose blockquote,
-.blog-prose table,
+.blog-prose .blog-table-scroll,
 .blog-prose figure,
 .blog-prose [data-rehype-pretty-code-figure],
 .blog-prose .blog-callout,
@@ -2299,13 +2299,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
   line-height: 1.6;
 }
 
-.blog-prose table {
-  display: block;
+.blog-table-scroll {
   width: 100%;
   overflow-x: auto;
-  border-collapse: collapse;
   border: 1px solid var(--blog-border);
   border-radius: 0.8rem;
+}
+
+.blog-prose table {
+  width: 100%;
+  border-collapse: collapse;
   font-size: 0.9rem;
 }
 
@@ -2960,7 +2963,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
 
 .blog-figure { width: min(58rem, calc(100vw - (var(--gutter) * 2))); }
 .blog-figure-frame,
-.blog-prose table,
+.blog-prose .blog-table-scroll,
 .blog-prose [data-rehype-pretty-code-figure] {
   border-color: var(--line-strong);
   border-radius: 0;

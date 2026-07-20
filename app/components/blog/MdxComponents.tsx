@@ -44,9 +44,18 @@ function MdxLink({ href = "", children, ...props }: ComponentPropsWithoutRef<"a"
   );
 }
 
+function MdxTable({ children, ...props }: ComponentPropsWithoutRef<"table">) {
+  return (
+    <div className="blog-table-scroll">
+      <table {...props}>{children}</table>
+    </div>
+  );
+}
+
 export function createMdxComponents(copy: Dictionary["blog"]): MDXComponents {
   return {
     a: MdxLink,
+    table: MdxTable,
     h2: (props) => <HeadingLink as="h2" {...props} />,
     h3: (props) => <HeadingLink as="h3" {...props} />,
     BlogImage: (props) => (

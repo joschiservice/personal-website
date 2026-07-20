@@ -119,7 +119,17 @@ test.describe("local draft preview", () => {
     )
     await expect(page.getByText("Draft preview", { exact: true }).first()).toBeVisible()
     await expect(page.locator(".blog-toc-desktop").getByText("On this page", { exact: true })).toBeVisible()
-    await expect(page.getByRole("table")).toBeVisible()
+    const table = page.getByRole("table")
+    await expect(table).toBeVisible()
+    await expect(page.locator(".blog-table-scroll")).toBeVisible()
+    expect(
+      await table.evaluate((element) => {
+        const tableWidth = element.getBoundingClientRect().width
+        const containerWidth = element.parentElement?.clientWidth ?? 0
+
+        return Math.abs(tableWidth - containerWidth)
+      })
+    ).toBeLessThan(2)
     await expect(page.getByRole("img", { name: /Abstract streams of light/ })).toBeVisible()
     await expect(page.locator(".blog-diagram[data-status=\"ready\"] svg")).toBeVisible()
     await expect(page.locator(".blog-diagram")).toContainText("From draft to published post")
