@@ -29,6 +29,8 @@ interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 const TERMINAL_TITLE_PUNCTUATION = /([.!?…。！？]+)$/u;
 
 function renderArticleTitle(title: string) {
