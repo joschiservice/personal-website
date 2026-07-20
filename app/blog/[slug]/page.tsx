@@ -63,9 +63,9 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { locale } = await getRequestDictionary();
   const post = getPostBySlug(slug);
   if (!post) return {};
+  const { locale } = await getRequestDictionary();
 
   const cover = new URL(post.cover.src, siteConfig.url).toString();
 
@@ -98,11 +98,11 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) notFound();
   const { locale, dictionary } = await getRequestDictionary();
   const copy = dictionary.blog;
   const mdxComponents = createMdxComponents(copy);
-  const post = getPostBySlug(slug);
-  if (!post) notFound();
   const readingTimeLabel = locale === "ja"
     ? `${post.readingTimeMinutes}${copy.minRead}`
     : `${post.readingTimeMinutes} ${copy.minRead}`;
