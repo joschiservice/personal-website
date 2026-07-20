@@ -29,6 +29,30 @@ interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const TERMINAL_TITLE_PUNCTUATION = /([.!?…。！？]+)$/u;
+
+function renderArticleTitle(title: string) {
+  const punctuationMatch = title.match(TERMINAL_TITLE_PUNCTUATION);
+
+  if (!punctuationMatch) {
+    return (
+      <>
+        {title}
+        <span className="blog-article-title-punctuation" aria-hidden="true">.</span>
+      </>
+    );
+  }
+
+  const punctuation = punctuationMatch[0];
+
+  return (
+    <>
+      {title.slice(0, -punctuation.length)}
+      <span className="blog-article-title-punctuation">{punctuation}</span>
+    </>
+  );
+}
+
 export function generateStaticParams() {
   return [...getPublishedPosts(), ...getDevelopmentDrafts()].map((post) => ({
     slug: post.slug,
@@ -136,7 +160,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <span key={tag}>{tag}</span>
               ))}
             </div>
-            <h1>{post.title}</h1>
+            <h1>{renderArticleTitle(post.title)}</h1>
             <p className="blog-article-description">{post.description}</p>
             <div className="blog-article-meta">
               <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt, locale)}</time>
