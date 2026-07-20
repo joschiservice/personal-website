@@ -113,7 +113,7 @@ test("traps focus and closes the mobile menu with Escape", async ({ page }) => {
   await page.keyboard.press("Shift+Tab")
   await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
   await page.keyboard.press("Shift+Tab")
-  await expect(mobileNavigation.getByRole("link", { name: "Contact" })).toBeFocused()
+  await expect(mobileNavigation.getByRole("link", { name: "Japanese" })).toBeFocused()
 
   await page.keyboard.press("Escape")
   await expect(page.locator("#mobile-nav")).toHaveAttribute("aria-hidden", "true")

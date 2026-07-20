@@ -3,6 +3,14 @@ import { defaultLocale, isLocale } from "@/app/i18n/config";
 
 export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
+  const forwardedLocale = requestHeaders.get("x-site-locale");
+
+  // A rewrite passes through Proxy again. Keep the locale selected by the
+  // original localized URL instead of replacing it with the default locale.
+  if (isLocale(forwardedLocale)) {
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
+
   const segments = request.nextUrl.pathname.split("/").filter(Boolean);
   const requestedLocale = segments[0];
 
