@@ -9,7 +9,7 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
 import { z } from "zod";
-import type { Heading, Root } from "mdast";
+import type { Code, Heading, Root } from "mdast";
 import type { BlogTocItem } from "./content-types";
 
 const isoDate = z.iso.date();
@@ -43,6 +43,27 @@ function calculateReadingTime(content: string) {
   return Math.max(1, Math.ceil(words / 220));
 }
 
+function remarkMermaid() {
+  return (tree: Root) => {
+    visit(tree, "code", (node: Code, index, parent) => {
+      if (node.lang !== "mermaid" || index === undefined || !parent) return;
+
+      (parent.children as unknown[])[index] = {
+        type: "mdxJsxFlowElement",
+        name: "MermaidDiagram",
+        attributes: [
+          {
+            type: "mdxJsxAttribute",
+            name: "source",
+            value: node.value,
+          },
+        ],
+        children: [],
+      };
+    });
+  };
+}
+
 const posts = defineCollection({
   name: "posts",
   directory: "content/posts",
@@ -63,7 +84,7 @@ const posts = defineCollection({
   transform: async (post, context) => {
     const toc = extractHeadings(post.content);
     const compiledContent = await compileMDX(context, post, {
-      remarkPlugins: [remarkGfm],
+      remarkPlugins: [remarkGfm, remarkMermaid],
       rehypePlugins: [
         rehypeSlug,
         [

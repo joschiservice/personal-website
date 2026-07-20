@@ -54,6 +54,19 @@ const pathFor = (post: PublishedPost) => `/blog/${post.slug}`;
 
 ## The publishing path stays simple
 
+```mermaid
+---
+title: From draft to published post
+---
+flowchart LR
+  accTitle: From draft to published post
+  accDescr: An MDX draft is previewed locally and revised until it is ready to publish.
+  A[Write MDX] --> B[Preview locally]
+  B --> C{Ready?}
+  C -->|Not yet| A
+  C -->|Yes| D[Publish]
+```
+
 1. Add an MDX file and its images.
 2. Fill in the validated frontmatter.
 3. Preview the draft locally.

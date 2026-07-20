@@ -4,6 +4,7 @@ import type { MDXComponents } from "mdx/types";
 import { HiOutlineLink } from "react-icons/hi2";
 import { BlogImage } from "./BlogImage";
 import { Callout } from "./Callout";
+import { MermaidDiagram } from "./MermaidDiagram";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 
 function HeadingLink({
@@ -57,5 +58,6 @@ export function createMdxComponents(copy: Dictionary["blog"]): MDXComponents {
       />
     ),
     Callout,
+    MermaidDiagram,
   };
 }

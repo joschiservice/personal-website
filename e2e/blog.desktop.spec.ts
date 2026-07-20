@@ -121,6 +121,8 @@ test.describe("local draft preview", () => {
     await expect(page.locator(".blog-toc-desktop").getByText("On this page", { exact: true })).toBeVisible()
     await expect(page.getByRole("table")).toBeVisible()
     await expect(page.getByRole("img", { name: /Abstract streams of light/ })).toBeVisible()
+    await expect(page.locator(".blog-diagram[data-status=\"ready\"] svg")).toBeVisible()
+    await expect(page.locator(".blog-diagram")).toContainText("From draft to published post")
 
     await page
       .getByRole("button", { name: /Enlarge image: Luminous blue and violet/ })
