@@ -222,7 +222,7 @@ function LanguageSwitcher({
             lang={candidate}
             aria-hidden="true"
           >
-            {candidate === "ja" ? "日本語" : "EN"}
+            {copy.languages[candidate]}
           </span>
         ))}
       </a>
@@ -240,7 +240,8 @@ function NavigationLink({
   pathname: string;
 }) {
   const hrefPath = href.split("#")[0] || "/";
-  const isActive = hrefPath !== "/" && pathname === hrefPath;
+  const isActive =
+    hrefPath !== "/" && (pathname === hrefPath || pathname.startsWith(`${hrefPath}/`));
 
   return (
     <Link href={href} aria-current={isActive ? "page" : undefined}>

@@ -8,10 +8,12 @@ export function HomePageHeroSection({
   copy,
   locale,
   localizedCvAvailable,
+  newTabLabel,
 }: {
   copy: Dictionary["hero"];
   locale: Locale;
   localizedCvAvailable: boolean;
+  newTabLabel: string;
 }) {
   return (
     <section className="hero" id="root" aria-labelledby="hero-title">
@@ -45,6 +47,7 @@ export function HomePageHeroSection({
               label={copy.secondaryAction}
               ariaLabel={copy.secondaryActionLabel}
               menuLabel={copy.cvLanguageMenuLabel}
+              newTabLabel={newTabLabel}
             />
           </div>
         </div>

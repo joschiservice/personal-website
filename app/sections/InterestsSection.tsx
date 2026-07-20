@@ -31,7 +31,7 @@ export function InterestsSection({
                   src={interest.image}
                   alt=""
                   fill
-                  sizes="(max-width: 767px) 100vw, 33vw"
+                  sizes="(max-width: 980px) 100vw, 33vw"
                   className="object-cover"
                 />
               </div>

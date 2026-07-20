@@ -39,6 +39,7 @@ export default async function Home() {
         copy={dictionary.hero}
         locale={locale}
         localizedCvAvailable={localizedCvAvailable}
+        newTabLabel={dictionary.accessibility.opensNewTab}
       />
       <AboutMeSection copy={dictionary.about} />
       <LatestPostsSection
@@ -49,7 +50,10 @@ export default async function Home() {
       <TimelineSection copy={dictionary.timeline} locale={locale} />
       <ToolsSection copy={dictionary.tools} locale={locale} />
       <InterestsSection copy={dictionary.interests} />
-      <FlightRadarSection copy={dictionary.flightRadar} />
+      <FlightRadarSection
+        copy={dictionary.flightRadar}
+        newTabLabel={dictionary.accessibility.opensNewTab}
+      />
     </div>
   );
 }

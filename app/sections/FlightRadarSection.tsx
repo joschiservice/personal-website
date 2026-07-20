@@ -6,8 +6,10 @@ import type { Dictionary } from "@/app/i18n/getDictionary";
 
 export function FlightRadarSection({
   copy,
+  newTabLabel,
 }: {
   copy: Dictionary["flightRadar"];
+  newTabLabel: string;
 }) {
   return (
     <section className="editorial-section travel-section" aria-labelledby="travel-log-heading">
@@ -22,7 +24,7 @@ export function FlightRadarSection({
         <a
           href={copy.href}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="travel-log"
         >
           <div className="travel-log__line" aria-hidden="true">
@@ -43,6 +45,7 @@ export function FlightRadarSection({
               <HiArrowUpRight aria-hidden="true" />
             </span>
           </div>
+          <span className="sr-only"> · {newTabLabel}</span>
         </a>
       </Container>
     </section>

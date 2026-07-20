@@ -41,10 +41,10 @@ export default async function BlogPage() {
           <p className="system-label">{copy.label}</p>
           <h1>{copy.title}</h1>
           <p>{copy.intro}</p>
-          <Link href="/blog/rss.xml" className="text-action">
+          <a href="/blog/rss.xml" className="text-action">
             {copy.rss}
             <HiArrowRight aria-hidden="true" />
-          </Link>
+          </a>
         </Container>
       </section>
 

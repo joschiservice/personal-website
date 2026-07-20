@@ -9,6 +9,7 @@ export function ActionLink({
   icon = "arrow",
   target,
   ariaLabel,
+  newTabLabel = "opens in a new tab",
 }: {
   href: string;
   children: ReactNode;
@@ -16,7 +17,11 @@ export function ActionLink({
   icon?: "arrow" | "download";
   target?: "_blank";
   ariaLabel?: string;
+  newTabLabel?: string;
 }) {
+  const resolvedAriaLabel = target === "_blank" && ariaLabel
+    ? `${ariaLabel} · ${newTabLabel}`
+    : ariaLabel;
   const content = (
     <>
       <span>{children}</span>
@@ -25,6 +30,9 @@ export function ActionLink({
       ) : (
         <HiArrowRight aria-hidden="true" />
       )}
+      {target === "_blank" && !ariaLabel ? (
+        <span className="sr-only"> · {newTabLabel}</span>
+      ) : null}
     </>
   );
 
@@ -33,9 +41,9 @@ export function ActionLink({
       <a
         href={href}
         target={target}
-        rel={target ? "noreferrer" : undefined}
+        rel={target ? "noopener noreferrer" : undefined}
         className={`action-link action-link--${variant}`}
-        aria-label={ariaLabel}
+        aria-label={resolvedAriaLabel}
       >
         {content}
       </a>
@@ -46,9 +54,9 @@ export function ActionLink({
     <Link
       href={href}
       target={target}
-      rel={target ? "noreferrer" : undefined}
+      rel={target ? "noopener noreferrer" : undefined}
       className={`action-link action-link--${variant}`}
-      aria-label={ariaLabel}
+      aria-label={resolvedAriaLabel}
     >
       {content}
     </Link>

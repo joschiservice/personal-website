@@ -20,16 +20,14 @@ export function BlogCard({
   locale = "en",
   copy,
 }: BlogCardProps) {
-  const readingTimeLabel = locale === "ja"
-    ? `${post.readingTimeMinutes}${copy.minRead}`
-    : `${post.readingTimeMinutes} ${copy.minRead}`;
+  const readingTimeLabel = copy.readingTime(post.readingTimeMinutes);
 
   return (
     <article className={`blog-card blog-card--${variant}`}>
       <Link
         href={localeHref(locale, post.url)}
         className="blog-card-link"
-        aria-label={locale === "ja" ? `${post.title}を読む` : `${copy.read} ${post.title}`}
+        aria-label={copy.readArticle(post.title)}
       >
         <div className="blog-card-image relative">
           <Image

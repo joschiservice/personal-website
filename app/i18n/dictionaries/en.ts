@@ -53,6 +53,7 @@ const en = {
     label: "01 / Profile",
     title: aboutMeSectionContent.title,
     statement: "Product-minded engineering, from interface decisions to production ownership.",
+    annotationsLabel: "Profile facts and operating principles",
     profileFactsLabel: "Profile facts",
     profileFacts: [
       ["Location", "Relocating to Tokyo · End of July"],
@@ -180,6 +181,8 @@ const en = {
     tags: "Tags",
     read: "Read",
     minRead: "min read",
+    readingTime: (minutes: number) => `${minutes} min read`,
+    readArticle: (title: string) => `Read ${title}`,
     copyLink: "Copy link",
     copied: "Copied",
     copyFailed: "Copy failed",

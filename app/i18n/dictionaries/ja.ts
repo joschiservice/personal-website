@@ -403,6 +403,7 @@ const ja: Dictionary = {
     label: "01 / プロフィール",
     title: "プロフィール",
     statement: "UIの判断から本番運用まで、プロダクトを考え抜くエンジニアリング。",
+    annotationsLabel: "基本情報と仕事の原則",
     profileFactsLabel: "基本情報",
     profileFacts: [
       ["拠点", "7月末に東京へ移住予定"],
@@ -538,6 +539,8 @@ const ja: Dictionary = {
     tags: "タグ",
     read: "読む",
     minRead: "分で読めます",
+    readingTime: (minutes: number) => `${minutes}分で読めます`,
+    readArticle: (title: string) => `${title}を読む`,
     copyLink: "リンクをコピー",
     copied: "コピーしました",
     copyFailed: "コピーできませんでした",

@@ -13,6 +13,8 @@ type WidenDictionary<T> = T extends StructuralLiteral
   ? T
   : T extends string
     ? string
+  : T extends (...args: infer Args) => infer Result
+    ? (...args: Args) => Result
   : T extends Date
     ? Date
   : T extends readonly (infer Item)[]

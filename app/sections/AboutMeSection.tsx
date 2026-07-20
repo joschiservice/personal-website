@@ -40,7 +40,7 @@ export function AboutMeSection({
             ))}
           </div>
 
-          <aside className="about-section__annotations" aria-label={copy.principlesLabel}>
+          <aside className="about-section__annotations" aria-label={copy.annotationsLabel}>
             <div className="about-section__annotation-group">
               <p className="system-label">{copy.profileFactsLabel}</p>
               <dl className="profile-fact-list">

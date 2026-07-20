@@ -37,6 +37,10 @@ test("renders the home page and primary actions", async ({ page }) => {
     "target",
     "_blank"
   )
+  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute(
+    "rel",
+    /noopener/
+  )
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     "https://www.jhass.dev"
@@ -132,7 +136,11 @@ test("presents the profile as an editorial spread", async ({ page }) => {
   await page.goto("/#about-me")
   const profile = page.locator("#about-me")
 
-  await expect(profile.getByRole("complementary", { name: "Operating principles" })).toBeVisible()
+  await expect(
+    profile.getByRole("complementary", {
+      name: "Profile facts and operating principles",
+    })
+  ).toBeVisible()
   await expect(profile.locator(".about-section__lead-story")).toHaveCSS(
     "grid-column-start",
     "1"

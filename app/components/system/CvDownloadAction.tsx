@@ -10,12 +10,14 @@ export function CvDownloadAction({
   label,
   ariaLabel,
   menuLabel,
+  newTabLabel,
 }: {
   locale: string;
   localizedCvAvailable: boolean;
   label: string;
   ariaLabel: string;
   menuLabel: string;
+  newTabLabel: string;
 }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -29,6 +31,7 @@ export function CvDownloadAction({
         variant="secondary"
         icon="download"
         ariaLabel={ariaLabel}
+        newTabLabel={newTabLabel}
       >
         {label}
       </ActionLink>
@@ -118,12 +121,19 @@ export function CvDownloadAction({
         aria-hidden={!open}
         hidden={!open}
       >
-        <a href={`/cv?lang=${locale}`} target="_blank" rel="noreferrer" role="menuitem">
+        <a
+          href={`/cv?lang=${locale}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          role="menuitem"
+        >
           <span>{localizedLanguage}</span>
+          <span className="sr-only"> · {newTabLabel}</span>
           <HiOutlineArrowDownTray aria-hidden="true" />
         </a>
-        <a href="/cv?lang=en" target="_blank" rel="noreferrer" role="menuitem">
+        <a href="/cv?lang=en" target="_blank" rel="noopener noreferrer" role="menuitem">
           <span>{englishLanguage}</span>
+          <span className="sr-only"> · {newTabLabel}</span>
           <HiOutlineArrowDownTray aria-hidden="true" />
         </a>
       </div>
