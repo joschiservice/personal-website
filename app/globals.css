@@ -237,12 +237,13 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
   background: var(--accent);
   clip-path: inset(0 100% 0 0);
   visibility: hidden;
-  transition: clip-path 180ms ease;
+  transition: clip-path 180ms ease, visibility 0s linear 180ms;
 }
 .site-nav__links a:hover::after,
 .site-nav__links a[aria-current="page"]::after {
   clip-path: inset(0);
   visibility: visible;
+  transition-delay: 0s;
 }
 .site-nav__toggle {
   display: none;

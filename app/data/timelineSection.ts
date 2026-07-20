@@ -164,7 +164,7 @@ const careerMilestones: CareerMilestone[] = [
     kind: "project",
     title: "RosterSpec — Open-Source Scheduling Solver",
     link: "https://github.com/joschiservice/RosterSpec",
-    start: new Date(2025, 11, 1),
+    start: new Date(2025, 10, 1),
     subTitle: "Open-Source Optimization System",
     summary:
       "RosterSpec began alongside ShiftIQ as its reusable solver foundation. It is now publicly available on GitHub as an open-source scheduling system for expressing domain requirements as explicit, testable hard and soft constraints, making the constraint-based approach available for others to inspect, use, and extend.",

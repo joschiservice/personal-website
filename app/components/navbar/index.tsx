@@ -34,6 +34,12 @@ export function Navbar({
   ];
 
   useEffect(() => {
+    // Route changes must dismiss the mobile dialog, regardless of navigation source.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     let scrolled = false;
 
     const onScroll = () => {
@@ -71,13 +77,13 @@ export function Navbar({
       }
 
       if (event.key !== "Tab") return;
-      const links = Array.from(
-        mobileMenuRef.current?.querySelectorAll<HTMLAnchorElement>("a") ?? []
+      const menuControls = Array.from(
+        mobileMenuRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
       );
-      const focusableElements = [toggleRef.current, ...links].filter(
-        (
-          element
-        ): element is HTMLButtonElement | HTMLAnchorElement => element !== null
+      const focusableElements = [toggleRef.current, ...menuControls].filter(
+        (element): element is HTMLElement => element !== null
       );
       if (focusableElements.length === 0) return;
 
