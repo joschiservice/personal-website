@@ -43,12 +43,12 @@ const careerMilestones: CareerMilestone[] = [
     start: new Date(2025, 11, 1),
     subTitle: "Product Engineering & Optimization",
     summary:
-      "ShiftIQ and the solver work that became RosterSpec began together. Working directly with a care-service manager, I built ShiftIQ into a post-MVP workforce scheduling product close to pilot readiness. Its reusable scheduling core now continues as RosterSpec, which I am preparing for a public open-source release.",
+      "ShiftIQ and the solver work that became RosterSpec began together. Working directly with a care-service manager, I built ShiftIQ into a post-MVP workforce scheduling product close to pilot readiness. Its reusable scheduling core now continues as RosterSpec, available publicly as an open-source project.",
     impact: [
       { label: "Product stage", value: "Post-MVP" },
       { label: "Domain validation", value: "Care-service manager" },
       { label: "Planning workflow", value: "Hours → minutes" },
-      { label: "Current work", value: "Release preparation" },
+      { label: "Current work", value: "Open source" },
     ],
     routeLabel: "Independent Product Track",
     emphasis: "primary",
@@ -163,18 +163,19 @@ const careerMilestones: CareerMilestone[] = [
     id: "rosterspec",
     kind: "project",
     title: "RosterSpec — Open-Source Scheduling Solver",
+    link: "https://github.com/joschiservice/RosterSpec",
     start: new Date(2025, 11, 1),
     subTitle: "Open-Source Optimization System",
     summary:
-      "RosterSpec began alongside ShiftIQ as its reusable solver foundation. It is now being generalized into an open-source scheduling system that expresses domain requirements as explicit, testable hard and soft constraints. I am preparing the public repository and documentation, and exploring an interactive playground for demonstrating how rule changes affect generated plans.",
+      "RosterSpec began alongside ShiftIQ as its reusable solver foundation. It is now publicly available on GitHub as an open-source scheduling system for expressing domain requirements as explicit, testable hard and soft constraints, making the constraint-based approach available for others to inspect, use, and extend.",
     tasks: [
       "Developed the reusable solver foundation in parallel with ShiftIQ rather than treating optimization as product-specific application logic",
       "Generalized scheduling rules into structured, testable constraints suitable for reuse across workforce-planning scenarios",
       "Added an experimental LLM evaluation harness for exploring language models within structured and verifiable engineering workflows",
-      "Preparing the codebase, documentation, and examples for its public open-source release",
+      "Published RosterSpec as an open-source project on GitHub",
     ],
     skills: ["Python", "OR-Tools", "Constraint Programming", "LLM Evaluation"],
-    routeLabel: "Open-Source Continuation",
+    routeLabel: "Open-Source Release",
     emphasis: "primary",
   },
   {
