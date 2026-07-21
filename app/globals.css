@@ -500,13 +500,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
 }
 .hero__continuation {
   position: absolute;
-  right: 50%;
+  left: 50%;
+  right: auto;
   bottom: 2.25rem;
   display: grid;
   gap: 0.7rem;
   place-items: center;
   width: 2rem;
   color: var(--accent);
+  transform: translateX(-50%);
 }
 .hero__continuation span:first-child { width: 1px; height: 2.5rem; background: linear-gradient(transparent, var(--accent)); }
 .hero__continuation span:last-child { width: 0.75rem; height: 0.75rem; border-right: 2px solid; border-bottom: 2px solid; transform: rotate(45deg); }
@@ -1013,7 +1015,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
   .hero__arc--blue { width: 48rem; right: -35rem; top: -11rem; }
   .hero__arc--warm { width: 36rem; right: -27rem; bottom: -15rem; }
   .hero__orbit { display: none; }
-  .hero__continuation { right: 1.25rem; }
   .section-intro--split { grid-template-columns: 1fr; gap: 1.5rem; }
   .section-intro__content h2 { font-size: clamp(2.35rem, 11vw, 3.8rem); }
   .about-section .section-intro::after { left: 0; }
