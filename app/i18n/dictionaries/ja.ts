@@ -397,6 +397,7 @@ const ja: Dictionary = {
     primaryActionLabel: "職務経歴を見る",
     secondaryActionLabel: "CVをダウンロード",
     cvLanguageMenuLabel: "CVの言語を選択",
+    socialsLabel: "オンライン",
     nextSectionLabel: "プロフィールへ進む",
   },
   about: {

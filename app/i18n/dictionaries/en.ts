@@ -47,6 +47,7 @@ const en = {
     primaryActionLabel: "Explore my experience",
     secondaryActionLabel: "Download CV",
     cvLanguageMenuLabel: "Choose CV language",
+    socialsLabel: "Elsewhere",
     nextSectionLabel: "Continue to profile",
   },
   about: {

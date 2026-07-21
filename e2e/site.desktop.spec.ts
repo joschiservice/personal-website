@@ -41,6 +41,15 @@ test("renders the home page and primary actions", async ({ page }) => {
     "rel",
     /noopener/
   )
+  const heroSocials = page.getByRole("navigation", { name: "Elsewhere" })
+  await expect(heroSocials.getByRole("link", { name: /LinkedIn/ })).toHaveAttribute(
+    "href",
+    "https://example.com/linkedin"
+  )
+  await expect(heroSocials.getByRole("link", { name: /GitHub/ })).toHaveAttribute(
+    "href",
+    "https://example.com/github"
+  )
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     "https://www.jhass.dev"
