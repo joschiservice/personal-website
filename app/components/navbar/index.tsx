@@ -114,6 +114,7 @@ export function Navbar({
     <nav
       className="site-nav"
       data-scrolled={isScrolled ? "true" : "false"}
+      data-menu-open={isOpen ? "true" : "false"}
       aria-label={copy.label}
     >
       <Container className="site-nav__inner">
