@@ -132,62 +132,54 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                         ? { opacity: 0 }
                         : { opacity: 0, y: 6, scale: 0.98 }
                     }
-                    whileHover={
-                      prefersReducedMotion
-                        ? undefined
-                        : {
-                            y: -3,
-                            transition: SNAPPY_SPRING,
-                          }
-                    }
                     transition={
                       prefersReducedMotion
                         ? { duration: 0 }
                         : CARD_TRANSITION
                     }
                   >
-                  <div className="tool-card__shine" aria-hidden="true" />
-                  <header className="tool-card__header">
-                    <span>{item.category}</span>
-                    <span>
-                      {copy.rarities[
-                        item.rarity as keyof typeof copy.rarities
-                      ] ?? item.rarity}
-                    </span>
-                  </header>
-
-                  <div className="tool-card__identity">
-                    {item.imageName ? (
-                      <span className="tool-card__logo" aria-hidden="true">
-                        <Image
-                          src={`/img/tools/${item.imageName}.png`}
-                          alt=""
-                          width={72}
-                          height={72}
-                          style={{ width: "auto", height: "auto" }}
-                        />
+                    <div className="tool-card__shine" aria-hidden="true" />
+                    <header className="tool-card__header">
+                      <span>{item.category}</span>
+                      <span>
+                        {copy.rarities[
+                          item.rarity as keyof typeof copy.rarities
+                        ] ?? item.rarity}
                       </span>
-                    ) : (
-                      <span className="tool-card__monogram" aria-hidden="true">
-                        {item.name.slice(0, 2).toUpperCase()}
-                      </span>
-                    )}
-                    <div>
-                      <h3>{item.name}</h3>
-                      <p>{item.title}</p>
-                    </div>
-                  </div>
+                    </header>
 
-                  <p className="tool-card__flavor">{item.flavor}</p>
-
-                  <dl className="tool-card__stats">
-                    {item.stats.map((stat) => (
-                      <div key={stat.label}>
-                        <dt>{stat.label}</dt>
-                        <dd>{stat.value}</dd>
+                    <div className="tool-card__identity">
+                      {item.imageName ? (
+                        <span className="tool-card__logo" aria-hidden="true">
+                          <Image
+                            src={`/img/tools/${item.imageName}.png`}
+                            alt=""
+                            width={72}
+                            height={72}
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                        </span>
+                      ) : (
+                        <span className="tool-card__monogram" aria-hidden="true">
+                          {item.name.slice(0, 2).toUpperCase()}
+                        </span>
+                      )}
+                      <div>
+                        <h3>{item.name}</h3>
+                        <p>{item.title}</p>
                       </div>
-                    ))}
-                  </dl>
+                    </div>
+
+                    <p className="tool-card__flavor">{item.flavor}</p>
+
+                    <dl className="tool-card__stats">
+                      {item.stats.map((stat) => (
+                        <div key={stat.label}>
+                          <dt>{stat.label}</dt>
+                          <dd>{stat.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </motion.article>
                 ))}
               </AnimatePresence>

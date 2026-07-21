@@ -120,7 +120,8 @@
 .impactGrid > div {
   min-width: 0;
   padding: 1rem;
-  background: rgb(8 16 29 / 76%);
+  background: var(--surface-recessed);
+  box-shadow: var(--depth-recessed);
 }
 
 .impactGrid dt {
@@ -202,13 +203,18 @@
 }
 
 .attachedList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 3rem; background: var(--line); }
-.attached { min-width: 0; padding: 1.6rem; background: var(--surface); }
+.attached {
+  min-width: 0;
+  padding: 1.6rem;
+  background: var(--surface-static);
+  box-shadow: var(--depth-static);
+}
 .attachedFeatured {
   grid-column: 1 / -1;
   padding: clamp(1.6rem, 3vw, 2.4rem);
   background:
     linear-gradient(110deg, rgb(24 116 255 / 9%), transparent 48%),
-    var(--surface);
+    var(--surface-static);
 }
 .attachedMeta { color: var(--muted); font-size: 0.61rem; }
 .attachedRoute { margin-top: 1.4rem; color: var(--warm); font-size: 0.62rem; }
