@@ -155,7 +155,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
   border-color: var(--line);
 }
 .site-nav[data-scrolled="true"]::before { opacity: 1; }
-.site-nav__inner { display: flex; height: 100%; align-items: center; justify-content: space-between; }
+.site-nav__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
 .site-nav__mark {
   display: grid;
   grid-template-areas: "mark";
