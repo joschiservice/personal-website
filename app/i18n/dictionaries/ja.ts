@@ -407,7 +407,7 @@ const ja: Dictionary = {
     annotationsLabel: "基本情報と仕事の原則",
     profileFactsLabel: "基本情報",
     profileFacts: [
-      ["拠点", "7月末に東京へ移住予定"],
+      ["拠点", "東京"],
       ["ドイツ語", "母語"],
       ["英語", "C2"],
       ["日本語", "初級 · JLPT N5程度"],

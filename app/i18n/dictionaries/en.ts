@@ -57,7 +57,7 @@ const en = {
     annotationsLabel: "Profile facts and operating principles",
     profileFactsLabel: "Profile facts",
     profileFacts: [
-      ["Location", "Relocating to Tokyo · End of July"],
+      ["Location", "Tokyo, Japan"],
       ["German", "Native"],
       ["English", "C2"],
       ["Japanese", "Beginner · Approx. JLPT N5 level"],

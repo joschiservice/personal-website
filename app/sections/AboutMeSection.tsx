@@ -15,7 +15,7 @@ export function AboutMeSection({
     >
       <div className="about-section__atmosphere" aria-hidden="true">
         <span className="about-section__orb" />
-        <span className="about-section__coordinate">51.1657° N / 10.4515° E</span>
+        <span className="about-section__coordinate">35.6995° N / 139.6364° E</span>
       </div>
 
       <Container>
