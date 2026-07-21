@@ -27,7 +27,7 @@ export function AboutMeSection({
           align="split"
         />
 
-        <div className="about-section__body">
+        <div className="about-section__body motion-section-content">
           <div className="about-section__narrative">
             {copy.paragraphs.slice(1).map((paragraph, index) => (
               <p

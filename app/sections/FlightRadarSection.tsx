@@ -25,7 +25,7 @@ export function FlightRadarSection({
           href={copy.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="travel-log"
+          className="travel-log motion-section-content"
         >
           <div className="travel-log__line" aria-hidden="true">
             <span />

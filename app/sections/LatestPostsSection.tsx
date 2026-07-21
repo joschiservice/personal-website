@@ -33,7 +33,7 @@ export function LatestPostsSection({
           id="latest-writing-heading"
           align="split"
         />
-        <div className="writing-section__grid">
+        <div className="writing-section__grid motion-section-content">
           {posts.map((post, index) => (
             <BlogCard
               key={post.slug}

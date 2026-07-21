@@ -72,7 +72,11 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
         />
 
         <LayoutGroup id="tools-filter">
-          <div className="tool-filter" role="group" aria-label={copy.filterLabel}>
+          <div
+            className="tool-filter motion-section-content"
+            role="group"
+            aria-label={copy.filterLabel}
+          >
             {filters.map((item) => {
               const isActive = category === item;
 
@@ -101,47 +105,47 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
             })}
           </div>
 
-          <motion.div
-            className="tool-card-grid"
-            layout={prefersReducedMotion ? false : true}
-            transition={{ layout: SNAPPY_SPRING }}
-          >
-            <p className="sr-only" aria-live="polite" aria-atomic="true">
-              {resultsLabel}
-            </p>
-            <AnimatePresence mode="popLayout" initial={false}>
-              {items.map((item) => (
-                <motion.article
-                  key={item.name}
-                  className="tool-card"
-                  data-rarity={item.rarity.toLowerCase()}
-                  layout={prefersReducedMotion ? false : "position"}
-                  initial={
-                    prefersReducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 10, scale: 0.97 }
-                  }
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={
-                    prefersReducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 6, scale: 0.98 }
-                  }
-                  whileHover={
-                    prefersReducedMotion
-                      ? undefined
-                      : {
-                          y: -5,
-                          scale: 1.01,
-                          transition: SNAPPY_SPRING,
-                        }
-                  }
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0 }
-                      : CARD_TRANSITION
-                  }
-                >
+          <div className="motion-section-content">
+            <motion.div
+              className="tool-card-grid"
+              layout={prefersReducedMotion ? false : true}
+              transition={{ layout: SNAPPY_SPRING }}
+            >
+              <p className="sr-only" aria-live="polite" aria-atomic="true">
+                {resultsLabel}
+              </p>
+              <AnimatePresence mode="popLayout" initial={false}>
+                {items.map((item) => (
+                  <motion.article
+                    key={item.name}
+                    className="tool-card"
+                    data-rarity={item.rarity.toLowerCase()}
+                    layout={prefersReducedMotion ? false : "position"}
+                    initial={
+                      prefersReducedMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, y: 10, scale: 0.97 }
+                    }
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={
+                      prefersReducedMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, y: 6, scale: 0.98 }
+                    }
+                    whileHover={
+                      prefersReducedMotion
+                        ? undefined
+                        : {
+                            y: -3,
+                            transition: SNAPPY_SPRING,
+                          }
+                    }
+                    transition={
+                      prefersReducedMotion
+                        ? { duration: 0 }
+                        : CARD_TRANSITION
+                    }
+                  >
                   <div className="tool-card__shine" aria-hidden="true" />
                   <header className="tool-card__header">
                     <span>{item.category}</span>
@@ -184,10 +188,11 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                       </div>
                     ))}
                   </dl>
-                </motion.article>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                  </motion.article>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
         </LayoutGroup>
       </Container>
     </section>

@@ -24,6 +24,7 @@ export function Navbar({
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeHash, setActiveHash] = useState("");
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -56,6 +57,39 @@ export function Navbar({
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (pathWithoutLocale(pathname) !== "/") {
+      // Route changes must clear a section that was active on the homepage.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveHash("");
+      return;
+    }
+
+    const sectionIds = ["about-me", "experience"];
+    const visibleSections = new Set<string>();
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+
+    if (!("IntersectionObserver" in window) || sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visibleSections.add(entry.target.id);
+          else visibleSections.delete(entry.target.id);
+        });
+
+        const current = sectionIds.find((id) => visibleSections.has(id)) ?? "";
+        setActiveHash(current ? `#${current}` : "");
+      },
+      { rootMargin: "-28% 0px -62%", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -131,7 +165,12 @@ export function Navbar({
         <div className="site-nav__actions">
           <div className="site-nav__links">
             {items.map((item) => (
-              <NavigationLink key={item.href} {...item} pathname={pathname} />
+              <NavigationLink
+                key={item.href}
+                {...item}
+                pathname={pathname}
+                activeHash={activeHash}
+              />
             ))}
           </div>
           <LanguageSwitcher
@@ -178,6 +217,9 @@ export function Navbar({
               ref={index === 0 ? firstMobileLinkRef : undefined}
               key={item.href}
               href={item.href}
+              aria-current={
+                activeHash && item.href.endsWith(activeHash) ? "location" : undefined
+              }
               onClick={(event) => {
                 scrollToCurrentHash(event);
                 setIsOpen(false);
@@ -252,19 +294,23 @@ function NavigationLink({
   title,
   href,
   pathname,
+  activeHash,
 }: {
   title: string;
   href: string;
   pathname: string;
+  activeHash: string;
 }) {
   const hrefPath = href.split("#")[0] || "/";
+  const hrefHash = href.includes("#") ? `#${href.split("#")[1]}` : "";
+  const isCurrentSection = hrefHash !== "" && hrefHash === activeHash;
   const isActive =
     hrefPath !== "/" && (pathname === hrefPath || pathname.startsWith(`${hrefPath}/`));
 
   return (
     <Link
       href={href}
-      aria-current={isActive ? "page" : undefined}
+      aria-current={isCurrentSection ? "location" : isActive ? "page" : undefined}
       onClick={scrollToCurrentHash}
     >
       {title}

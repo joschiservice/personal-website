@@ -30,7 +30,10 @@ export function TimelineSection({
 
         <div className={styles.timeline}>
           {copy.stops.map(({ experience, attachedMilestones }, index) => (
-            <article className={styles.stop} key={experience.id}>
+            <article
+              className={`${styles.stop} motion-section-content`}
+              key={experience.id}
+            >
               <div className={styles.route} data-timeline-route>
                 <span className={styles.stopNumber}>
                   {String(index + 1).padStart(2, "0")}

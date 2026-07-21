@@ -10,6 +10,7 @@ import { siteConfig } from "@/app/lib/site";
 import { getRequestDictionary } from "@/app/i18n/getDictionary";
 import { defaultLocale, localeAlternates, localeHref } from "@/app/i18n/config";
 import { hasCvForLocale } from "@/app/lib/cv";
+import { HomeMotionRuntime } from "@/app/components/system/HomeMotionRuntime";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dictionary } = await getRequestDictionary();
@@ -35,6 +36,7 @@ export default async function Home() {
 
   return (
     <div className="site-shell">
+      <HomeMotionRuntime />
       <HomePageHeroSection
         copy={dictionary.hero}
         locale={locale}

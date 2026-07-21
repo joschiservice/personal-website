@@ -30,7 +30,7 @@ export function ExperienceCard({
           aria-label={`${experience.organization ?? experience.title} ${copy.impactLabel}`}
         >
           {experience.impact.map((item) => (
-            <div key={item.label}>
+            <div key={item.label} data-motion-metric>
               <dt>{item.label}</dt>
               <dd>{item.value}</dd>
             </div>

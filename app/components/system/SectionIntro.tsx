@@ -12,7 +12,7 @@ export function SectionIntro({
   align?: "left" | "split";
 }) {
   return (
-    <header className={`section-intro section-intro--${align}`}>
+    <header className={`section-intro section-intro--${align} motion-section-content`}>
       <p className="system-label">{label}</p>
       <div className="section-intro__content">
         <h2 id={id}>{title}</h2>

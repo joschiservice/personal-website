@@ -23,7 +23,11 @@ export function InterestsSection({
           align="split"
         />
 
-        <div className="interests-grid" role="list" aria-label={copy.regionLabel}>
+        <div
+          className="interests-grid motion-section-content"
+          role="list"
+          aria-label={copy.regionLabel}
+        >
           {copy.items.map((interest, index) => (
             <article className="interest-story" role="listitem" key={interest.title}>
               <div className="interest-story__image">
