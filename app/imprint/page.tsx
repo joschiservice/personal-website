@@ -1,31 +1,67 @@
-import { trimInside } from "@/helpers";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { Container } from "@/app/components/system/Container";
+import { trimInside } from "@/helpers";
+import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { localeAlternates, localeHref } from "@/app/i18n/config";
+import { siteConfig } from "@/app/lib/site";
 
-export default function Imprint() {
-    return (
-        <div className="container mx-auto max-w-3xl pt-24 px-4 sm:px-6 md:px-8">
-            <h1 className="text-2xl font-bold">Imprint/Legal Disclosure</h1>
-            <p className="mt-2">
-                Information in accordance with Section 5 TMG.<br />
-                Website Operator: Joschua Haß<br />
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale, dictionary } = await getRequestDictionary();
+  const canonical = localeHref(locale, "/imprint");
+  return {
+    title: dictionary.imprint.title,
+    description: dictionary.imprint.metadataDescription,
+    alternates: { canonical, languages: localeAlternates("/imprint") },
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.name,
+      title: `${dictionary.imprint.title} · ${siteConfig.name}`,
+      description: dictionary.imprint.metadataDescription,
+      url: canonical,
+    },
+  };
+}
+
+export default async function Imprint() {
+  const { dictionary } = await getRequestDictionary();
+  const copy = dictionary.imprint;
+  const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE;
+  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+
+  return (
+    <div className="legal-page">
+      <Container>
+        <p className="system-label">{copy.label}</p>
+        <h1>{copy.title}</h1>
+        <div className="legal-page__grid">
+          <section>
+            <h2>01</h2>
+            <p>
+              {copy.intro}<br />
+              {copy.operator}: Joschua Haß
             </p>
-            <h2 className="text-xl font-bold mt-4">Contact Information</h2>
-            <p className="mt-2">
-                Phone: <Link href={`tel:${trimInside(process.env.NEXT_PUBLIC_CONTACT_PHONE || '')}`} className="text-white hover:text-[#29b5f6] transition-colors duration-300">{process.env.NEXT_PUBLIC_CONTACT_PHONE}</Link><br />
-                E-Mail: <Link href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`} className="text-white hover:text-[#29b5f6] transition-colors duration-300">{process.env.NEXT_PUBLIC_CONTACT_EMAIL}</Link><br />
-                <br />
-                To Westen 5<br />
-                25770 Hemmingstedt, Germany<br />
+          </section>
+          <section>
+            <h2>02 / {copy.contactTitle}</h2>
+            <p>
+              {phone ? (
+                <>{copy.phone}: <Link href={`tel:${trimInside(phone)}`}>{phone}</Link><br /></>
+              ) : null}
+              {email ? (
+                <>{copy.email}: <Link href={`mailto:${email}`}>{email}</Link><br /></>
+              ) : null}
+              {copy.addressLines.map((line) => (
+                <span key={line} className="block">{line}</span>
+              ))}
             </p>
-            <h2 className="text-xl font-bold mt-4">Copyright</h2>
-            <p className="mt-2">
-                Our web pages and their contents are subject to German copyright law.
-                Unless expressly permitted by law, every form of utilizing,
-                reproducing or processing works subject to copyright protection on our web pages requires the
-                prior consent of the respective owner of the rights. Individual reproductions of a work are only
-                allowed for private use. The materials from these pages are copyrighted and any unauthorized use
-                may violate copyright laws.
-            </p>
+          </section>
+          <section>
+            <h2>03 / {copy.copyrightTitle}</h2>
+            <p>{copy.copyrightBody}</p>
+          </section>
         </div>
-    );
+      </Container>
+    </div>
+  );
 }

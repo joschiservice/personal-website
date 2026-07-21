@@ -1,102 +1,345 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavbarItem } from "@/app/components/navbar/NavbarItem";
-import { MobileNavbar, MobileNavbarButton } from "./MobileNavbarMenu";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { HiBars3, HiXMark } from "react-icons/hi2";
+import {
+  localeHref,
+  localeNames,
+  locales,
+  pathWithoutLocale,
+  type Locale,
+} from "@/app/i18n/config";
+import type { Dictionary } from "@/app/i18n/getDictionary";
+import { Container } from "@/app/components/system/Container";
 
-const ITEMS = [
-  { title: 'Home', href: '/' },
-  { title: 'About', href: '/#about-me' },
-  { title: 'Timeline', href: '/#experience' },
-  { title: 'Imprint', href: '/imprint' }
-];
-
-export function Navbar() {
-  const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+export function Navbar({
+  locale,
+  copy,
+}: {
+  locale: Locale;
+  copy: Dictionary["nav"];
+}) {
   const pathname = usePathname();
-
-  // Function to calculate scroll progress
-  const calculateScrollProgress = () => {
-    const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const progress = (window.scrollY / totalHeight) * 100;
-    setScrollProgress(progress);
-  };
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeHash, setActiveHash] = useState("");
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstMobileLinkRef = useRef<HTMLAnchorElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const items = [
+    { title: copy.work, href: localeHref(locale, "/#experience") },
+    { title: copy.about, href: localeHref(locale, "/#about-me") },
+    { title: copy.notes, href: localeHref(locale, "/blog") },
+    { title: copy.contact, href: localeHref(locale, "/contact") },
+  ];
 
   useEffect(() => {
-    // Set up scroll event listener
-    window.addEventListener('scroll', calculateScrollProgress);
-    return () => window.removeEventListener('scroll', calculateScrollProgress);
-  }, []);
+    // Route changes must dismiss the mobile dialog, regardless of navigation source.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsOpen(false);
+  }, [pathname]);
 
-  // Reset scroll progress when navigating to a new page (not just hash changes)
   useEffect(() => {
-    const frameId = window.requestAnimationFrame(() => {
-      setScrollProgress(0);
-    });
+    let scrolled = false;
 
+    const onScroll = () => {
+      const nextScrolled = window.scrollY > 18;
+      if (nextScrolled === scrolled) return;
+      scrolled = nextScrolled;
+      setIsScrolled(nextScrolled);
+    };
+    const frameId = window.requestAnimationFrame(onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", onScroll);
     };
-  }, [pathname]);
+  }, []);
 
-  // Handle hash navigation by recalculating scroll progress after navigation
   useEffect(() => {
-    const handleHashChange = () => {
-      setTimeout(() => {
-        calculateScrollProgress();
-      }, 100);
+    if (pathWithoutLocale(pathname) !== "/") {
+      // Route changes must clear a section that was active on the homepage.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveHash("");
+      return;
+    }
+
+    const sectionIds = ["about-me", "experience"];
+    const visibleSections = new Set<string>();
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+
+    if (!("IntersectionObserver" in window) || sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visibleSections.add(entry.target.id);
+          else visibleSections.delete(entry.target.id);
+        });
+
+        const current = sectionIds.find((id) => visibleSections.has(id)) ?? "";
+        setActiveHash(current ? `#${current}` : "");
+      },
+      { rootMargin: "-28% 0px -62%", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const backgroundElements = Array.from(
+      document.querySelectorAll<HTMLElement>("main, footer")
+    );
+    const previousInertStates = backgroundElements.map((element) => element.inert);
+    document.body.style.overflow = "hidden";
+    backgroundElements.forEach((element) => {
+      element.inert = true;
+    });
+    firstMobileLinkRef.current?.focus();
+
+    const handleDialogKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const menuControls = Array.from(
+        mobileMenuRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
+      const focusableElements = [toggleRef.current, ...menuControls].filter(
+        (element): element is HTMLElement => element !== null
+      );
+      if (focusableElements.length === 0) return;
+
+      const currentIndex = focusableElements.findIndex(
+        (element) => element === document.activeElement
+      );
+      const direction = event.shiftKey ? -1 : 1;
+      const nextIndex =
+        currentIndex === -1
+          ? 0
+          : (currentIndex + direction + focusableElements.length) %
+            focusableElements.length;
+      event.preventDefault();
+      focusableElements.at(nextIndex)?.focus();
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    // Recalculate after pathname changes as well (non-hash navigation)
-    handleHashChange();
+    window.addEventListener("keydown", handleDialogKeyDown);
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener("keydown", handleDialogKeyDown);
+      document.body.style.overflow = previousOverflow;
+      backgroundElements.forEach((element, index) => {
+        element.inert = previousInertStates[index];
+      });
     };
-  }, [pathname]);
+  }, [isOpen]);
 
   return (
-    <nav className="fixed flex w-screen z-100" aria-label="Primary">
-      <div className="relative min-h-[20px] mx-auto my-4 flex justify-between min-w-[90%] md:min-w-[800px] rounded-[24px] py-[5.6px] px-4 backdrop-blur-[12px] backdrop-saturate-[150%] bg-[rgba(20,20,20,0.7)] border border-[rgba(255,255,255,0.05)] shadow-[0px_0px_15px_0px_rgba(0,0,0,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-[10%] after:right-[10%] after:h-[1px] after:bg-gradient-to-r after:from-transparent after:via-[#29b5f6]/30 after:to-transparent overflow-hidden">
-        {/* Scroll indicator */}
-        <div
-          className={`absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[#29b5f6]/20 via-[#29b5f6]/40 to-[#29b5f6]/20 rounded-tl-[24px] ${
-            scrollProgress > 99 ? 'rounded-tr-[24px]' : ''
-          }`}
-          style={{ width: `${scrollProgress}%` }}
-        />
-        <NavbarTitle href="/">JH</NavbarTitle>
-        <MobileNavbarButton isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
-        <DesktopNavbar />
+    <nav
+      className="site-nav"
+      data-scrolled={isScrolled ? "true" : "false"}
+      data-menu-open={isOpen ? "true" : "false"}
+      aria-label={copy.label}
+    >
+      <Container className="site-nav__inner">
+        <Link
+          href={localeHref(locale, "/")}
+          className="site-nav__mark"
+          aria-label={copy.home}
+        >
+          <span className="site-nav__mark-full">{copy.identity}</span>
+          <span className="site-nav__mark-short">{copy.monogram}</span>
+        </Link>
+
+        <div className="site-nav__actions">
+          <div className="site-nav__links">
+            {items.map((item) => (
+              <NavigationLink
+                key={item.href}
+                {...item}
+                pathname={pathname}
+                activeHash={activeHash}
+              />
+            ))}
+          </div>
+          <LanguageSwitcher
+            locale={locale}
+            pathname={pathname}
+            copy={copy}
+            className="site-language--desktop"
+          />
+          <button
+            ref={toggleRef}
+            type="button"
+            className="site-nav__toggle"
+            onClick={() => setIsOpen((current) => !current)}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
+            aria-label={isOpen ? copy.closeMenu : copy.openMenu}
+          >
+            <span className="site-nav__toggle-icon" aria-hidden="true">
+              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--menu">
+                <HiBars3 />
+              </span>
+              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--close">
+                <HiXMark />
+              </span>
+            </span>
+          </button>
+        </div>
+      </Container>
+
+      <div
+        ref={mobileMenuRef}
+        id="mobile-nav"
+        className="site-nav__mobile"
+        data-open={isOpen ? "true" : "false"}
+        role={isOpen ? "dialog" : undefined}
+        aria-modal={isOpen ? "true" : undefined}
+        aria-label={isOpen ? copy.mobileLabel : undefined}
+        aria-hidden={!isOpen}
+        inert={!isOpen}
+      >
+        <div className="site-nav__mobile-links">
+          {items.map((item, index) => (
+            <Link
+              ref={index === 0 ? firstMobileLinkRef : undefined}
+              key={item.href}
+              href={item.href}
+              aria-current={
+                activeHash && item.href.endsWith(activeHash) ? "location" : undefined
+              }
+              onClick={(event) => {
+                scrollToCurrentHash(event);
+                setIsOpen(false);
+              }}
+              style={{ "--nav-delay": `${80 + index * 24}ms` } as React.CSSProperties}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {item.title}
+            </Link>
+          ))}
+          <LanguageSwitcher
+            locale={locale}
+            pathname={pathname}
+            copy={copy}
+            className="site-language--mobile"
+            style={
+              {
+                "--nav-delay": `${80 + items.length * 24}ms`,
+              } as React.CSSProperties
+            }
+          />
+        </div>
       </div>
-      <MobileNavbar items={ITEMS} isOpen={isMobileNavbarOpen} setIsOpen={setIsMobileNavbarOpen} />
     </nav>
   );
 }
 
-function DesktopNavbar() {
+function LanguageSwitcher({
+  locale,
+  pathname,
+  copy,
+  className,
+  style,
+}: {
+  locale: Locale;
+  pathname: string;
+  copy: Dictionary["nav"];
+  className: string;
+  style?: React.CSSProperties;
+}) {
+  const href = pathWithoutLocale(pathname);
+  const targetLocale = locales.find((candidate) => candidate !== locale) ?? locale;
+
   return (
-    <div className="justify-between w-full md:flex hidden">
-      <div />
-      <div className="flex flex-row items-center space-x-8">
-        {ITEMS.map((item, index) => <NavbarItem key={index} title={item.title} href={item.href} />)}
-      </div>
-      <div />
+    <div
+      className={`site-language ${className}`}
+      style={style}
+      aria-label={copy.languageLabel}
+    >
+      <a
+        href={localeHref(targetLocale, href)}
+        hrefLang={targetLocale}
+        title={copy.languages[targetLocale]}
+        aria-label={copy.languages[targetLocale]}
+        onClick={(event) => {
+          event.preventDefault();
+          const target = new URL(event.currentTarget.href);
+          target.search = window.location.search;
+          target.hash = window.location.hash;
+          window.location.assign(target.toString());
+        }}
+      >
+        {locales.map((candidate) => (
+          <span
+            key={candidate}
+            className="site-language__option"
+            data-current={candidate === locale ? "true" : "false"}
+            lang={candidate}
+            aria-hidden="true"
+          >
+            {localeNames[candidate]}
+          </span>
+        ))}
+      </a>
     </div>
   );
 }
 
-function NavbarTitle({ href, children }: { href: string, children: React.ReactNode }) {
+function NavigationLink({
+  title,
+  href,
+  pathname,
+  activeHash,
+}: {
+  title: string;
+  href: string;
+  pathname: string;
+  activeHash: string;
+}) {
+  const hrefPath = href.split("#")[0] || "/";
+  const hrefHash = href.includes("#") ? `#${href.split("#")[1]}` : "";
+  const isCurrentSection = hrefHash !== "" && hrefHash === activeHash;
+  const isActive =
+    hrefPath !== "/" && (pathname === hrefPath || pathname.startsWith(`${hrefPath}/`));
+
   return (
     <Link
       href={href}
-      aria-label="Home"
-      className="text-[22px] font-bold text-white no-underline transition-colors duration-300 ease-in-out hover:text-[#29b5f6]"
+      aria-current={isCurrentSection ? "location" : isActive ? "page" : undefined}
+      onClick={scrollToCurrentHash}
     >
-      {children}
+      {title}
     </Link>
   );
+}
+
+function scrollToCurrentHash(event: MouseEvent<HTMLAnchorElement>) {
+  const target = new URL(event.currentTarget.href);
+  if (
+    !target.hash ||
+    target.pathname !== window.location.pathname ||
+    target.search !== window.location.search ||
+    target.hash !== window.location.hash
+  ) {
+    return;
+  }
+
+  const section = document.getElementById(decodeURIComponent(target.hash.slice(1)));
+  if (!section) return;
+
+  event.preventDefault();
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
 }

@@ -1,0 +1,75 @@
+---
+title: "Building a Blog That Feels Like Home"
+description: "A draft tour of the design and engineering choices behind this new writing space."
+publishedAt: "2026-07-04"
+tags:
+  - Next.js
+  - Design
+  - Engineering
+draft: true
+cover:
+  src: "/img/blog/building-the-blog/cover.webp"
+  alt: "Luminous blue and violet threads converging into layered glass planes"
+---
+
+This is an unpublished authoring reference for the blog. It exercises the components and typography without appearing in production.
+
+<Callout title="Draft preview">
+  Drafts are available during local development, but are omitted from production routes, metadata, the sitemap, and RSS.
+</Callout>
+
+## Content should feel native
+
+The writing experience uses the same dark glass, cool light, and restrained motion as the rest of the site. The visual system steps back around the prose so that longer articles remain comfortable to read.
+
+### A small technical example
+
+```ts
+type PublishedPost = {
+  title: string;
+  slug: string;
+  readingTimeMinutes: number;
+};
+
+const pathFor = (post: PublishedPost) => `/blog/${post.slug}`;
+```
+
+| Principle | Practical result |
+| --- | --- |
+| Typed content | Invalid frontmatter fails the build |
+| Static rendering | Articles load quickly and reliably |
+| Local images | Assets stay versioned with their writing |
+
+## Images are part of the story
+
+<BlogImage
+  src="/img/blog/building-the-blog/cover.webp"
+  alt="Abstract streams of light forming a structured glass surface"
+  width={1600}
+  height={900}
+  caption="The draft cover, generated for the blog's luminous technical editorial direction."
+/>
+
+> Good editorial design does not decorate the words. It gives them the right room, rhythm, and emphasis.
+
+## The publishing path stays simple
+
+```mermaid
+---
+title: From draft to published post
+---
+flowchart LR
+  accTitle: From draft to published post
+  accDescr: An MDX draft is previewed locally and revised until it is ready to publish.
+  A[Write MDX] --> B[Preview locally]
+  B --> C{Ready?}
+  C -->|Not yet| A
+  C -->|Yes| D[Publish]
+```
+
+1. Add an MDX file and its images.
+2. Fill in the validated frontmatter.
+3. Preview the draft locally.
+4. Set `draft` to `false` when it is ready.
+
+That is the whole ritual—which is exactly the point.

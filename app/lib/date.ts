@@ -1,17 +1,38 @@
-import dayjs from "dayjs";
+const dateFormatters = new Map<
+  string,
+  { full: Intl.DateTimeFormat; month: Intl.DateTimeFormat }
+>();
 
-export function getFormattedTimeSpan(start: Date, end?: Date) {
+function getDateFormatters(locale: string) {
+  const cached = dateFormatters.get(locale);
+  if (cached) return cached;
+
+  const formatters = {
+    full: new Intl.DateTimeFormat(locale, { month: "short", year: "numeric" }),
+    month: new Intl.DateTimeFormat(locale, { month: "short" }),
+  };
+  dateFormatters.set(locale, formatters);
+  return formatters;
+}
+
+export function getFormattedTimeSpan(
+  start: Date,
+  end?: Date,
+  locale = "en",
+  presentLabel = "Present"
+) {
+  const { full, month } = getDateFormatters(locale);
   if (!end) {
-    return dayjs(start).format('MMM YYYY') + " - Present";
+    return `${full.format(start)} – ${presentLabel}`;
   }
 
   if (start.getFullYear() === end.getFullYear()) {
     if (start.getMonth() === end.getMonth()) {
-      return dayjs(start).format('MMM YYYY');
+      return full.format(start);
     }
 
-    return dayjs(start).format('MMM') + " - " + dayjs(end).format('MMM YYYY')
+    return `${month.format(start)} – ${full.format(end)}`;
   }
 
-  return dayjs(start).format('MMM YYYY') + " - " + dayjs(end).format('MMM YYYY');
+  return `${full.format(start)} – ${full.format(end)}`;
 }

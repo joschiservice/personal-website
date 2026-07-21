@@ -1,7 +1,13 @@
 packages:
   - "."
 
+overrides:
+  webpack@5.101.3: 5.104.1
+  postcss@8.4.31: 8.5.19
+  uuid@9.0.1: 11.1.1
+
 allowBuilds:
   "@sentry/cli": true
+  esbuild: true
   sharp: true
   unrs-resolver: true

@@ -1,38 +1,54 @@
 import Image from "next/image";
-import Link from "next/link";
-import { FaPlane } from "react-icons/fa";
-import { SectionHeading } from "@/app/components/SectionHeading";
-import { flightRadarSectionContent } from "@/app/data/flightRadarSection";
-import { SectionBodyText } from "../components/SectionBodyText";
+import { HiArrowUpRight } from "react-icons/hi2";
+import { Container } from "@/app/components/system/Container";
+import { SectionIntro } from "@/app/components/system/SectionIntro";
+import type { Dictionary } from "@/app/i18n/getDictionary";
 
-export function FlightRadarSection() {
+export function FlightRadarSection({
+  copy,
+  newTabLabel,
+}: {
+  copy: Dictionary["flightRadar"];
+  newTabLabel: string;
+}) {
   return (
-    <section className="py-16">
-      <div className="container mx-auto max-w-4xl px-4">
-        <SectionHeading
-          title={flightRadarSectionContent.title}
-          icon={FaPlane}
-          gradient="from-cyan-500/40 to-cyan-300/40"
+    <section className="editorial-section travel-section" aria-labelledby="travel-log-heading">
+      <Container>
+        <SectionIntro
+          number="06"
+          label={copy.label}
+          title={copy.title}
+          description={copy.description}
+          id="travel-log-heading"
+          align="split"
         />
-        <SectionBodyText className="mb-12">
-          {flightRadarSectionContent.description}
-        </SectionBodyText>
-        <div className="flex justify-center w-full">
-          <Link
-            href={flightRadarSectionContent.href}
-            className="block w-full max-w-[400px]"
-          >
+        <a
+          href={copy.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="travel-log motion-section-content"
+        >
+          <div className="travel-log__line" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="travel-log__content">
             <Image
-              src={flightRadarSectionContent.imageSrc}
-              alt={flightRadarSectionContent.imageAlt}
+              src={copy.imageSrc}
+              alt={copy.imageAlt}
               width={320}
               height={70}
-              sizes="(max-width: 400px) 100vw, 400px"
-              className="w-full h-auto filter invert hue-rotate-180"
+              sizes="(max-width: 640px) 75vw, 320px"
             />
-          </Link>
-        </div>
-      </div>
+            <span>
+              {copy.action}
+              <HiArrowUpRight aria-hidden="true" />
+            </span>
+          </div>
+          <span className="sr-only"> · {newTabLabel}</span>
+        </a>
+      </Container>
     </section>
   );
 }

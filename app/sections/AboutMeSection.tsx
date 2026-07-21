@@ -1,27 +1,78 @@
-import { SectionHeading } from "@/app/components/SectionHeading";
-import { aboutMeSectionContent } from "@/app/data/aboutMeSection";
-import { FaUser } from "react-icons/fa";
-import { HighlightedSectionBackground } from "./backgrounds/HighlightedSectionBackground";
-import { SectionBodyText } from "../components/SectionBodyText";
+import { Container } from "@/app/components/system/Container";
+import { SectionIntro } from "@/app/components/system/SectionIntro";
+import type { Dictionary } from "@/app/i18n/getDictionary";
 
-export function AboutMeSection() {
+export function AboutMeSection({
+  copy,
+}: {
+  copy: Dictionary["about"];
+}) {
   return (
-    <section id="about-me" className="py-16 sm:py-20 md:py-24 relative">
-      <HighlightedSectionBackground />
+    <section
+      id="about-me"
+      className="editorial-section about-section"
+      aria-labelledby="about-heading"
+    >
+      <div className="about-section__atmosphere" aria-hidden="true">
+        <span className="about-section__orb" />
+        <span className="about-section__coordinate">35.6995° N / 139.6364° E</span>
+      </div>
 
-      <div className="container mx-auto max-w-4xl px-8">
-        <SectionHeading
-          title={aboutMeSectionContent.title}
-          icon={FaUser}
-          gradient="from-blue-500/40 to-blue-300/40"
+      <Container>
+        <SectionIntro
+          number="01"
+          label={copy.label}
+          title={copy.statement}
+          description={copy.paragraphs[0]}
+          id="about-heading"
+          align="split"
         />
 
-        <div className="space-y-4">
-          {aboutMeSectionContent.paragraphs.map((paragraph) => (
-            <SectionBodyText key={paragraph}>{paragraph}</SectionBodyText>
-          ))}
+        <div className="about-section__body motion-section-content">
+          <div className="about-section__narrative">
+            {copy.paragraphs.slice(1).map((paragraph, index) => (
+              <p
+                key={paragraph}
+                className={index === 0 ? "about-section__lead-story" : undefined}
+                data-paragraph={String(index + 1).padStart(2, "0")}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          <aside className="about-section__annotations" aria-label={copy.annotationsLabel}>
+            <div className="about-section__annotation-group">
+              <p className="system-label">{copy.profileFactsLabel}</p>
+              <dl className="profile-fact-list">
+                {copy.profileFacts.map(([title, description]) => (
+                  <div key={title}>
+                    <dt>{title}</dt>
+                    <dd>{description}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="about-section__annotation-group">
+              <p className="system-label">{copy.principlesLabel}</p>
+              <dl className="principle-list">
+                {copy.principles.map(([title, description], index) => (
+                  <div key={title}>
+                    <span aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <dt>{title}</dt>
+                      <dd>{description}</dd>
+                    </div>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

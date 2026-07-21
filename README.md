@@ -1,28 +1,33 @@
-## Personal Website (Next.js)
+# Personal Website (Next.js)
 
-This repository contains the source code for my personal website built with Next.js (App Router), TypeScript, and Tailwind CSS. It showcases my profile, projects, work experience, tools, and interests with subtle animations.
+This repository contains the source for my personal website. It is a server-first Next.js application with a small number of focused client components for navigation, filtering, disclosures, and image lightboxes.
 
 ### Tech stack
 - **Framework**: Next.js, React (App Router under `app/`)
-- **Styling**: Tailwind CSS (see `app/globals.css`)
+- **Styling**: Tailwind CSS v4 plus a token-based editorial design system
 - **TypeScript**: Strict typing via `tsconfig.json`
-- **Animations**: Framer Motion / `motion`
-- **Utilities**: `dayjs`, `react-scroll`, `react-icons`
-- **Analytics**: `@vercel/analytics`
+- **Content**: Typed MDX through Content Collections
+- **Motion**: Motion for interactive transitions, with reduced-motion support
+- **Observability**: Sentry, Vercel Analytics, and Speed Insights
+- **Testing**: Playwright across desktop and mobile Chromium profiles
+- **Localization**: Request-aware dictionaries with locale-safe internal links
 
 ### Project structure (high level)
 ```text
 app/
-  animations/               # Reusable animation components
-  components/               # UI components (buttons, cards, navbar, etc.)
-  sections/                 # Page sections (Hero, About, Projects, Tools, etc.)
-  app/page.tsx              # Home page
-  app/layout.tsx            # Root layout
-  app/globals.css           # Global styles (Tailwind v4)
+  components/               # Shared system, navigation, and blog UI
+  data/                     # Portfolio content and structured timeline data
+  i18n/                     # Locale configuration and typed dictionaries
+  lib/                      # Blog, CV, RSS, date, and site helpers
+  sections/                 # Homepage sections
+  blog/                     # Blog index, article pages, and RSS route
+  page.tsx                  # Homepage
+  layout.tsx                # Root layout and shared chrome
+  globals.css               # Tailwind entrypoint and design system
+content/posts/              # Validated MDX articles
+e2e/                        # Desktop and mobile Playwright coverage
 public/
-  docs/                     # Public documents (e.g., CV PDF)
-  img/                      # Various Images
-helpers/                    # Helper utilities
+  img/                      # Optimized local image assets
 ```
 
 ### Getting started
@@ -39,6 +44,18 @@ Run the development server:
 pnpm dev
 ```
 Open `http://localhost:3000`.
+
+Contact and social links are configured with these optional variables:
+
+```text
+NEXT_PUBLIC_CONTACT_EMAIL
+NEXT_PUBLIC_CONTACT_PHONE
+NEXT_PUBLIC_SOCIAL_LINKEDIN
+NEXT_PUBLIC_SOCIAL_GITHUB
+NEXT_PUBLIC_SOCIAL_INSTAGRAM
+```
+
+The CV route reads the latest localized `*_CV_EN.pdf`, `*_CV_DE.pdf`, etc. file from Vercel Blob and therefore requires the standard Vercel Blob credentials outside the test suite. Requests use the site locale (`/cv?lang=de`, for example), match its uppercase language code, and fall back to English when that language is unavailable. Legacy `*_CV.pdf` uploads are treated as English.
 
 Build for production:
 ```bash
@@ -66,15 +83,25 @@ Run the Playwright smoke suite:
 pnpm test:e2e
 ```
 
+To intentionally test an already-running local server, set `PLAYWRIGHT_REUSE_EXISTING_SERVER=true`. The default remains an isolated server with deterministic test environment values.
+
 Open Playwright's interactive test runner:
 ```bash
 pnpm test:e2e:ui
 ```
 
+### Quality checks
+
+```bash
+pnpm lint
+pnpm exec tsc --noEmit
+pnpm test:e2e
+```
+
 ### Deployment
 The project is optimized for deployment on Vercel.
 - Push to the default branch and connect the repo on Vercel
-- Environment variables are not required for a basic deploy
+- Configure contact/social values and Vercel Blob access for the complete production experience
 
 ### License
 All rights reserved. Feel free to reference the structure or ideas, but please do not reuse the content and branding as-is.

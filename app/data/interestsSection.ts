@@ -12,7 +12,7 @@ export const interestsSectionContent = {
     {
       title: "日本 (Japan)",
       description:
-        "I keep telling myself each Japan trip will be the last one for a while, and then I somehow book another. I went four times last year, changed flights mid-trip once, and now study Japanese daily with a vocabulary that is still disproportionately useful in restaurants. The mix of culture, food, and scenery has fully won me over, and my friends can usually tell when I am about to bring Japan into the conversation again.",
+        "Japan began as a place I was curious about and, trip by trip, became somewhere I could imagine building a life. Returning several times allowed me to appreciate more than the obvious highlights: the contrast between Tokyo's energy and its quiet neighborhoods, the regional differences, the food, the design, and the care often visible in everyday experiences. I am now preparing to make Tokyo home and learning the language so I can participate in life there more fully, rather than experience it only as a visitor.",
       image: "/img/interests/Japan.png",
       color: "from-red-500/40 to-red-300/40",
       icon: "🗾",
