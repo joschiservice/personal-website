@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 import {
   localeHref,
+  localeNames,
   locales,
   pathWithoutLocale,
   type Locale,
@@ -239,7 +240,7 @@ function LanguageSwitcher({
             lang={candidate}
             aria-hidden="true"
           >
-            {copy.languages[candidate]}
+            {localeNames[candidate]}
           </span>
         ))}
       </a>

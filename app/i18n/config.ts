@@ -2,6 +2,11 @@ export const locales = ["en", "ja"] as const;
 
 export type Locale = (typeof locales)[number];
 
+export const localeNames = {
+  en: "English",
+  ja: "日本語",
+} satisfies Record<Locale, string>;
+
 export const defaultLocale: Locale = "en";
 
 export function isLocale(value: string | null | undefined): value is Locale {
