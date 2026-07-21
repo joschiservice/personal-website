@@ -931,6 +931,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
 .writing-section { background: #070d17; }
 .writing-section__grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 1px; background: var(--line); }
 .writing-section__grid .blog-card:first-child { grid-row: span 2; }
+.writing-section__grid .blog-card:only-child { grid-column: 1 / -1; grid-row: auto; }
 .blog-card { border: 0; border-radius: 0; background: var(--surface); box-shadow: none; }
 .blog-card::before, .blog-card::after { display: none; }
 .blog-card:hover { border-color: transparent; transform: none; box-shadow: none; }
