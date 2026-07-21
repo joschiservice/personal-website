@@ -1,60 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
-import {
-  AnimatePresence,
-  LayoutGroup,
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 
 type ToolCopy = Dictionary["tools"];
+type Rarity = "Rare" | "Epic" | "Legendary";
 
-const FEATURED_TOOLS = new Set([
-  "TypeScript",
-  "Node.js",
-  "NestJS",
-  "Next.js",
-  "React",
-  "PostgreSQL",
-  "Docker",
-  "Sentry",
-]);
-
-const SNAPPY_SPRING = {
-  type: "spring" as const,
-  stiffness: 520,
-  damping: 38,
-  mass: 0.72,
+const RARITY_ORDER: Rarity[] = ["Legendary", "Epic", "Rare"];
+const RARITY_LEVELS: Record<Rarity, number> = {
+  Rare: 1,
+  Epic: 2,
+  Legendary: 3,
 };
 
 const CARD_TRANSITION = {
-  layout: SNAPPY_SPRING,
-  opacity: { duration: 0.14, ease: "easeOut" as const },
-  y: SNAPPY_SPRING,
-  scale: SNAPPY_SPRING,
+  type: "spring" as const,
+  stiffness: 360,
+  damping: 30,
+  mass: 0.8,
 };
 
 export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale }) {
-  const [category, setCategory] = useState<string>(copy.featured);
   const prefersReducedMotion = useReducedMotion();
-  const items = useMemo(() => {
-    if (category === copy.featured) {
-      return copy.items.filter((item) => FEATURED_TOOLS.has(item.name));
-    }
-    if (category === copy.all) return copy.items;
-    return copy.items.filter((item) => item.category === category);
-  }, [category, copy]);
-
-  const filters = [copy.featured, ...copy.categories, copy.all];
-  const resultsLabel = locale === "ja"
-    ? `${items.length}${copy.resultsLabel}`
-    : `${items.length} ${copy.resultsLabel}`;
+  const items = copy.items;
 
   return (
     <section
@@ -72,114 +44,126 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
           align="split"
         />
 
-        <LayoutGroup id="tools-filter">
+        <div className="tool-deck__register motion-section-content">
+          <div className="tool-deck__edition">
+            <span>{copy.deckLabel}</span>
+            <strong>{copy.completeSet}</strong>
+          </div>
+
           <div
-            className="tool-filter motion-section-content"
-            role="group"
-            aria-label={copy.filterLabel}
+            className="tool-deck__rarities"
+            role="list"
+            aria-label={copy.rarityGuideLabel}
           >
-            {filters.map((item) => {
-              const isActive = category === item;
+            {RARITY_ORDER.map((rarity) => {
+              const count = items.filter((item) => item.rarity === rarity).length;
 
               return (
-                <button
-                  type="button"
-                  key={item}
-                  onClick={() => setCategory(item)}
-                  aria-pressed={isActive}
+                <div
+                  key={rarity}
+                  role="listitem"
+                  data-rarity={rarity.toLowerCase()}
                 >
-                  {isActive ? (
-                    <motion.span
-                      className="tool-filter__selection"
-                      layoutId="tool-filter-selection"
-                      transition={
-                        prefersReducedMotion
-                          ? { duration: 0 }
-                          : SNAPPY_SPRING
-                      }
-                      aria-hidden="true"
-                    />
-                  ) : null}
-                  <span className="tool-filter__label">{item}</span>
-                </button>
+                  <span className="tool-deck__rarity-mark" aria-hidden="true">
+                    {Array.from(
+                      { length: RARITY_LEVELS[rarity] },
+                      (_, index) => <i key={index} />,
+                    )}
+                  </span>
+                  <span>
+                    <strong>{copy.rarities[rarity]}</strong>
+                    <small>{copy.rarityNotes[rarity]}</small>
+                  </span>
+                  <b>{String(count).padStart(2, "0")}</b>
+                </div>
               );
             })}
           </div>
+        </div>
 
-          <div className="motion-section-content">
-            <div className="tools-section__route-arrival" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-            <motion.div
-              className="tool-card-grid"
-              layout={prefersReducedMotion ? false : true}
-              transition={{ layout: SNAPPY_SPRING }}
-            >
-              <p className="sr-only" aria-live="polite" aria-atomic="true">
-                {resultsLabel}
-              </p>
-              <AnimatePresence mode="popLayout" initial={false}>
-                {items.map((item) => (
-                  <motion.article
-                    key={item.name}
-                    className="tool-card"
-                    data-rarity={item.rarity.toLowerCase()}
-                    layout={prefersReducedMotion ? false : "position"}
-                    initial={
-                      prefersReducedMotion
-                        ? { opacity: 0 }
-                        : { opacity: 0, y: 10, scale: 0.97 }
-                    }
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={
-                      prefersReducedMotion
-                        ? { opacity: 0 }
-                        : { opacity: 0, y: 6, scale: 0.98 }
-                    }
-                    transition={
-                      prefersReducedMotion
-                        ? { duration: 0 }
-                        : CARD_TRANSITION
-                    }
-                  >
-                    <div className="tool-card__shine" aria-hidden="true" />
+        <div
+          className="tool-card-grid motion-section-content"
+          role="list"
+          aria-label={copy.collectionLabel}
+        >
+          {items.map((item, index) => {
+            const rarity = item.rarity as Rarity;
+            const cardNumber = String(index + 1).padStart(2, "0");
+            const total = String(items.length).padStart(2, "0");
+
+            return (
+              <motion.div
+                key={item.name}
+                className="tool-card-slot"
+                role="listitem"
+                initial={
+                  prefersReducedMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: 24, scale: 0.97 }
+                }
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.12 }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { ...CARD_TRANSITION, delay: (index % 4) * 0.055 }
+                }
+              >
+                <article
+                  className="tool-card"
+                  data-rarity={rarity.toLowerCase()}
+                  data-tool={item.name}
+                >
+                  <div className="tool-card__foil" aria-hidden="true" />
+                  <div className="tool-card__frame">
                     <header className="tool-card__header">
-                      <span>{item.category}</span>
-                      <span>
-                        {copy.rarities[
-                          item.rarity as keyof typeof copy.rarities
-                        ] ?? item.rarity}
+                      <span className="tool-card__number">
+                        № {cardNumber}<i>/</i>{total}
+                      </span>
+                      <span className="tool-card__rarity">
+                        <span aria-hidden="true">
+                          {Array.from(
+                            { length: RARITY_LEVELS[rarity] },
+                            (_, pipIndex) => <i key={pipIndex} />,
+                          )}
+                        </span>
+                        {copy.rarities[rarity]}
                       </span>
                     </header>
 
-                    <div className="tool-card__identity">
+                    <div className="tool-card__art" aria-hidden="true">
+                      <span className="tool-card__art-grid" />
+                      <span className="tool-card__glyph">
+                        {item.name.slice(0, 2).toUpperCase()}
+                      </span>
+                      <span className="tool-card__orbit tool-card__orbit--outer" />
+                      <span className="tool-card__orbit tool-card__orbit--inner" />
                       {item.imageName ? (
-                        <span className="tool-card__logo" aria-hidden="true">
+                        <span className="tool-card__logo">
                           <Image
                             src={`/img/tools/${item.imageName}.png`}
                             alt=""
-                            width={72}
-                            height={72}
-                            style={{ width: "auto", height: "auto" }}
+                            width={112}
+                            height={112}
+                            sizes="112px"
                           />
                         </span>
                       ) : (
-                        <span className="tool-card__monogram" aria-hidden="true">
+                        <span className="tool-card__monogram">
                           {item.name.slice(0, 2).toUpperCase()}
                         </span>
                       )}
-                      <div>
-                        <h3>{item.name}</h3>
-                        <p>{item.title}</p>
-                      </div>
+                      <span className="tool-card__category">{item.category}</span>
+                    </div>
+
+                    <div className="tool-card__identity">
+                      <p>{item.title}</p>
+                      <h3>{item.name}</h3>
                     </div>
 
                     <p className="tool-card__flavor">{item.flavor}</p>
 
-                    <dl className="tool-card__stats">
+                    <dl className="tool-card__traits" aria-label={copy.traitsLabel}>
                       {item.stats.map((stat) => (
                         <div key={stat.label}>
                           <dt>{stat.label}</dt>
@@ -187,12 +171,17 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                         </div>
                       ))}
                     </dl>
-                  </motion.article>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          </div>
-        </LayoutGroup>
+
+                    <footer className="tool-card__footer">
+                      <span>{copy.editionLabel}</span>
+                      <span>{locale === "ja" ? `JH・${cardNumber}` : `JH · ${cardNumber}`}</span>
+                    </footer>
+                  </div>
+                </article>
+              </motion.div>
+            );
+          })}
+        </div>
       </Container>
     </section>
   );
