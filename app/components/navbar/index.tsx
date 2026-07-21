@@ -148,7 +148,14 @@ export function Navbar({
             aria-controls="mobile-nav"
             aria-label={isOpen ? copy.closeMenu : copy.openMenu}
           >
-            {isOpen ? <HiXMark aria-hidden="true" /> : <HiBars3 aria-hidden="true" />}
+            <span className="site-nav__toggle-icon" aria-hidden="true">
+              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--menu">
+                <HiBars3 />
+              </span>
+              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--close">
+                <HiXMark />
+              </span>
+            </span>
           </button>
         </div>
       </Container>
@@ -174,7 +181,7 @@ export function Navbar({
                 scrollToCurrentHash(event);
                 setIsOpen(false);
               }}
-              style={{ "--nav-index": index } as React.CSSProperties}
+              style={{ "--nav-delay": `${80 + index * 24}ms` } as React.CSSProperties}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
               {item.title}
