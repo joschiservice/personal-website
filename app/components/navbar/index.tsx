@@ -235,6 +235,11 @@ export function Navbar({
             pathname={pathname}
             copy={copy}
             className="site-language--mobile"
+            style={
+              {
+                "--nav-delay": `${80 + items.length * 24}ms`,
+              } as React.CSSProperties
+            }
           />
         </div>
       </div>
@@ -247,11 +252,13 @@ function LanguageSwitcher({
   pathname,
   copy,
   className,
+  style,
 }: {
   locale: Locale;
   pathname: string;
   copy: Dictionary["nav"];
   className: string;
+  style?: React.CSSProperties;
 }) {
   const href = pathWithoutLocale(pathname);
   const targetLocale = locales.find((candidate) => candidate !== locale) ?? locale;
@@ -259,6 +266,7 @@ function LanguageSwitcher({
   return (
     <div
       className={`site-language ${className}`}
+      style={style}
       aria-label={copy.languageLabel}
     >
       <a
