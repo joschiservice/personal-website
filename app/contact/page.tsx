@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { HiArrowUpRight, HiEnvelope } from "react-icons/hi2";
+import { ContactChannels } from "@/app/components/contact/ContactChannels";
 import { Container } from "@/app/components/system/Container";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { getRequestDictionary } from "@/app/i18n/getDictionary";
@@ -28,26 +27,6 @@ export default async function ContactPage() {
   const { locale, dictionary } = await getRequestDictionary();
   const copy = dictionary.contact;
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
-  const socialLinks = [
-    {
-      label: "LinkedIn",
-      detail: copy.socials.linkedin,
-      href: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN,
-      icon: FaLinkedinIn,
-    },
-    {
-      label: "GitHub",
-      detail: copy.socials.github,
-      href: process.env.NEXT_PUBLIC_SOCIAL_GITHUB,
-      icon: FaGithub,
-    },
-    {
-      label: "Instagram",
-      detail: copy.socials.instagram,
-      href: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM,
-      icon: FaInstagram,
-    },
-  ].filter((social) => Boolean(social.href));
 
   return (
     <div className="contact-page">
@@ -75,7 +54,6 @@ export default async function ContactPage() {
             </h1>
             <p>{copy.intro}</p>
           </div>
-
         </Container>
       </section>
 
@@ -86,50 +64,14 @@ export default async function ContactPage() {
             <h2 id="contact-directory-title">{copy.directoryTitle}</h2>
           </div>
 
-          <div className="contact-directory__grid">
-            <div className="contact-email">
-              <span className="contact-channel__index">01 / {copy.emailLabel}</span>
-              <div className="contact-email__icon" aria-hidden="true">
-                <HiEnvelope />
-              </div>
-              <p>{copy.emailIntro}</p>
-              {email ? (
-                <a href={`mailto:${email}`}>
-                  <span>{email}</span>
-                  <HiArrowUpRight aria-hidden="true" />
-                </a>
-              ) : (
-                <p className="contact-channel__unavailable">{copy.unavailable}</p>
-              )}
-            </div>
-
-            <div className="contact-socials" aria-label={copy.socialsLabel}>
-              {socialLinks.map((social, index) => {
-                const Icon = social.icon;
-
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="contact-social"
-                    aria-label={`${social.label} · ${dictionary.accessibility.opensNewTab}`}
-                  >
-                    <span className="contact-channel__index">
-                      {String(index + 2).padStart(2, "0")}
-                    </span>
-                    <Icon aria-hidden="true" />
-                    <span className="contact-social__copy">
-                      <strong>{social.label}</strong>
-                      <small>{social.detail}</small>
-                    </span>
-                    <HiArrowUpRight className="contact-social__arrow" aria-hidden="true" />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
+          <ContactChannels
+            copy={copy}
+            email={email}
+            linkedin={process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN}
+            github={process.env.NEXT_PUBLIC_SOCIAL_GITHUB}
+            instagram={process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM}
+            newTabLabel={dictionary.accessibility.opensNewTab}
+          />
 
           <p className="contact-directory__note">{copy.note}</p>
         </Container>

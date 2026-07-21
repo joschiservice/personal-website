@@ -153,11 +153,22 @@ const en = {
     intro:
       "Have a product problem, an opportunity, or simply something interesting to share? Pick the channel that fits and say hello.",
     directoryLabel: "Direct lines",
-    directoryTitle: "Choose your channel.",
+    directoryTitle: "Where should we start?",
     emailLabel: "Email",
+    emailTitle: "Start the conversation",
     emailIntro:
       "Best for opportunities, collaborations, and conversations that deserve a little more room.",
+    primaryChannel: "Best way to reach me",
+    copyEmail: "Copy email",
+    copied: "Copied",
+    copyFailed: "Copy failed",
     socialsLabel: "Social profiles",
+    proofLabel: "Professional proof",
+    professionalProfile: "Professional profile",
+    buildingInPublic: "Work in the open",
+    linkedinProof: "Experience · career context · recommendations",
+    githubProof: "Shipped code · open source · technical depth",
+    personalLabel: "Outside the work",
     socials: {
       linkedin: "Work, experience, and professional updates",
       github: "Projects, experiments, and source code",
