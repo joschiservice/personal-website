@@ -44,8 +44,7 @@
 .attachedMeta,
 .attachedRoute {
   font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.07em;
 }
 
 .stopNumber {
@@ -67,8 +66,8 @@
   box-shadow: 0 0 0 0.35rem rgb(24 116 255 / 10%);
 }
 
-.routeLabel { color: var(--text); font-size: 0.72rem; }
-.routeMeta { margin-top: 0.45rem; color: var(--muted); font-size: 0.68rem; }
+.routeLabel { color: var(--text); font-size: 0.74rem; }
+.routeMeta { margin-top: 0.45rem; color: var(--muted); font-size: 0.7rem; }
 .content { min-width: 0; }
 
 .primary {
@@ -81,7 +80,7 @@
   justify-content: space-between;
   gap: 1rem;
   color: var(--accent-soft);
-  font-size: 0.67rem;
+  font-size: 0.7rem;
 }
 
 .heading { margin-top: 1.2rem; }
@@ -96,6 +95,7 @@
   line-height: 1.12;
   letter-spacing: -0.035em;
   text-decoration: none;
+  text-wrap: balance;
 }
 .heading a:hover { color: var(--accent-soft); }
 .heading svg { width: 1.1rem; margin-top: 0.28rem; }
@@ -107,19 +107,20 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.summary { margin-top: 1.4rem; max-width: 52rem; color: var(--body); line-height: 1.75; }
+.summary { margin-top: 1.6rem; max-width: 46rem; color: var(--body); line-height: 1.78; }
 
 .impactGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
-  margin: 1.8rem 0 0;
+  margin: 2.25rem 0 0;
   background: var(--line);
 }
 
 .impactGrid > div {
   min-width: 0;
-  padding: 1rem;
+  min-height: 7.5rem;
+  padding: 1.25rem;
   background: var(--surface-recessed);
   box-shadow: var(--depth-recessed);
 }
@@ -127,16 +128,15 @@
 .impactGrid dt {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.56rem;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
   line-height: 1.4;
-  text-transform: uppercase;
 }
 
 .impactGrid dd {
-  margin: 0.4rem 0 0;
+  margin: 0.75rem 0 0;
   color: var(--text);
-  font-size: clamp(0.82rem, 1.3vw, 1rem);
+  font-size: clamp(1.08rem, 1.65vw, 1.4rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.35;
@@ -153,9 +153,8 @@
   background: transparent;
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
   cursor: pointer;
 }
 .details button svg { transition: transform 180ms ease; }
@@ -173,7 +172,7 @@
   visibility: visible;
   transition: grid-template-rows 260ms ease, visibility 0s linear 0s;
 }
-.detailsPanel ul { margin: 0; padding: 0 0 1.2rem 1.25rem; color: var(--body); }
+.detailsPanel ul { max-width: 46rem; margin: 0; padding: 0 0 1.2rem 1.25rem; color: var(--body); }
 .detailsPanel li + li { margin-top: 0.65rem; }
 
 .skills,
@@ -184,7 +183,7 @@
   padding: 0.35rem 0;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.67rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
 }
 
@@ -216,8 +215,8 @@
     linear-gradient(110deg, rgb(24 116 255 / 9%), transparent 48%),
     var(--surface-static);
 }
-.attachedMeta { color: var(--muted); font-size: 0.61rem; }
-.attachedRoute { margin-top: 1.4rem; color: var(--warm); font-size: 0.62rem; }
+.attachedMeta { color: var(--muted); font-size: 0.68rem; }
+.attachedRoute { margin-top: 1.4rem; color: var(--warm); font-size: 0.7rem; }
 .attached .heading { margin-top: 0.75rem; }
 .attached .heading a,
 .attached .heading h3 { font-size: 1.08rem; line-height: 1.35; }
@@ -231,19 +230,18 @@
   margin-top: 0.6rem;
   color: var(--accent-soft);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
 }
-.attachedSummary { margin-top: 1rem; color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+.attachedSummary { max-width: 38rem; margin-top: 1rem; color: var(--muted); font-size: 0.88rem; line-height: 1.65; }
 .attachedFeatured .attachedSummary {
-  max-width: 52rem;
+  max-width: 44rem;
   color: var(--body);
   font-size: 0.94rem;
   line-height: 1.7;
 }
 .smallSkills { margin-top: 1rem; }
-.smallSkills span { font-size: 0.59rem; }
+.smallSkills span { font-size: 0.68rem; }
 
 @media (max-width: 900px) {
   .stop { grid-template-columns: 1fr; gap: 2rem; }
