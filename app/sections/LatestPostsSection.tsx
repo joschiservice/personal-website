@@ -27,6 +27,7 @@ export function LatestPostsSection({
     >
       <Container>
         <SectionIntro
+          number="02"
           label={copy.label}
           title={copy.title}
           description={copy.intro}

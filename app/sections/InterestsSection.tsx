@@ -16,6 +16,7 @@ export function InterestsSection({
     >
       <Container>
         <SectionIntro
+          number="05"
           label={copy.label}
           title={copy.title}
           description={copy.description}

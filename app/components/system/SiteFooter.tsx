@@ -16,6 +16,7 @@ export function SiteFooter({
     <footer className="site-footer" id="contact">
       <Container>
         <div className="site-footer__cta">
+          <span className="site-footer__number" aria-hidden="true">07</span>
           <p className="system-label">{copy.label}</p>
           <h2>{copy.title}</h2>
           <ActionLink href={localeHref(locale, "/contact")} variant="primary">

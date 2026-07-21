@@ -15,6 +15,7 @@ export function FlightRadarSection({
     <section className="editorial-section travel-section" aria-labelledby="travel-log-heading">
       <Container>
         <SectionIntro
+          number="06"
           label={copy.label}
           title={copy.title}
           description={copy.description}

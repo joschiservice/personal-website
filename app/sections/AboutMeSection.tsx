@@ -20,6 +20,7 @@ export function AboutMeSection({
 
       <Container>
         <SectionIntro
+          number="01"
           label={copy.label}
           title={copy.statement}
           description={copy.paragraphs[0]}

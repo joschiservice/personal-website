@@ -21,6 +21,7 @@ export function TimelineSection({
     >
       <Container>
         <SectionIntro
+          number="03"
           label={copy.label}
           title={copy.title}
           description={copy.description}
@@ -28,7 +29,7 @@ export function TimelineSection({
           align="split"
         />
 
-        <div className={styles.timeline}>
+        <div className={styles.timeline} data-timeline-root>
           {copy.stops.map(({ experience, attachedMilestones }, index) => (
             <article
               className={`${styles.stop} motion-section-content`}
@@ -70,6 +71,7 @@ export function TimelineSection({
             </article>
           ))}
         </div>
+        <div className={styles.handoff} aria-hidden="true" />
       </Container>
     </section>
   );

@@ -64,6 +64,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
     >
       <Container>
         <SectionIntro
+          number="04"
           label={copy.label}
           title={copy.title}
           description={copy.description}
@@ -106,6 +107,12 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
           </div>
 
           <div className="motion-section-content">
+            <div className="tools-section__route-arrival" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
             <motion.div
               className="tool-card-grid"
               layout={prefersReducedMotion ? false : true}
