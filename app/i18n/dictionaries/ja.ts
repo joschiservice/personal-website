@@ -559,7 +559,7 @@ const ja: Dictionary = {
     label: "法的情報 / ドイツ",
     title: "Impressum / 法的表示",
     metadataDescription: "jhass.devの法的表示および連絡先情報。",
-    intro: "ドイツテレメディア法（TMG）第5条に基づく情報。",
+    intro: "ドイツデジタルサービス法（DDG）第5条に基づく情報。",
     operator: "ウェブサイト運営者",
     contactTitle: "連絡先",
     phone: "電話",

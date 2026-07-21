@@ -201,7 +201,7 @@ const en = {
     label: "Legal / DE",
     title: "Imprint / Legal disclosure",
     metadataDescription: "Legal disclosure and contact details for jhass.dev.",
-    intro: "Information in accordance with Section 5 TMG.",
+    intro: "Information in accordance with Section 5 DDG.",
     operator: "Website operator",
     contactTitle: "Contact information",
     phone: "Phone",
