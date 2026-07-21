@@ -18,7 +18,7 @@ test("renders the home page and primary actions", async ({ page }) => {
   for (const heading of [
     "Product-minded engineering, from interface decisions to production ownership.",
     "Career Timeline",
-    "Tools are means, not the story.",
+    "Eight cards. One working stack.",
     "Interests & Passions",
     "The route continues off-screen.",
   ]) {
@@ -165,14 +165,16 @@ test("presents the profile as an editorial spread", async ({ page }) => {
 
 test("keeps timeline geometry aligned and disclosure content clipped", async ({ page }) => {
   await page.goto("/#experience")
-  const route = page.locator("[data-timeline-route]").first()
-  const marker = route.locator("[data-timeline-marker]")
+  const timeline = page.locator("[data-timeline-root]")
+  const marker = timeline.locator("[data-timeline-marker]").first()
 
-  const alignmentDelta = await route.evaluate((element, markerElement) => {
-    const routeRect = element.getBoundingClientRect()
+  const alignmentDelta = await timeline.evaluate((element, markerElement) => {
+    const timelineRect = element.getBoundingClientRect()
     const markerRect = (markerElement as HTMLElement).getBoundingClientRect()
     const railLeft = Number.parseFloat(getComputedStyle(element, "::after").left)
-    return Math.abs(routeRect.left + railLeft - (markerRect.left + markerRect.width / 2))
+    return Math.abs(
+      timelineRect.left + railLeft - (markerRect.left + markerRect.width / 2)
+    )
   }, await marker.elementHandle())
   expect(alignmentDelta).toBeLessThan(1)
 
@@ -182,16 +184,19 @@ test("keeps timeline geometry aligned and disclosure content clipped", async ({ 
   await expect(firstTask).toBeVisible()
 })
 
-test("filters the compact tools card grid", async ({ page }) => {
+test("renders the compact signature tools card grid", async ({ page }) => {
   await page.goto("/#tools")
-  await expect(page.locator(".tool-card")).toHaveCount(8)
+  const collection = page.getByRole("list", {
+    name: "Signature technology card collection",
+  })
 
-  await page.getByRole("button", { name: "Frameworks" }).click()
-  await expect(page.getByRole("button", { name: "Frameworks" })).toHaveAttribute(
-    "aria-pressed",
-    "true"
+  await expect(collection.getByRole("listitem")).toHaveCount(8)
+  await expect(collection.locator('.tool-card[data-tool="Next.js"]')).toContainText(
+    "Frameworks"
   )
-  await expect(page.locator(".tool-card")).toHaveCount(2)
+  await expect(page.getByRole("list", { name: "Rarity guide" })).toContainText(
+    "03"
+  )
 })
 
 test("renders imprint contact links", async ({ page }) => {
