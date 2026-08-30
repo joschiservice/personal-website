@@ -133,6 +133,7 @@ test("collapses and reopens the full-name navigation mark", async ({ page }) => 
   await expect(monogram).toHaveCSS("opacity", "0")
 
   await page.locator("#about-me").scrollIntoViewIfNeeded()
+  await page.mouse.move(0, 100)
   await expect(navigation).toHaveAttribute("data-scrolled", "true")
   await expect(monogram).toHaveCSS("opacity", "1")
 
