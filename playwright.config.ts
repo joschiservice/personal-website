@@ -3,7 +3,7 @@ import { defineConfig, devices } from "@playwright/test"
 const reuseExistingServer = process.env.PLAYWRIGHT_REUSE_EXISTING_SERVER === "true"
 const baseURL = reuseExistingServer
   ? "http://localhost:3000"
-  : "http://127.0.0.1:3000"
+  : "http://localhost:3100"
 const testEnv = {
   NEXT_PUBLIC_CONTACT_EMAIL: "e2e@example.com",
   NEXT_PUBLIC_CONTACT_PHONE: "+49 123 456789",
@@ -27,7 +27,9 @@ export default defineConfig({
     video: "retain-on-failure",
   },
   webServer: {
-    command: process.env.CI ? "pnpm start" : "pnpm dev --hostname 127.0.0.1",
+    command: process.env.CI
+      ? "pnpm start --hostname localhost --port 3100"
+      : "pnpm dev --hostname localhost --port 3100",
     env: {
       ...process.env,
       ...testEnv,
