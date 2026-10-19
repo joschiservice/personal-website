@@ -1,14 +1,17 @@
 import { expect, test } from "@playwright/test"
 import { buildRssFeed } from "../app/lib/rss"
 
-test("renders the public blog empty state and exposes RSS", async ({ page }) => {
+test("lists published posts and exposes RSS", async ({ page }) => {
   await page.goto("/blog")
 
   await expect(
     page.getByRole("heading", { level: 1, name: "Blog", exact: true })
   ).toBeVisible()
   await expect(page.locator(".blog-index-header .blog-back-link")).toHaveCount(0)
-  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toBeVisible()
+  await expect(
+    page.getByRole("link", { name: /Read .*my take on AI and the future of work/ })
+  ).toBeVisible()
+  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toHaveCount(0)
   await expect(page.getByRole("link", { name: "RSS feed" })).toHaveAttribute(
     "href",
     "/blog/rss.xml"
@@ -33,6 +36,7 @@ test("serves a cacheable, valid RSS feed without draft entries", async ({ page, 
   )
   expect(body).toContain("<rss version=\"2.0\"")
   expect(body).toContain('<atom:link href="https://www.jhass.dev/blog/rss.xml" rel="self"')
+  expect(body).toContain("https://www.jhass.dev/blog/ai-and-the-future-of-work")
   expect(body).not.toContain("Building a Blog That Feels Like Home")
 
   const parsedFeed = await page.evaluate((xml) => {
