@@ -265,7 +265,7 @@ const ja: Dictionary = {
   hero: {
     label: "東京在住のソフトウェアエンジニア",
     headlineLead: "こんにちは、ヨシュアです。",
-    headlineAccent: "オンラインストアを支えるソフトウェアを作っています。",
+    headlineAccent: "フルスタックエンジニア、ときどき航空オタク。",
     description:
       "ドイツ北部で育ち、今は東京で暮らしています。仕事は主にTypeScriptとWeb開発で、休みの日はたいてい飛行機について調べています。",
     primaryAction: "経歴を見る",
