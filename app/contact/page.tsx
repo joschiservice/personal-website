@@ -4,6 +4,7 @@ import { Container } from "@/app/components/system/Container";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { getRequestDictionary } from "@/app/i18n/getDictionary";
 import { siteConfig } from "@/app/lib/site";
+import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dictionary } = await getRequestDictionary();
@@ -31,11 +32,8 @@ export default async function ContactPage() {
   return (
     <div className="contact-page">
       <section className="contact-hero" aria-labelledby="contact-title">
-        <div className="contact-hero__art" aria-hidden="true">
-          <span className="contact-hero__arc contact-hero__arc--blue" />
-          <span className="contact-hero__arc contact-hero__arc--warm" />
-          <span className="contact-hero__orbit" />
-        </div>
+        <div className="contact-hero__art" aria-hidden="true" />
+        <SpaceBackdrop variant="contact" />
 
         <Container className="contact-hero__inner">
           <div className="contact-hero__copy">
@@ -49,7 +47,6 @@ export default async function ContactPage() {
               }
             >
               <span>{copy.titleLead}</span>
-              {" "}
               <span>{copy.titleAccent}</span>
             </h1>
             <p>{copy.intro}</p>

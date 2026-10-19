@@ -7,7 +7,9 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
-  allowedDevOrigins: ['192.168.178.111'],
+  // Lets phones on the local network load the dev server, whatever IP the Mac has
+  // (by address on any 192.168.x.x network, or by its Bonjour name).
+  allowedDevOrigins: ['192.168.*.*', '*.local'],
   images: {
     remotePatterns: [
       {

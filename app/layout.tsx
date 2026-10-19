@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/500.css";
-import "@fontsource/manrope/600.css";
-import "@fontsource/manrope/700.css";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource-variable/onest";
+import "@fontsource-variable/instrument-sans";
+import "@fontsource-variable/jetbrains-mono";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -29,6 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: siteConfig.name,
       title: dictionary.metadata.title,
       description: dictionary.metadata.description,
+    },
+    twitter: {
+      card: "summary_large_image",
     },
     appleWebApp: {
       capable: true,

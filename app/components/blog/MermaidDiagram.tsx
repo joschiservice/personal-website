@@ -34,7 +34,8 @@ function loadMermaid() {
         noteBkgColor: "#251d3c",
         noteTextColor: "#f8fafc",
         noteBorderColor: "#ba68c8",
-        fontFamily: "IBM Plex Mono, ui-monospace, monospace",
+        edgeLabelBackground: "#0b1626",
+        fontFamily: "JetBrains Mono Variable, ui-monospace, monospace",
       },
     });
 

@@ -5,6 +5,7 @@ import { trimInside } from "@/helpers";
 import { getRequestDictionary } from "@/app/i18n/getDictionary";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { siteConfig } from "@/app/lib/site";
+import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dictionary } = await getRequestDictionary();
@@ -31,6 +32,7 @@ export default async function Imprint() {
 
   return (
     <div className="legal-page">
+      <SpaceBackdrop variant="legal" />
       <Container>
         <p className="system-label">{copy.label}</p>
         <h1>{copy.title}</h1>

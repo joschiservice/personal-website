@@ -11,7 +11,7 @@ export interface BlogPost {
   updatedAt?: string;
   tags: string[];
   draft: boolean;
-  cover: {
+  cover?: {
     src: string;
     alt: string;
   };

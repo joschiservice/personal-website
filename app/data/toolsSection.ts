@@ -24,7 +24,7 @@ export interface Tool {
 }
 
 export const toolsSectionContent = {
-  title: "Signature Technology Deck",
+  title: "My starter deck",
   categories: toolCategories,
   items: [
     {
@@ -32,27 +32,27 @@ export const toolsSectionContent = {
       imageName: "TypeScript",
       category: "Languages",
       rarity: "Legendary",
-      title: "Type Smith",
+      title: "The Main Character",
       flavor:
-        "The center of my stack, from product interfaces to services and shared contracts.",
+        "Front end, back end and the types in between. If I’m writing code, it’s probably this.",
       stats: [
-        { label: "Contracts", value: "Explicit" },
-        { label: "Refactors", value: "Confident" },
-        { label: "Stack Reach", value: "End-to-End" },
+        { label: "Used", value: "Daily" },
+        { label: "Comfort", value: "Home turf" },
+        { label: "Uses of any", value: "Very few" },
       ],
     },
     {
       name: "Node.js",
-      imageName: "NodeJS",
+      imageName: "NodeJS-light",
       category: "Platform",
       rarity: "Legendary",
-      title: "Runtime Captain",
+      title: "Engine Room",
       flavor:
-        "Production services, integrations, background work, and full-stack delivery in one ecosystem.",
+        "Runs the APIs, integrations and background jobs nobody notices until they stop.",
       stats: [
-        { label: "Services", value: "Operational" },
-        { label: "Integrations", value: "Connected" },
-        { label: "Runtime", value: "Proven" },
+        { label: "Used", value: "Daily" },
+        { label: "Runs", value: "APIs & jobs" },
+        { label: "Pairs with", value: "NestJS" },
       ],
     },
     {
@@ -60,12 +60,13 @@ export const toolsSectionContent = {
       imageName: "Next.js",
       category: "Frameworks",
       rarity: "Legendary",
-      title: "Route Runner",
-      flavor: "Full-stack React delivery with fast iteration and production focus.",
+      title: "Home Base",
+      flavor:
+        "My default for anything with a UI. This site runs on it too.",
       stats: [
-        { label: "Rendering", value: "Hybrid" },
-        { label: "Ship Tempo", value: "Fast" },
-        { label: "SEO", value: "Strong" },
+        { label: "Used", value: "Usually" },
+        { label: "Powers", value: "This site" },
+        { label: "Upgrades", value: "Frequent" },
       ],
     },
     {
@@ -73,12 +74,13 @@ export const toolsSectionContent = {
       imageName: "React.js",
       category: "Libraries",
       rarity: "Epic",
-      title: "State Tamer",
-      flavor: "Interactive interfaces built from composable pieces that scale cleanly.",
+      title: "UI Wrangler",
+      flavor:
+        "How I think about interfaces: small pieces, clear state, no surprises.",
       stats: [
-        { label: "Components", value: "Reusable" },
-        { label: "State Flow", value: "Clear" },
-        { label: "UI Depth", value: "High" },
+        { label: "Used", value: "Daily" },
+        { label: "Best for", value: "Tricky UIs" },
+        { label: "Rerenders", value: "Tamed" },
       ],
     },
     {
@@ -86,13 +88,13 @@ export const toolsSectionContent = {
       imageName: "Nest.js",
       category: "Frameworks",
       rarity: "Epic",
-      title: "Service Architect",
+      title: "Backend Architect",
       flavor:
-        "Structured backend systems with proper boundaries and strong defaults.",
+        "Gives a growing backend some structure before it turns into spaghetti.",
       stats: [
-        { label: "Modules", value: "Composed" },
-        { label: "Guards", value: "Active" },
-        { label: "APIs", value: "Typed" },
+        { label: "Used", value: "Backends" },
+        { label: "Best for", value: "Structure" },
+        { label: "Decorators", value: "Plenty" },
       ],
     },
     {
@@ -100,12 +102,13 @@ export const toolsSectionContent = {
       imageName: "PostgreSQL",
       category: "Platform",
       rarity: "Epic",
-      title: "Data Vault",
-      flavor: "Reliable relational modeling for systems that need real structure.",
+      title: "Source of Truth",
+      flavor:
+        "Where the real data lives. I’ve spent many happy hours with EXPLAIN ANALYZE.",
       stats: [
-        { label: "Schemas", value: "Normalized" },
-        { label: "Queries", value: "Tuned" },
-        { label: "Integrity", value: "Strict" },
+        { label: "Used", value: "Always" },
+        { label: "Best for", value: "Real data" },
+        { label: "Fav command", value: "EXPLAIN" },
       ],
     },
     {
@@ -113,12 +116,13 @@ export const toolsSectionContent = {
       imageName: "Docker",
       category: "Platform",
       rarity: "Rare",
-      title: "Container Pilot",
-      flavor: "Consistent local and production environments without ritual.",
+      title: "Shipping Crate",
+      flavor:
+        "Same setup on my laptop and in production. Fewer “works on my machine” moments.",
       stats: [
-        { label: "Deploy Units", value: "Portable" },
-        { label: "Setup Drift", value: "Low" },
-        { label: "Stacks", value: "Reproducible" },
+        { label: "Used", value: "Everywhere" },
+        { label: "Best for", value: "Same setup" },
+        { label: "Surprises", value: "Fewer" },
       ],
     },
     {
@@ -126,12 +130,13 @@ export const toolsSectionContent = {
       imageName: "Sentry",
       category: "Cloud & Ops",
       rarity: "Rare",
-      title: "Stack Trace Detective",
-      flavor: "Finds issues early and makes production behavior explainable.",
+      title: "Bug Radar",
+      flavor:
+        "Tells me something broke before a customer has to.",
       stats: [
-        { label: "Errors", value: "Tracked" },
-        { label: "Signals", value: "Actionable" },
-        { label: "Debug Time", value: "Reduced" },
+        { label: "Used", value: "Prod" },
+        { label: "Catches", value: "Bugs early" },
+        { label: "Sleep", value: "Improved" },
       ],
     },
   ] satisfies Tool[],

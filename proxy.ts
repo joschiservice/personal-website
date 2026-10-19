@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { defaultLocale, isLocale } from "@/app/i18n/config";
+import { defaultLocale, isEnabledLocale, isLocale } from "@/app/i18n/config";
 
 export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
@@ -7,12 +7,19 @@ export function proxy(request: NextRequest) {
 
   // A rewrite passes through Proxy again. Keep the locale selected by the
   // original localized URL instead of replacing it with the default locale.
-  if (isLocale(forwardedLocale)) {
+  if (isEnabledLocale(forwardedLocale)) {
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
   const segments = request.nextUrl.pathname.split("/").filter(Boolean);
   const requestedLocale = segments[0];
+
+  // Disabled locales send visitors to the default-language version of the page.
+  if (isLocale(requestedLocale) && !isEnabledLocale(requestedLocale)) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${segments.slice(1).join("/")}`;
+    return NextResponse.redirect(url, 307);
+  }
 
   if (isLocale(requestedLocale)) {
     requestHeaders.set("x-site-locale", requestedLocale);

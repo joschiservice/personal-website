@@ -7,12 +7,12 @@ export interface Interest {
 }
 
 export const interestsSectionContent = {
-  title: "Interests & Passions",
+  title: "Things I’m into",
   items: [
     {
-      title: "日本 (Japan)",
+      title: "Japan",
       description:
-        "Japan began as a place I was curious about and, trip by trip, became somewhere I could imagine building a life. Returning several times allowed me to appreciate more than the obvious highlights: the contrast between Tokyo's energy and its quiet neighborhoods, the regional differences, the food, the design, and the care often visible in everyday experiences. I am now preparing to make Tokyo home and learning the language so I can participate in life there more fully, rather than experience it only as a visitor.",
+        "Japan started as a holiday destination and, trip by trip, turned into the place I wanted to live. Now I do. I still love how a quiet side street can be two minutes from a packed station, and how much care goes into everyday things. I’m learning the language so I can be part of life here rather than just watching it.",
       image: "/img/interests/Japan.png",
       color: "from-red-500/40 to-red-300/40",
       icon: "🗾",
@@ -20,15 +20,15 @@ export const interestsSectionContent = {
     {
       title: "Aviation",
       description:
-        "Aviation has been a long-running and slightly expensive hobby. I spend a lot of time in Microsoft Flight Simulator, read far too much about aircraft, and can get unreasonably enthusiastic about cabin layouts, engine sounds, and why the A350 is excellent. My YouTube recommendations gave up on showing me unrelated content a long time ago.",
+        "A hobby I’ve had for a long time. I spend a lot of time in Microsoft Flight Simulator, read a lot about aircraft, and could talk for hours about cabin layouts, engine sounds and why the A350 is my favorite plane.",
       image: "/img/interests/Aviation.png",
       color: "from-blue-500/40 to-blue-300/40",
       icon: "✈️",
     },
     {
-      title: "Software Development",
+      title: "Side projects",
       description:
-        "Software development is the interest that keeps turning into side projects. I like building products that feel simple on the surface and solid underneath, whether that means a web app, mobile app, or a tool for some annoyingly specific problem. I also have a healthy respect for the industry's habit of declaring everything revolutionary right before replacing it six months later.",
+        "Coding is my job, and it’s also what I do for fun. Most of my side projects start with an annoyingly specific problem, like a car app that’s missing a feature, and end up as a web app, a mobile app, or a small tool.",
       image: "/img/interests/Coding.png",
       color: "from-purple-500/40 to-purple-300/40",
       icon: "💻",

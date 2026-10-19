@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { HiArrowUpRight } from "react-icons/hi2";
+import { HiArrowRight, HiArrowUpRight } from "react-icons/hi2";
 import type { CareerMilestone } from "@/app/data/timelineSection";
-import type { Locale } from "@/app/i18n/config";
+import { localeHref, type Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { getFormattedTimeSpan } from "@/app/lib/date";
 import styles from "./TimelineSection.module.css";
@@ -12,21 +12,31 @@ type TimelineCopy = Dictionary["timeline"];
 export function ExperienceCard({
   experience,
   copy,
+  locale,
 }: {
   experience: CareerMilestone;
   copy: TimelineCopy;
+  locale: Locale;
 }) {
   return (
-    <div className={styles.primary}>
-      <div className={styles.primaryMeta}>
-        <span>{copy.kinds[experience.kind]}</span>
-        <span>{experience.subTitle}</span>
-      </div>
-      <MilestoneHeading milestone={experience} />
+    <div className={styles.experience}>
+      <h3 className={styles.role}>{experience.title}</h3>
+      {experience.organization ? (
+        <p className={styles.organization}>
+          {experience.link ? (
+            <Link href={experience.link} target="_blank" rel="noreferrer">
+              {experience.organization}
+              <HiArrowUpRight aria-hidden="true" />
+            </Link>
+          ) : (
+            experience.organization
+          )}
+        </p>
+      ) : null}
       <p className={styles.summary}>{experience.summary}</p>
       {experience.impact?.length ? (
         <dl
-          className={styles.impactGrid}
+          className={styles.highlights}
           aria-label={`${experience.organization ?? experience.title} ${copy.impactLabel}`}
         >
           {experience.impact.map((item) => (
@@ -37,19 +47,22 @@ export function ExperienceCard({
           ))}
         </dl>
       ) : null}
-      <ExperienceDetails tasks={experience.tasks} label={copy.readMore} />
-      {experience.skills?.length ? (
-        <div className={styles.skills}>
-          {experience.skills.map((skill) => (
-            <span key={skill}>{skill}</span>
-          ))}
+      {experience.invitation ? (
+        <div className={styles.invitation}>
+          <p>{experience.invitation}</p>
+          <Link href={localeHref(locale, "/contact")}>
+            {copy.sendMessage}
+            <HiArrowRight aria-hidden="true" />
+          </Link>
         </div>
       ) : null}
+      <ExperienceDetails tasks={experience.tasks} label={copy.readMore} />
+      <SkillList skills={experience.skills} />
     </div>
   );
 }
 
-export function AttachedMilestoneCard({
+export function AlongsideItem({
   milestone,
   copy,
   locale,
@@ -58,58 +71,54 @@ export function AttachedMilestoneCard({
   copy: TimelineCopy;
   locale: Locale;
 }) {
-  const className =
-    milestone.emphasis === "primary"
-      ? `${styles.attached} ${styles.attachedFeatured}`
-      : styles.attached;
-
-  return (
-    <article className={className}>
-      <div className={styles.attachedMeta}>
-        <span>{copy.kinds[milestone.kind]}</span>
-        <span>
-          {getFormattedTimeSpan(
-            milestone.start,
-            milestone.end,
-            locale,
-            copy.present
-          )}
-        </span>
-      </div>
-      <p className={styles.attachedRoute}>{milestone.routeLabel}</p>
-      <MilestoneHeading milestone={milestone} />
-      <p className={styles.attachedSubtitle}>{milestone.subTitle}</p>
-      <p className={styles.attachedSummary}>{milestone.summary}</p>
-      <ExperienceDetails tasks={milestone.tasks} label={copy.readMore} />
-      {milestone.skills?.length ? (
-        <div className={styles.smallSkills}>
-          {milestone.skills.map((skill) => (
-            <span key={skill}>{skill}</span>
-          ))}
-        </div>
-      ) : null}
-    </article>
-  );
-}
-
-function MilestoneHeading({ milestone }: { milestone: CareerMilestone }) {
-  const content = (
+  const title = (
     <>
-      <span>{milestone.title}</span>
+      {milestone.title}
       {milestone.link ? <HiArrowUpRight aria-hidden="true" /> : null}
     </>
   );
 
   return (
-    <div className={styles.heading}>
-      {milestone.link ? (
-        <Link href={milestone.link} target="_blank" rel="noreferrer">
-          {content}
-        </Link>
-      ) : (
-        <h3>{content}</h3>
-      )}
-      {milestone.organization ? <p>{milestone.organization}</p> : null}
-    </div>
+    <li className={styles.alongsideItem}>
+      <p className={styles.alongsideMeta}>
+        <span>{copy.kinds[milestone.kind]}</span>
+        <span>
+          {getFormattedTimeSpan(milestone.start, milestone.end, locale, copy.present)}
+        </span>
+      </p>
+      <div>
+        <h4 className={styles.alongsideTitle}>
+          {milestone.link ? (
+            <Link href={milestone.link} target="_blank" rel="noreferrer">
+              {title}
+            </Link>
+          ) : (
+            title
+          )}
+        </h4>
+        <p className={styles.alongsideSubtitle}>{milestone.subTitle}</p>
+        <p className={styles.alongsideSummary}>{milestone.summary}</p>
+        <ExperienceDetails tasks={milestone.tasks} label={copy.readMore} />
+        <SkillList skills={milestone.skills} small />
+      </div>
+    </li>
+  );
+}
+
+function SkillList({
+  skills,
+  small = false,
+}: {
+  skills?: readonly string[];
+  small?: boolean;
+}) {
+  if (!skills?.length) return null;
+
+  return (
+    <ul className={small ? `${styles.skills} ${styles.skillsSmall}` : styles.skills}>
+      {skills.map((skill) => (
+        <li key={skill}>{skill}</li>
+      ))}
+    </ul>
   );
 }

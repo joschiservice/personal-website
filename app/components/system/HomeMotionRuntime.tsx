@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 /**
  * Adds the small amount of state CSS cannot retain on its own: metrics reveal
- * once, then stay visible if the visitor scrolls back up the page.
+ * once and stay visible, and the timeline rail follows the reading position.
  */
 export function HomeMotionRuntime() {
   useEffect(() => {
@@ -12,10 +12,9 @@ export function HomeMotionRuntime() {
     const metrics = Array.from(
       document.querySelectorAll<HTMLElement>("[data-motion-metric]")
     );
-    const timeline = document.querySelector<HTMLElement>("[data-timeline-root]");
-    const timelineMarkers = timeline
-      ? Array.from(timeline.querySelectorAll<HTMLElement>("[data-timeline-marker]"))
-      : [];
+    const timelineStops = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-timeline-stop]")
+    );
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -44,54 +43,68 @@ export function HomeMotionRuntime() {
       root.dataset.motionReady = "true";
     }
 
-    let routeFrame = 0;
-    const desktopRoute = window.matchMedia("(min-width: 901px)");
+    // The timeline's date blocks stick just below the nav. That sticky line is
+    // the reading position: stops above it are reached, the one it falls in is
+    // active, and each stop's rail fills down to it.
+    let timelineFrame = 0;
 
-    const updateTimelineRoute = () => {
-      routeFrame = 0;
-      if (!timeline || timelineMarkers.length < 2) return;
-      if (!desktopRoute.matches) {
-        timeline.style.removeProperty("--timeline-route-fill");
-        delete timeline.dataset.routeComplete;
-        return;
-      }
+    const updateTimeline = () => {
+      timelineFrame = 0;
+      const readingLine = getReadingLine(timelineStops[0]);
 
-      const timelineRect = timeline.getBoundingClientRect();
-      const firstMarker = timelineMarkers[0].getBoundingClientRect();
-      const routeStart = firstMarker.top + firstMarker.height / 2;
-      const routeInset = routeStart - timelineRect.top;
-      const routeEnd = timelineRect.bottom - routeInset;
-      const viewportProgressPoint = window.innerHeight * 0.72;
-      const visibleRouteEnd = Math.min(routeEnd, viewportProgressPoint);
-      const fill = Math.max(0, visibleRouteEnd - routeStart);
+      timelineStops.forEach((stop) => {
+        const rect = stop.getBoundingClientRect();
+        const railStart = Number.parseFloat(
+          getComputedStyle(stop).getPropertyValue("--rail-start")
+        ) || 0;
+        const fill = Math.min(
+          Math.max(readingLine - rect.top - railStart, 0),
+          rect.height - railStart
+        );
 
-      timeline.style.setProperty("--timeline-route-fill", `${fill}px`);
-      timeline.dataset.routeComplete = String(routeEnd <= viewportProgressPoint);
+        stop.dataset.reached = String(readingLine >= rect.top + railStart);
+        stop.dataset.active = String(readingLine >= rect.top && readingLine < rect.bottom);
+        if (!prefersReducedMotion) stop.style.setProperty("--rail-fill", `${fill}px`);
+      });
     };
 
     const requestTimelineUpdate = () => {
-      if (routeFrame) return;
-      routeFrame = window.requestAnimationFrame(updateTimelineRoute);
+      if (timelineFrame) return;
+      timelineFrame = window.requestAnimationFrame(updateTimeline);
     };
 
-    if (!prefersReducedMotion && timeline && timelineMarkers.length >= 2) {
-      updateTimelineRoute();
+    if (timelineStops.length) {
+      updateTimeline();
       window.addEventListener("scroll", requestTimelineUpdate, { passive: true });
       window.addEventListener("resize", requestTimelineUpdate);
-      desktopRoute.addEventListener("change", requestTimelineUpdate);
     }
 
     return () => {
       observer?.disconnect();
-      if (routeFrame) window.cancelAnimationFrame(routeFrame);
+      if (timelineFrame) window.cancelAnimationFrame(timelineFrame);
       window.removeEventListener("scroll", requestTimelineUpdate);
       window.removeEventListener("resize", requestTimelineUpdate);
-      desktopRoute.removeEventListener("change", requestTimelineUpdate);
-      timeline?.style.removeProperty("--timeline-route-fill");
-      if (timeline) delete timeline.dataset.routeComplete;
+      timelineStops.forEach((stop) => {
+        stop.style.removeProperty("--rail-fill");
+        delete stop.dataset.reached;
+        delete stop.dataset.active;
+      });
       delete root.dataset.motionReady;
     };
   }, []);
 
   return null;
+}
+
+function getReadingLine(stop: HTMLElement | undefined) {
+  const fallback = window.innerHeight * 0.3;
+  const marker = stop?.querySelector<HTMLElement>("[data-timeline-marker]");
+  const when = marker?.parentElement;
+  if (!marker || !when) return fallback;
+
+  const styles = getComputedStyle(when);
+  if (styles.position !== "sticky") return fallback;
+
+  // Sticky top plus the marker's offset inside the date block.
+  return Number.parseFloat(styles.top) + marker.offsetTop + marker.offsetHeight / 2;
 }

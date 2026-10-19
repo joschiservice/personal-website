@@ -1,6 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { HiArrowUpRight, HiOutlineClock } from "react-icons/hi2";
+import { PostCover } from "@/app/components/blog/PostCover";
+import { postCoverTransitionName } from "@/app/components/system/PageTransition";
 import { formatBlogDate, type BlogPost } from "@/app/lib/blog";
 import { localeHref, type Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
@@ -28,22 +30,26 @@ export function BlogCard({
         href={localeHref(locale, post.url)}
         className="blog-card-link"
         aria-label={copy.readArticle(post.title)}
+        transitionTypes={["nav-forward"]}
       >
-        <div className="blog-card-image relative">
-          <Image
-            src={post.cover.src}
-            alt=""
-            fill
-            preload={priority}
-            sizes={
-              variant === "feature"
-                ? "(max-width: 768px) 100vw, 1200px"
-                : "(max-width: 768px) 100vw, 600px"
-            }
-            className="pointer-events-none object-cover"
-          />
-          <div className="blog-card-image-wash" aria-hidden="true" />
-        </div>
+        <ViewTransition
+          name={postCoverTransitionName(post.slug)}
+          share="morph"
+          default="none"
+        >
+          <div className="blog-card-image relative">
+            <PostCover
+              post={post}
+              preload={priority}
+              sizes={
+                variant === "feature"
+                  ? "(max-width: 768px) 100vw, 1200px"
+                  : "(max-width: 768px) 100vw, 600px"
+              }
+            />
+            <div className="blog-card-image-wash" aria-hidden="true" />
+          </div>
+        </ViewTransition>
         <div className="blog-card-content">
           <div className="blog-card-meta">
             <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt, locale)}</time>

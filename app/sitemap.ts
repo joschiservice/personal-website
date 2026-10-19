@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import {
+  enabledLocales,
   localeAlternates,
   localeHref,
-  locales,
 } from "@/app/i18n/config";
 import { getPublishedPosts } from "@/app/lib/blog";
 import { siteConfig } from "@/app/lib/site";
@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog", changeFrequency: "weekly", priority: 0.8 },
     { path: "/imprint", changeFrequency: "yearly", priority: 0.2 },
   ] as const;
-  const staticPages: MetadataRoute.Sitemap = locales.flatMap((locale) =>
+  const staticPages: MetadataRoute.Sitemap = enabledLocales.flatMap((locale) =>
     staticPageDefinitions.map(({ path, ...page }) => ({
       url: new URL(localeHref(locale, path), siteConfig.url).toString(),
       ...page,

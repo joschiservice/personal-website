@@ -5,14 +5,16 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 import {
+  enabledLocales,
   localeHref,
   localeNames,
-  locales,
   pathWithoutLocale,
   type Locale,
 } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { Container } from "@/app/components/system/Container";
+
+const hasLanguageChoice = enabledLocales.length > 1;
 
 export function Navbar({
   locale,
@@ -173,12 +175,14 @@ export function Navbar({
               />
             ))}
           </div>
-          <LanguageSwitcher
-            locale={locale}
-            pathname={pathname}
-            copy={copy}
-            className="site-language--desktop"
-          />
+          {hasLanguageChoice ? (
+            <LanguageSwitcher
+              locale={locale}
+              pathname={pathname}
+              copy={copy}
+              className="site-language--desktop"
+            />
+          ) : null}
           <button
             ref={toggleRef}
             type="button"
@@ -226,21 +230,22 @@ export function Navbar({
               }}
               style={{ "--nav-delay": `${80 + index * 24}ms` } as React.CSSProperties}
             >
-              <span>{String(index + 1).padStart(2, "0")}</span>
               {item.title}
             </Link>
           ))}
-          <LanguageSwitcher
-            locale={locale}
-            pathname={pathname}
-            copy={copy}
-            className="site-language--mobile"
-            style={
-              {
-                "--nav-delay": `${80 + items.length * 24}ms`,
-              } as React.CSSProperties
-            }
-          />
+          {hasLanguageChoice ? (
+            <LanguageSwitcher
+              locale={locale}
+              pathname={pathname}
+              copy={copy}
+              className="site-language--mobile"
+              style={
+                {
+                  "--nav-delay": `${80 + items.length * 24}ms`,
+                } as React.CSSProperties
+              }
+            />
+          ) : null}
         </div>
       </div>
     </nav>
@@ -261,7 +266,8 @@ function LanguageSwitcher({
   style?: React.CSSProperties;
 }) {
   const href = pathWithoutLocale(pathname);
-  const targetLocale = locales.find((candidate) => candidate !== locale) ?? locale;
+  const targetLocale =
+    enabledLocales.find((candidate) => candidate !== locale) ?? locale;
 
   return (
     <div
@@ -282,7 +288,7 @@ function LanguageSwitcher({
           window.location.assign(target.toString());
         }}
       >
-        {locales.map((candidate) => (
+        {enabledLocales.map((candidate) => (
           <span
             key={candidate}
             className="site-language__option"

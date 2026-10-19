@@ -61,18 +61,14 @@ test("locks and restores body scrolling when the menu toggles", async ({ page })
   await expect(mobileMenu).toHaveAttribute("aria-hidden", "true")
 })
 
-test("exposes a single language toggle inside the mobile menu", async ({ page }) => {
-  await page.goto("/ja")
+test("keeps the mobile menu free of a language toggle while Japanese is off", async ({ page }) => {
+  await page.goto("/")
 
-  await page.getByRole("button", { name: "メニューを開く" }).click()
-  const navigation = page.getByRole("dialog", { name: "モバイルナビゲーション" })
+  await page.getByRole("button", { name: "Open menu" }).click()
+  const navigation = page.getByRole("dialog", { name: "Mobile navigation" })
 
-  await expect(navigation.getByRole("link", { name: "01 経歴" })).toBeFocused()
-  await expect(navigation.getByRole("link", { name: "英語" })).toHaveAttribute(
-    "href",
-    "/"
-  )
-  await expect(navigation.locator(".site-language--mobile a")).toHaveCount(1)
+  await expect(navigation.getByRole("link", { name: "Work" })).toBeFocused()
+  await expect(navigation.locator(".site-language")).toHaveCount(0)
 })
 
 test("keeps the hero actions clear of the continuation control and section edge", async ({ page }) => {
@@ -113,7 +109,7 @@ test("traps focus and closes the mobile menu with Escape", async ({ page }) => {
   await page.keyboard.press("Shift+Tab")
   await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
   await page.keyboard.press("Shift+Tab")
-  await expect(mobileNavigation.getByRole("link", { name: "Japanese" })).toBeFocused()
+  await expect(mobileNavigation.getByRole("link", { name: "Contact" })).toBeFocused()
 
   await page.keyboard.press("Escape")
   await expect(page.locator("#mobile-nav")).toHaveAttribute("aria-hidden", "true")

@@ -5,13 +5,11 @@ test("renders the public blog empty state and exposes RSS", async ({ page }) => 
   await page.goto("/blog")
 
   await expect(
-    page.getByRole("heading", {
-      name: "Ideas, tradeoffs, and things worth writing down.",
-    })
+    page.getByRole("heading", { level: 1, name: "Blog", exact: true })
   ).toBeVisible()
   await expect(page.locator(".blog-index-header .blog-back-link")).toHaveCount(0)
-  await expect(page.getByRole("heading", { name: "The notebook is open." })).toBeVisible()
-  await expect(page.getByRole("link", { name: "Follow via RSS" })).toHaveAttribute(
+  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toBeVisible()
+  await expect(page.getByRole("link", { name: "RSS feed" })).toHaveAttribute(
     "href",
     "/blog/rss.xml"
   )
@@ -33,7 +31,8 @@ test("serves a cacheable, valid RSS feed without draft entries", async ({ page, 
   expect(response.headers()["cache-control"]).toBe(
     "public, max-age=3600, s-maxage=86400"
   )
-  expect(body).toContain("<rss version=\"2.0\">")
+  expect(body).toContain("<rss version=\"2.0\"")
+  expect(body).toContain('<atom:link href="https://www.jhass.dev/blog/rss.xml" rel="self"')
   expect(body).not.toContain("Building a Blog That Feels Like Home")
 
   const parsedFeed = await page.evaluate((xml) => {

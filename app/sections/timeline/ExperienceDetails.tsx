@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { HiChevronDown } from "react-icons/hi2";
+import { HiPlus } from "react-icons/hi2";
 import styles from "./TimelineSection.module.css";
 
 /**
@@ -86,8 +86,8 @@ export function ExperienceDetails({
         aria-expanded={isOpen}
         aria-controls={id}
       >
+        <HiPlus aria-hidden="true" />
         {label}
-        <HiChevronDown aria-hidden="true" />
       </button>
       <div
         ref={panelRef}

@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { HiArrowUpRight } from "react-icons/hi2";
 import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 export function HomePageHeroSection({
   copy,
@@ -33,9 +34,11 @@ export function HomePageHeroSection({
   return (
     <section className="hero" id="root" aria-labelledby="hero-title">
       <div className="hero__art" aria-hidden="true">
-        <span className="hero__arc hero__arc--blue" />
-        <span className="hero__arc hero__arc--warm" />
-        <span className="hero__orbit" />
+        <SpaceBackdrop variant="hero">
+          <span className="hero__glow hero__glow--blue" />
+          <span className="hero__glow hero__glow--violet" />
+          <span className="hero__glow hero__glow--warm" />
+        </SpaceBackdrop>
       </div>
       <Container className="hero__inner">
         <div className="hero__copy">
@@ -44,7 +47,7 @@ export function HomePageHeroSection({
             id="hero-title"
             style={
               locale === "ja"
-                ? { fontSize: "clamp(2.45rem, 5.2vw, 5.25rem)" }
+                ? { fontSize: "clamp(2.2rem, 4.2vw, 4.25rem)" }
                 : undefined
             }
           >
@@ -92,8 +95,7 @@ export function HomePageHeroSection({
         </div>
 
         <a className="hero__continuation" href="#about-me" aria-label={copy.nextSectionLabel}>
-          <span />
-          <span />
+          <span className="hero__continuation-wheel" aria-hidden="true" />
         </a>
       </Container>
     </section>

@@ -74,7 +74,7 @@ export function ContactChannels({
     <div className="contact-channels">
       <article className="contact-channel contact-channel--email">
         <div className="contact-channel__topline">
-          <span className="contact-channel__index">01 / {copy.emailLabel}</span>
+          <span className="contact-channel__index">{copy.emailLabel}</span>
           <span className="contact-channel__priority">{copy.primaryChannel}</span>
         </div>
 
@@ -121,7 +121,7 @@ export function ContactChannels({
             className="contact-channel contact-channel--proof contact-channel--linkedin"
             aria-label={`LinkedIn · ${newTabLabel}`}
           >
-            <span className="contact-channel__index">02 / {copy.professionalProfile}</span>
+            <span className="contact-channel__index">{copy.professionalProfile}</span>
             <span className="contact-channel__icon" aria-hidden="true">
               <FaLinkedinIn />
             </span>
@@ -144,7 +144,7 @@ export function ContactChannels({
             className="contact-channel contact-channel--proof contact-channel--github"
             aria-label={`GitHub · ${newTabLabel}`}
           >
-            <span className="contact-channel__index">03 / {copy.buildingInPublic}</span>
+            <span className="contact-channel__index">{copy.buildingInPublic}</span>
             <span className="contact-channel__icon" aria-hidden="true">
               <FaGithub />
             </span>

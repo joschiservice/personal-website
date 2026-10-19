@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 export function InterestsSection({
   copy,
@@ -14,9 +15,9 @@ export function InterestsSection({
       className="editorial-section interests-section"
       aria-labelledby="interests-heading"
     >
+      <SpaceBackdrop variant="interests" />
       <Container>
         <SectionIntro
-          number="05"
           label={copy.label}
           title={copy.title}
           description={copy.description}
@@ -29,7 +30,7 @@ export function InterestsSection({
           role="list"
           aria-label={copy.regionLabel}
         >
-          {copy.items.map((interest, index) => (
+          {copy.items.map((interest) => (
             <article className="interest-story" role="listitem" key={interest.title}>
               <div className="interest-story__image">
                 <Image
@@ -41,7 +42,6 @@ export function InterestsSection({
                 />
               </div>
               <div className="interest-story__content">
-                <span>{String(index + 1).padStart(2, "0")}</span>
                 <h3>{interest.title}</h3>
                 <p>{interest.description}</p>
               </div>

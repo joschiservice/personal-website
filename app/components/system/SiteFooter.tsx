@@ -4,6 +4,7 @@ import type { Locale } from "@/app/i18n/config";
 import { localeHref } from "@/app/i18n/config";
 import { Container } from "./Container";
 import { ActionLink } from "./ActionLink";
+import { SpaceBackdrop } from "./SpaceBackdrop";
 
 export function SiteFooter({
   locale,
@@ -14,11 +15,13 @@ export function SiteFooter({
 }) {
   return (
     <footer className="site-footer" id="contact">
+      <SpaceBackdrop variant="footer" />
+      <div className="site-footer__horizon" aria-hidden="true" />
       <Container>
         <div className="site-footer__cta">
-          <span className="site-footer__number" aria-hidden="true">07</span>
           <p className="system-label">{copy.label}</p>
           <h2>{copy.title}</h2>
+          <p>{copy.body}</p>
           <ActionLink href={localeHref(locale, "/contact")} variant="primary">
             {copy.contact}
           </ActionLink>

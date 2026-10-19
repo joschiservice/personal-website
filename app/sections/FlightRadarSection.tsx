@@ -3,6 +3,7 @@ import { HiArrowUpRight } from "react-icons/hi2";
 import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 export function FlightRadarSection({
   copy,
@@ -13,9 +14,9 @@ export function FlightRadarSection({
 }) {
   return (
     <section className="editorial-section travel-section" aria-labelledby="travel-log-heading">
+      <SpaceBackdrop variant="travel" />
       <Container>
         <SectionIntro
-          number="06"
           label={copy.label}
           title={copy.title}
           description={copy.description}

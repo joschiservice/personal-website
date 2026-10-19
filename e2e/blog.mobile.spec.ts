@@ -5,14 +5,12 @@ test("navigates to the blog from the mobile menu", async ({ page }) => {
 
   await page.getByRole("button", { name: "Open menu" }).click()
   const mobileNavigation = page.getByRole("dialog", { name: "Mobile navigation" })
-  await mobileNavigation.getByRole("link", { name: "Notes" }).click()
+  await mobileNavigation.getByRole("link", { name: "Blog" }).click()
 
   await expect(page).toHaveURL(/\/blog$/)
   await expect(page.locator("#mobile-nav")).toHaveAttribute("data-open", "false")
   await expect(
-    page.getByRole("heading", {
-      name: "Ideas, tradeoffs, and things worth writing down.",
-    })
+    page.getByRole("heading", { level: 1, name: "Blog", exact: true })
   ).toBeVisible()
 })
 

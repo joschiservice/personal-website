@@ -1,6 +1,7 @@
 import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 export function AboutMeSection({
   copy,
@@ -13,14 +14,11 @@ export function AboutMeSection({
       className="editorial-section about-section"
       aria-labelledby="about-heading"
     >
-      <div className="about-section__atmosphere" aria-hidden="true">
-        <span className="about-section__orb" />
-        <span className="about-section__coordinate">35.6995° N / 139.6364° E</span>
-      </div>
+      <div className="about-section__atmosphere" aria-hidden="true" />
+      <SpaceBackdrop variant="about" />
 
       <Container>
         <SectionIntro
-          number="01"
           label={copy.label}
           title={copy.statement}
           description={copy.paragraphs[0]}
@@ -34,7 +32,6 @@ export function AboutMeSection({
               <p
                 key={paragraph}
                 className={index === 0 ? "about-section__lead-story" : undefined}
-                data-paragraph={String(index + 1).padStart(2, "0")}
               >
                 {paragraph}
               </p>
@@ -49,23 +46,6 @@ export function AboutMeSection({
                   <div key={title}>
                     <dt>{title}</dt>
                     <dd>{description}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            <div className="about-section__annotation-group">
-              <p className="system-label">{copy.principlesLabel}</p>
-              <dl className="principle-list">
-                {copy.principles.map(([title, description], index) => (
-                  <div key={title}>
-                    <span aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <dt>{title}</dt>
-                      <dd>{description}</dd>
-                    </div>
                   </div>
                 ))}
               </dl>

@@ -75,10 +75,12 @@ const posts = defineCollection({
     updatedAt: isoDate.optional(),
     tags: z.array(z.string().min(1)).min(1),
     draft: z.boolean().default(false),
-    cover: z.object({
-      src: z.string().startsWith("/img/blog/"),
-      alt: z.string().min(1),
-    }),
+    cover: z
+      .object({
+        src: z.string().startsWith("/img/blog/"),
+        alt: z.string().min(1),
+      })
+      .optional(),
     content: z.string(),
   }),
   transform: async (post, context) => {

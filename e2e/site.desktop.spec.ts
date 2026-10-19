@@ -16,16 +16,16 @@ test("renders the home page and primary actions", async ({ page }) => {
 
   await expect(page.getByRole("main")).toBeAttached()
   for (const heading of [
-    "Product-minded engineering, from interface decisions to production ownership.",
-    "Career Timeline",
-    "Eight cards. One working stack.",
-    "Interests & Passions",
-    "The route continues off-screen.",
+    "From a truck simulator to production systems.",
+    "Where I’ve worked",
+    "My starter deck",
+    "Things I’m into",
+    "Window seat, please.",
   ]) {
     await expect(page.getByRole("heading", { name: heading })).toBeAttached()
   }
 
-  await expect(page.getByRole("link", { name: "Start a conversation" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Say hello" })).toHaveAttribute(
     "href",
     "/contact"
   )
@@ -41,7 +41,7 @@ test("renders the home page and primary actions", async ({ page }) => {
     "rel",
     /noopener/
   )
-  const heroSocials = page.getByRole("navigation", { name: "Elsewhere" })
+  const heroSocials = page.getByRole("navigation", { name: "Find me on" })
   await expect(heroSocials.getByRole("link", { name: /LinkedIn/ })).toHaveAttribute(
     "href",
     "https://example.com/linkedin"
@@ -56,38 +56,20 @@ test("renders the home page and primary actions", async ({ page }) => {
   )
 })
 
-test("renders Japanese content and preserves the current section when switching", async ({ page }) => {
-  await page.goto("/#about-me")
+test("sends Japanese URLs to English while Japanese is switched off", async ({ page }) => {
+  await page.goto("/ja/contact")
 
-  await page.getByRole("link", { name: "Japanese" }).click()
-
-  await expect(page).toHaveURL(/\/ja#about-me$/)
-  await expect(page.locator("html")).toHaveAttribute("lang", "ja")
-  await expect(
-    page.getByRole("heading", {
-      name: "UIの判断から本番運用まで、プロダクトを考え抜くエンジニアリング。",
-    })
-  ).toBeVisible()
-  await expect(page.getByRole("navigation", { name: "メインナビゲーション" })).toBeVisible()
-  await expect(page.getByRole("link", { name: "英語", exact: true })).toHaveAttribute(
-    "href",
-    "/"
-  )
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    "href",
-    "https://www.jhass.dev/ja"
-  )
-  await expect(page.locator('link[hreflang="en"]')).toHaveAttribute(
-    "href",
-    "https://www.jhass.dev"
-  )
+  await expect(page).toHaveURL(/\/contact$/)
+  await expect(page.locator("html")).toHaveAttribute("lang", "en")
+  await expect(page.locator(".site-language")).toHaveCount(0)
+  await expect(page.locator('link[hreflang="ja"]')).toHaveCount(0)
 })
 
 test("renders the contact directory from environment links", async ({ page }) => {
   await page.goto("/contact")
 
   await expect(
-    page.getByRole("heading", { name: "Good work starts with a conversation." })
+    page.getByRole("heading", { name: "Say hi, I’ll write back." })
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "e2e@example.com" })).toHaveAttribute(
     "href",
@@ -148,7 +130,7 @@ test("presents the profile as an editorial spread", async ({ page }) => {
 
   await expect(
     profile.getByRole("complementary", {
-      name: "Profile facts and operating principles",
+      name: "Quick facts",
     })
   ).toBeVisible()
   await expect(profile.locator(".about-section__lead-story")).toHaveCSS(
@@ -156,7 +138,7 @@ test("presents the profile as an editorial spread", async ({ page }) => {
     "1"
   )
   await expect(profile.locator(".about-section__annotations")).toHaveCSS("position", "sticky")
-  await expect(profile.locator(".principle-list > div")).toHaveCount(3)
+  await expect(profile.locator(".profile-fact-list > div")).toHaveCount(4)
 
   const hasHorizontalOverflow = await profile.evaluate(
     (element) => element.scrollWidth > element.clientWidth
@@ -166,29 +148,31 @@ test("presents the profile as an editorial spread", async ({ page }) => {
 
 test("keeps timeline geometry aligned and disclosure content clipped", async ({ page }) => {
   await page.goto("/#experience")
-  const timeline = page.locator("[data-timeline-root]")
-  const marker = timeline.locator("[data-timeline-marker]").first()
+  const stop = page.locator("[data-timeline-stop]").first()
+  const marker = stop.locator("[data-timeline-marker]")
 
-  const alignmentDelta = await timeline.evaluate((element, markerElement) => {
-    const timelineRect = element.getBoundingClientRect()
+  const alignmentDelta = await stop.evaluate((element, markerElement) => {
+    const stopRect = element.getBoundingClientRect()
     const markerRect = (markerElement as HTMLElement).getBoundingClientRect()
-    const railLeft = Number.parseFloat(getComputedStyle(element, "::after").left)
-    return Math.abs(
-      timelineRect.left + railLeft - (markerRect.left + markerRect.width / 2)
-    )
+    const rail = getComputedStyle(element, "::before")
+    const railCenter =
+      stopRect.left + Number.parseFloat(rail.left) + Number.parseFloat(rail.width) / 2
+    return Math.abs(railCenter - (markerRect.left + markerRect.width / 2))
   }, await marker.elementHandle())
   expect(alignmentDelta).toBeLessThan(1)
 
-  const firstTask = page.locator("#experience li").first()
+  const toggle = page.getByRole("button", { name: "What I did" }).first()
+  const panelId = await toggle.getAttribute("aria-controls")
+  const firstTask = page.locator(`[id="${panelId}"] li`).first()
   await expect(firstTask).toBeHidden()
-  await page.getByRole("button", { name: "Read more" }).first().click()
+  await toggle.click()
   await expect(firstTask).toBeVisible()
 })
 
-test("renders the compact signature tools card grid", async ({ page }) => {
+test("renders the tools card deck", async ({ page }) => {
   await page.goto("/#tools")
   const collection = page.getByRole("list", {
-    name: "Signature technology card collection",
+    name: "Technology cards",
   })
 
   await expect(collection.getByRole("listitem")).toHaveCount(8)
