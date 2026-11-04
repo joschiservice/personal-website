@@ -27,10 +27,11 @@ export function AboutMeSection({
         />
 
         <div className="about-section__body motion-section-content">
-          <div className="about-section__narrative">
+          <div className="about-section__narrative" data-testid="about-narrative">
             {copy.paragraphs.slice(1).map((paragraph, index) => (
               <p
                 key={paragraph}
+                data-testid={index === 0 ? "about-lead-story" : undefined}
                 className={index === 0 ? "about-section__lead-story" : undefined}
               >
                 {paragraph}
@@ -38,10 +39,10 @@ export function AboutMeSection({
             ))}
           </div>
 
-          <aside className="about-section__annotations" aria-label={copy.annotationsLabel}>
+          <aside className="about-section__annotations" data-testid="about-annotations" aria-label={copy.annotationsLabel}>
             <div className="about-section__annotation-group">
               <p className="system-label">{copy.profileFactsLabel}</p>
-              <dl className="profile-fact-list">
+              <dl className="profile-fact-list" data-testid="about-facts">
                 {copy.profileFacts.map(([title, description]) => (
                   <div key={title}>
                     <dt>{title}</dt>

@@ -75,9 +75,9 @@ test("keeps the mobile menu free of a language toggle while Japanese is off", as
 test("keeps the hero actions clear of the continuation control and section edge", async ({ page }) => {
   await page.goto("/")
 
-  const spacing = await page.locator(".hero").evaluate((hero) => {
-    const actions = hero.querySelector(".hero__actions")
-    const continuation = hero.querySelector(".hero__continuation")
+  const spacing = await page.getByTestId("hero").evaluate((hero) => {
+    const actions = hero.querySelector("[data-testid=hero-actions]")
+    const continuation = hero.querySelector("[data-testid=hero-continuation]")
     if (!actions || !continuation) return null
 
     const heroRect = hero.getBoundingClientRect()

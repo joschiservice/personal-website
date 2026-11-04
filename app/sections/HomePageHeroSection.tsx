@@ -6,6 +6,7 @@ import { HiArrowUpRight } from "react-icons/hi2";
 import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./HomePageHeroSection.module.css";
 
 export function HomePageHeroSection({
   copy,
@@ -32,16 +33,16 @@ export function HomePageHeroSection({
   ].filter((social): social is typeof social & { href: string } => Boolean(social.href));
 
   return (
-    <section className="hero" id="root" aria-labelledby="hero-title">
-      <div className="hero__art" aria-hidden="true">
+    <section className={styles.root} data-testid="hero" id="root" aria-labelledby="hero-title">
+      <div className={styles.art} aria-hidden="true">
         <SpaceBackdrop variant="hero">
-          <span className="hero__glow hero__glow--blue" />
-          <span className="hero__glow hero__glow--violet" />
-          <span className="hero__glow hero__glow--warm" />
+          <span className={`${styles.glow} ${styles.glowBlue}`} />
+          <span className={`${styles.glow} ${styles.glowViolet}`} />
+          <span className={`${styles.glow} ${styles.glowWarm}`} />
         </SpaceBackdrop>
       </div>
-      <Container className="hero__inner">
-        <div className="hero__copy">
+      <Container className={styles.inner}>
+        <div className={styles.copy}>
           <p className="system-label">{copy.label}</p>
           <h1
             id="hero-title"
@@ -54,8 +55,8 @@ export function HomePageHeroSection({
             <span>{copy.headlineLead}</span>
             <span>{copy.headlineAccent}</span>
           </h1>
-          <p className="hero__description">{copy.description}</p>
-          <div className="hero__actions">
+          <p className={styles.description}>{copy.description}</p>
+          <div className={styles.actions} data-testid="hero-actions">
             <ActionLink href="#experience" variant="primary">
               {copy.primaryAction}
             </ActionLink>
@@ -69,9 +70,9 @@ export function HomePageHeroSection({
             />
           </div>
           {socialLinks.length > 0 ? (
-            <nav className="hero__socials" aria-label={copy.socialsLabel}>
-              <span className="hero__socials-label">{copy.socialsLabel}</span>
-              <span className="hero__socials-links">
+            <nav className={styles.socials} aria-label={copy.socialsLabel}>
+              <span className={styles.socialsLabel}>{copy.socialsLabel}</span>
+              <span className={styles.socialsLinks}>
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
 
@@ -85,7 +86,7 @@ export function HomePageHeroSection({
                     >
                       <Icon aria-hidden="true" />
                       <span>{social.label}</span>
-                      <HiArrowUpRight className="hero__social-arrow" aria-hidden="true" />
+                      <HiArrowUpRight className={styles.socialArrow} aria-hidden="true" />
                     </a>
                   );
                 })}
@@ -94,8 +95,8 @@ export function HomePageHeroSection({
           ) : null}
         </div>
 
-        <a className="hero__continuation" href="#about-me" aria-label={copy.nextSectionLabel}>
-          <span className="hero__continuation-wheel" aria-hidden="true" />
+        <a className={styles.continuation} data-testid="hero-continuation" href="#about-me" aria-label={copy.nextSectionLabel}>
+          <span className={styles.continuationWheel} aria-hidden="true" />
         </a>
       </Container>
     </section>
