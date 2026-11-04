@@ -152,7 +152,7 @@ test.describe("local draft preview", () => {
     await expect(page.getByTestId("blog-diagram").locator("svg")).toBeVisible()
     await expect(page.getByTestId("blog-diagram")).toContainText("E2E diagram")
     const articleHtml = await (await page.request.get("/blog/e2e-fixture")).text()
-    expect(articleHtml).toMatch(/class="blog-diagram-canvas"><svg/)
+    expect(articleHtml).toMatch(/data-testid="blog-diagram"[^>]*><div[^>]*><svg/)
 
     await page
       .getByRole("button", { name: `${en.blog.enlargeImage}: E2E cover image` })
