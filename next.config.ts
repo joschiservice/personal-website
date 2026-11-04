@@ -4,6 +4,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // Restarting next dev on a warm cache can make a page reload forever (seen on 16.4.4 and 16.4.5).
+    // Remove this once https://github.com/vercel/next.js/issues/100251 is fixed.
+    turbopackFileSystemCacheForDev: false,
+  },
   turbopack: {
     // Not __dirname: Node's native TypeScript resolver loads this file as ESM, where it is undefined.
     root: process.cwd(),
