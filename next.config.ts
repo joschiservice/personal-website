@@ -3,19 +3,19 @@ import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
   experimental: {
     // Restarting next dev on a warm cache can make a page reload forever (seen on 16.4.4 and 16.4.5).
     // Remove this once https://github.com/vercel/next.js/issues/100251 is fixed.
     turbopackFileSystemCacheForDev: false,
   },
   turbopack: {
+    // Stops Next from treating a lockfile in a parent folder as the project root.
     // Not __dirname: Node's native TypeScript resolver loads this file as ESM, where it is undefined.
     root: process.cwd(),
   },
   // Lets phones on the local network load the dev server, whatever IP the Mac has
   // (by address on any 192.168.x.x network, or by its Bonjour name).
-  allowedDevOrigins: ['192.168.*.*', '*.local'],
+  allowedDevOrigins: ["192.168.*.*", "*.local"],
   images: {
     remotePatterns: [
       {
@@ -25,45 +25,33 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
+    ];
+  },
 };
 
-const sentryConfig = withSentryConfig(
-  nextConfig,
-  {
-    // For all available options, see:
-    // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+const sentryConfig = withSentryConfig(nextConfig, {
+  org: "the-visualcable-collective",
+  project: "personal-website",
 
-    org: "the-visualcable-collective",
-    project: "personal-website",
+  // Only print logs for uploading source maps in CI
+  silent: !process.env.CI,
 
-    // Only print logs for uploading source maps in CI
-    silent: !process.env.CI,
+  // Upload a larger set of source maps for prettier stack traces (increases build time)
+  widenClientFileUpload: true,
 
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
-
-    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
-    tunnelRoute: "/monitoring",
-
-    webpack: {
-      treeshake: {
-        // Automatically tree-shake Sentry logger statements to reduce bundle size
-        removeDebugLogging: true,
-      },
-
-      // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-      // See the following for more information:
-      // https://docs.sentry.io/product/crons/
-      // https://vercel.com/docs/cron-jobs
-      automaticVercelMonitors: true,
-    }
-  },
-);
+  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+  // The matcher in proxy.ts must exclude this route, or client-side error reporting fails.
+  tunnelRoute: "/monitoring",
+});
 
 export default withContentCollections(sentryConfig);
