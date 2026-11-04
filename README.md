@@ -93,7 +93,7 @@ Run the Playwright smoke suite:
 pnpm test:e2e
 ```
 
-To intentionally test an already-running local server, set `PLAYWRIGHT_REUSE_EXISTING_SERVER=true`. The default remains an isolated server with deterministic test environment values.
+Stop `pnpm dev` first, because the tests start their own server with fixed test values.
 
 Open Playwright's interactive test runner:
 ```bash
