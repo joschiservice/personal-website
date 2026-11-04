@@ -114,7 +114,7 @@ function useActiveHeading(toc: BlogTocItem[]) {
         if (heading.getBoundingClientRect().top <= line) current = heading.id;
         else break;
       }
-      if (atBottom && window.scrollY > 0) current = headings[headings.length - 1].id;
+      if (atBottom && window.scrollY > 0) current = headings.at(-1)?.id;
 
       setActiveId(current);
     };

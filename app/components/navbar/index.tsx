@@ -142,7 +142,7 @@ export function Navbar({
       window.removeEventListener("keydown", handleDialogKeyDown);
       document.body.style.overflow = previousOverflow;
       backgroundElements.forEach((element, index) => {
-        element.inert = previousInertStates[index];
+        element.inert = previousInertStates[index] ?? false;
       });
     };
   }, [isOpen]);

@@ -33,5 +33,5 @@ export const interestsSectionContent = {
       color: "from-purple-500/40 to-purple-300/40",
       icon: "💻",
     },
-  ] satisfies Interest[],
+  ] as const satisfies readonly Interest[],
 } as const;
