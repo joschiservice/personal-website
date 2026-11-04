@@ -20,9 +20,9 @@ app/
   i18n/                     # Locale configuration and typed dictionaries
   lib/                      # Blog, CV, RSS, date, and site helpers
   sections/                 # Homepage sections
-  blog/                     # Blog index, article pages, and RSS route
-  page.tsx                  # Homepage
-  layout.tsx                # Root layout and shared chrome
+  [locale]/                 # Pages and root layout; proxy.ts rewrites /contact to /en/contact
+  blog/rss.xml/             # RSS route
+  cv/                       # CV download route
   globals.css               # Tailwind entrypoint and design system
 content/posts/              # Validated MDX articles
 content/diagrams/           # Rendered Mermaid SVGs, generated and committed

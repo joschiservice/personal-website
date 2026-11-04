@@ -6,12 +6,12 @@ import { Container } from "@/app/components/system/Container";
 import { PageTransition } from "@/app/components/system/PageTransition";
 import { getDevelopmentDrafts, getPublishedPosts } from "@/app/lib/blog";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
-import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { siteConfig } from "@/app/lib/site";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { locale, dictionary } = await getRequestDictionary();
+export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const canonical = localeHref(locale, "/blog");
   return {
     title: dictionary.blog.metadataTitle,
@@ -31,8 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function BlogPage() {
-  const { locale, dictionary } = await getRequestDictionary();
+export default async function BlogPage(props: LocaleParams) {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const copy = dictionary.blog;
   const posts = getPublishedPosts();
   const drafts = getDevelopmentDrafts();

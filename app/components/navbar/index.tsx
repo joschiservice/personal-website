@@ -23,7 +23,8 @@ export function Navbar({
   locale: Locale;
   copy: Dictionary["nav"];
 }) {
-  const pathname = usePathname();
+  // Prerendered pages see /en/blog while the browser sees /blog, so compare without the locale.
+  const pathname = pathWithoutLocale(usePathname());
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState("");
@@ -61,7 +62,7 @@ export function Navbar({
   }, []);
 
   useEffect(() => {
-    if (pathWithoutLocale(pathname) !== "/") {
+    if (pathname !== "/") {
       // Route changes must clear a section that was active on the homepage.
       // oxlint-disable-next-line react-hooks/set-state-in-effect
       setActiveHash("");
@@ -265,7 +266,6 @@ function LanguageSwitcher({
   className: string;
   style?: React.CSSProperties;
 }) {
-  const href = pathWithoutLocale(pathname);
   const targetLocale =
     enabledLocales.find((candidate) => candidate !== locale) ?? locale;
 
@@ -276,7 +276,7 @@ function LanguageSwitcher({
       aria-label={copy.languageLabel}
     >
       <a
-        href={localeHref(targetLocale, href)}
+        href={localeHref(targetLocale, pathname)}
         hrefLang={targetLocale}
         title={copy.languages[targetLocale]}
         aria-label={copy.languages[targetLocale]}
@@ -315,7 +315,7 @@ function NavigationLink({
   pathname: string;
   activeHash: string;
 }) {
-  const hrefPath = href.split("#")[0] || "/";
+  const hrefPath = pathWithoutLocale(href.split("#")[0] || "/");
   const hrefHash = href.includes("#") ? `#${href.split("#")[1]}` : "";
   const isCurrentSection = hrefHash !== "" && hrefHash === activeHash;
   const isActive =

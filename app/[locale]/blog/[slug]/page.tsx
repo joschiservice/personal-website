@@ -28,12 +28,12 @@ import {
   getRelatedPosts,
 } from "@/app/lib/blog";
 import { siteConfig } from "@/app/lib/site";
-import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { getLocaleDictionary } from "@/app/i18n/getDictionary";
 import { localeHref } from "@/app/i18n/config";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
 interface BlogPostPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 export const dynamicParams = false;
@@ -74,7 +74,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
-  const { locale } = await getRequestDictionary();
+  const { locale } = await getLocaleDictionary({ params });
 
   return {
     title: post.title,
@@ -111,7 +111,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
-  const { locale, dictionary } = await getRequestDictionary();
+  const { locale, dictionary } = await getLocaleDictionary({ params });
   const copy = dictionary.blog;
   const mdxComponents = createMdxComponents(copy);
   const { cover } = post;

@@ -7,13 +7,13 @@ import { FlightRadarSection } from "@/app/sections/FlightRadarSection";
 import { InterestsSection } from "@/app/sections/InterestsSection";
 import { LatestPostsSection } from "@/app/sections/LatestPostsSection";
 import { siteConfig } from "@/app/lib/site";
-import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { defaultLocale, localeAlternates, localeHref } from "@/app/i18n/config";
 import { hasCvForLocale } from "@/app/lib/cv";
 import { HomeMotionRuntime } from "@/app/components/system/HomeMotionRuntime";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { locale, dictionary } = await getRequestDictionary();
+export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const canonical = localeHref(locale, "/");
 
   return {
@@ -28,8 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
-  const { locale, dictionary } = await getRequestDictionary();
+export default async function Home(props: LocaleParams) {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const localizedCvAvailable = locale === defaultLocale
     ? false
     : await hasCvForLocale(locale).catch(() => false);

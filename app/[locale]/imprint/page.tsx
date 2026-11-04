@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/app/components/system/Container";
 import { trimInside } from "@/helpers";
-import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { siteConfig } from "@/app/lib/site";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { locale, dictionary } = await getRequestDictionary();
+export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const canonical = localeHref(locale, "/imprint");
   return {
     title: dictionary.imprint.title,
@@ -24,8 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Imprint() {
-  const { dictionary } = await getRequestDictionary();
+export default async function Imprint(props: LocaleParams) {
+  const { dictionary } = await getLocaleDictionary(props);
   const copy = dictionary.imprint;
   const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE;
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;

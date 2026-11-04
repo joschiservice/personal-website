@@ -2,17 +2,25 @@ import type { Metadata } from "next";
 import "@fontsource-variable/onest";
 import "@fontsource-variable/instrument-sans";
 import "@fontsource-variable/jetbrains-mono";
-import "./globals.css";
+import "@/app/globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-import { Navbar } from "./components/navbar";
-import { SiteFooter } from "./components/system/SiteFooter";
-import { siteConfig } from "./lib/site";
-import { getRequestDictionary } from "./i18n/getDictionary";
+import { Navbar } from "@/app/components/navbar";
+import { SiteFooter } from "@/app/components/system/SiteFooter";
+import { siteConfig } from "@/app/lib/site";
+import { enabledLocales } from "@/app/i18n/config";
+import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { dictionary } = await getRequestDictionary();
+// Pages are static, so this keeps the footer's year from going stale between deploys.
+export const revalidate = 86400;
+
+export function generateStaticParams() {
+  return enabledLocales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
+  const { dictionary } = await getLocaleDictionary(props);
 
   return {
     metadataBase: new URL(siteConfig.url),
@@ -45,10 +53,11 @@ export const viewport = {
 
 export default async function RootLayout({
   children,
-}: {
+  ...props
+}: LocaleParams & {
   children: React.ReactNode;
 }) {
-  const { locale, dictionary } = await getRequestDictionary();
+  const { locale, dictionary } = await getLocaleDictionary(props);
 
   return (
     <html lang={locale} data-scroll-behavior="smooth">

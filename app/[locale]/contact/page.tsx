@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { ContactChannels } from "@/app/components/contact/ContactChannels";
 import { Container } from "@/app/components/system/Container";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
-import { getRequestDictionary } from "@/app/i18n/getDictionary";
+import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { siteConfig } from "@/app/lib/site";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { locale, dictionary } = await getRequestDictionary();
+export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const canonical = localeHref(locale, "/contact");
 
   return {
@@ -24,8 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function ContactPage() {
-  const { locale, dictionary } = await getRequestDictionary();
+export default async function ContactPage(props: LocaleParams) {
+  const { locale, dictionary } = await getLocaleDictionary(props);
   const copy = dictionary.contact;
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
