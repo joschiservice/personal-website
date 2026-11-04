@@ -9,7 +9,8 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
 import { z } from "zod";
-import type { Code, Heading, Root } from "mdast";
+import type { Root } from "mdast";
+import type {} from "mdast-util-mdx-jsx";
 import type { BlogTocItem } from "./content-types";
 
 const isoDate = z.iso.date();
@@ -17,9 +18,9 @@ const isoDate = z.iso.date();
 function extractHeadings(content: string) {
   const target: BlogTocItem[] = [];
   const slugger = new GithubSlugger();
-  const tree = unified().use(remarkParse).use(remarkGfm).parse(content) as Root;
+  const tree = unified().use(remarkParse).use(remarkGfm).parse(content);
 
-  visit(tree, "heading", (node: Heading) => {
+  visit(tree, "heading", (node) => {
     const title = toString(node).trim();
     if (!title) return;
 
@@ -45,10 +46,10 @@ function calculateReadingTime(content: string) {
 
 function remarkMermaid() {
   return (tree: Root) => {
-    visit(tree, "code", (node: Code, index, parent) => {
+    visit(tree, "code", (node, index, parent) => {
       if (node.lang !== "mermaid" || index === undefined || !parent) return;
 
-      (parent.children as unknown[])[index] = {
+      parent.children[index] = {
         type: "mdxJsxFlowElement",
         name: "MermaidDiagram",
         attributes: [
