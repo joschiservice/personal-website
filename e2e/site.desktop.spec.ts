@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test"
+import en from "../app/i18n/dictionaries/en"
 
 async function expectSectionInViewport(page: Page, selector: string) {
   await expect
@@ -16,32 +17,32 @@ test("renders the home page and primary actions", async ({ page }) => {
 
   await expect(page.getByRole("main")).toBeAttached()
   for (const heading of [
-    "From a truck simulator to production systems.",
-    "Where I’ve worked",
-    "My starter deck",
-    "Things I’m into",
-    "Window seat, please.",
+    en.about.statement,
+    en.timeline.title,
+    en.tools.title,
+    en.interests.title,
+    en.flightRadar.title,
   ]) {
     await expect(page.getByRole("heading", { name: heading })).toBeAttached()
   }
 
-  await expect(page.getByRole("link", { name: "Say hello" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: en.footer.contact })).toHaveAttribute(
     "href",
     "/contact"
   )
-  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: en.hero.secondaryActionLabel })).toHaveAttribute(
     "href",
     "/cv?lang=en"
   )
-  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: en.hero.secondaryActionLabel })).toHaveAttribute(
     "target",
     "_blank"
   )
-  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: en.hero.secondaryActionLabel })).toHaveAttribute(
     "rel",
     /noopener/
   )
-  const heroSocials = page.getByRole("navigation", { name: "Find me on" })
+  const heroSocials = page.getByRole("navigation", { name: en.hero.socialsLabel })
   await expect(heroSocials.getByRole("link", { name: /LinkedIn/ })).toHaveAttribute(
     "href",
     "https://example.com/linkedin"
@@ -69,7 +70,7 @@ test("renders the contact directory from environment links", async ({ page }) =>
   await page.goto("/contact")
 
   await expect(
-    page.getByRole("heading", { name: "Say hi, I’ll write back." })
+    page.getByRole("heading", { name: `${en.contact.titleLead} ${en.contact.titleAccent}` })
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "e2e@example.com" })).toHaveAttribute(
     "href",
@@ -97,18 +98,18 @@ test("smoothly navigates to home page sections", async ({ page }) => {
   await page.goto("/")
   const desktopNavigation = page.getByRole("navigation", { name: "Primary" })
 
-  await desktopNavigation.getByRole("link", { name: "About" }).click()
+  await desktopNavigation.getByRole("link", { name: en.nav.about }).click()
   await expectSectionInViewport(page, "#about-me")
 
-  await desktopNavigation.getByRole("link", { name: "Work" }).click()
+  await desktopNavigation.getByRole("link", { name: en.nav.work }).click()
   await expectSectionInViewport(page, "#experience")
 })
 
 test("collapses and reopens the full-name navigation mark", async ({ page }) => {
   await page.goto("/")
   const navigation = page.getByRole("navigation", { name: "Primary" })
-  const fullName = navigation.getByText("Joschua Haß", { exact: true })
-  const monogram = navigation.getByText("JH", { exact: true })
+  const fullName = navigation.getByText(en.nav.identity, { exact: true })
+  const monogram = navigation.getByText(en.nav.monogram, { exact: true })
 
   await expect(navigation).toHaveAttribute("data-scrolled", "false")
   await expect(fullName).toHaveCSS("opacity", "1")
@@ -130,7 +131,7 @@ test("presents the profile as an editorial spread", async ({ page }) => {
 
   await expect(
     profile.getByRole("complementary", {
-      name: "Quick facts",
+      name: en.about.annotationsLabel,
     })
   ).toBeVisible()
   await expect(profile.locator(".about-section__lead-story")).toHaveCSS(
@@ -138,7 +139,7 @@ test("presents the profile as an editorial spread", async ({ page }) => {
     "1"
   )
   await expect(profile.locator(".about-section__annotations")).toHaveCSS("position", "sticky")
-  await expect(profile.locator(".profile-fact-list > div")).toHaveCount(4)
+  await expect(profile.locator(".profile-fact-list > div")).toHaveCount(en.about.profileFacts.length)
 
   const hasHorizontalOverflow = await profile.evaluate(
     (element) => element.scrollWidth > element.clientWidth
@@ -161,7 +162,7 @@ test("keeps timeline geometry aligned and disclosure content clipped", async ({ 
   }, await marker.elementHandle())
   expect(alignmentDelta).toBeLessThan(1)
 
-  const toggle = page.getByRole("button", { name: "What I did" }).first()
+  const toggle = page.getByRole("button", { name: en.timeline.readMore }).first()
   const panelId = await toggle.getAttribute("aria-controls")
   const firstTask = page.locator(`[id="${panelId}"] li`).first()
   await expect(firstTask).toBeHidden()
@@ -172,23 +173,27 @@ test("keeps timeline geometry aligned and disclosure content clipped", async ({ 
 test("renders the tools card deck", async ({ page }) => {
   await page.goto("/#tools")
   const collection = page.getByRole("list", {
-    name: "Technology cards",
+    name: en.tools.collectionLabel,
   })
 
-  await expect(collection.getByRole("listitem")).toHaveCount(8)
-  await expect(collection.locator('.tool-card[data-tool="Next.js"]')).toContainText(
-    "Frameworks"
-  )
-  await expect(page.getByRole("list", { name: "Rarity guide" })).toContainText(
-    "03"
-  )
+  const tools = en.tools.items
+  await expect(collection.getByRole("listitem")).toHaveCount(tools.length)
+  for (const tool of tools) {
+    await expect(collection.locator(`.tool-card[data-tool="${tool.name}"]`)).toContainText(
+      tool.category
+    )
+  }
+  const legendaryCount = tools.filter((tool) => tool.rarity === "Legendary").length
+  await expect(
+    page.getByRole("list", { name: en.tools.rarityGuideLabel }).locator('[data-rarity="legendary"]')
+  ).toContainText(String(legendaryCount).padStart(2, "0"))
 })
 
 test("renders imprint contact links", async ({ page }) => {
   await page.goto("/imprint")
 
   await expect(
-    page.getByRole("heading", { name: "Imprint / Legal disclosure" })
+    page.getByRole("heading", { name: en.imprint.title })
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "e2e@example.com" })).toHaveAttribute(
     "href",
@@ -220,7 +225,7 @@ test("opens the CV redirect in a new tab", async ({ context, page }) => {
 
   await page.goto("/")
   const newTabPromise = context.waitForEvent("page")
-  await page.getByRole("link", { name: "Download CV" }).click()
+  await page.getByRole("link", { name: en.hero.secondaryActionLabel }).click()
   const newTab = await newTabPromise
 
   await newTab.waitForURL("**/e2e-cv.pdf")

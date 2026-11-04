@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test"
 import { allPosts } from "content-collections"
+import en from "../app/i18n/dictionaries/en"
 import { getPublishedPosts } from "../app/lib/blog"
 import { buildRssFeed } from "../app/lib/rss"
 
@@ -10,16 +11,16 @@ test("lists published posts and exposes RSS", async ({ page }) => {
   await page.goto("/blog")
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "Blog", exact: true })
+    page.getByRole("heading", { level: 1, name: en.blog.title, exact: true })
   ).toBeVisible()
   await expect(page.locator(".blog-index-header .blog-back-link")).toHaveCount(0)
   for (const post of publishedPosts) {
-    await expect(page.locator(`a[href="${post.url}"]`).first()).toBeVisible()
+    await expect(page.getByRole("link", { name: en.blog.readArticle(post.title) })).toBeVisible()
   }
-  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toHaveCount(
+  await expect(page.getByRole("heading", { name: en.blog.emptyTitle })).toHaveCount(
     publishedPosts.length > 0 ? 0 : 1
   )
-  await expect(page.getByRole("link", { name: "RSS feed" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: en.blog.rss })).toHaveAttribute(
     "href",
     "/blog/rss.xml"
   )
@@ -119,9 +120,9 @@ test.describe("local draft preview", () => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"])
     await page.goto("/blog")
 
-    await expect(page.getByRole("heading", { name: "Draft previews" })).toBeVisible()
+    await expect(page.getByRole("heading", { name: en.blog.drafts })).toBeVisible()
     await page
-      .getByRole("link", { name: "Read E2E fixture post" })
+      .getByRole("link", { name: en.blog.readArticle("E2E fixture post") })
       .click()
 
     // This test only runs against the dev server, where the first visit compiles the post route on demand.
@@ -133,8 +134,8 @@ test.describe("local draft preview", () => {
       "margin-bottom",
       "40px"
     )
-    await expect(page.getByText("Draft preview", { exact: true }).first()).toBeVisible()
-    await expect(page.locator(".blog-toc-desktop").getByText("On this page", { exact: true })).toBeVisible()
+    await expect(page.getByText(en.blog.draftPreview, { exact: true }).first()).toBeVisible()
+    await expect(page.locator(".blog-toc-desktop").getByText(en.blog.onThisPage, { exact: true })).toBeVisible()
     const table = page.getByRole("table")
     await expect(table).toBeVisible()
     await expect(page.locator(".blog-table-scroll")).toBeVisible()
@@ -153,25 +154,25 @@ test.describe("local draft preview", () => {
     expect(articleHtml).toMatch(/class="blog-diagram-canvas"><svg/)
 
     await page
-      .getByRole("button", { name: /Enlarge image: E2E cover image/ })
+      .getByRole("button", { name: `${en.blog.enlargeImage}: E2E cover image` })
       .click()
     await expect(
-      page.getByRole("dialog", { name: /Fullscreen image: E2E cover image/ })
+      page.getByRole("dialog", { name: `${en.blog.fullscreenImage}: E2E cover image` })
     ).toBeVisible()
     await page.keyboard.press("Escape")
-    await expect(page.getByRole("dialog", { name: /Fullscreen image/ })).toBeHidden()
+    await expect(page.getByRole("dialog", { name: en.blog.fullscreenImage })).toBeHidden()
 
     await page
-      .getByRole("button", { name: /Enlarge image: E2E inline image/ })
+      .getByRole("button", { name: `${en.blog.enlargeImage}: E2E inline image` })
       .click()
     await expect(
-      page.getByRole("dialog", { name: /Fullscreen image: E2E inline image/ })
+      page.getByRole("dialog", { name: `${en.blog.fullscreenImage}: E2E inline image` })
     ).toBeVisible()
-    await page.getByRole("button", { name: "Close fullscreen image" }).click()
-    await expect(page.getByRole("dialog", { name: /Fullscreen image/ })).toBeHidden()
+    await page.getByRole("button", { name: en.blog.closeFullscreenImage }).click()
+    await expect(page.getByRole("dialog", { name: en.blog.fullscreenImage })).toBeHidden()
 
-    await page.getByRole("button", { name: "Copy link" }).click()
-    await expect(page.getByRole("button", { name: "Copied" })).toBeVisible()
+    await page.getByRole("button", { name: en.blog.copyLink }).click()
+    await expect(page.getByRole("button", { name: en.blog.copied })).toBeVisible()
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",
       /noindex/
