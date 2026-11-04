@@ -109,13 +109,13 @@ test.describe("local draft preview", () => {
 
     await expect(page.getByRole("heading", { name: "Draft previews" })).toBeVisible()
     await page
-      .getByRole("link", { name: "Read Building a Blog That Feels Like Home" })
+      .getByRole("link", { name: "Read E2E fixture post" })
       .click()
 
     // This test only runs against the dev server, where the first visit compiles the post route on demand.
-    await expect(page).toHaveURL(/\/blog\/building-the-blog$/, { timeout: 15_000 })
+    await expect(page).toHaveURL(/\/blog\/e2e-fixture$/, { timeout: 15_000 })
     await expect(
-      page.getByRole("heading", { name: "Building a Blog That Feels Like Home" })
+      page.getByRole("heading", { name: "E2E fixture post" })
     ).toBeVisible()
     await expect(page.locator(".blog-article-header .blog-back-link")).toHaveCSS(
       "margin-bottom",
@@ -134,26 +134,26 @@ test.describe("local draft preview", () => {
         return Math.abs(tableWidth - containerWidth)
       })
     ).toBeLessThan(2)
-    await expect(page.getByRole("img", { name: /Abstract streams of light/ })).toBeVisible()
+    await expect(page.getByRole("img", { name: "E2E inline image" })).toBeVisible()
     await expect(page.locator(".blog-diagram svg")).toBeVisible()
-    await expect(page.locator(".blog-diagram")).toContainText("From draft to published post")
-    const articleHtml = await (await page.request.get("/blog/building-the-blog")).text()
+    await expect(page.locator(".blog-diagram")).toContainText("E2E diagram")
+    const articleHtml = await (await page.request.get("/blog/e2e-fixture")).text()
     expect(articleHtml).toMatch(/class="blog-diagram-canvas"><svg/)
 
     await page
-      .getByRole("button", { name: /Enlarge image: Luminous blue and violet/ })
+      .getByRole("button", { name: /Enlarge image: E2E cover image/ })
       .click()
     await expect(
-      page.getByRole("dialog", { name: /Fullscreen image: Luminous blue and violet/ })
+      page.getByRole("dialog", { name: /Fullscreen image: E2E cover image/ })
     ).toBeVisible()
     await page.keyboard.press("Escape")
     await expect(page.getByRole("dialog", { name: /Fullscreen image/ })).toBeHidden()
 
     await page
-      .getByRole("button", { name: /Enlarge image: Abstract streams of light/ })
+      .getByRole("button", { name: /Enlarge image: E2E inline image/ })
       .click()
     await expect(
-      page.getByRole("dialog", { name: /Fullscreen image: Abstract streams of light/ })
+      page.getByRole("dialog", { name: /Fullscreen image: E2E inline image/ })
     ).toBeVisible()
     await page.getByRole("button", { name: "Close fullscreen image" }).click()
     await expect(page.getByRole("dialog", { name: /Fullscreen image/ })).toBeHidden()
