@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
-import { MDXContent } from "@content-collections/mdx/react";
 import {
   HiArrowLeft,
   HiArrowRight,
@@ -12,6 +11,7 @@ import { ArticleEnd } from "@/app/components/blog/ArticleEnd";
 import { BlogCard } from "@/app/components/blog/BlogCard";
 import { CopyLinkButton } from "@/app/components/blog/CopyLinkButton";
 import { createMdxComponents } from "@/app/components/blog/MdxComponents";
+import { MdxContent } from "@/app/components/blog/MdxContent";
 import { TableOfContents } from "@/app/components/blog/TableOfContents";
 import { ZoomableBlogImage } from "@/app/components/blog/ZoomableBlogImage";
 import { Container } from "@/app/components/system/Container";
@@ -258,7 +258,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <Container className="blog-reader">
               <TableOfContents toc={post.toc} label={copy.onThisPage} ariaLabel={copy.tableOfContents} />
               <div className="blog-prose">
-                <MDXContent code={post.compiledContent} components={mdxComponents} />
+                <MdxContent code={post.compiledContent} components={mdxComponents} />
               </div>
               <ArticleEnd
                 title={post.title}

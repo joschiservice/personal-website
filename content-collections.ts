@@ -1,5 +1,5 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
-import { compileMDX } from "@content-collections/mdx";
+import { compile } from "@mdx-js/mdx";
 import GithubSlugger from "github-slugger";
 import { toString } from "mdast-util-to-string";
 import rehypePrettyCode from "rehype-pretty-code";
@@ -95,19 +95,24 @@ const posts = defineCollection({
   }),
   transform: async (post, context) => {
     const toc = extractHeadings(post.content);
-    const compiledContent = await compileMDX(context, post, {
-      remarkPlugins: [remarkGfm, remarkMermaid],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypePrettyCode,
-          {
-            theme: "github-dark-dimmed",
-            keepBackground: false,
-          },
-        ],
-      ],
-    });
+    const compiledContent = await context.cache(post.content, async (content) =>
+      String(
+        await compile(content, {
+          outputFormat: "function-body",
+          remarkPlugins: [remarkGfm, remarkMermaid],
+          rehypePlugins: [
+            rehypeSlug,
+            [
+              rehypePrettyCode,
+              {
+                theme: "github-dark-dimmed",
+                keepBackground: false,
+              },
+            ],
+          ],
+        }),
+      ),
+    );
 
     const slug = post._meta.path;
 
