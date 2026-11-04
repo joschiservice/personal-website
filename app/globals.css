@@ -121,7 +121,12 @@ html[lang="ja"] body {
 
 html[lang="ja"] :is(h1, h2, h3) { word-break: auto-phrase; }
 
-html[lang="ja"] :is(.hero h1, .section-intro__content h2, .contact-hero h1, .contact-directory__intro h2, .legal-page h1, .site-footer__cta h2) {
+html[lang="ja"] .hero h1,
+html[lang="ja"] .section-intro__content h2,
+html[lang="ja"] .contact-hero h1,
+html[lang="ja"] .contact-directory__intro h2,
+html[lang="ja"] .legal-page h1,
+html[lang="ja"] .site-footer__cta h2 {
   letter-spacing: -0.02em;
   line-height: 1.14;
 }
@@ -155,7 +160,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
   line-height: 1.4;
 }
 
-:is(.hero h1, .section-intro__content h2, .contact-hero h1, .contact-directory__intro h2, .legal-page h1, .site-footer__cta h2, .blog-index-header h1, .blog-article-header h1, .blog-related-heading h2) {
+.hero h1,
+.section-intro__content h2,
+.contact-hero h1,
+.contact-directory__intro h2,
+.legal-page h1,
+.site-footer__cta h2,
+.blog-index-header h1,
+.blog-article-header h1,
+.blog-related-heading h2 {
   text-wrap: balance;
 }
 
@@ -1026,7 +1039,10 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(2) { transition-de
 html[data-motion-ready="true"] [data-motion-metric]:nth-child(3) { transition-delay: 90ms; }
 html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-delay: 135ms; }
 
-:is(.action-link, .text-action, .hero__socials a, .travel-log) svg {
+.action-link svg,
+.text-action svg,
+.hero__socials a svg,
+.travel-log svg {
   transition:
     color var(--motion-duration-control) ease,
     transform var(--motion-duration-control) var(--motion-ease-standard);
