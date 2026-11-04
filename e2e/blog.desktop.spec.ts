@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test"
+import { allPosts } from "content-collections"
+import { getPublishedPosts } from "../app/lib/blog"
 import { buildRssFeed } from "../app/lib/rss"
+
+const publishedPosts = getPublishedPosts()
+const draftPosts = allPosts.filter((post) => post.draft)
 
 test("lists published posts and exposes RSS", async ({ page }) => {
   await page.goto("/blog")
@@ -8,10 +13,12 @@ test("lists published posts and exposes RSS", async ({ page }) => {
     page.getByRole("heading", { level: 1, name: "Blog", exact: true })
   ).toBeVisible()
   await expect(page.locator(".blog-index-header .blog-back-link")).toHaveCount(0)
-  await expect(
-    page.getByRole("link", { name: /Read .*my take on AI and the future of work/ })
-  ).toBeVisible()
-  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toHaveCount(0)
+  for (const post of publishedPosts) {
+    await expect(page.locator(`a[href="${post.url}"]`).first()).toBeVisible()
+  }
+  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toHaveCount(
+    publishedPosts.length > 0 ? 0 : 1
+  )
   await expect(page.getByRole("link", { name: "RSS feed" })).toHaveAttribute(
     "href",
     "/blog/rss.xml"
@@ -36,8 +43,13 @@ test("serves a cacheable, valid RSS feed without draft entries", async ({ page, 
   )
   expect(body).toContain("<rss version=\"2.0\"")
   expect(body).toContain('<atom:link href="https://www.jhass.dev/blog/rss.xml" rel="self"')
-  expect(body).toContain("https://www.jhass.dev/blog/ai-and-the-future-of-work")
-  expect(body).not.toContain("Building a Blog That Feels Like Home")
+  for (const post of publishedPosts) {
+    expect(body).toContain(`https://www.jhass.dev${post.url}`)
+  }
+  expect(draftPosts.length).toBeGreaterThan(0)
+  for (const post of draftPosts) {
+    expect(body).not.toContain(post.url)
+  }
 
   const parsedFeed = await page.evaluate((xml) => {
     const document = new DOMParser().parseFromString(xml, "application/xml")
