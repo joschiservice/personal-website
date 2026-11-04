@@ -4,6 +4,7 @@ import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./FlightRadarSection.module.css";
 
 export function FlightRadarSection({
   copy,
@@ -13,7 +14,7 @@ export function FlightRadarSection({
   newTabLabel: string;
 }) {
   return (
-    <section className="editorial-section travel-section" aria-labelledby="travel-log-heading">
+    <section className={`editorial-section ${styles.section}`} aria-labelledby="travel-log-heading">
       <SpaceBackdrop variant="travel" />
       <Container>
         <SectionIntro
@@ -27,14 +28,14 @@ export function FlightRadarSection({
           href={copy.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="travel-log motion-section-content"
+          className={`${styles.log} motion-section-content`}
         >
-          <div className="travel-log__line" aria-hidden="true">
+          <div className={styles.logLine} aria-hidden="true">
             <span />
             <span />
             <span />
           </div>
-          <div className="travel-log__content">
+          <div className={styles.logContent}>
             <Image
               src={copy.imageSrc}
               alt={copy.imageAlt}

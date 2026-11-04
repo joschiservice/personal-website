@@ -308,58 +308,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
     var(--page);
 }
 
-.travel-section {
-  --accent: #ff895d;
-  --accent-soft: #ffb08d;
-  --section-accent: 255 137 93;
-  --section-light-x: 76%;
-  --section-light-y: 28%;
-  background:
-    radial-gradient(ellipse 46% 36% at 86% 46%, rgb(255 137 93 / 9%), transparent 72%),
-    linear-gradient(180deg, #0b0b11, #05070d);
-}
-.travel-log { display: block; color: inherit; text-decoration: none; }
-.travel-log__line { position: relative; display: flex; align-items: center; justify-content: space-between; height: 2rem; }
-.travel-log__line::before { content: ""; position: absolute; right: 0; left: 0; height: 1px; background: linear-gradient(90deg, var(--warm), var(--accent), var(--line)); }
-.travel-log__line span { position: relative; width: 0.75rem; height: 0.75rem; border: 2px solid var(--accent); border-radius: 999px; background: #070d17; }
-.travel-log__line span:first-child { border-color: var(--warm); }
-.travel-log__content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 2.2rem 1.25rem;
-  background:
-    var(--rule-fade) bottom / 100% 1px no-repeat,
-    linear-gradient(90deg, rgb(13 25 41 / 82%), rgb(13 25 41 / 24%) 72%, transparent);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
-}
-.travel-log__content::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -1px;
-  left: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--warm), var(--accent) 58%, transparent);
-  opacity: 0;
-  transition: opacity var(--motion-duration-control) ease;
-}
-/* The FlightRadar24 banner is a black-on-white PNG. Inverting it and screening it
-   onto the panel keeps only the text; the inset clip drops its 1px frame. */
-.travel-log__content img {
-  width: min(20rem, 48vw);
-  height: auto;
-  clip-path: inset(3px);
-  filter: invert(1) grayscale(1);
-  mix-blend-mode: screen;
-  opacity: 0.9;
-}
-.travel-log__content > span { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--text); font-size: 0.9rem; }
-.travel-log:is(:hover, :focus-visible) .travel-log__content > span { color: var(--accent-soft); }
-.travel-log:is(:hover, :focus-visible) .travel-log__content::after { opacity: 1; }
-
 .text-action { display: inline-flex; align-items: center; gap: 0.65rem; margin-top: 2.5rem; color: var(--accent-soft); font-size: 0.95rem; font-weight: 500; text-decoration: none; }
 .text-action svg { transition: transform var(--motion-duration-control) var(--motion-ease-standard); }
 .text-action:hover svg { transform: translateX(0.25rem); }
@@ -399,23 +347,10 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(3) { transition-de
 html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-delay: 135ms; }
 
 .action-link svg,
-.text-action svg,
-.travel-log svg {
+.text-action svg {
   transition:
     color var(--motion-duration-control) ease,
     transform var(--motion-duration-control) var(--motion-ease-standard);
-}
-
-.travel-log__content {
-  transition: border-color var(--motion-duration-control) ease;
-}
-
-.travel-log:is(:hover, :focus-visible) .travel-log__content {
-  border-color: color-mix(in srgb, var(--accent) 54%, var(--line));
-}
-
-.travel-log:is(:hover, :focus-visible) .travel-log__content svg {
-  transform: translate(0.2rem, -0.2rem);
 }
 
 /* Homepage: latest posts. */
@@ -446,7 +381,6 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-de
   .cv-download__menu { right: auto; left: 0; width: 100%; }
   .section-intro--split { grid-template-columns: 1fr; gap: 1.5rem; }
   .section-intro__content h2 { font-size: clamp(2.2rem, 10vw, 3.4rem); }
-  .travel-log__content { align-items: flex-start; flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {

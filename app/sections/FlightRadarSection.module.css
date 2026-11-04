@@ -1,0 +1,137 @@
+.section {
+  --accent: #ff895d;
+  --accent-soft: #ffb08d;
+  --section-accent: 255 137 93;
+  --section-light-x: 76%;
+  --section-light-y: 28%;
+  background:
+    radial-gradient(
+      ellipse 46% 36% at 86% 46%,
+      rgb(255 137 93 / 9%),
+      transparent 72%
+    ),
+    linear-gradient(180deg, #0b0b11, #05070d);
+}
+
+.log {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.logLine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2rem;
+}
+
+.logLine::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--warm), var(--accent), var(--line));
+}
+
+.logLine span {
+  position: relative;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  background: #070d17;
+}
+
+.logLine span:first-child {
+  border-color: var(--warm);
+}
+
+.logContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.2rem 1.25rem;
+  background:
+    var(--rule-fade) bottom / 100% 1px no-repeat,
+    linear-gradient(
+      90deg,
+      rgb(13 25 41 / 82%),
+      rgb(13 25 41 / 24%) 72%,
+      transparent
+    );
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+}
+
+.logContent::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--warm),
+    var(--accent) 58%,
+    transparent
+  );
+  opacity: 0;
+  transition: opacity var(--motion-duration-control) ease;
+}
+/* The FlightRadar24 banner is a black-on-white PNG. Inverting it and screening it
+   onto the panel keeps only the text; the inset clip drops its 1px frame. */
+
+.logContent img {
+  width: min(20rem, 48vw);
+  height: auto;
+  clip-path: inset(3px);
+  filter: invert(1) grayscale(1);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+
+.logContent > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.log:is(:hover, :focus-visible) .logContent > span {
+  color: var(--accent-soft);
+}
+
+.log:is(:hover, :focus-visible) .logContent::after {
+  opacity: 1;
+}
+
+.log svg {
+  transition:
+    color var(--motion-duration-control) ease,
+    transform var(--motion-duration-control) var(--motion-ease-standard);
+}
+
+.logContent {
+  transition: border-color var(--motion-duration-control) ease;
+}
+
+.log:is(:hover, :focus-visible) .logContent {
+  border-color: color-mix(in srgb, var(--accent) 54%, var(--line));
+}
+
+.log:is(:hover, :focus-visible) .logContent svg {
+  transform: translate(0.2rem, -0.2rem);
+}
+
+@media (max-width: 760px) {
+  .logContent {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
