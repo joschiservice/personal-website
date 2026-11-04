@@ -1,35 +1,33 @@
-import { NextRequest, NextResponse } from "next/server";
-import { defaultLocale, isEnabledLocale, isLocale } from "@/app/i18n/config";
+import { NextResponse, type NextRequest } from "next/server";
+import {
+  defaultLocale,
+  isEnabledLocale,
+  isLocale,
+  LOCALE_HEADER,
+  pathWithoutLocale,
+} from "@/app/i18n/config";
 
 export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const [requestedLocale] = pathname.split("/").filter(Boolean);
+  // Always overwritten, because clients can send this header too.
   const requestHeaders = new Headers(request.headers);
-  const forwardedLocale = requestHeaders.get("x-site-locale");
 
-  // A rewrite passes through Proxy again. Keep the locale selected by the
-  // original localized URL instead of replacing it with the default locale.
-  if (isEnabledLocale(forwardedLocale)) {
+  if (!isLocale(requestedLocale)) {
+    requestHeaders.set(LOCALE_HEADER, defaultLocale);
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  const segments = request.nextUrl.pathname.split("/").filter(Boolean);
-  const requestedLocale = segments[0];
+  const url = request.nextUrl.clone();
+  url.pathname = pathWithoutLocale(pathname);
 
   // Disabled locales send visitors to the default-language version of the page.
-  if (isLocale(requestedLocale) && !isEnabledLocale(requestedLocale)) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${segments.slice(1).join("/")}`;
+  if (!isEnabledLocale(requestedLocale)) {
     return NextResponse.redirect(url, 307);
   }
 
-  if (isLocale(requestedLocale)) {
-    requestHeaders.set("x-site-locale", requestedLocale);
-    const url = request.nextUrl.clone();
-    url.pathname = `/${segments.slice(1).join("/")}` || "/";
-    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-  }
-
-  requestHeaders.set("x-site-locale", defaultLocale);
-  return NextResponse.next({ request: { headers: requestHeaders } });
+  requestHeaders.set(LOCALE_HEADER, requestedLocale);
+  return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
 }
 
 export const config = {

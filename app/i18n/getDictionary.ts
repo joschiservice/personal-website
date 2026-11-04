@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { cache } from "react";
-import { defaultLocale, isLocale, type Locale } from "./config";
+import { defaultLocale, isLocale, LOCALE_HEADER, type Locale } from "./config";
 
 type StructuralLiteral =
   | "experience"
@@ -38,7 +38,7 @@ export async function getDictionary(locale: Locale) {
 
 export async function getRequestLocale(): Promise<Locale> {
   const requestHeaders = await headers();
-  const locale = requestHeaders.get("x-site-locale");
+  const locale = requestHeaders.get(LOCALE_HEADER);
   return isLocale(locale) ? locale : defaultLocale;
 }
 

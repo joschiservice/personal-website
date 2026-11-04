@@ -9,6 +9,9 @@ export const localeNames = {
 
 export const defaultLocale: Locale = "en";
 
+/** Set by proxy.ts to tell server components which locale to render. */
+export const LOCALE_HEADER = "x-site-locale";
+
 /**
  * Locales the site currently serves. Japanese is switched off for now; add "ja"
  * back here to bring back the /ja pages, hreflang links and language switcher.
