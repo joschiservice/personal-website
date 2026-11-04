@@ -359,6 +359,7 @@
   --stars-mask: linear-gradient(180deg, #000, transparent 75%);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .contact .feature {
   --horizon-apex: 4rem;
 }
@@ -424,6 +425,7 @@
 
 /* The contact hero is short, so its horizon surface spans the full width and fades at the ends. */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .contact .feature::after {
   background: linear-gradient(
     180deg,

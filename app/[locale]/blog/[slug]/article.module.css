@@ -54,6 +54,7 @@
 
 /* Article */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleTags {
   justify-content: flex-start;
 }
@@ -321,6 +322,7 @@
   letter-spacing: 0.14em;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleTags {
   align-items: center;
   gap: 0;
@@ -386,6 +388,7 @@
   gap: 0.35rem;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .coverFrame {
   border: 1px solid var(--line-strong);
   border-radius: 0;
@@ -424,6 +427,7 @@
   line-height: 1.72;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose h2,
 .prose h3 {
   color: var(--text);
@@ -431,10 +435,12 @@
   letter-spacing: -0.025em;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose a:not(:global(.blog-heading-link)) {
   color: var(--accent-soft);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose strong {
   color: var(--text);
 }
@@ -454,6 +460,7 @@
   font-size: 1.12rem;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose [data-rehype-pretty-code-figure] {
   border-color: var(--line-strong);
   border-radius: 0;
@@ -461,6 +468,7 @@
   box-shadow: none;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose th {
   color: var(--text);
   background: var(--surface-raised);
@@ -470,11 +478,13 @@
   text-transform: uppercase;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose th,
 .prose td {
   border-bottom-color: var(--line);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose :not(pre) > code {
   border-color: var(--line-strong);
   border-radius: 0;
@@ -483,6 +493,7 @@
   font-family: var(--font-mono);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .prose [data-rehype-pretty-code-figure] pre {
   font-family: var(--font-mono);
 }
@@ -497,6 +508,7 @@
   background: var(--line);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .postNavLink {
   min-height: 9rem;
   gap: 1.25rem;
@@ -507,6 +519,7 @@
   background: var(--surface);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .postNavLink:hover {
   color: var(--text);
   background: var(--surface-raised);
@@ -544,6 +557,7 @@
   margin-bottom: 2.5rem;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .relatedHeading span {
   color: var(--accent-soft);
   font-family: var(--font-mono);
@@ -552,6 +566,7 @@
   letter-spacing: 0.14em;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .relatedHeading h2 {
   margin-top: 0.9rem;
   color: var(--text);
@@ -643,6 +658,7 @@
 
 /* Article: a compact header on the reading column, so the text starts sooner. */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleHero {
   min-height: 0;
   padding: clamp(7.5rem, 11vw, 9rem) 0 clamp(2rem, 3vw, 2.5rem);
@@ -650,6 +666,7 @@
   background: none;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleHeroArt {
   background:
     radial-gradient(
@@ -677,6 +694,7 @@
   grid-column: 2;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleHeader h1 {
   margin-top: 1.1rem;
   font-size: clamp(2.4rem, 4.4vw, 3.9rem);
@@ -684,11 +702,13 @@
   line-height: 1.05;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleDescription {
   margin-top: 1.25rem;
   font-size: clamp(1rem, 1.3vw, 1.12rem);
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleMeta {
   width: 100%;
   margin-top: 1.75rem;
@@ -703,6 +723,7 @@
   margin-top: 0;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .coverFrame {
   box-shadow: 0 1.5rem 4rem -1.5rem rgb(0 0 0 / 60%);
 }

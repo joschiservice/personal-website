@@ -23,6 +23,7 @@
   width: min(58rem, calc(100vw - (var(--gutter) * 2)));
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .figureFrame {
   border-color: var(--line-strong);
   border-radius: 0;

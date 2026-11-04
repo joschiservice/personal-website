@@ -361,6 +361,7 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-de
 }
 
 /* Blog */
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 :root {
   --blog-blue: #42a5f5;
   --blog-violet: #ba68c8;

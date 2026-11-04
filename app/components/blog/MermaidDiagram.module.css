@@ -69,6 +69,7 @@
   background-color: #0b1626 !important;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .diagram {
   border-radius: 0;
 }

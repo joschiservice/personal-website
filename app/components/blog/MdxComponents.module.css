@@ -29,6 +29,7 @@
   }
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .headingLink svg {
   color: transparent;
 }

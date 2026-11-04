@@ -4,7 +4,7 @@ This repository contains the source for my personal website. It is a server-firs
 
 ### Tech stack
 - **Framework**: Next.js, React (App Router under `app/`)
-- **Styling**: Tailwind CSS v4 plus a token-based editorial design system
+- **Styling**: CSS Modules beside each component, with tokens and shared primitives in `app/globals.css`, and Tailwind CSS v4 for base styles
 - **TypeScript**: Strict typing via `tsconfig.json`
 - **Content**: Typed MDX through Content Collections
 - **Motion**: Motion for interactive transitions, with reduced-motion support
@@ -23,7 +23,7 @@ app/
   [locale]/                 # Pages and root layout; proxy.ts rewrites /contact to /en/contact
   blog/rss.xml/             # RSS route
   cv/                       # CV download route
-  globals.css               # Tailwind entrypoint and design system
+  globals.css               # Tokens, base styles, and shared primitives
 content/posts/              # Validated MDX articles
 content/diagrams/           # Rendered Mermaid SVGs, generated and committed
 e2e/                        # Desktop and mobile Playwright coverage

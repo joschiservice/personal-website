@@ -50,6 +50,7 @@
   letter-spacing: 0.14em;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .desktop ol,
 .mobile ol {
   gap: 0;

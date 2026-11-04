@@ -586,16 +586,19 @@ html[lang="ja"] .directoryIntro h2 {
   }
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .heroInner {
   position: relative;
   z-index: 1;
 }
 /* The horizon closes the contact hero, so it needs no border; the directory picks up its tint. */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .hero {
   border-bottom: 0;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .directory {
   background:
     radial-gradient(

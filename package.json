@@ -11,7 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "oxlint --type-aware --deny-warnings",
+    "lint": "oxlint --type-aware --deny-warnings && stylelint \"app/**/*.css\"",
     "diagrams": "node scripts/render-diagrams.mts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -56,6 +56,7 @@
     "oxlint": "^1.90.0",
     "oxlint-tsgolint": "^7.0.2005",
     "postcss": "^8.5.32",
+    "stylelint": "^18.0.0",
     "tailwindcss": "^4.3.4",
     "typescript": "^7.0.2"
   }
