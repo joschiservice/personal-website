@@ -17,7 +17,7 @@ export interface BlogPost {
   };
   content: string;
   slug: string;
-  url: string;
+  url: `/blog/${string}`;
   readingTimeMinutes: number;
   toc: BlogTocItem[];
   compiledContent: string;

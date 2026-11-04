@@ -23,7 +23,16 @@ export function isEnabledLocale(value: string | null | undefined): value is Loca
   return enabledLocales.includes(value as Locale);
 }
 
-export function localeHref(locale: Locale, href: string) {
+/** Pages under app/[locale]. Add new pages here, so a mistyped internal link fails type checking. */
+export type LocalePath =
+  | "/"
+  | `/#${string}`
+  | "/blog"
+  | `/blog/${string}`
+  | "/contact"
+  | "/imprint";
+
+export function localeHref(locale: Locale, href: LocalePath) {
   if (locale === defaultLocale || !href.startsWith("/")) return href;
   if (href === "/") return `/${locale}`;
   return `/${locale}${href}`;
@@ -36,7 +45,7 @@ export function pathWithoutLocale(pathname: string) {
 }
 
 export function localeAlternates(
-  href: string
+  href: LocalePath
 ): Partial<Record<Locale, string>> & { "x-default": string } {
   const localized = Object.fromEntries(
     enabledLocales.map((locale) => [locale, localeHref(locale, href)])

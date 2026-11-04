@@ -54,8 +54,6 @@ export function ActionLink({
   return (
     <Link
       href={href}
-      target={target}
-      rel={target ? "noopener noreferrer" : undefined}
       className={`action-link action-link--${variant}`}
       aria-label={resolvedAriaLabel}
     >
