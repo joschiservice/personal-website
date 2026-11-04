@@ -48,6 +48,7 @@ export default async function BlogPage() {
               <h1>{copy.title}</h1>
               <p>{copy.intro}</p>
             </div>
+            {/* oxlint-disable-next-line nextjs/no-html-link-for-pages -- the feed is a route handler, not a page */}
             <a href="/blog/rss.xml" className="blog-index__rss">
               <HiOutlineRss aria-hidden="true" />
               {copy.rss}

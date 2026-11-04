@@ -39,7 +39,7 @@ export function Navbar({
 
   useEffect(() => {
     // Route changes must dismiss the mobile dialog, regardless of navigation source.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
   }, [pathname]);
 
@@ -63,7 +63,7 @@ export function Navbar({
   useEffect(() => {
     if (pathWithoutLocale(pathname) !== "/") {
       // Route changes must clear a section that was active on the homepage.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // oxlint-disable-next-line react-hooks/set-state-in-effect
       setActiveHash("");
       return;
     }

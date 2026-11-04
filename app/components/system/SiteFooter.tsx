@@ -27,6 +27,7 @@ export function SiteFooter({
           </ActionLink>
         </div>
         <div className="site-footer__meta">
+          {/* oxlint-disable-next-line react-hooks/purity -- server component, so this can't cause a hydration mismatch */}
           <span>© {new Date().getFullYear()} Joschua Haß. {copy.copyright}</span>
           <Link href={localeHref(locale, "/imprint")}>{copy.imprint}</Link>
         </div>
