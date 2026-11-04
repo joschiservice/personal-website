@@ -3,10 +3,6 @@ html[lang="ja"] .cta h2 {
   line-height: 1.14;
 }
 
-.cta h2 {
-  text-wrap: balance;
-}
-
 .root {
   position: relative;
   padding: calc(var(--section-space) * 1.25) 0 2rem;
@@ -96,6 +92,7 @@ html[lang="ja"] .cta h2 {
 }
 
 .cta h2 {
+  text-wrap: balance;
   margin: 1.1rem 0 0;
   color: var(--text);
   font-size: clamp(2.8rem, 6vw, 5.6rem);

@@ -4,9 +4,6 @@
     color 180ms ease,
     border-color 180ms ease,
     background 180ms ease;
-}
-
-.root {
   display: inline-flex;
   min-height: auto;
   align-items: center;

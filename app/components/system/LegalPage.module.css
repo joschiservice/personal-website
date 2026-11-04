@@ -5,18 +5,6 @@ html[lang="ja"] .root h1 {
 
 .root h1 {
   text-wrap: balance;
-}
-
-.root {
-  min-height: 100svh;
-  background: var(--page);
-}
-
-.root {
-  padding: clamp(10rem, 18vw, 14rem) 0 8rem;
-}
-
-.root h1 {
   max-width: 50rem;
   margin: 1.5rem 0 5rem;
   font-size: clamp(3rem, 7vw, 6.5rem);
@@ -67,6 +55,9 @@ html[lang="ja"] .root h1 {
 }
 
 .root {
+  min-height: 100svh;
+  background: var(--page);
+  padding: clamp(10rem, 18vw, 14rem) 0 8rem;
   position: relative;
   overflow: clip;
 }

@@ -7,10 +7,6 @@
   font-family: var(--font-mono);
 }
 
-.card h3 {
-  font-family: var(--font-display);
-}
-
 .card {
   position: relative;
   min-width: 0;
@@ -135,6 +131,7 @@
 }
 
 .card h3 {
+  font-family: var(--font-display);
   margin: 0.7rem 0 0.55rem;
   color: #f8fafc;
   font-size: clamp(1.35rem, 3vw, 2rem);

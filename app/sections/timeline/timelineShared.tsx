@@ -19,7 +19,7 @@ export function ExperienceCard({
   locale: Locale;
 }) {
   return (
-    <div className={styles.experience}>
+    <div>
       <h3 className={styles.role}>{experience.title}</h3>
       {experience.organization ? (
         <p className={styles.organization}>

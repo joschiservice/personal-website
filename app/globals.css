@@ -154,10 +154,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
   font-weight: 500;
   line-height: 1.4;
 }
-
-.section-intro__content h2 {
-  text-wrap: balance;
-}
 .action-link {
   --action-slant: 1.2rem;
   display: inline-flex;
@@ -275,6 +271,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
 .section-intro > * { position: relative; z-index: 1; }
 .section-intro--split { display: grid; grid-template-columns: minmax(12rem, 0.65fr) minmax(0, 1.65fr); gap: clamp(2rem, 7vw, 8rem); }
 .section-intro__content h2 {
+  text-wrap: balance;
   max-width: 50rem;
   margin: 0;
   color: var(--text);
@@ -308,10 +305,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-soft); o
 .text-action:hover svg { transform: translateX(0.25rem); }
 
 /* Motion system ---------------------------------------------------------- */
-@keyframes motion-page-enter {
-  from { opacity: 0; transform: translateY(var(--motion-distance-page)); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 @keyframes motion-section-enter {
   from { opacity: 0; transform: translateY(var(--motion-distance-section)); }
@@ -427,8 +420,4 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-de
     animation-duration: 0s !important;
     animation-delay: 0s !important;
   }
-}
-@keyframes space-twinkle {
-  from { opacity: 0.25; }
-  to { opacity: 0.9; }
 }

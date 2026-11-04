@@ -1,27 +1,14 @@
-.figure {
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
 .figureFrame {
   display: block;
   width: 100%;
   overflow: hidden;
   border: 1px solid var(--blog-border);
-  border-radius: 1rem;
-  background: #08101d;
-  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
 }
 
 .figure img {
   display: block;
   width: 100%;
   height: auto;
-}
-
-.figure figcaption {
-  margin: 0.65rem auto 0;
-  line-height: 1.5;
 }
 
 @media (max-width: 767px) {
@@ -31,6 +18,8 @@
 }
 
 .figure {
+  margin-left: 50%;
+  transform: translateX(-50%);
   width: min(58rem, calc(100vw - (var(--gutter) * 2)));
 }
 
@@ -42,6 +31,8 @@
 }
 
 .figure figcaption {
+  margin: 0.65rem auto 0;
+  line-height: 1.5;
   max-width: 47rem;
   margin-top: 0.8rem;
   color: var(--muted);
