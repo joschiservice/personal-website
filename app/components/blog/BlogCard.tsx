@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ViewTransition } from "react";
-import { HiArrowUpRight, HiOutlineClock } from "react-icons/hi2";
+import { HiArrowRight, HiOutlineClock } from "react-icons/hi2";
 import { PostCover } from "@/app/components/blog/PostCover";
 import { postCoverTransitionName } from "@/app/components/system/PageTransition";
 import { formatBlogDate, type BlogPost } from "@/app/lib/blog";
@@ -67,7 +67,7 @@ export function BlogCard({
                 <span key={tag}>{tag}</span>
               ))}
             </div>
-            <HiArrowUpRight className="blog-card-arrow" aria-hidden="true" />
+            <HiArrowRight className="blog-card-arrow" aria-hidden="true" />
           </div>
         </div>
       </Link>

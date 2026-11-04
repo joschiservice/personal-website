@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaBluesky, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
-import { HiArrowLeft, HiArrowRight, HiOutlineEnvelope } from "react-icons/hi2";
+import { HiArrowLeft, HiArrowRight, HiEnvelope } from "react-icons/hi2";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { localeHref, type Locale } from "@/app/i18n/config";
 import { siteConfig } from "@/app/lib/site";
@@ -79,7 +79,7 @@ export function ArticleEnd({
               aria-label={copy.shareByEmail}
               title={copy.shareByEmail}
             >
-              <HiOutlineEnvelope aria-hidden="true" />
+              <HiEnvelope aria-hidden="true" />
             </a>
           </li>
         </ul>

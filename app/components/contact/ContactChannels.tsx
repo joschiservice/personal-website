@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import {
   HiArrowRight,
   HiArrowUpRight,
-  HiCheck,
-  HiClipboard,
   HiEnvelope,
-  HiExclamationTriangle,
+  HiOutlineCheck,
+  HiOutlineClipboard,
+  HiOutlineExclamationTriangle,
 } from "react-icons/hi2";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 
@@ -65,10 +65,10 @@ export function ContactChannels({
 
   const CopyIcon =
     copyState === "copied"
-      ? HiCheck
+      ? HiOutlineCheck
       : copyState === "failed"
-        ? HiExclamationTriangle
-        : HiClipboard;
+        ? HiOutlineExclamationTriangle
+        : HiOutlineClipboard;
 
   return (
     <div className="contact-channels">

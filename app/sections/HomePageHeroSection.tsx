@@ -1,7 +1,7 @@
 import { Container } from "@/app/components/system/Container";
 import { ActionLink } from "@/app/components/system/ActionLink";
 import { CvDownloadAction } from "@/app/components/system/CvDownloadAction";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { HiArrowUpRight } from "react-icons/hi2";
 import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
