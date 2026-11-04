@@ -9,19 +9,17 @@
     transition:
       color 180ms ease,
       transform 180ms ease;
+    flex-shrink: 0;
+    width: 0.75em;
+    height: 0.75em;
+    transform: translateX(-0.3rem);
+    color: transparent;
   }
 
   @media (prefers-reduced-motion: reduce) {
     & svg {
       transition: none;
     }
-  }
-  & svg {
-    flex-shrink: 0;
-    width: 0.75em;
-    height: 0.75em;
-    transform: translateX(-0.3rem);
-    color: transparent;
   }
 
   &:hover svg,

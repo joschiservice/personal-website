@@ -1,5 +1,10 @@
 .contact .feature {
   inset: 0;
+  --horizon-depth: 20rem;
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  --horizon-apex: 4rem;
 }
 
 .contact .feature::before {
@@ -375,13 +380,6 @@
 .contact {
   --stars-opacity: 0.45;
   --stars-mask: linear-gradient(180deg, #000, transparent 75%);
-  & .feature {
-    --horizon-depth: 20rem;
-    position: absolute;
-    overflow: hidden;
-    pointer-events: none;
-    --horizon-apex: 4rem;
-  }
 
   /* The contact hero is short, so its horizon surface spans the full width and fades at the ends. */
   & .feature::after {

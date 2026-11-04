@@ -86,6 +86,11 @@
     inset 1px 0 0 rgb(255 255 255 / 2.5%),
     0 3px 5px rgb(0 0 0 / 28%),
     0 1.65rem 2.8rem -1.65rem rgb(0 0 0 / 90%);
+  --blog-blue: #42a5f5;
+  --blog-violet: #ba68c8;
+  --blog-surface: var(--surface-interactive);
+  --blog-border: rgba(255, 255, 255, 0.1);
+  --blog-muted: rgba(229, 231, 235, 0.76);
 }
 
 html { scroll-behavior: smooth; background: var(--page); }
@@ -361,14 +366,6 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-de
 }
 
 /* Blog */
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-:root {
-  --blog-blue: #42a5f5;
-  --blog-violet: #ba68c8;
-  --blog-surface: var(--surface-interactive);
-  --blog-border: rgba(255, 255, 255, 0.1);
-  --blog-muted: rgba(229, 231, 235, 0.76);
-}
 
 /* View transitions ---------------------------------------------------------- */
 /* Clicks during a transition go to the live page instead of the snapshot overlay. */
