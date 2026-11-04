@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 import { siteConfig } from "@/app/lib/site";
 
 /** Shared size for every generated social preview (OpenGraph and X). */
-export const ogImageSize = { width: 1200, height: 630 };
+const ogImageSize = { width: 1200, height: 630 };
 
 const fontDirectory = join(process.cwd(), "assets/fonts");
 

@@ -1,4 +1,4 @@
-export const toolCategories = [
+const toolCategories = [
   "Languages",
   "Frameworks",
   "Libraries",
@@ -6,9 +6,9 @@ export const toolCategories = [
   "Cloud & Ops",
 ] as const;
 
-export type ToolCategory = (typeof toolCategories)[number];
+type ToolCategory = (typeof toolCategories)[number];
 
-export interface ToolStat {
+interface ToolStat {
   label: string;
   value: string;
 }

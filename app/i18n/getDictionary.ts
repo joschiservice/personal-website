@@ -32,11 +32,11 @@ const dictionaries: Record<Locale, () => Promise<Dictionary>> = {
   ja: () => import("./dictionaries/ja").then((module) => module.default),
 };
 
-export async function getDictionary(locale: Locale) {
+async function getDictionary(locale: Locale) {
   return dictionaries[locale]();
 }
 
-export async function getRequestLocale(): Promise<Locale> {
+async function getRequestLocale(): Promise<Locale> {
   const requestHeaders = await headers();
   const locale = requestHeaders.get(LOCALE_HEADER);
   return isLocale(locale) ? locale : defaultLocale;

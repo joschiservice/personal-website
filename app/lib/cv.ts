@@ -4,9 +4,9 @@ import { unstable_cache } from "next/cache";
 const CV_PATH_PATTERN = /_CV_([A-Z]{2})\.pdf$/i;
 const LEGACY_ENGLISH_CV_PATTERN = /_CV\.pdf$/i;
 
-export const ENGLISH_CV_LANGUAGE = "EN";
+const ENGLISH_CV_LANGUAGE = "EN";
 
-export function getCvLanguageCode(locale: string): string {
+function getCvLanguageCode(locale: string): string {
   const language = locale.split("-")[0]?.toLowerCase();
   return language?.toUpperCase() || ENGLISH_CV_LANGUAGE;
 }
@@ -34,7 +34,7 @@ async function fetchCvUrlsInternal(): Promise<Record<string, string>> {
   );
 }
 
-export const getCachedCvUrls = unstable_cache(fetchCvUrlsInternal, ["cv-urls"], {
+const getCachedCvUrls = unstable_cache(fetchCvUrlsInternal, ["cv-urls"], {
   revalidate: 60 * 60, // 1 hour
   tags: ["cv-urls"],
 });

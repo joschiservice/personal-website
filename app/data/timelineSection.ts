@@ -1,7 +1,7 @@
-export type MilestoneKind = "experience" | "project" | "certificate";
-export type MilestoneEmphasis = "primary" | "secondary";
+type MilestoneKind = "experience" | "project" | "certificate";
+type MilestoneEmphasis = "primary" | "secondary";
 
-export interface CareerImpact {
+interface CareerImpact {
   label: string;
   value: string;
 }
@@ -278,12 +278,6 @@ export const EXPERIENCE_STOPS: ExperienceStop[] = experiences.map((experience) =
   experience,
   attachedMilestones: attachedMilestonesByExperience[experience.id] ?? [],
 }));
-
-export function getMilestoneBadgeLabel(kind: MilestoneKind) {
-  if (kind === "project") return "Project";
-  if (kind === "certificate") return "Credential";
-  return "Experience";
-}
 
 function sortNewestFirst(a: CareerMilestone, b: CareerMilestone) {
   if (!a.end && b.end) return -1;
