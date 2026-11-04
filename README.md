@@ -55,6 +55,8 @@ NEXT_PUBLIC_SOCIAL_GITHUB
 NEXT_PUBLIC_SOCIAL_INSTAGRAM
 ```
 
+Error reporting uses the optional `NEXT_PUBLIC_SENTRY_DSN` variable. It must be set at build time, and Sentry is disabled when it is unset.
+
 The CV route reads the latest localized `*_CV_EN.pdf`, `*_CV_DE.pdf`, etc. file from Vercel Blob and therefore requires the standard Vercel Blob credentials outside the test suite. Requests use the site locale (`/cv?lang=de`, for example), match its uppercase language code, and fall back to English when that language is unavailable. Legacy `*_CV.pdf` uploads are treated as English.
 
 Build for production:
