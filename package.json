@@ -11,7 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "diagrams": "node scripts/render-diagrams.mts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -57,6 +57,7 @@
     "mermaid": "^12.2.0",
     "postcss": "^8.5.32",
     "tailwindcss": "^4.3.4",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1"
   }
 }
