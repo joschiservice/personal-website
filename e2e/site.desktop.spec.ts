@@ -179,7 +179,7 @@ test("renders the tools card deck", async ({ page }) => {
   const tools = en.tools.items
   await expect(collection.getByRole("listitem")).toHaveCount(tools.length)
   for (const tool of tools) {
-    await expect(collection.locator(`.tool-card[data-tool="${tool.name}"]`)).toContainText(
+    await expect(collection.locator(`[data-tool="${tool.name}"]`)).toContainText(
       tool.category
     )
   }

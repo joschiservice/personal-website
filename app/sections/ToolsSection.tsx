@@ -8,6 +8,7 @@ import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./ToolsSection.module.css";
 
 type ToolCopy = Dictionary["tools"];
 type Rarity = "Rare" | "Epic" | "Legendary";
@@ -141,7 +142,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
   return (
     <section
       id="tools"
-      className="editorial-section tools-section"
+      className={`editorial-section ${styles.section}`}
       aria-labelledby="tools-heading"
     >
       <SpaceBackdrop variant="tools" />
@@ -154,14 +155,14 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
           align="split"
         />
 
-        <div className="tool-deck__register motion-section-content">
-          <div className="tool-deck__edition">
+        <div className={`${styles.register} motion-section-content`}>
+          <div className={styles.edition}>
             <span>{copy.deckLabel}</span>
             <strong>{copy.completeSet}</strong>
           </div>
 
           <div
-            className="tool-deck__rarities"
+            className={styles.rarities}
             role="list"
             aria-label={copy.rarityGuideLabel}
           >
@@ -174,7 +175,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                   role="listitem"
                   data-rarity={rarity.toLowerCase()}
                 >
-                  <span className="tool-deck__rarity-mark" aria-hidden="true">
+                  <span className={styles.rarityMark} aria-hidden="true">
                     {Array.from(
                       { length: RARITY_LEVELS[rarity] },
                       (_, index) => <i key={index} />,
@@ -192,7 +193,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
         </div>
 
         <div
-          className="tool-card-grid motion-section-content"
+          className={`${styles.grid} motion-section-content`}
           role="list"
           aria-label={copy.collectionLabel}
         >
@@ -204,7 +205,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
             return (
               <motion.div
                 key={item.name}
-                className="tool-card-slot"
+                className={styles.slot}
                 role="listitem"
                 initial={{ opacity: 0, y: 24, scale: 0.97 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -216,20 +217,20 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                 }
               >
                 <article
-                  className="tool-card"
+                  className={styles.card}
                   data-rarity={rarity.toLowerCase()}
                   data-tool={item.name}
                   onPointerEnter={trackPointer}
                   onPointerMove={trackPointer}
                   onPointerLeave={releasePointer}
                 >
-                  <div className="tool-card__foil" aria-hidden="true" />
-                  <div className="tool-card__frame">
-                    <header className="tool-card__header">
-                      <span className="tool-card__number">
+                  <div className={styles.foil} aria-hidden="true" />
+                  <div className={styles.frame}>
+                    <header className={styles.header}>
+                      <span className={styles.number}>
                         № {cardNumber}<i>/</i>{total}
                       </span>
-                      <span className="tool-card__rarity">
+                      <span className={styles.rarity}>
                         <span aria-hidden="true">
                           {Array.from(
                             { length: RARITY_LEVELS[rarity] },
@@ -240,9 +241,9 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                       </span>
                     </header>
 
-                    <div className="tool-card__art" aria-hidden="true">
+                    <div className={styles.art} aria-hidden="true">
                       {item.imageName ? (
-                        <span className="tool-card__logo">
+                        <span className={styles.logo}>
                           <Image
                             src={`/img/tools/${item.imageName}.png`}
                             alt=""
@@ -252,21 +253,21 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                           />
                         </span>
                       ) : (
-                        <span className="tool-card__monogram">
+                        <span className={styles.monogram}>
                           {item.name.slice(0, 2).toUpperCase()}
                         </span>
                       )}
-                      <span className="tool-card__category">{item.category}</span>
+                      <span className={styles.category}>{item.category}</span>
                     </div>
 
-                    <div className="tool-card__identity">
+                    <div className={styles.identity}>
                       <p>{item.title}</p>
                       <h3>{item.name}</h3>
                     </div>
 
-                    <p className="tool-card__flavor">{item.flavor}</p>
+                    <p className={styles.flavor}>{item.flavor}</p>
 
-                    <dl className="tool-card__traits" aria-label={copy.traitsLabel}>
+                    <dl className={styles.traits} aria-label={copy.traitsLabel}>
                       {item.stats.map((stat) => (
                         <div key={stat.label}>
                           <dt>{stat.label}</dt>
@@ -275,7 +276,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                       ))}
                     </dl>
 
-                    <footer className="tool-card__footer">
+                    <footer className={styles.footer}>
                       <span>{copy.editionLabel}</span>
                       <span>{locale === "ja" ? `JH・${cardNumber}` : `JH · ${cardNumber}`}</span>
                     </footer>
