@@ -145,8 +145,8 @@ test("reflows the editorial profile into a single reading column", async ({ page
   await page.goto("/#about-me")
   const profile = page.locator("#about-me")
   const layout = await profile.evaluate((element) => {
-    const narrative = element.querySelector(".about-section__narrative")
-    const annotations = element.querySelector(".about-section__annotations")
+    const narrative = element.querySelector("[data-testid=about-narrative]")
+    const annotations = element.querySelector("[data-testid=about-annotations]")
 
     return {
       narrativeColumns: narrative ? getComputedStyle(narrative).gridTemplateColumns : "",

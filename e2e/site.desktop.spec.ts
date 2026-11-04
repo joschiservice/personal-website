@@ -134,12 +134,12 @@ test("presents the profile as an editorial spread", async ({ page }) => {
       name: en.about.annotationsLabel,
     })
   ).toBeVisible()
-  await expect(profile.locator(".about-section__lead-story")).toHaveCSS(
+  await expect(profile.getByTestId("about-lead-story")).toHaveCSS(
     "grid-column-start",
     "1"
   )
-  await expect(profile.locator(".about-section__annotations")).toHaveCSS("position", "sticky")
-  await expect(profile.locator(".profile-fact-list > div")).toHaveCount(en.about.profileFacts.length)
+  await expect(profile.getByTestId("about-annotations")).toHaveCSS("position", "sticky")
+  await expect(profile.getByTestId("about-facts").locator("> div")).toHaveCount(en.about.profileFacts.length)
 
   const hasHorizontalOverflow = await profile.evaluate(
     (element) => element.scrollWidth > element.clientWidth
