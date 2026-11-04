@@ -69,7 +69,7 @@ test("keeps the mobile menu free of a language toggle while Japanese is off", as
   const navigation = page.getByRole("dialog", { name: "Mobile navigation" })
 
   await expect(navigation.getByRole("link", { name: en.nav.work })).toBeFocused()
-  await expect(navigation.locator(".site-language")).toHaveCount(0)
+  await expect(navigation.getByLabel(en.nav.languageLabel)).toHaveCount(0)
 })
 
 test("keeps the hero actions clear of the continuation control and section edge", async ({ page }) => {

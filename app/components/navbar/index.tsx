@@ -14,6 +14,7 @@ import {
 } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { Container } from "@/app/components/system/Container";
+import styles from "./navbar.module.css";
 
 const hasLanguageChoice = enabledLocales.length > 1;
 
@@ -151,23 +152,23 @@ export function Navbar({
 
   return (
     <nav
-      className="site-nav"
+      className={styles.nav}
       data-scrolled={isScrolled ? "true" : "false"}
       data-menu-open={isOpen ? "true" : "false"}
       aria-label={copy.label}
     >
-      <Container className="site-nav__inner">
+      <Container className={styles.navInner}>
         <Link
           href={localeHref(locale, "/")}
-          className="site-nav__mark"
+          className={styles.navMark}
           aria-label={copy.home}
         >
-          <span className="site-nav__mark-full">{copy.identity}</span>
-          <span className="site-nav__mark-short">{copy.monogram}</span>
+          <span className={styles.navMarkFull}>{copy.identity}</span>
+          <span className={styles.navMarkShort}>{copy.monogram}</span>
         </Link>
 
-        <div className="site-nav__actions">
-          <div className="site-nav__links">
+        <div className={styles.navActions}>
+          <div className={styles.navLinks}>
             {items.map((item) => (
               <NavigationLink
                 key={item.href}
@@ -182,23 +183,23 @@ export function Navbar({
               locale={locale}
               pathname={pathname}
               copy={copy}
-              className="site-language--desktop"
+              className={styles.languageDesktop}
             />
           ) : null}
           <button
             ref={toggleRef}
             type="button"
-            className="site-nav__toggle"
+            className={styles.navToggle}
             onClick={() => setIsOpen((current) => !current)}
             aria-expanded={isOpen}
             aria-controls="mobile-nav"
             aria-label={isOpen ? copy.closeMenu : copy.openMenu}
           >
-            <span className="site-nav__toggle-icon" aria-hidden="true">
-              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--menu">
+            <span className={styles.navToggleIcon} aria-hidden="true">
+              <span className={`${styles.navToggleGlyph} ${styles.navToggleGlyphMenu}`}>
                 <HiBars3 />
               </span>
-              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--close">
+              <span className={`${styles.navToggleGlyph} ${styles.navToggleGlyphClose}`}>
                 <HiXMark />
               </span>
             </span>
@@ -209,7 +210,7 @@ export function Navbar({
       <div
         ref={mobileMenuRef}
         id="mobile-nav"
-        className="site-nav__mobile"
+        className={styles.navMobile}
         data-open={isOpen ? "true" : "false"}
         role={isOpen ? "dialog" : undefined}
         aria-modal={isOpen ? "true" : undefined}
@@ -217,7 +218,7 @@ export function Navbar({
         aria-hidden={!isOpen}
         inert={!isOpen}
       >
-        <div className="site-nav__mobile-links">
+        <div className={styles.navMobileLinks}>
           {items.map((item, index) => (
             <Link
               ref={index === 0 ? firstMobileLinkRef : undefined}
@@ -240,7 +241,7 @@ export function Navbar({
               locale={locale}
               pathname={pathname}
               copy={copy}
-              className="site-language--mobile"
+              className={styles.languageMobile}
               style={
                 {
                   "--nav-delay": `${80 + items.length * 24}ms`,
@@ -264,7 +265,7 @@ function LanguageSwitcher({
   locale: Locale;
   pathname: string;
   copy: Dictionary["nav"];
-  className: string;
+  className: string | undefined;
   style?: React.CSSProperties;
 }) {
   const targetLocale =
@@ -272,7 +273,7 @@ function LanguageSwitcher({
 
   return (
     <div
-      className={`site-language ${className}`}
+      className={`${styles.language} ${className}`}
       style={style}
       aria-label={copy.languageLabel}
     >
@@ -292,7 +293,7 @@ function LanguageSwitcher({
         {enabledLocales.map((candidate) => (
           <span
             key={candidate}
-            className="site-language__option"
+            className={styles.languageOption}
             data-current={candidate === locale ? "true" : "false"}
             lang={candidate}
             aria-hidden="true"

@@ -62,7 +62,7 @@ test("sends Japanese URLs to English while Japanese is switched off", async ({ p
 
   await expect(page).toHaveURL(/\/contact$/)
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
-  await expect(page.locator(".site-language")).toHaveCount(0)
+  await expect(page.getByLabel(en.nav.languageLabel)).toHaveCount(0)
   await expect(page.locator('link[hreflang="ja"]')).toHaveCount(0)
 })
 
