@@ -112,7 +112,8 @@ test.describe("local draft preview", () => {
       .getByRole("link", { name: "Read Building a Blog That Feels Like Home" })
       .click()
 
-    await expect(page).toHaveURL(/\/blog\/building-the-blog$/)
+    // This test only runs against the dev server, where the first visit compiles the post route on demand.
+    await expect(page).toHaveURL(/\/blog\/building-the-blog$/, { timeout: 15_000 })
     await expect(
       page.getByRole("heading", { name: "Building a Blog That Feels Like Home" })
     ).toBeVisible()
