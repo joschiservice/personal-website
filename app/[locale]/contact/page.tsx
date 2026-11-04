@@ -5,6 +5,7 @@ import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { siteConfig } from "@/app/lib/site";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "../../components/contact/contact.module.css";
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
   const { locale, dictionary } = await getLocaleDictionary(props);
@@ -30,13 +31,13 @@ export default async function ContactPage(props: LocaleParams) {
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
   return (
-    <div className="contact-page">
-      <section className="contact-hero" aria-labelledby="contact-title">
-        <div className="contact-hero__art" aria-hidden="true" />
+    <div className={`${styles.page} contact-page`}>
+      <section className={styles.hero} aria-labelledby="contact-title">
+        <div className={styles.heroArt} aria-hidden="true" />
         <SpaceBackdrop variant="contact" />
 
-        <Container className="contact-hero__inner">
-          <div className="contact-hero__copy">
+        <Container className={styles.heroInner}>
+          <div className={styles.heroCopy}>
             <p className="system-label">{copy.label}</p>
             <h1
               id="contact-title"
@@ -54,9 +55,9 @@ export default async function ContactPage(props: LocaleParams) {
         </Container>
       </section>
 
-      <section className="contact-directory" aria-labelledby="contact-directory-title">
+      <section className={styles.directory} aria-labelledby="contact-directory-title">
         <Container>
-          <div className="contact-directory__intro">
+          <div className={styles.directoryIntro}>
             <p className="system-label">{copy.directoryLabel}</p>
             <h2 id="contact-directory-title">{copy.directoryTitle}</h2>
           </div>
@@ -70,7 +71,7 @@ export default async function ContactPage(props: LocaleParams) {
             newTabLabel={dictionary.accessibility.opensNewTab}
           />
 
-          <p className="contact-directory__note">{copy.note}</p>
+          <p className={styles.directoryNote}>{copy.note}</p>
         </Container>
       </section>
     </div>

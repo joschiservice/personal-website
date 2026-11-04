@@ -1,0 +1,618 @@
+html[lang="ja"] .hero h1,
+html[lang="ja"] .directoryIntro h2 {
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+}
+
+.hero h1,
+.directoryIntro h2 {
+  text-wrap: balance;
+}
+
+/* Contact */
+
+.page {
+  min-height: 100svh;
+  background: var(--page);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 68% 20%, rgb(12 30 58 / 34%), transparent 42%),
+    linear-gradient(180deg, #050912, #040811);
+}
+
+.heroArt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 44% 60% at 84% 20%,
+      rgb(24 116 255 / 18%),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 26% 40% at 96% 92%,
+      rgb(255 137 93 / 11%),
+      transparent 70%
+    );
+}
+
+.heroInner {
+  display: grid;
+  min-height: 31rem;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  padding-top: 9.25rem;
+  padding-bottom: clamp(3.5rem, 6vw, 5rem);
+}
+
+.heroCopy {
+  max-width: 52rem;
+  animation: motion-page-enter var(--motion-duration-page)
+    var(--motion-ease-out) both;
+}
+
+.hero h1 {
+  margin: 1.25rem 0 0;
+  color: var(--text);
+  font-size: clamp(3.3rem, 6vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+.hero h1 span {
+  display: block;
+}
+
+.hero h1 span:last-child {
+  color: var(--accent-soft);
+}
+
+.heroCopy > p:last-child {
+  max-width: 38rem;
+  margin: 1.75rem 0 0;
+  color: var(--body);
+  font-size: clamp(0.94rem, 1.25vw, 1.08rem);
+  line-height: 1.7;
+}
+
+.directory {
+  position: relative;
+  padding: clamp(4.75rem, 8vw, 7.5rem) 0 clamp(5.5rem, 10vw, 9rem);
+  overflow: hidden;
+}
+
+.directory > :global(.site-container) {
+  position: relative;
+}
+
+.directoryIntro {
+  margin-bottom: clamp(2.75rem, 5vw, 4.5rem);
+}
+
+.directoryIntro :global(.system-label) {
+  margin-bottom: 1.35rem;
+}
+
+.directoryIntro h2 {
+  max-width: 50rem;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(2.75rem, 4.6vw, 4.8rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.channels {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+}
+
+.channel {
+  --channel-rgb: 107 168 255;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--text);
+  background:
+    linear-gradient(145deg, rgb(255 255 255 / 3.5%), transparent 43%), #09131f;
+}
+
+.channel::before {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    rgb(var(--channel-rgb) / 92%),
+    rgb(var(--channel-rgb) / 26%) 48%,
+    transparent 78%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  content: "";
+  transition: opacity 240ms ease;
+}
+
+.channel::after {
+  position: absolute;
+  z-index: 0;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 70% 130% at 0% 50%,
+      rgb(var(--channel-rgb) / 24%),
+      transparent 72%
+    ),
+    linear-gradient(90deg, rgb(var(--channel-rgb) / 10%), transparent 62%);
+  opacity: 0;
+  transform: translateX(-22%);
+  content: "";
+  transition:
+    opacity 320ms ease,
+    transform 520ms var(--motion-ease-out);
+}
+
+.channel:is(:hover, :focus-within)::before,
+.channelProof:focus-visible::before {
+  opacity: 1;
+}
+
+.channel:is(:hover, :focus-within)::after,
+.channelProof:focus-visible::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.channelEmail {
+  display: flex;
+  min-height: 24rem;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3.5vw, 2.75rem);
+  box-shadow: var(--depth-static);
+}
+
+.channelIndex {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.channelTopline {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.channelPriority {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgb(107 168 255 / 30%);
+  border-radius: 999px;
+  color: var(--accent-soft);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.channelBody {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: start;
+  max-width: 52rem;
+  margin-top: auto;
+  padding: clamp(3.5rem, 7vw, 6rem) 0 2rem;
+}
+
+.channelIcon {
+  display: grid;
+  width: 3.65rem;
+  height: 3.65rem;
+  place-items: center;
+  border: 1px solid rgb(var(--channel-rgb) / 30%);
+  border-radius: 0.8rem;
+  color: rgb(var(--channel-rgb));
+  background: rgb(var(--channel-rgb) / 5%);
+  transition:
+    border-color 240ms ease,
+    background-color 240ms ease,
+    transform 300ms var(--motion-ease-out);
+}
+
+.channel:is(:hover, :focus-within) .channelIcon {
+  border-color: rgb(var(--channel-rgb) / 72%);
+  background: rgb(var(--channel-rgb) / 11%);
+  transform: translateY(-0.2rem);
+}
+
+.channelIcon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.channelBody h3 {
+  margin: -0.15rem 0 0;
+  font-size: clamp(1.65rem, 3vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.channelBody p {
+  max-width: 38rem;
+  margin: 0.75rem 0 0;
+  color: var(--body);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.channelEmailActions {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px;
+  background: var(--line-strong);
+}
+
+.channelEmailLink,
+.channelCopy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.65rem;
+  padding: 1rem 1.25rem;
+  border: 0;
+  color: var(--text);
+  background: rgb(5 11 20 / 84%);
+  font: inherit;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+}
+
+.channelEmailLink {
+  font-size: clamp(1rem, 2vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.channelEmailLink > span:first-child {
+  overflow-wrap: anywhere;
+}
+
+.channelEmailLink:is(:hover, :focus-visible),
+.channelCopy:is(:hover, :focus-visible) {
+  background: rgb(15 31 52 / 96%);
+}
+
+.channelCopy {
+  justify-content: center;
+  min-width: 9.25rem;
+  cursor: pointer;
+  color: var(--accent-soft);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.channelCopy svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.channelCopy[data-state="copied"] {
+  color: #7be3ad;
+}
+
+.channelCopy[data-state="failed"] {
+  color: var(--warm);
+}
+
+.channelArrow {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgb(var(--channel-rgb) / 22%);
+  color: rgb(var(--channel-rgb));
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 280ms var(--motion-ease-out);
+}
+
+.channelArrow svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.channelEmailLink:is(:hover, :focus-visible) .channelArrow,
+.channelProof:is(:hover, :focus-visible) .channelArrow {
+  border-color: rgb(var(--channel-rgb) / 72%);
+  background: rgb(var(--channel-rgb) / 12%);
+  transform: translate(0.3rem, -0.05rem);
+}
+
+.channelUnavailable {
+  position: relative;
+  z-index: 1;
+  margin: auto 0 0;
+  color: var(--muted);
+}
+
+.proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.channelProof {
+  position: relative;
+  display: flex;
+  min-height: 23rem;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: var(--depth-interactive);
+  text-decoration: none;
+  transition:
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.channelLinkedin {
+  --channel-rgb: 76 151 255;
+}
+
+.channelGithub {
+  --channel-rgb: 168 141 255;
+}
+
+.channelGithub::before {
+  background: linear-gradient(
+    245deg,
+    rgb(var(--channel-rgb) / 90%),
+    rgb(var(--channel-rgb) / 26%) 48%,
+    transparent 78%
+  );
+}
+
+.channelGithub::after {
+  background:
+    radial-gradient(
+      ellipse 70% 130% at 100% 50%,
+      rgb(var(--channel-rgb) / 24%),
+      transparent 72%
+    ),
+    linear-gradient(270deg, rgb(var(--channel-rgb) / 10%), transparent 62%);
+  transform: translateX(22%);
+}
+
+.channelProof:is(:hover, :focus-visible) {
+  background-color: #0c1929;
+  box-shadow: var(--depth-interactive-hover);
+}
+
+.channelProof > * {
+  position: relative;
+  z-index: 1;
+}
+
+.channelProof > .channelIcon {
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-top: auto;
+}
+
+.channelProofCopy {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+  padding-right: 4rem;
+}
+
+.channelProofCopy strong {
+  font-size: clamp(1.45rem, 2.8vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.channelProofCopy small {
+  color: var(--body);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.channelProofCopy em {
+  margin-top: 0.35rem;
+  color: rgb(var(--channel-rgb) / 82%);
+  font-size: 0.8rem;
+  font-style: normal;
+  line-height: 1.55;
+}
+
+.channelProof > .channelArrow {
+  position: absolute;
+  right: clamp(1.5rem, 3vw, 2.25rem);
+  bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.channelProof:is(:hover, :focus-visible) .channelArrow {
+  transform: translate(0.22rem, -0.22rem);
+}
+
+.personalLink {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: center;
+  min-height: 5rem;
+  padding: 1rem clamp(1.25rem, 3vw, 2rem);
+  color: var(--muted);
+  background: #070e19;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.personalLink:is(:hover, :focus-visible) {
+  color: var(--body);
+  background: #0a1422;
+}
+
+.personalLinkLabel,
+.personalLinkAction {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.personalLinkLabel {
+  color: #c5acbe;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.personalLinkAction {
+  justify-content: flex-end;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.personalLinkAction svg {
+  transition: transform 180ms ease;
+}
+
+.personalLink:is(:hover, :focus-visible) .personalLinkAction svg {
+  transform: translate(0.18rem, -0.18rem);
+}
+
+.directoryNote {
+  margin: 1.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 980px) {
+  .channelEmail {
+    min-height: 23rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .heroInner {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 8.75rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+
+  .hero h1 span {
+    display: block;
+  }
+
+  .channelEmail {
+    min-height: 26rem;
+  }
+
+  .channelTopline {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .channelBody {
+    grid-template-columns: 1fr;
+    padding-top: 3rem;
+  }
+
+  .channelEmailActions {
+    grid-template-columns: 1fr;
+  }
+
+  .channelCopy {
+    min-width: 0;
+    min-height: 3.7rem;
+  }
+
+  .proof {
+    grid-template-columns: 1fr;
+  }
+
+  .channelProof {
+    min-height: 20rem;
+  }
+
+  .personalLink {
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .personalLink > span:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .personalLinkAction {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+}
+/* The horizon closes the contact hero, so it needs no border; the directory picks up its tint. */
+
+.hero {
+  border-bottom: 0;
+}
+
+.directory {
+  background:
+    radial-gradient(
+      ellipse 60% 14rem at 50% 0%,
+      rgb(24 116 255 / 9%),
+      transparent
+    ),
+    linear-gradient(180deg, var(--page-deep), var(--page) 18rem);
+}
+
+@keyframes motion-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-page));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
