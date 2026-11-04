@@ -1,11 +1,12 @@
-const { withSentryConfig } = require("@sentry/nextjs");
-const { withContentCollections } = require("@content-collections/next");
+import { withContentCollections } from "@content-collections/next";
+import { withSentryConfig } from "@sentry/nextjs";
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   turbopack: {
-    root: __dirname,
+    // Not __dirname: Node's native TypeScript resolver loads this file as ESM, where it is undefined.
+    root: process.cwd(),
   },
   // Lets phones on the local network load the dev server, whatever IP the Mac has
   // (by address on any 192.168.x.x network, or by its Bonjour name).
@@ -60,4 +61,4 @@ const sentryConfig = withSentryConfig(
   },
 );
 
-module.exports = withContentCollections(sentryConfig);
+export default withContentCollections(sentryConfig);
