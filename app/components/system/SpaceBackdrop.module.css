@@ -1,41 +1,3 @@
-.contact .feature {
-  inset: 0;
-  --horizon-depth: 20rem;
-  position: absolute;
-  overflow: hidden;
-  pointer-events: none;
-  --horizon-apex: 4rem;
-}
-
-.contact .feature::before {
-  content: "";
-  position: absolute;
-  bottom: calc(var(--horizon-apex) - 14rem);
-  left: 50%;
-  width: min(80rem, 110vw);
-  height: 28rem;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgb(36 124 255 / 30%),
-    rgb(98 112 255 / 13%) 45%,
-    rgb(124 98 255 / 4%) 70%,
-    transparent
-  );
-  filter: blur(36px);
-  transform: translateX(-50%);
-}
-
-.contact .feature::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  width: max(160vw, 110rem);
-  height: var(--horizon-depth);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  box-shadow: 0 -0.5rem 3rem -0.5rem rgb(36 124 255 / 45%);
-}
-
 /* Space backdrops -------------------------------------------------------------
    A faint starfield plus one feature per section. The stars are pre-drawn image
    tiles (public/img/space), which Safari paints far faster than CSS gradients.
@@ -382,7 +344,41 @@
   --stars-mask: linear-gradient(180deg, #000, transparent 75%);
 
   /* The contact hero is short, so its horizon surface spans the full width and fades at the ends. */
+  & .feature {
+    inset: 0;
+    --horizon-depth: 20rem;
+    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    --horizon-apex: 4rem;
+  }
+
+  & .feature::before {
+    content: "";
+    position: absolute;
+    bottom: calc(var(--horizon-apex) - 14rem);
+    left: 50%;
+    width: min(80rem, 110vw);
+    height: 28rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      rgb(36 124 255 / 30%),
+      rgb(98 112 255 / 13%) 45%,
+      rgb(124 98 255 / 4%) 70%,
+      transparent
+    );
+    filter: blur(36px);
+    transform: translateX(-50%);
+  }
   & .feature::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: max(160vw, 110rem);
+    height: var(--horizon-depth);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    box-shadow: 0 -0.5rem 3rem -0.5rem rgb(36 124 255 / 45%);
     bottom: calc(var(--horizon-apex) - var(--horizon-depth));
     border-top: 1px solid rgb(150 190 255 / 55%);
     transform: translateX(-50%);

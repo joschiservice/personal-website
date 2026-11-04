@@ -47,10 +47,6 @@
   }
 }
 
-.relatedHeading h2 {
-  margin: 0;
-}
-
 /* Article */
 
 /* Homepage writing section */
@@ -101,17 +97,9 @@
   border-bottom: 0;
 }
 
-.prose [data-rehype-pretty-code-figure] {
-  border: 1px solid var(--blog-border);
-}
-
 .prose [data-line] {
   display: inline-block;
   min-width: 100%;
-}
-
-.postNavLink:hover {
-  border-color: rgba(85, 199, 255, 0.3);
 }
 
 .postNavLink span {
@@ -406,6 +394,7 @@
     font-size: 1.12rem;
   }
   & [data-rehype-pretty-code-figure] {
+    border: 1px solid var(--blog-border);
     overflow: hidden;
     border-color: var(--line-strong);
     border-radius: 0;
@@ -524,6 +513,7 @@
   color: var(--text);
   background: var(--surface);
   &:hover {
+    border-color: rgba(85, 199, 255, 0.3);
     color: var(--text);
     background: var(--surface-raised);
   }
@@ -591,7 +581,7 @@
     letter-spacing: 0.14em;
   }
   & h2 {
-    margin-top: 0.9rem;
+    margin: 0.9rem 0 0;
     color: var(--text);
     font-size: clamp(2.6rem, 5vw, 5rem);
     font-weight: 600;
