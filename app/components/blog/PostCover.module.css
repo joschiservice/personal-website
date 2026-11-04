@@ -18,12 +18,12 @@
       transparent 60%
     ),
     linear-gradient(160deg, #0d1828, #070d17);
-}
 
-.fallback span {
-  color: hsl(var(--cover-hue) 85% 78%);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  & span {
+    color: hsl(var(--cover-hue) 85% 78%);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
 }

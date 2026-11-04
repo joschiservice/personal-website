@@ -1,9 +1,5 @@
 .contact .feature {
-  --horizon-depth: 20rem;
-  position: absolute;
   inset: 0;
-  overflow: hidden;
-  pointer-events: none;
 }
 
 .contact .feature::before {
@@ -28,14 +24,11 @@
 .contact .feature::after {
   content: "";
   position: absolute;
-  bottom: calc(var(--horizon-apex) - var(--horizon-depth));
   left: 50%;
   width: max(160vw, 110rem);
   height: var(--horizon-depth);
-  border-top: 1px solid rgb(150 190 255 / 55%);
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   box-shadow: 0 -0.5rem 3rem -0.5rem rgb(36 124 255 / 45%);
-  transform: translateX(-50%);
 }
 
 /* Space backdrops -------------------------------------------------------------
@@ -50,6 +43,13 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
+  /* Set by SpaceBackdrop while the backdrop is out of view. */
+
+  &[data-paused] *,
+  &[data-paused] *::before,
+  &[data-paused] *::after {
+    animation-play-state: paused;
+  }
 }
 
 .stars,
@@ -67,23 +67,23 @@
   background-size:
     1024px 1024px,
     701px 701px;
-}
-/* A second, sparser set that slowly brightens and dims. */
+  /* A second, sparser set that slowly brightens and dims. */
 
-.stars::after {
-  content: "";
-  background-image: var(--stars-twinkle, url("/img/space/stars-twinkle.png"));
-  background-size: 877px 877px;
-  opacity: 1;
-  mask-image: none;
-  animation: space-twinkle 7s ease-in-out infinite alternate;
-}
-/* Set by SpaceBackdrop while the backdrop is out of view. */
+  &::after {
+    content: "";
+    background-image: var(--stars-twinkle, url("/img/space/stars-twinkle.png"));
+    background-size: 877px 877px;
+    opacity: 1;
+    mask-image: none;
+    animation: space-twinkle 7s ease-in-out infinite alternate;
+  }
 
-.root[data-paused] *,
-.root[data-paused] *::before,
-.root[data-paused] *::after {
-  animation-play-state: paused;
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none !important;
+      opacity: 0.6;
+    }
+  }
 }
 
 .feature {
@@ -205,6 +205,7 @@
   background: #d2ccff;
   box-shadow: 0 0 0.6rem 0.15rem rgb(150 140 255 / 60%);
 }
+
 /* Pre-tinted warm tiles, rather than a live sepia filter over the whole field. */
 
 .tools {
@@ -213,33 +214,33 @@
   --stars-a: url("/img/space/stars-a-warm.png");
   --stars-b: url("/img/space/stars-b-warm.png");
   --stars-twinkle: url("/img/space/stars-twinkle-warm.png");
-}
 
-/* Tools: a warm planetary ring sweeping behind the deck. */
+  /* Tools: a warm planetary ring sweeping behind the deck. */
 
-.tools .feature {
-  top: -9rem;
-  left: -16rem;
-  width: 74rem;
-  height: 15rem;
-  border: 1px solid rgb(240 185 110 / 16%);
-  border-radius: 50%;
-  transform: rotate(-8deg);
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 30%,
-    #000 60%,
-    transparent 92%
-  );
-}
+  & .feature {
+    top: -9rem;
+    left: -16rem;
+    width: 74rem;
+    height: 15rem;
+    border: 1px solid rgb(240 185 110 / 16%);
+    border-radius: 50%;
+    transform: rotate(-8deg);
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 30%,
+      #000 60%,
+      transparent 92%
+    );
+  }
 
-.tools .feature::before {
-  content: "";
-  position: absolute;
-  inset: 1.75rem 3rem;
-  border: 1px solid rgb(240 185 110 / 9%);
-  border-radius: 50%;
+  & .feature::before {
+    content: "";
+    position: absolute;
+    inset: 1.75rem 3rem;
+    border: 1px solid rgb(240 185 110 / 9%);
+    border-radius: 50%;
+  }
 }
 
 /* Interests: a soft warm sun just off the edge. */
@@ -247,21 +248,21 @@
 .interests {
   --stars-opacity: 0.3;
   --stars-mask: linear-gradient(180deg, #000, transparent 40%);
-}
 
-.interests .feature {
-  top: -6rem;
-  left: -9rem;
-  width: 28rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgb(255 170 120 / 24%),
-    rgb(255 130 90 / 9%) 45%,
-    transparent
-  );
-  filter: blur(8px);
+  & .feature {
+    top: -6rem;
+    left: -9rem;
+    width: 28rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      rgb(255 170 120 / 24%),
+      rgb(255 130 90 / 9%) 45%,
+      transparent
+    );
+    filter: blur(8px);
+  }
 }
 
 /* Travel: dashed flight paths arcing over the section. */
@@ -269,57 +270,68 @@
 .travel {
   --stars-opacity: 0.35;
   --stars-mask: linear-gradient(180deg, #000, transparent 70%);
+
+  & .feature {
+    top: 2.5rem;
+    right: 3%;
+    left: 48%;
+    height: 22rem;
+    border-top: 1px dashed rgb(255 160 120 / 30%);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 25%,
+      #000 75%,
+      transparent
+    );
+  }
+
+  & .feature::before {
+    content: "";
+    position: absolute;
+    top: 3rem;
+    right: -6%;
+    left: 15%;
+    height: 14rem;
+    border-top: 1px dashed rgb(107 168 255 / 24%);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+
+  & .accent {
+    --arc-left: 48%;
+    --arc-right: 3%;
+    --arc-top: 2.5rem;
+    position: absolute;
+    top: var(--arc-top);
+    left: calc(
+      var(--arc-left) + (100% - var(--arc-left) - var(--arc-right)) / 2
+    );
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ffd2bd;
+    box-shadow:
+      0 0 0 3px rgb(255 137 93 / 18%),
+      0 0 0.9rem 0.15rem rgb(255 137 93 / 55%);
+    transform: translate(-50%, calc(-50% + 0.5px));
+  }
+
+  @media (max-width: 760px) {
+    & .accent {
+      --arc-left: 8%;
+      --arc-right: -10%;
+      --arc-top: 6rem;
+    }
+  }
 }
 
-.travel .feature {
-  top: 2.5rem;
-  right: 3%;
-  left: 48%;
-  height: 22rem;
-  border-top: 1px dashed rgb(255 160 120 / 30%);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 25%,
-    #000 75%,
-    transparent
-  );
-}
-
-.travel .feature::before {
-  content: "";
-  position: absolute;
-  top: 3rem;
-  right: -6%;
-  left: 15%;
-  height: 14rem;
-  border-top: 1px dashed rgb(107 168 255 / 24%);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-}
 /* The plane at the top of the outer path. It lives outside the masked arc,
    which would otherwise clip it and its glow. */
 
 .accent {
   display: none;
-}
-
-.travel .accent {
-  --arc-left: 48%;
-  --arc-right: 3%;
-  --arc-top: 2.5rem;
-  position: absolute;
-  top: var(--arc-top);
-  left: calc(var(--arc-left) + (100% - var(--arc-left) - var(--arc-right)) / 2);
-  display: block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #ffd2bd;
-  box-shadow:
-    0 0 0 3px rgb(255 137 93 / 18%),
-    0 0 0.9rem 0.15rem rgb(255 137 93 / 55%);
-  transform: translate(-50%, calc(-50% + 0.5px));
 }
 
 /* Footer: stars above the horizon. */
@@ -344,12 +356,18 @@
     #000,
     transparent 75%
   );
-}
 
-.article .feature {
-  top: 6rem;
-  right: -16rem;
-  width: 26rem;
+  & .feature {
+    top: 6rem;
+    right: -16rem;
+    width: 26rem;
+  }
+
+  @media (max-width: 760px) {
+    & .feature {
+      display: none;
+    }
+  }
 }
 
 /* Contact: the same horizon as the footer, rising behind the page title. */
@@ -357,11 +375,32 @@
 .contact {
   --stars-opacity: 0.45;
   --stars-mask: linear-gradient(180deg, #000, transparent 75%);
-}
+  & .feature {
+    --horizon-depth: 20rem;
+    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    --horizon-apex: 4rem;
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.contact .feature {
-  --horizon-apex: 4rem;
+  /* The contact hero is short, so its horizon surface spans the full width and fades at the ends. */
+  & .feature::after {
+    bottom: calc(var(--horizon-apex) - var(--horizon-depth));
+    border-top: 1px solid rgb(150 190 255 / 55%);
+    transform: translateX(-50%);
+    background: linear-gradient(
+      180deg,
+      rgb(24 116 255 / 9%),
+      var(--page-deep) 6rem
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 30%,
+      #000 70%,
+      transparent
+    );
+  }
 }
 
 /* Imprint: stars and the moon, set below the nav. */
@@ -404,41 +443,6 @@
     right: -10%;
     top: 6rem;
   }
-
-  .travel .accent {
-    --arc-left: 8%;
-    --arc-right: -10%;
-    --arc-top: 6rem;
-  }
-
-  .article .feature {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stars::after {
-    animation: none !important;
-    opacity: 0.6;
-  }
-}
-
-/* The contact hero is short, so its horizon surface spans the full width and fades at the ends. */
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.contact .feature::after {
-  background: linear-gradient(
-    180deg,
-    rgb(24 116 255 / 9%),
-    var(--page-deep) 6rem
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 30%,
-    #000 70%,
-    transparent
-  );
 }
 @keyframes space-twinkle {
   from {

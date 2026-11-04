@@ -11,19 +11,79 @@
     background-color 220ms ease,
     backdrop-filter 220ms ease,
     -webkit-backdrop-filter 220ms ease;
-}
-/* The frosted background sits on the nav itself: its view-transition-name makes it a
+  /* The frosted background sits on the nav itself: its view-transition-name makes it a
    backdrop root, so a blurred pseudo-element inside it could not see the page behind. */
 
-.nav[data-scrolled="true"] {
-  border-color: var(--line);
-  background-color: rgb(5 9 18 / 72%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  backdrop-filter: blur(20px) saturate(140%);
-}
+  &[data-scrolled="true"] {
+    border-color: var(--line);
+    background-color: rgb(5 9 18 / 72%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+  }
 
-.nav[data-menu-open="true"] {
-  border-color: transparent;
+  &[data-menu-open="true"] {
+    border-color: transparent;
+  }
+
+  &[data-scrolled="false"] .navMarkFull {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &[data-scrolled="false"] .navMarkShort {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &[data-scrolled="true"] .navMark {
+    width: 2rem;
+  }
+
+  &[data-scrolled="true"] .navMarkFull {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-0.5rem);
+  }
+
+  &[data-scrolled="true"] .navMarkShort {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  &[data-scrolled="true"]:hover .navMark,
+  &[data-scrolled="true"]:focus-within .navMark {
+    width: 10.25rem;
+  }
+
+  &[data-scrolled="true"]:hover .navMarkFull,
+  &[data-scrolled="true"]:focus-within .navMarkFull {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  &[data-scrolled="true"]:hover .navMarkShort,
+  &[data-scrolled="true"]:focus-within .navMarkShort {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(0.4rem);
+  }
+
+  @media (max-width: 760px) {
+    height: 64px;
+
+    &[data-scrolled="true"] {
+      background-color: rgb(5 9 18 / 84%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      backdrop-filter: blur(14px) saturate(120%);
+    }
+
+    &[data-menu-open="true"] {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
 }
 
 .navInner {
@@ -64,51 +124,6 @@
   transform: translateX(-0.4rem);
 }
 
-.nav[data-scrolled="false"] .navMarkFull {
-  opacity: 1;
-  visibility: visible;
-}
-
-.nav[data-scrolled="false"] .navMarkShort {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.nav[data-scrolled="true"] .navMark {
-  width: 2rem;
-}
-
-.nav[data-scrolled="true"] .navMarkFull {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-0.5rem);
-}
-
-.nav[data-scrolled="true"] .navMarkShort {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-}
-
-.nav[data-scrolled="true"]:hover .navMark,
-.nav[data-scrolled="true"]:focus-within .navMark {
-  width: 10.25rem;
-}
-
-.nav[data-scrolled="true"]:hover .navMarkFull,
-.nav[data-scrolled="true"]:focus-within .navMarkFull {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-}
-
-.nav[data-scrolled="true"]:hover .navMarkShort,
-.nav[data-scrolled="true"]:focus-within .navMarkShort {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(0.4rem);
-}
-
 .navActions {
   display: flex;
   align-items: center;
@@ -119,38 +134,42 @@
   display: flex;
   align-items: center;
   gap: clamp(1.4rem, 3vw, 2.8rem);
-}
 
-.navLinks a {
-  position: relative;
-  padding: 0.5rem 0;
-  color: var(--text);
-  font-size: 0.92rem;
-  font-weight: 500;
-  text-decoration: none;
-}
+  & a {
+    position: relative;
+    padding: 0.5rem 0;
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
 
-.navLinks a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--accent);
-  clip-path: inset(0 100% 0 0);
-  visibility: hidden;
-  transition:
-    clip-path 180ms ease,
-    visibility 0s linear 180ms;
-}
+  & a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    clip-path: inset(0 100% 0 0);
+    visibility: hidden;
+    transition:
+      clip-path 180ms ease,
+      visibility 0s linear 180ms;
+  }
 
-.navLinks a:hover::after,
-.navLinks a[aria-current="page"]::after,
-.navLinks a[aria-current="location"]::after {
-  clip-path: inset(0);
-  visibility: visible;
-  transition-delay: 0s;
+  & a:hover::after,
+  & a[aria-current="page"]::after,
+  & a[aria-current="location"]::after {
+    clip-path: inset(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  @media (max-width: 760px) {
+    display: none;
+  }
 }
 
 .navToggle {
@@ -162,6 +181,26 @@
   border-radius: 999px;
   background: transparent;
   color: var(--text);
+
+  &[aria-expanded="true"] .navToggleGlyphMenu {
+    opacity: 0;
+    transform: rotate(35deg) scale(0.82);
+  }
+
+  &[aria-expanded="true"] .navToggleGlyphClose {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    display: grid;
+    cursor: pointer;
+  }
 }
 
 .navToggleIcon,
@@ -182,23 +221,47 @@
   transform: rotate(-35deg) scale(0.82);
 }
 
-.navToggle[aria-expanded="true"] .navToggleGlyphMenu {
-  opacity: 0;
-  transform: rotate(35deg) scale(0.82);
-}
-
-.navToggle[aria-expanded="true"] .navToggleGlyphClose {
-  opacity: 1;
-  transform: rotate(0) scale(1);
-}
-
-.navToggle svg {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
 .navMobile {
   display: none;
+  @media (max-width: 760px) {
+    &::before {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      background: #050912;
+      clip-path: inset(0 0 100% 0);
+      content: "";
+      transition: clip-path 240ms cubic-bezier(0.4, 0, 1, 1);
+    }
+
+    &[data-open="true"] {
+      pointer-events: auto;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    &[data-open="true"]::before {
+      clip-path: inset(0);
+      transition-duration: 360ms;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &[data-open="true"] .navMobileLinks > a {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 180ms ease-out var(--nav-delay),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1) var(--nav-delay);
+    }
+
+    &[data-open="true"] .navMobileLinks > .languageMobile {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 180ms ease-out var(--nav-delay),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1) var(--nav-delay);
+    }
+  }
 }
 
 .language {
@@ -209,22 +272,26 @@
   border-radius: 999px;
   background: rgb(9 17 30 / 60%);
   font-family: var(--font-mono);
-}
 
-.language a {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  min-height: 1.8rem;
-  place-items: stretch;
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  transition:
-    color 160ms ease,
-    background-color 160ms ease;
+  & a {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 1.8rem;
+    place-items: stretch;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  & a:hover {
+    color: var(--text);
+  }
 }
 
 .languageOption {
@@ -237,16 +304,12 @@
   transition:
     color 160ms ease,
     background-color 160ms ease;
-}
 
-.languageOption[data-current="true"] {
-  color: var(--text);
-  background: rgb(107 168 255 / 14%);
-  box-shadow: inset 0 0 0 1px rgb(107 168 255 / 18%);
-}
-
-.language a:hover {
-  color: var(--text);
+  &[data-current="true"] {
+    color: var(--text);
+    background: rgb(107 168 255 / 14%);
+    box-shadow: inset 0 0 0 1px rgb(107 168 255 / 18%);
+  }
 }
 
 .languageMobile {
@@ -254,32 +317,8 @@
 }
 
 @media (max-width: 760px) {
-  .nav {
-    height: 64px;
-  }
-
-  .nav[data-scrolled="true"] {
-    background-color: rgb(5 9 18 / 84%);
-    -webkit-backdrop-filter: blur(14px) saturate(120%);
-    backdrop-filter: blur(14px) saturate(120%);
-  }
-
-  .nav[data-menu-open="true"] {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
-  .navLinks {
-    display: none;
-  }
-
   .languageDesktop {
     display: none;
-  }
-
-  .navToggle {
-    display: grid;
-    cursor: pointer;
   }
 
   .navMobile {
@@ -295,28 +334,6 @@
     transition: visibility 0s linear 240ms;
   }
 
-  .navMobile::before {
-    position: fixed;
-    z-index: 0;
-    inset: 0;
-    background: #050912;
-    clip-path: inset(0 0 100% 0);
-    content: "";
-    transition: clip-path 240ms cubic-bezier(0.4, 0, 1, 1);
-  }
-
-  .navMobile[data-open="true"] {
-    pointer-events: auto;
-    visibility: visible;
-    transition-delay: 0s;
-  }
-
-  .navMobile[data-open="true"]::before {
-    clip-path: inset(0);
-    transition-duration: 360ms;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
   .navMobileLinks {
     position: relative;
     z-index: 1;
@@ -330,22 +347,6 @@
     transition:
       opacity 120ms ease-in,
       transform 180ms cubic-bezier(0.4, 0, 1, 1);
-  }
-
-  .navMobile[data-open="true"] .navMobileLinks > a {
-    opacity: 1;
-    transform: translateY(0);
-    transition:
-      opacity 180ms ease-out var(--nav-delay),
-      transform 260ms cubic-bezier(0.16, 1, 0.3, 1) var(--nav-delay);
-  }
-
-  .navMobile[data-open="true"] .navMobileLinks > .languageMobile {
-    opacity: 1;
-    transform: translateY(0);
-    transition:
-      opacity 180ms ease-out var(--nav-delay),
-      transform 260ms cubic-bezier(0.16, 1, 0.3, 1) var(--nav-delay);
   }
 
   .navMobileLinks > a {

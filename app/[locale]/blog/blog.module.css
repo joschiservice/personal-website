@@ -6,6 +6,9 @@
   overflow: clip;
   padding: clamp(8rem, 12vw, 9.5rem) 0 clamp(5rem, 9vw, 8rem);
   background: var(--page);
+  @media (max-width: 760px) {
+    padding-top: 6.5rem;
+  }
 }
 
 .glow {
@@ -38,23 +41,23 @@
   justify-content: space-between;
   gap: 1.5rem 3rem;
   padding-bottom: clamp(2rem, 4vw, 3rem);
-}
 
-.header h1 {
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1;
-}
+  & h1 {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
 
-.header p {
-  max-width: 34rem;
-  margin: 1rem 0 0;
-  color: var(--body);
-  font-size: 1.05rem;
-  line-height: 1.65;
+  & p {
+    max-width: 34rem;
+    margin: 1rem 0 0;
+    color: var(--body);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
 }
 
 .rss {
@@ -71,41 +74,41 @@
   transition:
     border-color 180ms ease,
     color 180ms ease;
-}
 
-.rss svg {
-  width: 0.95rem;
-  height: 0.95rem;
-  color: var(--warm);
-}
+  & svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    color: var(--warm);
+  }
 
-.rss:hover {
-  border-color: var(--line-strong);
-  color: var(--text);
+  &:hover {
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
 }
 
 .empty {
   padding: 2.5rem 0 1rem;
   background: var(--rule-fade) top / 100% 1px no-repeat;
-}
 
-.empty h2 {
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
+  & h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
 
-.empty p {
-  max-width: 36rem;
-  margin: 0.75rem 0 0;
-  color: var(--body);
-  line-height: 1.7;
-}
+  & p {
+    max-width: 36rem;
+    margin: 0.75rem 0 0;
+    color: var(--body);
+    line-height: 1.7;
+  }
 
-.empty :global(.text-action) {
-  margin-top: 1.5rem;
+  & :global(.text-action) {
+    margin-top: 1.5rem;
+  }
 }
 
 .drafts {
@@ -118,24 +121,18 @@
   align-items: baseline;
   gap: 0.5rem 1rem;
   margin-bottom: 1rem;
-}
 
-.draftsHead h2 {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
+  & h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
 
-.draftsHead p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-@media (max-width: 760px) {
-  .root {
-    padding-top: 6.5rem;
+  & p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
   }
 }

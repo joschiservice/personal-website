@@ -15,18 +15,24 @@
     color 180ms ease,
     transform 180ms ease,
     border-color 180ms ease;
-}
 
-.backLink:hover {
-  color: var(--blog-blue);
-}
+  &:hover {
+    color: var(--blog-blue);
+  }
 
-.backLink svg {
-  transition: transform 180ms ease;
-}
+  & svg {
+    transition: transform 180ms ease;
+  }
 
-.backLink:hover svg {
-  transform: translateX(-0.18rem);
+  &:hover svg {
+    transform: translateX(-0.18rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & svg {
+      transition: none;
+    }
+  }
 }
 
 .grid {
@@ -36,16 +42,9 @@
 
 .gridPair {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.articleTags {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.relatedHeading span {
-  margin: 0 0 0.55rem;
-  text-transform: uppercase;
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .relatedHeading h2 {
@@ -54,20 +53,7 @@
 
 /* Article */
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.articleTags {
-  justify-content: flex-start;
-}
-
 /* Homepage writing section */
-
-.coverFrame {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
 
 .prose > :first-child {
   margin-top: 0;
@@ -83,27 +69,9 @@
   margin-bottom: 1.65rem;
 }
 
-.prose h2,
-.prose h3 {
-  scroll-margin-top: 7rem;
-  text-wrap: balance;
-}
-
-.prose a:not(:global(.blog-heading-link)) {
-  text-decoration-color: rgba(141, 216, 255, 0.38);
-  text-underline-offset: 0.2em;
-  transition:
-    color 180ms ease,
-    text-decoration-color 180ms ease;
-}
-
 .prose a:not(:global(.blog-heading-link)):hover {
   color: #c7ecff;
   text-decoration-color: currentColor;
-}
-
-.prose strong {
-  font-weight: 650;
 }
 
 .prose ul,
@@ -129,54 +97,17 @@
   font-size: 0.9rem;
 }
 
-.prose th,
-.prose td {
-  min-width: 10rem;
-  padding: 0.8rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  text-align: left;
-}
-
-.prose th {
-  font-weight: 650;
-}
-
 .prose tr:last-child td {
   border-bottom: 0;
 }
 
-.prose :not(pre) > code {
-  padding: 0.15em 0.35em;
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  font-size: 0.88em;
-}
-
 .prose [data-rehype-pretty-code-figure] {
-  overflow: hidden;
   border: 1px solid var(--blog-border);
-}
-
-.prose [data-rehype-pretty-code-figure] pre {
-  overflow-x: auto;
-  padding: 1.15rem 1.3rem;
-  font-size: 0.87rem;
-  line-height: 1.7;
 }
 
 .prose [data-line] {
   display: inline-block;
   min-width: 100%;
-}
-
-.postNavLink {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  text-decoration: none;
-  transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease;
 }
 
 .postNavLink:hover {
@@ -200,10 +131,6 @@
 }
 
 @media (max-width: 767px) {
-  .gridPair {
-    grid-template-columns: 1fr;
-  }
-
   .articleHeader .backLink {
     margin-bottom: 1.75rem;
   }
@@ -239,12 +166,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .backLink svg {
-    transition: none;
-  }
-}
-
 /* Article reader — aligned with the homepage editorial system. */
 
 .articleShell {
@@ -265,6 +186,12 @@
   background: linear-gradient(90deg, var(--accent), var(--warm));
   transform: scaleX(0);
   transform-origin: left;
+  @media (max-width: 760px) {
+    top: 63px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
 }
 
 @supports (animation-timeline: scroll()) {
@@ -274,37 +201,60 @@
   }
 }
 
-.articleHero {
-  position: relative;
-  overflow: hidden;
-}
-
-.articleHeroArt {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
 .articleHeader {
   position: relative;
   z-index: 1;
   text-align: left;
-}
 
-.articleHeader .backLink {
-  display: inline-flex;
-  width: fit-content;
-  margin-bottom: 2.5rem;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
+  & .backLink {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 2.5rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
 
-.articleHeader .backLink:hover {
-  color: var(--accent-soft);
+  & .backLink:hover {
+    color: var(--accent-soft);
+  }
+
+  & h1 {
+    margin: 1.65rem 0 0;
+  }
+
+  @media (max-width: 760px) {
+    & .backLink {
+      margin-bottom: 1.75rem;
+    }
+
+    & h1 {
+      margin-top: 1.25rem;
+    }
+  }
+  & h1 {
+    max-width: 58rem;
+    color: var(--text);
+    font-weight: 600;
+    text-wrap: balance;
+    margin-top: 1.1rem;
+    font-size: clamp(2.4rem, 4.4vw, 3.9rem);
+    letter-spacing: -0.032em;
+    line-height: 1.05;
+  }
+  @media (max-width: 760px) {
+    & h1 {
+      font-size: clamp(2.1rem, 9vw, 2.8rem);
+    }
+  }
+
+  & > .backLink,
+  & > .draftBadge {
+    justify-self: start;
+  }
 }
 
 .draftBadge {
@@ -321,9 +271,10 @@
   font-weight: 500;
   letter-spacing: 0.14em;
 }
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleTags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
   gap: 0;
   color: var(--accent-soft);
@@ -331,30 +282,22 @@
   font-size: 0.67rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-}
 
-.articleTags span {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  color: inherit;
-  background: transparent;
-  font-size: inherit;
-  line-height: 1.5;
-}
+  & span {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: inherit;
+    background: transparent;
+    font-size: inherit;
+    line-height: 1.5;
+  }
 
-.articleTags span + span::before {
-  content: "/";
-  margin: 0 0.65rem;
-  color: var(--muted);
-}
-
-.articleHeader h1 {
-  max-width: 58rem;
-  margin: 1.65rem 0 0;
-  color: var(--text);
-  font-weight: 600;
-  text-wrap: balance;
+  & span + span::before {
+    content: "/";
+    margin: 0 0.65rem;
+    color: var(--muted);
+  }
 }
 
 .articleTitlePunctuation {
@@ -363,36 +306,26 @@
 }
 
 .articleDescription {
-  max-width: 42rem;
   margin: 2.1rem 0 0;
-  color: var(--body);
-  line-height: 1.75;
+  @media (max-width: 760px) {
+    margin-top: 1.6rem;
+    font-size: 1rem;
+  }
 }
 
 .articleMeta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
   gap: 0.8rem;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.055em;
-  text-transform: uppercase;
-}
 
-.articleMeta > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
+  & > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.coverFrame {
-  border: 1px solid var(--line-strong);
-  border-radius: 0;
-  background: var(--surface);
+  @media (max-width: 760px) {
+    gap: 0.65rem;
+    margin-top: 1.6rem;
+  }
 }
 
 .coverFrame::after {
@@ -409,6 +342,10 @@
   justify-content: stretch;
   gap: clamp(2.5rem, 5vw, 5rem);
   margin-top: 0;
+  @media (max-width: 1023px) {
+    grid-template-columns: minmax(0, 47rem);
+    justify-content: center;
+  }
 }
 
 .prose {
@@ -418,84 +355,135 @@
   font-size: clamp(1rem, 1.15vw, 1.08rem);
   letter-spacing: -0.012em;
   line-height: 1.9;
-}
 
-.prose > p:first-child {
-  color: var(--text);
-  font-size: clamp(1.15rem, 1.7vw, 1.35rem);
-  letter-spacing: -0.025em;
-  line-height: 1.72;
-}
+  & > p:first-child {
+    color: var(--text);
+    font-size: clamp(1.15rem, 1.7vw, 1.35rem);
+    letter-spacing: -0.025em;
+    line-height: 1.72;
+  }
+  & h2,
+  & h3 {
+    scroll-margin-top: 7rem;
+    text-wrap: balance;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  & a:not(:global(.blog-heading-link)) {
+    text-decoration-color: rgba(141, 216, 255, 0.38);
+    text-underline-offset: 0.2em;
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease;
+    color: var(--accent-soft);
+  }
+  & strong {
+    font-weight: 650;
+    color: var(--text);
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose h2,
-.prose h3 {
-  color: var(--text);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-}
+  & li::marker {
+    color: var(--accent-soft);
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose a:not(:global(.blog-heading-link)) {
-  color: var(--accent-soft);
-}
+  & blockquote {
+    position: relative;
+    font-style: italic;
+    padding: 1.35rem 1.5rem;
+    border-left: 2px solid var(--warm);
+    border-radius: 0;
+    color: var(--text);
+    background: rgb(255 137 93 / 5%);
+    font-size: 1.12rem;
+  }
+  & [data-rehype-pretty-code-figure] {
+    overflow: hidden;
+    border-color: var(--line-strong);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: none;
+  }
+  & th {
+    font-weight: 650;
+    color: var(--text);
+    background: var(--surface-raised);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  & th,
+  & td {
+    min-width: 10rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    text-align: left;
+    border-bottom-color: var(--line);
+  }
+  & :not(pre) > code {
+    padding: 0.15em 0.35em;
+    border: 1px solid rgba(125, 211, 252, 0.12);
+    font-size: 0.88em;
+    border-color: var(--line-strong);
+    border-radius: 0;
+    color: var(--accent-soft);
+    background: var(--surface-raised);
+    font-family: var(--font-mono);
+  }
+  & [data-rehype-pretty-code-figure] pre {
+    overflow-x: auto;
+    padding: 1.15rem 1.3rem;
+    font-size: 0.87rem;
+    line-height: 1.7;
+    font-family: var(--font-mono);
+  }
+  @media (max-width: 1023px) {
+    grid-column: 1;
+  }
+  @media (max-width: 760px) {
+    font-size: 1rem;
+    line-height: 1.82;
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose strong {
-  color: var(--text);
-}
+    & > p:first-child {
+      font-size: 1.12rem;
+    }
 
-.prose li::marker {
-  color: var(--accent-soft);
-}
+    & h2 {
+      margin-top: 4rem;
+      font-size: clamp(2rem, 10vw, 2.8rem);
+    }
+  }
 
-.prose blockquote {
-  position: relative;
-  font-style: italic;
-  padding: 1.35rem 1.5rem;
-  border-left: 2px solid var(--warm);
-  border-radius: 0;
-  color: var(--text);
-  background: rgb(255 137 93 / 5%);
-  font-size: 1.12rem;
-}
+  /* Article body: lists keep their markers, subheadings stay below the title in scale. */
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose [data-rehype-pretty-code-figure] {
-  border-color: var(--line-strong);
-  border-radius: 0;
-  background: var(--surface);
-  box-shadow: none;
-}
+  & ul {
+    list-style: disc;
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose th {
-  color: var(--text);
-  background: var(--surface-raised);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
+  & ol {
+    list-style: decimal;
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose th,
-.prose td {
-  border-bottom-color: var(--line);
-}
+  & ol li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose :not(pre) > code {
-  border-color: var(--line-strong);
-  border-radius: 0;
-  color: var(--accent-soft);
-  background: var(--surface-raised);
-  font-family: var(--font-mono);
-}
+  & h2 {
+    margin: 4rem 0 1.25rem;
+    padding-top: 0;
+    border-top: 0;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    letter-spacing: -0.022em;
+    line-height: 1.2;
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.prose [data-rehype-pretty-code-figure] pre {
-  font-family: var(--font-mono);
+  & h3 {
+    margin: 2.75rem 0 0.85rem;
+    font-size: clamp(1.25rem, 1.8vw, 1.45rem);
+    line-height: 1.3;
+  }
 }
 
 .postNavigation {
@@ -506,10 +494,20 @@
   padding-top: 1px;
   border: 0;
   background: var(--line);
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+    margin-top: 4.5rem;
+  }
 }
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .postNavLink {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
   min-height: 9rem;
   gap: 1.25rem;
   padding: 2rem;
@@ -517,18 +515,36 @@
   border-radius: 0;
   color: var(--text);
   background: var(--surface);
-}
+  &:hover {
+    color: var(--text);
+    background: var(--surface-raised);
+  }
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.postNavLink:hover {
-  color: var(--text);
-  background: var(--surface-raised);
-}
+  & svg {
+    flex: 0 0 auto;
+    color: var(--accent-soft);
+    transition: transform 180ms ease;
+  }
 
-.postNavLink svg {
-  flex: 0 0 auto;
-  color: var(--accent-soft);
-  transition: transform 180ms ease;
+  & small {
+    margin-bottom: 0.45rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    min-height: 7.5rem;
+    padding: 1.4rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & svg {
+      transition: none;
+    }
+  }
 }
 
 .postNavLinkNewer:hover svg {
@@ -539,135 +555,65 @@
   transform: translateX(0.25rem);
 }
 
-.postNavLink small {
-  margin-bottom: 0.45rem;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
 .related {
   margin-top: clamp(5rem, 9vw, 8rem);
   padding-bottom: clamp(6rem, 11vw, 10rem);
-}
 
-.relatedHeading {
-  margin-bottom: 2.5rem;
-}
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.relatedHeading span {
-  color: var(--accent-soft);
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-}
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.relatedHeading h2 {
-  margin-top: 0.9rem;
-  color: var(--text);
-  font-size: clamp(2.6rem, 5vw, 5rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.related .grid {
-  gap: 1px;
-  border: 1px solid var(--line);
-  background: var(--line);
-}
-
-@media (max-width: 1023px) {
-  .reader {
-    grid-template-columns: minmax(0, 47rem);
-    justify-content: center;
+  & .grid {
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
   }
 
-  .prose {
-    grid-column: 1;
-  }
-}
-
-@media (max-width: 760px) {
-  .readingProgress {
-    top: 63px;
-  }
-
-  .articleHeader .backLink {
-    margin-bottom: 1.75rem;
-  }
-
-  .articleHeader h1 {
-    margin-top: 1.25rem;
-  }
-
-  .articleDescription {
-    margin-top: 1.6rem;
-    font-size: 1rem;
-  }
-
-  .articleMeta {
-    gap: 0.65rem;
-    margin-top: 1.6rem;
-  }
-
-  .prose {
-    font-size: 1rem;
-    line-height: 1.82;
-  }
-
-  .prose > p:first-child {
-    font-size: 1.12rem;
-  }
-
-  .prose h2 {
-    margin-top: 4rem;
-    font-size: clamp(2rem, 10vw, 2.8rem);
-  }
-
-  .postNavigation {
-    grid-template-columns: 1fr;
-    margin-top: 4.5rem;
-  }
-
-  .postNavLink {
-    min-height: 7.5rem;
-    padding: 1.4rem;
-  }
-
-  .related {
+  @media (max-width: 760px) {
     margin-top: 4.5rem;
     padding-bottom: 6rem;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .readingProgress {
-    display: none;
+.relatedHeading {
+  margin-bottom: 2.5rem;
+  & span {
+    margin: 0 0 0.55rem;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
   }
-
-  .postNavLink svg {
-    transition: none;
+  & h2 {
+    margin-top: 0.9rem;
+    color: var(--text);
+    font-size: clamp(2.6rem, 5vw, 5rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
   }
 }
 
 /* Article: a compact header on the reading column, so the text starts sooner. */
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleHero {
+  position: relative;
+  overflow: hidden;
   min-height: 0;
   padding: clamp(7.5rem, 11vw, 9rem) 0 clamp(2rem, 3vw, 2.5rem);
   border-bottom: 0;
   background: none;
-}
+  @media (max-width: 760px) {
+    min-height: 0;
+    padding: 6.5rem 0 1.75rem;
+  }
+  /* Without a cover the body follows the header directly. */
 
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
+  & + .articleBody {
+    margin-top: 1.5rem;
+  }
+}
 .articleHeroArt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background:
     radial-gradient(
       ellipse 40% 70% at 88% 0%,
@@ -693,23 +639,23 @@
 .cover > * {
   grid-column: 2;
 }
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.articleHeader h1 {
-  margin-top: 1.1rem;
-  font-size: clamp(2.4rem, 4.4vw, 3.9rem);
-  letter-spacing: -0.032em;
-  line-height: 1.05;
-}
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleDescription {
+  max-width: 42rem;
+  color: var(--body);
+  line-height: 1.75;
   margin-top: 1.25rem;
   font-size: clamp(1rem, 1.3vw, 1.12rem);
 }
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .articleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
   width: 100%;
   margin-top: 1.75rem;
   padding-top: 1rem;
@@ -721,10 +667,19 @@
   position: relative;
   z-index: 2;
   margin-top: 0;
+  @media (max-width: 760px) {
+    margin-top: 0;
+  }
 }
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
 .coverFrame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: var(--surface);
   box-shadow: 0 1.5rem 4rem -1.5rem rgb(0 0 0 / 60%);
 }
 
@@ -733,6 +688,10 @@
   padding: 0 0 clamp(5rem, 9vw, 8rem);
   border: 0;
   background: transparent;
+  @media (max-width: 760px) {
+    margin-top: 2.5rem;
+    padding: 0 0 5rem;
+  }
 }
 
 @media (max-width: 1023px) {
@@ -746,66 +705,6 @@
   .cover > * {
     grid-column: 1;
   }
-}
-
-@media (max-width: 760px) {
-  .articleHero {
-    min-height: 0;
-    padding: 6.5rem 0 1.75rem;
-  }
-
-  .articleHeader h1 {
-    font-size: clamp(2.1rem, 9vw, 2.8rem);
-  }
-
-  .cover {
-    margin-top: 0;
-  }
-
-  .articleBody {
-    margin-top: 2.5rem;
-    padding: 0 0 5rem;
-  }
-}
-
-.articleHeader > .backLink,
-.articleHeader > .draftBadge {
-  justify-self: start;
-}
-
-/* Article body: lists keep their markers, subheadings stay below the title in scale. */
-
-.prose ul {
-  list-style: disc;
-}
-
-.prose ol {
-  list-style: decimal;
-}
-
-.prose ol li::marker {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
-
-.prose h2 {
-  margin: 4rem 0 1.25rem;
-  padding-top: 0;
-  border-top: 0;
-  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
-  letter-spacing: -0.022em;
-  line-height: 1.2;
-}
-
-.prose h3 {
-  margin: 2.75rem 0 0.85rem;
-  font-size: clamp(1.25rem, 1.8vw, 1.45rem);
-  line-height: 1.3;
-}
-/* Without a cover the body follows the header directly. */
-
-.articleHero + .articleBody {
-  margin-top: 1.5rem;
 }
 
 @keyframes blog-reading-progress {

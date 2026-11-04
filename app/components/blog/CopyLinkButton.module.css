@@ -19,16 +19,14 @@
   font-size: 0.64rem;
   letter-spacing: 0.055em;
   text-transform: uppercase;
-}
 
-.root:hover {
-  border-color: var(--accent);
-  color: var(--accent-soft);
-  background: transparent;
-}
+  &:hover {
+    border-color: var(--accent);
+    color: var(--accent-soft);
+    background: transparent;
+  }
 
-@media (max-width: 760px) {
-  .root {
+  @media (max-width: 760px) {
     width: 100%;
     margin: 0.35rem 0 0;
     padding: 0.65rem 0 0;

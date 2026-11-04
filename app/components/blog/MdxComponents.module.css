@@ -4,16 +4,31 @@
   gap: 0.6rem;
   color: inherit;
   text-decoration: none;
-}
 
-.headingLink svg {
-  flex-shrink: 0;
-  width: 0.75em;
-  height: 0.75em;
-  transform: translateX(-0.3rem);
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
+  & svg {
+    transition:
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & svg {
+      transition: none;
+    }
+  }
+  & svg {
+    flex-shrink: 0;
+    width: 0.75em;
+    height: 0.75em;
+    transform: translateX(-0.3rem);
+    color: transparent;
+  }
+
+  &:hover svg,
+  &:focus-visible svg {
+    transform: translateX(0);
+    color: var(--accent-soft);
+  }
 }
 
 .tableScroll {
@@ -21,23 +36,6 @@
   overflow-x: auto;
   border: 1px solid var(--blog-border);
   border-radius: 0.8rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .headingLink svg {
-    transition: none;
-  }
-}
-
-/* stylelint-disable-next-line no-duplicate-selectors -- must stay after the rules between them */
-.headingLink svg {
-  color: transparent;
-}
-
-.headingLink:hover svg,
-.headingLink:focus-visible svg {
-  transform: translateX(0);
-  color: var(--accent-soft);
 }
 
 :global(.blog-prose) .tableScroll {
