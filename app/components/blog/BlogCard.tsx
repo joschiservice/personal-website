@@ -26,7 +26,7 @@ export function BlogCard({
   const readingTimeLabel = copy.readingTime(post.readingTimeMinutes);
 
   return (
-    <article className={`${styles.card} ${styles[variant] ?? ""}`}>
+    <article className={variant === "standard" ? styles.card : `${styles.card} ${styles[variant]}`}>
       <Link
         href={localeHref(locale, post.url)}
         className={styles.link}

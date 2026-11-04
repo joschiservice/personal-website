@@ -265,7 +265,7 @@ function LanguageSwitcher({
   locale: Locale;
   pathname: string;
   copy: Dictionary["nav"];
-  className: string | undefined;
+  className: string;
   style?: React.CSSProperties;
 }) {
   const targetLocale =

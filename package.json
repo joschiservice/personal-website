@@ -8,10 +8,11 @@
     "node": "26.x"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/css-types.mts --watch & next dev",
+    "prebuild": "node scripts/css-types.mts",
     "build": "next build",
     "start": "next start",
-    "lint": "oxlint --type-aware --deny-warnings && stylelint \"app/**/*.css\"",
+    "lint": "node scripts/css-types.mts --check && oxlint --type-aware --deny-warnings && stylelint \"app/**/*.css\"",
     "diagrams": "node scripts/render-diagrams.mts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",

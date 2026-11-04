@@ -67,6 +67,8 @@ Mermaid diagrams are written as ` ```mermaid ` blocks in a post and rendered ahe
 - Run `pnpm diagrams` after upgrading Mermaid, or to remove files no post uses any more. It renders every diagram again.
 - The theme lives in `content-diagrams.ts`. Changing it renders every diagram again on the next `pnpm dev` or `pnpm build`.
 
+CSS Modules are type-checked, so a mistyped `styles.x` is a compile error. `pnpm dev` keeps the generated `*.module.d.css.ts` files current, and `pnpm lint` and `pnpm build` regenerate them. `pnpm lint` also fails on classes nothing uses.
+
 Build for production:
 ```bash
 pnpm build
