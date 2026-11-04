@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "diagrams": "node scripts/render-diagrams.mts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"
@@ -29,7 +30,6 @@
     "@vercel/speed-insights": "^2.0.0",
     "github-slugger": "^2.0.0",
     "mdast-util-to-string": "^4.0.0",
-    "mermaid": "^12.2.0",
     "motion": "^14.9.0",
     "next": "^16.4.4",
     "react": "^19.3.1",
@@ -54,6 +54,7 @@
     "eslint": "^10.14.0",
     "eslint-config-next": "^16.4.4",
     "mdast-util-mdx-jsx": "^3.2.0",
+    "mermaid": "^12.2.0",
     "postcss": "^8.5.32",
     "tailwindcss": "^4.3.4",
     "typescript": "^6.0.3"

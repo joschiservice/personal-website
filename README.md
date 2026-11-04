@@ -25,6 +25,7 @@ app/
   layout.tsx                # Root layout and shared chrome
   globals.css               # Tailwind entrypoint and design system
 content/posts/              # Validated MDX articles
+content/diagrams/           # Rendered Mermaid SVGs, generated and committed
 e2e/                        # Desktop and mobile Playwright coverage
 public/
   img/                      # Optimized local image assets
@@ -58,6 +59,13 @@ NEXT_PUBLIC_SOCIAL_INSTAGRAM
 Error reporting uses the optional `NEXT_PUBLIC_SENTRY_DSN` variable. It must be set at build time, and Sentry is disabled when it is unset.
 
 The CV route reads the latest localized `*_CV_EN.pdf`, `*_CV_DE.pdf`, etc. file from Vercel Blob and therefore requires the standard Vercel Blob credentials outside the test suite. Requests use the site locale (`/cv?lang=de`, for example), match its uppercase language code, and fall back to English when that language is unavailable. Legacy `*_CV.pdf` uploads are treated as English.
+
+Mermaid diagrams are written as ` ```mermaid ` blocks in a post and rendered ahead of time, so the site ships no Mermaid code:
+
+- `pnpm dev` and `pnpm build` render new or edited diagrams into `content/diagrams/`. Commit those files with the post. This needs Playwright's Chromium (`pnpm exec playwright install chromium`).
+- CI and Vercel never render diagrams, and the build fails if a diagram's file wasn't committed.
+- Run `pnpm diagrams` after upgrading Mermaid, or to remove files no post uses any more. It renders every diagram again.
+- The theme lives in `content-diagrams.ts`. Changing it renders every diagram again on the next `pnpm dev` or `pnpm build`.
 
 Build for production:
 ```bash

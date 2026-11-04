@@ -3028,36 +3028,6 @@ body:has(.contact-page) .site-footer__meta { margin-top: 0; background: var(--ru
   margin: auto;
 }
 
-.blog-diagram-loading {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: rgba(226, 232, 240, 0.52);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-}
-
-.blog-diagram-error {
-  padding: 1.25rem;
-  color: rgba(254, 226, 226, 0.9);
-}
-
-.blog-diagram-error p {
-  margin: 0 0 0.75rem;
-}
-
-.blog-diagram-error pre {
-  overflow-x: auto;
-  margin: 0;
-  padding: 1rem;
-  border-radius: 0.7rem;
-  background: rgba(0, 0, 0, 0.25);
-  color: rgba(241, 245, 249, 0.76);
-  font-size: 0.78rem;
-  line-height: 1.6;
-}
-
 .blog-table-scroll {
   width: 100%;
   overflow-x: auto;

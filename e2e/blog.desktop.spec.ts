@@ -135,8 +135,10 @@ test.describe("local draft preview", () => {
       })
     ).toBeLessThan(2)
     await expect(page.getByRole("img", { name: /Abstract streams of light/ })).toBeVisible()
-    await expect(page.locator(".blog-diagram[data-status=\"ready\"] svg")).toBeVisible()
+    await expect(page.locator(".blog-diagram svg")).toBeVisible()
     await expect(page.locator(".blog-diagram")).toContainText("From draft to published post")
+    const articleHtml = await (await page.request.get("/blog/building-the-blog")).text()
+    expect(articleHtml).toMatch(/class="blog-diagram-canvas"><svg/)
 
     await page
       .getByRole("button", { name: /Enlarge image: Luminous blue and violet/ })

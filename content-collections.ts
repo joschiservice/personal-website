@@ -11,6 +11,7 @@ import { visit } from "unist-util-visit";
 import { z } from "zod";
 import type { Root } from "mdast";
 import type {} from "mdast-util-mdx-jsx";
+import { loadDiagrams } from "./content-diagrams";
 import type { BlogTocItem } from "./content-types";
 
 const isoDate = z.iso.date();
@@ -45,7 +46,15 @@ function calculateReadingTime(content: string) {
 }
 
 function remarkMermaid() {
-  return (tree: Root) => {
+  return async (tree: Root) => {
+    const sources = new Set<string>();
+    visit(tree, "code", (node) => {
+      if (node.lang === "mermaid") sources.add(node.value);
+    });
+    if (sources.size === 0) return;
+
+    const diagrams = await loadDiagrams(sources);
+
     visit(tree, "code", (node, index, parent) => {
       if (node.lang !== "mermaid" || index === undefined || !parent) return;
 
@@ -55,8 +64,8 @@ function remarkMermaid() {
         attributes: [
           {
             type: "mdxJsxAttribute",
-            name: "source",
-            value: node.value,
+            name: "svg",
+            value: diagrams.get(node.value) ?? null,
           },
         ],
         children: [],
