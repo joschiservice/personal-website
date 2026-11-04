@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import "@fontsource-variable/onest";
-import "@fontsource-variable/instrument-sans";
-import "@fontsource-variable/jetbrains-mono";
 import "@/app/globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Navbar } from "@/app/components/navbar";
 import { SiteFooter } from "@/app/components/system/SiteFooter";
+import { instrumentSans, jetbrainsMono, jetbrainsMonoNumero, onest } from "@/app/lib/fonts";
 import { siteConfig } from "@/app/lib/site";
 import { enabledLocales } from "@/app/i18n/config";
 import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
@@ -60,7 +58,11 @@ export default async function RootLayout({
   const { locale, dictionary } = await getLocaleDictionary(props);
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth">
+    <html
+      lang={locale}
+      data-scroll-behavior="smooth"
+      className={`${onest.variable} ${instrumentSans.variable} ${jetbrainsMono.variable} ${jetbrainsMonoNumero.variable}`}
+    >
       <body>
         <a href="#main-content" className="skip-link">
           {dictionary.accessibility.skipToContent}

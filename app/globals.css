@@ -73,9 +73,9 @@
   --accent-soft: #6ba8ff;
   --warm: #ff895d;
   --violet: #7e6cff;
-  --font-display: "Onest Variable", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Instrument Sans Variable", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-onest), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-instrument-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), var(--font-jetbrains-mono-numero), ui-monospace, SFMono-Regular, Menlo, monospace;
   --gutter: clamp(1.25rem, 5vw, 4rem);
   --section-space: clamp(5.5rem, 9vw, 8.5rem);
   --motion-distance-page: 0.75rem;
@@ -123,7 +123,7 @@ body {
 h1, h2, h3, h4 { font-family: var(--font-display); }
 
 html[lang="ja"] {
-  --font-display: "Onest Variable", "Hiragino Kaku Gothic ProN",
+  --font-display: var(--font-onest), "Hiragino Kaku Gothic ProN",
     "Yu Gothic", "YuGothic", Meiryo, sans-serif;
 }
 
@@ -3017,6 +3017,12 @@ body:has(.contact-page) .site-footer__meta { margin-top: 0; background: var(--ru
 .blog-diagram-canvas::-webkit-scrollbar-thumb {
   border-radius: 999px;
   background: rgba(141, 216, 255, 0.28);
+}
+
+/* The rendered SVGs name the font directly, but next/font gives it a generated name. */
+.blog-diagram-canvas svg,
+.blog-diagram-canvas svg * {
+  font-family: var(--font-mono) !important;
 }
 
 .blog-diagram-canvas svg {
