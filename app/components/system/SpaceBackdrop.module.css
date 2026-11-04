@@ -1,0 +1,459 @@
+.contact .feature {
+  --horizon-apex: 8.5rem;
+  --horizon-depth: 20rem;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.contact .feature::before {
+  content: "";
+  position: absolute;
+  bottom: calc(var(--horizon-apex) - 14rem);
+  left: 50%;
+  width: min(80rem, 110vw);
+  height: 28rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(36 124 255 / 30%),
+    rgb(98 112 255 / 13%) 45%,
+    rgb(124 98 255 / 4%) 70%,
+    transparent
+  );
+  filter: blur(36px);
+  transform: translateX(-50%);
+}
+
+.contact .feature::after {
+  content: "";
+  position: absolute;
+  bottom: calc(var(--horizon-apex) - var(--horizon-depth));
+  left: 50%;
+  width: max(160vw, 110rem);
+  height: var(--horizon-depth);
+  border-top: 1px solid rgb(150 190 255 / 55%);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    linear-gradient(180deg, rgb(24 116 255 / 11%), rgb(5 9 18 / 0%) 18rem),
+    var(--page-deep);
+  box-shadow: 0 -0.5rem 3rem -0.5rem rgb(36 124 255 / 45%);
+  mask-image: linear-gradient(
+    90deg,
+    transparent 12%,
+    #000 34%,
+    #000 66%,
+    transparent 88%
+  );
+  transform: translateX(-50%);
+}
+
+/* Space backdrops -------------------------------------------------------------
+   A faint starfield plus one feature per section. The stars are pre-drawn image
+   tiles (public/img/space), which Safari paints far faster than CSS gradients.
+   Each layer repeats at a different tile size, so the field never lines up into
+   a visible grid. */
+
+.root {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stars,
+.stars::after {
+  position: absolute;
+  inset: 0;
+  opacity: var(--stars-opacity, 0.5);
+  mask-image: var(--stars-mask, linear-gradient(180deg, #000, transparent 85%));
+}
+
+.stars {
+  background-image:
+    var(--stars-a, url("/img/space/stars-a.png")),
+    var(--stars-b, url("/img/space/stars-b.png"));
+  background-size:
+    1024px 1024px,
+    701px 701px;
+}
+/* A second, sparser set that slowly brightens and dims. */
+
+.stars::after {
+  content: "";
+  background-image: var(--stars-twinkle, url("/img/space/stars-twinkle.png"));
+  background-size: 877px 877px;
+  opacity: 1;
+  mask-image: none;
+  animation: space-twinkle 7s ease-in-out infinite alternate;
+}
+/* Set by SpaceBackdrop while the backdrop is out of view. */
+
+.root[data-paused] *,
+.root[data-paused] *::before,
+.root[data-paused] *::after {
+  animation-play-state: paused;
+}
+
+.feature {
+  position: absolute;
+}
+
+/* Hero: stars inside the drifting glow. */
+
+.hero {
+  --stars-opacity: 0.55;
+  --stars-mask: radial-gradient(
+    ellipse 70% 80% at 70% 30%,
+    #000,
+    transparent 75%
+  );
+}
+
+/* About: a dim moon in the top corner with a thin lit rim. */
+
+.about {
+  --stars-opacity: 0.35;
+  --stars-mask: radial-gradient(
+    ellipse 60% 55% at 85% 10%,
+    #000,
+    transparent 75%
+  );
+}
+
+.about .feature,
+.article .feature,
+.legal .feature {
+  /* Kept in the empty right margin so the rim never crosses text. */
+  top: -4rem;
+  right: -18rem;
+  width: 28rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 28% 72%,
+      rgb(70 130 255 / 22%),
+      rgb(20 50 110 / 10%) 38%,
+      rgb(5 11 20 / 0%) 62%
+    ),
+    #050b14;
+  box-shadow:
+    inset 1px -1px 0 rgb(150 190 255 / 45%),
+    0 0 5rem rgb(36 124 255 / 14%);
+  mask-image: radial-gradient(circle at 25% 75%, #000 35%, transparent 72%);
+}
+
+/* Writing: just a few stars. */
+
+.writing {
+  --stars-opacity: 0.3;
+}
+
+/* Experience and blog: a faint orbit with a tiny satellite on it. */
+
+.experience {
+  --stars-opacity: 0.32;
+  --stars-mask: radial-gradient(
+    ellipse 70% 30% at 30% 0%,
+    #000,
+    transparent 80%
+  );
+}
+
+.blog {
+  --stars-opacity: 0.45;
+  --stars-mask: radial-gradient(
+    ellipse 80% 45% at 80% 0%,
+    #000,
+    transparent 80%
+  );
+}
+
+.experience .feature,
+.blog .feature {
+  top: -7rem;
+  right: -22rem;
+  width: 62rem;
+  height: 16rem;
+  border: 1px solid rgb(160 150 255 / 18%);
+  border-radius: 50%;
+  transform: rotate(-12deg);
+  mask-image: linear-gradient(
+    90deg,
+    transparent 5%,
+    #000 35%,
+    #000 75%,
+    transparent 98%
+  );
+}
+
+.blog .feature {
+  top: -9rem;
+  border-color: rgb(140 170 255 / 18%);
+}
+
+.experience .feature::before,
+.blog .feature::before {
+  content: "";
+  position: absolute;
+  inset: -2.5rem -5rem;
+  border: 1px solid rgb(160 150 255 / 9%);
+  border-radius: 50%;
+}
+
+.experience .feature::after,
+.blog .feature::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 44%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d2ccff;
+  box-shadow: 0 0 0.6rem 0.15rem rgb(150 140 255 / 60%);
+}
+/* Pre-tinted warm tiles, rather than a live sepia filter over the whole field. */
+
+.tools {
+  --stars-opacity: 0.4;
+  --stars-mask: linear-gradient(180deg, #000, transparent 45%);
+  --stars-a: url("/img/space/stars-a-warm.png");
+  --stars-b: url("/img/space/stars-b-warm.png");
+  --stars-twinkle: url("/img/space/stars-twinkle-warm.png");
+}
+
+/* Tools: a warm planetary ring sweeping behind the deck. */
+
+.tools .feature {
+  top: -9rem;
+  left: -16rem;
+  width: 74rem;
+  height: 15rem;
+  border: 1px solid rgb(240 185 110 / 16%);
+  border-radius: 50%;
+  transform: rotate(-8deg);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 30%,
+    #000 60%,
+    transparent 92%
+  );
+}
+
+.tools .feature::before {
+  content: "";
+  position: absolute;
+  inset: 1.75rem 3rem;
+  border: 1px solid rgb(240 185 110 / 9%);
+  border-radius: 50%;
+}
+
+/* Interests: a soft warm sun just off the edge. */
+
+.interests {
+  --stars-opacity: 0.3;
+  --stars-mask: linear-gradient(180deg, #000, transparent 40%);
+}
+
+.interests .feature {
+  top: -6rem;
+  left: -9rem;
+  width: 28rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(255 170 120 / 24%),
+    rgb(255 130 90 / 9%) 45%,
+    transparent
+  );
+  filter: blur(8px);
+}
+
+/* Travel: dashed flight paths arcing over the section. */
+
+.travel {
+  --stars-opacity: 0.35;
+  --stars-mask: linear-gradient(180deg, #000, transparent 70%);
+}
+
+.travel .feature {
+  top: 2.5rem;
+  right: 3%;
+  left: 48%;
+  height: 22rem;
+  border-top: 1px dashed rgb(255 160 120 / 30%);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 25%,
+    #000 75%,
+    transparent
+  );
+}
+
+.travel .feature::before {
+  content: "";
+  position: absolute;
+  top: 3rem;
+  right: -6%;
+  left: 15%;
+  height: 14rem;
+  border-top: 1px dashed rgb(107 168 255 / 24%);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+/* The plane at the top of the outer path. It lives outside the masked arc,
+   which would otherwise clip it and its glow. */
+
+.accent {
+  display: none;
+}
+
+.travel .accent {
+  --arc-left: 48%;
+  --arc-right: 3%;
+  --arc-top: 2.5rem;
+  position: absolute;
+  top: var(--arc-top);
+  left: calc(var(--arc-left) + (100% - var(--arc-left) - var(--arc-right)) / 2);
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffd2bd;
+  box-shadow:
+    0 0 0 3px rgb(255 137 93 / 18%),
+    0 0 0.9rem 0.15rem rgb(255 137 93 / 55%);
+  transform: translate(-50%, calc(-50% + 0.5px));
+}
+
+/* Footer: stars above the horizon. */
+
+.footer {
+  --stars-opacity: 0.45;
+  --stars-mask: linear-gradient(
+    180deg,
+    transparent,
+    #000 35%,
+    #000 70%,
+    transparent 85%
+  );
+}
+
+/* Article header: stars and the small moon, kept away from the text column. */
+
+.article {
+  --stars-opacity: 0.35;
+  --stars-mask: radial-gradient(
+    ellipse 50% 70% at 90% 0%,
+    #000,
+    transparent 75%
+  );
+}
+
+.article .feature {
+  top: 6rem;
+  right: -16rem;
+  width: 26rem;
+}
+
+/* Contact: the same horizon as the footer, rising behind the page title. */
+
+.contact {
+  --stars-opacity: 0.45;
+  --stars-mask: linear-gradient(180deg, #000, transparent 75%);
+}
+
+.contact .feature {
+  --horizon-apex: 4rem;
+}
+
+/* Imprint: stars and the moon, set below the nav. */
+
+.legal .feature {
+  top: 5rem;
+}
+
+.legal {
+  --stars-opacity: 0.3;
+  --stars-mask: radial-gradient(
+    ellipse 60% 40% at 85% 0%,
+    #000,
+    transparent 80%
+  );
+}
+
+@media (max-width: 760px) {
+  .about .feature,
+  .legal .feature {
+    top: -10rem;
+    right: -14rem;
+    width: 22rem;
+  }
+
+  .experience .feature,
+  .blog .feature {
+    right: -30rem;
+    width: 44rem;
+    height: 12rem;
+  }
+
+  .tools .feature {
+    left: -30rem;
+    width: 56rem;
+  }
+
+  .travel .feature {
+    left: 8%;
+    right: -10%;
+    top: 6rem;
+  }
+
+  .travel .accent {
+    --arc-left: 8%;
+    --arc-right: -10%;
+    --arc-top: 6rem;
+  }
+
+  .article .feature {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars::after {
+    animation: none !important;
+    opacity: 0.6;
+  }
+}
+
+/* The contact hero is short, so its horizon surface spans the full width and fades at the ends. */
+
+.contact .feature::after {
+  background: linear-gradient(
+    180deg,
+    rgb(24 116 255 / 9%),
+    var(--page-deep) 6rem
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 30%,
+    #000 70%,
+    transparent
+  );
+}
+@keyframes space-twinkle {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
