@@ -1,0 +1,145 @@
+/* End of article ------------------------------------------------------------ */
+
+.root {
+  grid-column: 2;
+  display: grid;
+  gap: 2rem;
+  margin-top: clamp(3.5rem, 6vw, 5rem);
+  padding-top: 2.25rem;
+  background: var(--rule-fade) top / 100% 1px no-repeat;
+}
+
+.author {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.monogram {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 25%, rgb(107 168 255 / 22%), transparent 70%),
+    var(--surface);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.byline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.byline strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.bio {
+  max-width: 36rem;
+  margin: 0.4rem 0 0;
+  color: var(--body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.contact,
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--accent-soft);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.contact {
+  margin-top: 0.75rem;
+}
+
+.contact:hover,
+.back:hover {
+  color: var(--text);
+}
+
+.contact svg,
+.back svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  transition: transform 180ms ease;
+}
+
+.contact:hover svg {
+  transform: translateX(2px);
+}
+
+.back:hover svg {
+  transform: translateX(-2px);
+}
+
+.back {
+  justify-self: start;
+}
+
+.share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.share p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.share ul {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.share a {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--body);
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.share a:hover {
+  border-color: rgb(107 168 255 / 50%);
+  background: rgb(24 116 255 / 10%);
+  color: var(--text);
+}
+
+.share svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (max-width: 1023px) {
+  .root {
+    grid-column: 1;
+  }
+}

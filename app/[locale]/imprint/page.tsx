@@ -6,6 +6,7 @@ import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary
 import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { siteConfig } from "@/app/lib/site";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "../../components/system/LegalPage.module.css";
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
   const { locale, dictionary } = await getLocaleDictionary(props);
@@ -31,12 +32,12 @@ export default async function Imprint(props: LocaleParams) {
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
   return (
-    <div className="legal-page">
+    <div className={styles.root}>
       <SpaceBackdrop variant="legal" />
       <Container>
         <p className="system-label">{copy.label}</p>
         <h1>{copy.title}</h1>
-        <div className="legal-page__grid">
+        <div className={styles.grid}>
           <section>
             <h2>01</h2>
             <p>

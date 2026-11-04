@@ -1,4 +1,5 @@
 import { ZoomableBlogImage } from "./ZoomableBlogImage";
+import styles from "./BlogImage.module.css";
 
 export interface BlogImageProps {
   src: string;
@@ -22,14 +23,14 @@ export function BlogImage({
   closeLabel,
 }: BlogImageProps) {
   return (
-    <figure className="blog-figure">
+    <figure className={styles.figure}>
       <ZoomableBlogImage
         src={src}
         alt={alt}
         width={width}
         height={height}
         sizes="(max-width: 768px) 100vw, 760px"
-        frameClassName="blog-figure-frame"
+        frameClassName={styles.figureFrame}
         enlargeLabel={enlargeLabel}
         fullscreenLabel={fullscreenLabel}
         closeLabel={closeLabel}

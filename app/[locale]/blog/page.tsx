@@ -9,6 +9,7 @@ import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { siteConfig } from "@/app/lib/site";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./blog.module.css";
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
   const { locale, dictionary } = await getLocaleDictionary(props);
@@ -39,17 +40,17 @@ export default async function BlogPage(props: LocaleParams) {
 
   return (
     <PageTransition>
-      <div className="blog-index">
-        <div className="blog-index__glow" aria-hidden="true" />
+      <div className={styles.root}>
+        <div className={styles.glow} aria-hidden="true" />
         <SpaceBackdrop variant="blog" />
-        <Container className="blog-index__inner">
-          <header className="blog-index__header">
+        <Container className={styles.inner}>
+          <header className={styles.header}>
             <div>
               <h1>{copy.title}</h1>
               <p>{copy.intro}</p>
             </div>
             {/* oxlint-disable-next-line nextjs/no-html-link-for-pages -- the feed is a route handler, not a page */}
-            <a href="/blog/rss.xml" className="blog-index__rss">
+            <a href="/blog/rss.xml" className={styles.rss}>
               <HiOutlineRss aria-hidden="true" />
               {copy.rss}
             </a>
@@ -58,7 +59,7 @@ export default async function BlogPage(props: LocaleParams) {
           {posts.length > 0 ? (
             <PostList posts={posts} locale={locale} copy={copy} priorityFirst />
           ) : (
-            <div className="blog-index__empty">
+            <div className={styles.empty}>
               <h2>{copy.emptyTitle}</h2>
               <p>{copy.emptyBody}</p>
               <Link href={localeHref(locale, "/#experience")} className="text-action">
@@ -69,8 +70,8 @@ export default async function BlogPage(props: LocaleParams) {
           )}
 
           {drafts.length > 0 ? (
-            <section className="blog-index__drafts" aria-labelledby="blog-drafts-title">
-              <div className="blog-index__drafts-head">
+            <section className={styles.drafts} aria-labelledby="blog-drafts-title">
+              <div className={styles.draftsHead}>
                 <h2 id="blog-drafts-title">{copy.drafts}</h2>
                 <p>
                   {copy.localOnly}. {copy.draftsBody}

@@ -4,6 +4,7 @@ import { HiArrowLeft, HiArrowRight, HiEnvelope } from "react-icons/hi2";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { localeHref, type Locale } from "@/app/i18n/config";
 import { siteConfig } from "@/app/lib/site";
+import styles from "./ArticleEnd.module.css";
 
 /** Closes an article: who wrote it, ways to share it, and the way back. */
 export function ArticleEnd({
@@ -40,24 +41,24 @@ export function ArticleEnd({
   ];
 
   return (
-    <footer className="article-end">
-      <div className="article-end__author">
-        <span className="article-end__monogram" aria-hidden="true">
+    <footer className={styles.root}>
+      <div className={styles.author}>
+        <span className={styles.monogram} aria-hidden="true">
           JH
         </span>
         <div>
-          <p className="article-end__byline">
+          <p className={styles.byline}>
             {copy.writtenBy} <strong>{siteConfig.name}</strong>
           </p>
-          <p className="article-end__bio">{copy.authorBio}</p>
-          <Link href={localeHref(locale, "/contact")} className="article-end__contact">
+          <p className={styles.bio}>{copy.authorBio}</p>
+          <Link href={localeHref(locale, "/contact")} className={styles.contact}>
             {copy.getInTouch}
             <HiArrowRight aria-hidden="true" />
           </Link>
         </div>
       </div>
 
-      <div className="article-end__share">
+      <div className={styles.share}>
         <p>{copy.share}</p>
         <ul>
           {shareLinks.map(({ platform, href, icon: Icon }) => (
@@ -87,7 +88,7 @@ export function ArticleEnd({
 
       <Link
         href={localeHref(locale, "/blog")}
-        className="article-end__back"
+        className={styles.back}
         transitionTypes={["nav-back"]}
       >
         <HiArrowLeft aria-hidden="true" />

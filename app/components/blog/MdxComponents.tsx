@@ -6,6 +6,7 @@ import { BlogImage } from "./BlogImage";
 import { Callout } from "./Callout";
 import { MermaidDiagram } from "./MermaidDiagram";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import styles from "./MdxComponents.module.css";
 
 function HeadingLink({
   as: Tag,
@@ -15,7 +16,7 @@ function HeadingLink({
 }: ComponentPropsWithoutRef<"h2"> & { as: "h2" | "h3" }) {
   return (
     <Tag id={id} {...props}>
-      <a href={id ? `#${id}` : undefined} className="blog-heading-link">
+      <a href={id ? `#${id}` : undefined} className={`${styles.headingLink} blog-heading-link`}>
         <span>{children}</span>
         <HiOutlineLink aria-hidden="true" />
       </a>
@@ -46,7 +47,7 @@ function MdxLink({ href = "", children, ...props }: ComponentPropsWithoutRef<"a"
 
 function MdxTable({ children, ...props }: ComponentPropsWithoutRef<"table">) {
   return (
-    <div className="blog-table-scroll">
+    <div className={styles.tableScroll} data-testid="blog-table-scroll">
       <table {...props}>{children}</table>
     </div>
   );

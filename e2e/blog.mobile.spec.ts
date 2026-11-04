@@ -21,11 +21,11 @@ test.describe("local mobile draft reader", () => {
   test("uses the compact table of contents", async ({ page }) => {
     await page.goto("/blog/e2e-fixture")
 
-    await expect(page.locator(".blog-article-header .blog-back-link")).toHaveCSS(
+    await expect(page.getByTestId("blog-back-link")).toHaveCSS(
       "margin-bottom",
       "28px"
     )
-    const contents = page.locator("details.blog-toc-mobile")
+    const contents = page.getByTestId("toc-mobile")
     await expect(contents).toBeVisible()
     await contents.getByText(en.blog.onThisPage, { exact: true }).click()
     await expect(contents.getByRole("link", { name: "E2E image section" })).toBeVisible()

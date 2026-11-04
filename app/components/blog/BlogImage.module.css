@@ -1,0 +1,58 @@
+.figure {
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.figureFrame {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--blog-border);
+  border-radius: 1rem;
+  background: #08101d;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.figure figcaption {
+  margin: 0.65rem auto 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .figure {
+    width: calc(100vw - 2rem);
+  }
+}
+
+.figure {
+  width: min(58rem, calc(100vw - (var(--gutter) * 2)));
+}
+
+.figureFrame {
+  border-color: var(--line-strong);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.figure figcaption {
+  max-width: 47rem;
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.035em;
+  text-align: left;
+}
+
+@media (max-width: 760px) {
+  .figure {
+    width: calc(100vw - (var(--gutter) * 2));
+  }
+}

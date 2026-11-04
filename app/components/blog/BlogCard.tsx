@@ -6,6 +6,7 @@ import { postCoverTransitionName } from "@/app/components/system/PageTransition"
 import { formatBlogDate, type BlogPost } from "@/app/lib/blog";
 import { localeHref, type Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import styles from "./BlogCard.module.css";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -25,10 +26,10 @@ export function BlogCard({
   const readingTimeLabel = copy.readingTime(post.readingTimeMinutes);
 
   return (
-    <article className={`blog-card blog-card--${variant}`}>
+    <article className={`${styles.card} ${styles[variant] ?? ""}`}>
       <Link
         href={localeHref(locale, post.url)}
-        className="blog-card-link"
+        className={styles.link}
         aria-label={copy.readArticle(post.title)}
         transitionTypes={["nav-forward"]}
       >
@@ -37,7 +38,7 @@ export function BlogCard({
           share="morph"
           default="none"
         >
-          <div className="blog-card-image relative">
+          <div className={`${styles.image} relative`}>
             <PostCover
               post={post}
               preload={priority}
@@ -47,11 +48,11 @@ export function BlogCard({
                   : "(max-width: 768px) 100vw, 600px"
               }
             />
-            <div className="blog-card-image-wash" aria-hidden="true" />
+            <div className={styles.imageWash} aria-hidden="true" />
           </div>
         </ViewTransition>
-        <div className="blog-card-content">
-          <div className="blog-card-meta">
+        <div className={styles.content}>
+          <div className={styles.meta}>
             <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt, locale)}</time>
             <span aria-hidden="true">·</span>
             <span className="inline-flex items-center gap-1.5">
@@ -61,13 +62,13 @@ export function BlogCard({
           </div>
           <h3>{post.title}</h3>
           <p>{post.description}</p>
-          <div className="blog-card-footer">
-            <div className="blog-card-tags" aria-label={copy.tags}>
+          <div className={styles.footer}>
+            <div className={styles.tags} aria-label={copy.tags}>
               {post.tags.slice(0, 3).map((tag) => (
                 <span key={tag}>{tag}</span>
               ))}
             </div>
-            <HiArrowRight className="blog-card-arrow" aria-hidden="true" />
+            <HiArrowRight className={styles.arrow} aria-hidden="true" />
           </div>
         </div>
       </Link>

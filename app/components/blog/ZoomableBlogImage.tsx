@@ -16,6 +16,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { HiOutlineArrowsPointingOut, HiXMark } from "react-icons/hi2";
+import styles from "./ZoomableBlogImage.module.css";
 
 interface ZoomableBlogImageProps extends ImageProps {
   frameClassName?: string;
@@ -107,7 +108,7 @@ export function ZoomableBlogImage({
     <AnimatePresence>
       {isOpen ? (
         <motion.div
-          className="blog-image-lightbox"
+          className={styles.imageLightbox}
           style={{
             position: "fixed",
             inset: 0,
@@ -129,7 +130,7 @@ export function ZoomableBlogImage({
           }}
         >
           <div
-            className="blog-image-lightbox-dialog"
+            className={styles.imageLightboxDialog}
             style={{
               display: "grid",
               width: "100%",
@@ -143,7 +144,7 @@ export function ZoomableBlogImage({
             <button
               ref={closeButtonRef}
               type="button"
-              className="blog-image-lightbox-close"
+              className={styles.imageLightboxClose}
               style={{
                 position: "fixed",
                 top: "1rem",
@@ -160,7 +161,7 @@ export function ZoomableBlogImage({
             </button>
             <motion.div
               layoutId={layoutId}
-              className="blog-image-lightbox-figure"
+              className={styles.imageLightboxFigure}
               style={
                 {
                   "--blog-image-aspect": resolvedAspectRatio,
@@ -186,7 +187,7 @@ export function ZoomableBlogImage({
                 fill
                 loading="eager"
                 sizes="100vw"
-                className="blog-image-lightbox-image"
+                className={styles.imageLightboxImage}
               />
             </motion.div>
           </div>
@@ -200,7 +201,7 @@ export function ZoomableBlogImage({
       <button
         ref={triggerRef}
         type="button"
-        className={`blog-zoomable-image ${frameClassName}`.trim()}
+        className={`${styles.zoomableImage} ${frameClassName}`.trim()}
         style={{ display: "block", position: "relative", width: "100%" }}
         aria-label={`${enlargeLabel}: ${alt}`}
         aria-haspopup="dialog"
@@ -223,13 +224,13 @@ export function ZoomableBlogImage({
       >
         <motion.span
           layoutId={layoutId}
-          className="blog-zoomable-image-surface"
+          className={styles.zoomableImageSurface}
           style={{ display: "block", position: "relative", width: "100%" }}
         >
           <Image {...imageProps} alt={alt} />
         </motion.span>
         <span
-          className="blog-zoomable-image-hint"
+          className={styles.zoomableImageHint}
           aria-hidden="true"
           style={{ position: "absolute", right: "0.85rem", bottom: "0.85rem" }}
         >

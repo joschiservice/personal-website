@@ -31,6 +31,7 @@ import { siteConfig } from "@/app/lib/site";
 import { getLocaleDictionary } from "@/app/i18n/getDictionary";
 import { localeHref } from "@/app/i18n/config";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./article.module.css";
 
 interface BlogPostPageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -47,7 +48,7 @@ function renderArticleTitle(title: string) {
     return (
       <>
         {title}
-        <span className="blog-article-title-punctuation" aria-hidden="true">.</span>
+        <span className={styles.articleTitlePunctuation} aria-hidden="true">.</span>
       </>
     );
   }
@@ -57,7 +58,7 @@ function renderArticleTitle(title: string) {
   return (
     <>
       {title.slice(0, -punctuation.length)}
-      <span className="blog-article-title-punctuation">{punctuation}</span>
+      <span className={styles.articleTitlePunctuation}>{punctuation}</span>
     </>
   );
 }
@@ -178,8 +179,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <PageTransition>
-      <div className="blog-article-shell">
-        <div className="blog-reading-progress" aria-hidden="true" />
+      <div className={styles.articleShell}>
+        <div className={styles.readingProgress} aria-hidden="true" />
         {!post.draft ? (
           <script
             type="application/ld+json"
@@ -190,29 +191,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         ) : null}
 
         <article>
-          <section className="blog-article-hero">
-            <div className="blog-article-hero__art" aria-hidden="true" />
+          <section className={styles.articleHero}>
+            <div className={styles.articleHeroArt} aria-hidden="true" />
             <SpaceBackdrop variant="article" />
 
-            <Container as="header" className="blog-article-header">
+            <Container as="header" className={styles.articleHeader}>
               <Link
                 href={localeHref(locale, "/blog")}
-                className="blog-back-link"
+                data-testid="blog-back-link"
+                className={styles.backLink}
                 transitionTypes={["nav-back"]}
               >
                 <HiArrowLeft aria-hidden="true" />
                 {copy.allWriting}
               </Link>
 
-              {post.draft ? <span className="blog-draft-badge">{copy.draftPreview}</span> : null}
-              <div className="blog-article-tags" aria-label={copy.tags}>
+              {post.draft ? <span className={styles.draftBadge}>{copy.draftPreview}</span> : null}
+              <div className={styles.articleTags} aria-label={copy.tags}>
                 {post.tags.map((tag) => (
                   <span key={tag}>{tag}</span>
                 ))}
               </div>
               <h1>{renderArticleTitle(post.title)}</h1>
-              <p className="blog-article-description">{post.description}</p>
-              <div className="blog-article-meta">
+              <p className={styles.articleDescription}>{post.description}</p>
+              <div className={styles.articleMeta}>
                 <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt, locale)}</time>
                 <span aria-hidden="true">/</span>
                 <span>
@@ -229,7 +231,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </section>
 
           {cover ? (
-            <Container className="blog-cover">
+            <Container className={styles.cover}>
               <ViewTransition
                 name={postCoverTransitionName(post.slug)}
                 share="morph"
@@ -244,7 +246,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   sizes="(max-width: 768px) 100vw, 760px"
                   className="pointer-events-none h-auto w-full object-cover"
                   style={{ width: "100%", height: "auto" }}
-                  frameClassName="blog-cover-frame"
+                  frameClassName={styles.coverFrame}
                   aspectRatio={16 / 9}
                   enlargeLabel={copy.enlargeImage}
                   fullscreenLabel={copy.fullscreenImage}
@@ -254,10 +256,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Container>
           ) : null}
 
-          <section className="blog-article-body">
-            <Container className="blog-reader">
+          <section className={styles.articleBody}>
+            <Container className={styles.reader}>
               <TableOfContents toc={post.toc} label={copy.onThisPage} ariaLabel={copy.tableOfContents} />
-              <div className="blog-prose">
+              <div className={`${styles.prose} blog-prose`}>
                 <MdxContent code={post.compiledContent} components={mdxComponents} />
               </div>
               <ArticleEnd
@@ -271,11 +273,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </section>
 
           {newer || older ? (
-            <nav className="site-container blog-post-navigation" aria-label={copy.moreArticles}>
+            <nav className={`site-container ${styles.postNavigation}`} aria-label={copy.moreArticles}>
               {newer ? (
                 <Link
                   href={localeHref(locale, newer.url)}
-                  className="blog-post-nav-link blog-post-nav-link--newer"
+                  className={`${styles.postNavLink} ${styles.postNavLinkNewer}`}
                   transitionTypes={["nav-back"]}
                 >
                   <HiArrowLeft aria-hidden="true" />
@@ -285,7 +287,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {older ? (
                 <Link
                   href={localeHref(locale, older.url)}
-                  className="blog-post-nav-link blog-post-nav-link--older"
+                  className={`${styles.postNavLink} ${styles.postNavLinkOlder}`}
                   transitionTypes={["nav-forward"]}
                 >
                   <span><small>{copy.older}</small>{older.title}</span>
@@ -296,12 +298,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           ) : null}
 
           {relatedPosts.length > 0 ? (
-            <section className="site-container blog-related" aria-labelledby="related-writing-title">
-              <div className="blog-related-heading">
+            <section className={`site-container ${styles.related} blog-related`} aria-labelledby="related-writing-title">
+              <div className={styles.relatedHeading}>
                 <span>{copy.keepReading}</span>
                 <h2 id="related-writing-title">{copy.related}</h2>
               </div>
-              <div className="blog-grid blog-grid--pair">
+              <div className={`${styles.grid} ${styles.gridPair}`}>
                 {relatedPosts.map((relatedPost) => (
                   <BlogCard
                     key={relatedPost.slug}

@@ -1,0 +1,48 @@
+:global(.blog-prose) .root {
+  margin-top: 1.65rem;
+  margin-bottom: 1.65rem;
+}
+
+.root {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.root > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.2rem;
+}
+
+.root strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.root p {
+  margin: 0;
+}
+
+.root {
+  position: relative;
+  gap: 1rem;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.root::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  width: 2px;
+  background: var(--accent);
+}
+
+.root > svg {
+  color: var(--accent-soft);
+}

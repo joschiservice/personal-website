@@ -13,7 +13,7 @@ test("lists published posts and exposes RSS", async ({ page }) => {
   await expect(
     page.getByRole("heading", { level: 1, name: en.blog.title, exact: true })
   ).toBeVisible()
-  await expect(page.locator(".blog-index-header .blog-back-link")).toHaveCount(0)
+  await expect(page.getByRole("link", { name: en.blog.allWriting })).toHaveCount(0)
   for (const post of publishedPosts) {
     await expect(page.getByRole("link", { name: en.blog.readArticle(post.title) })).toBeVisible()
   }
@@ -131,15 +131,15 @@ test.describe("local draft preview", () => {
     await expect(
       page.getByRole("heading", { name: "E2E fixture post" })
     ).toBeVisible()
-    await expect(page.locator(".blog-article-header .blog-back-link")).toHaveCSS(
+    await expect(page.getByTestId("blog-back-link")).toHaveCSS(
       "margin-bottom",
       "40px"
     )
     await expect(page.getByText(en.blog.draftPreview, { exact: true }).first()).toBeVisible()
-    await expect(page.locator(".blog-toc-desktop").getByText(en.blog.onThisPage, { exact: true })).toBeVisible()
+    await expect(page.getByTestId("toc-desktop").getByText(en.blog.onThisPage, { exact: true })).toBeVisible()
     const table = page.getByRole("table")
     await expect(table).toBeVisible()
-    await expect(page.locator(".blog-table-scroll")).toBeVisible()
+    await expect(page.getByTestId("blog-table-scroll")).toBeVisible()
     expect(
       await table.evaluate((element) => {
         const tableWidth = element.getBoundingClientRect().width
@@ -149,8 +149,8 @@ test.describe("local draft preview", () => {
       })
     ).toBeLessThan(2)
     await expect(page.getByRole("img", { name: "E2E inline image" })).toBeVisible()
-    await expect(page.locator(".blog-diagram svg")).toBeVisible()
-    await expect(page.locator(".blog-diagram")).toContainText("E2E diagram")
+    await expect(page.getByTestId("blog-diagram").locator("svg")).toBeVisible()
+    await expect(page.getByTestId("blog-diagram")).toContainText("E2E diagram")
     const articleHtml = await (await page.request.get("/blog/e2e-fixture")).text()
     expect(articleHtml).toMatch(/class="blog-diagram-canvas"><svg/)
 

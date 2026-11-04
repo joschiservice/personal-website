@@ -1,0 +1,179 @@
+.desktop > p {
+  text-transform: uppercase;
+}
+
+.desktop ol,
+.mobile ol {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.desktop li[data-level="3"],
+.mobile li[data-level="3"] {
+  padding-left: 0.85rem;
+}
+
+.desktop a,
+.mobile a {
+  display: block;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile a {
+    font-size: 0.82rem;
+  }
+}
+
+.desktop {
+  position: sticky;
+  top: 7rem;
+  align-self: start;
+  grid-column: 1;
+  max-height: calc(100vh - 9rem);
+  overflow-y: auto;
+  padding: 1.25rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.desktop > p {
+  margin: 0 0 1.25rem;
+  color: var(--accent-soft);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+
+.desktop ol,
+.mobile ol {
+  gap: 0;
+}
+
+.desktop li,
+.mobile li {
+  border-top: 1px solid var(--line);
+}
+
+.desktop li:last-child,
+.mobile li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.desktop a,
+.mobile a {
+  padding: 0.8rem 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.desktop a:hover,
+.mobile a:hover {
+  color: var(--text);
+}
+
+@media (max-width: 1023px) {
+  .mobile {
+    display: block;
+    padding: 0;
+    border: 0;
+    border-top: 1px solid var(--line-strong);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .mobile summary {
+    cursor: pointer;
+    padding: 1rem 0;
+    color: var(--accent-soft);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .mobile summary:focus-visible {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: 4px;
+  }
+
+  .mobile[open] summary {
+    margin-bottom: 0;
+  }
+}
+
+/* Table of contents: a thin rail with the current section marked on it. */
+
+.track {
+  position: relative;
+  padding-left: 1rem;
+  background: linear-gradient(var(--line), var(--line)) left / 1px 100%
+    no-repeat;
+}
+
+.desktop li,
+.desktop li:last-child {
+  border: 0;
+}
+
+.desktop li[data-level="3"] {
+  padding-left: 0.85rem;
+}
+
+.desktop a {
+  display: block;
+  padding: 0.45rem 0;
+  transition: color 320ms ease;
+}
+
+.desktop a[aria-current="location"] {
+  color: var(--text);
+}
+/* The marker that travels along the rail to the current entry. */
+
+.indicator {
+  position: absolute;
+  top: 0;
+  left: -0.5px;
+  width: 2px;
+  height: calc(var(--indicator-h, 0px) - 0.8rem);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  box-shadow: 0 0 0.6rem rgb(24 116 255 / 55%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(var(--indicator-y, 0px) + 0.4rem));
+  transition:
+    transform 420ms var(--motion-ease-out),
+    height 420ms var(--motion-ease-out),
+    opacity 240ms ease;
+}
+
+.indicator[data-visible="true"] {
+  opacity: 1;
+}
+
+.mobile a {
+  transition: color 320ms ease;
+}
+
+.mobile a[aria-current="location"] {
+  color: var(--accent-soft);
+}
