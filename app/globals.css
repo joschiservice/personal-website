@@ -352,16 +352,6 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-de
     color var(--motion-duration-control) ease,
     transform var(--motion-duration-control) var(--motion-ease-standard);
 }
-
-/* Homepage: latest posts. */
-.writing-section {
-  --section-accent: 24 116 255;
-  --section-light-x: 84%;
-  --section-light-y: 14%;
-  background: linear-gradient(180deg, #050b14, #070d17 46%, #050912);
-}
-/* The same rows as the blog index, a little tighter, closed off by a final rule. */
-.writing-section__list { padding-bottom: 1px; background: var(--rule-fade) bottom / 100% 1px no-repeat; }
 @media (min-width: 761px) {
   .writing-section__list .post-row__link {
     grid-template-columns: 9.5rem minmax(0, 1fr) minmax(10rem, 13rem);
@@ -369,7 +359,6 @@ html[data-motion-ready="true"] [data-motion-metric]:nth-child(4) { transition-de
   }
 }
 .writing-section__list .post-row__title { font-size: clamp(1.25rem, 1.9vw, 1.55rem); }
-.writing-section__list + .text-action { margin-top: 1.75rem; }
 .blog-card--feature .blog-card-image { min-height: 23rem; }
 .blog-card-meta, .blog-card-tags { font-family: var(--font-mono); }
 .blog-card h3 { font-family: var(--font-display); }

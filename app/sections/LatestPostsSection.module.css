@@ -1,0 +1,17 @@
+/* Homepage: latest posts. */
+
+.root {
+  --section-accent: 24 116 255;
+  --section-light-x: 84%;
+  --section-light-y: 14%;
+  background: linear-gradient(180deg, #050b14, #070d17 46%, #050912);
+}
+/* The same rows as the blog index, a little tighter, closed off by a final rule. */
+
+.list {
+  background: var(--rule-fade) bottom / 100% 1px no-repeat;
+}
+
+.list + :global(.text-action) {
+  margin-top: 1.75rem;
+}

@@ -7,6 +7,7 @@ import { getPublishedPosts } from "@/app/lib/blog";
 import { localeHref, type Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./LatestPostsSection.module.css";
 
 export function LatestPostsSection({
   copy,
@@ -23,7 +24,7 @@ export function LatestPostsSection({
   return (
     <section
       id="latest-writing"
-      className="editorial-section writing-section"
+      className={`editorial-section ${styles.root}`}
       aria-labelledby="latest-writing-heading"
     >
       <SpaceBackdrop variant="writing" />
@@ -40,7 +41,7 @@ export function LatestPostsSection({
           copy={blogCopy}
           locale={locale}
           headingLevel={3}
-          className="writing-section__list motion-section-content"
+          className={`${styles.list} writing-section__list motion-section-content`}
         />
         <Link href={localeHref(locale, "/blog")} className="text-action">
           {copy.allWriting}
