@@ -222,6 +222,11 @@ const en = {
     shareByEmail: "Share by email",
     backToAll: "Back to all posts",
   },
+  notFound: {
+    label: "404",
+    title: "This page doesn’t exist.",
+    action: "Back to the homepage",
+  },
   imprint: {
     label: "Legal",
     title: "Imprint / Legal disclosure",

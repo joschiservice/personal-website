@@ -458,6 +458,11 @@ const ja: Dictionary = {
     shareByEmail: "メールでシェア",
     backToAll: "記事一覧に戻る",
   },
+  notFound: {
+    label: "404",
+    title: "このページは存在しません。",
+    action: "ホームに戻る",
+  },
   imprint: {
     label: "法的情報",
     title: "Impressum / 法的表示",

@@ -110,7 +110,8 @@ test("returns not found for an unknown article", async ({ page }) => {
   const response = await page.goto("/blog/does-not-exist")
 
   expect(response?.status()).toBe(404)
-  await expect(page.getByText("This page could not be found.")).toBeVisible()
+  await expect(page.getByRole("heading", { name: en.notFound.title })).toBeVisible()
+  await expect(page.getByRole("link", { name: en.notFound.action })).toHaveAttribute("href", "/")
 })
 
 test.describe("local draft preview", () => {
