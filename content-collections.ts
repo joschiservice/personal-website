@@ -74,6 +74,29 @@ function remarkMermaid() {
   };
 }
 
+async function compilePost(path: string, content: string) {
+  try {
+    const compiled = await compile(content, {
+      outputFormat: "function-body",
+      remarkPlugins: [remarkGfm, remarkMermaid],
+      rehypePlugins: [
+        rehypeSlug,
+        [
+          rehypePrettyCode,
+          {
+            theme: "github-dark-dimmed",
+            keepBackground: false,
+          },
+        ],
+      ],
+    });
+
+    return String(compiled);
+  } catch (error) {
+    throw new Error(`${path}: ${String(error)}`, { cause: error });
+  }
+}
+
 const posts = defineCollection({
   name: "posts",
   directory: "content/posts",
@@ -95,23 +118,8 @@ const posts = defineCollection({
   }),
   transform: async (post, context) => {
     const toc = extractHeadings(post.content);
-    const compiledContent = await context.cache(post.content, async (content) =>
-      String(
-        await compile(content, {
-          outputFormat: "function-body",
-          remarkPlugins: [remarkGfm, remarkMermaid],
-          rehypePlugins: [
-            rehypeSlug,
-            [
-              rehypePrettyCode,
-              {
-                theme: "github-dark-dimmed",
-                keepBackground: false,
-              },
-            ],
-          ],
-        }),
-      ),
+    const compiledContent = await context.cache(post.content, (content) =>
+      compilePost(`content/posts/${post._meta.filePath}`, content),
     );
 
     const slug = post._meta.path;
