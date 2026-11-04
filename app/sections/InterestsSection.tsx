@@ -3,6 +3,7 @@ import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import styles from "./InterestsSection.module.css";
 
 export function InterestsSection({
   copy,
@@ -12,7 +13,7 @@ export function InterestsSection({
   return (
     <section
       id="interests"
-      className="editorial-section interests-section"
+      className={`editorial-section ${styles.section}`}
       aria-labelledby="interests-heading"
     >
       <SpaceBackdrop variant="interests" />
@@ -26,13 +27,13 @@ export function InterestsSection({
         />
 
         <div
-          className="interests-grid motion-section-content"
+          className={`${styles.grid} motion-section-content`}
           role="list"
           aria-label={copy.regionLabel}
         >
           {copy.items.map((interest) => (
-            <article className="interest-story" role="listitem" key={interest.title}>
-              <div className="interest-story__image">
+            <article className={styles.story} role="listitem" key={interest.title}>
+              <div className={styles.storyImage}>
                 <Image
                   src={interest.image}
                   alt=""
@@ -41,7 +42,7 @@ export function InterestsSection({
                   className="object-cover"
                 />
               </div>
-              <div className="interest-story__content">
+              <div className={styles.storyContent}>
                 <h3>{interest.title}</h3>
                 <p>{interest.description}</p>
               </div>
