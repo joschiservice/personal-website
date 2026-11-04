@@ -32,7 +32,7 @@ public/
 
 ### Getting started
 Prerequisites:
-- Node.js 20.9+ (Node.js 24 LTS recommended)
+- Node.js 26 LTS
 
 Install dependencies:
 ```bash
