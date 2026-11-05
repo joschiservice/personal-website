@@ -231,3 +231,26 @@ test("opens the CV redirect in a new tab", async ({ context, page }) => {
   await newTab.waitForURL("**/e2e-cv.pdf")
   expect(newTab.url()).toContain("/e2e-cv.pdf")
 })
+
+test("serves files that sit outside the localized pages", async ({ request }) => {
+  const response = await request.get("/.well-known/discord")
+
+  expect(response.status()).toBe(200)
+})
+
+test("redirects locale prefixes on routes that aren't localized", async ({ request }) => {
+  for (const path of ["/cv", "/blog/rss.xml", "/sitemap.xml"]) {
+    const response = await request.get(`/en${path}`, { maxRedirects: 0 })
+
+    expect(response.status()).toBe(308)
+    expect(response.headers().location).toBe(path)
+  }
+})
+
+test("shows the site's 404 page for a missing file", async ({ page }) => {
+  const response = await page.goto("/missing-file.png")
+
+  expect(response?.status()).toBe(404)
+  await expect(page.getByRole("heading", { name: en.notFound.title })).toBeVisible()
+  await expect(page.getByRole("navigation").first()).toBeVisible()
+})

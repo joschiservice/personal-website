@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { localeStaticParams } from "@/app/i18n/config";
 import en from "@/app/i18n/dictionaries/en";
 import {
   formatBlogDate,
@@ -14,9 +15,11 @@ export const contentType = "image/png";
 
 // Render every post's image at build time, like the post pages themselves.
 export function generateStaticParams() {
-  return [...getPublishedPosts(), ...getDevelopmentDrafts()].map((post) => ({
-    slug: post.slug,
-  }));
+  const posts = [...getPublishedPosts(), ...getDevelopmentDrafts()];
+
+  return localeStaticParams().flatMap(({ locale }) =>
+    posts.map((post) => ({ locale, slug: post.slug }))
+  );
 }
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {

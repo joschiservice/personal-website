@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { isEnabledLocale, type Locale } from "./config";
+import { defaultLocale, isEnabledLocale, type Locale } from "./config";
 
 type StructuralLiteral =
   | "experience"
@@ -39,6 +39,18 @@ export interface LocaleParams {
 export async function getLocaleDictionary({ params }: LocaleParams) {
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
+
+  return { locale, dictionary: await dictionaries[locale]() };
+}
+
+/**
+ * For the root layout. URLs the proxy skips, like /foo.png, reach it with an invalid
+ * locale. A not-found thrown here would skip not-found.tsx, which renders inside this
+ * layout, so it falls back to the default locale and lets the page throw instead.
+ */
+export async function getLayoutDictionary({ params }: LocaleParams) {
+  const { locale: requested } = await params;
+  const locale = isEnabledLocale(requested) ? requested : defaultLocale;
 
   return { locale, dictionary: await dictionaries[locale]() };
 }

@@ -32,10 +32,19 @@ export type LocalePath =
   | "/contact"
   | "/imprint";
 
+/** Params for generateStaticParams in every route under app/[locale]. */
+export function localeStaticParams() {
+  return enabledLocales.map((locale) => ({ locale }));
+}
+
+/** Adds the locale to a path only known at runtime. Use localeHref for links written in code. */
+export function withLocale(locale: Locale, path: string) {
+  if (locale === defaultLocale) return path;
+  return path === "/" ? `/${locale}` : `/${locale}${path}`;
+}
+
 export function localeHref(locale: Locale, href: LocalePath) {
-  if (locale === defaultLocale || !href.startsWith("/")) return href;
-  if (href === "/") return `/${locale}`;
-  return `/${locale}${href}`;
+  return withLocale(locale, href);
 }
 
 export function pathWithoutLocale(pathname: string) {

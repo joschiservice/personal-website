@@ -7,18 +7,16 @@ import { Navbar } from "@/app/components/navbar";
 import { SiteFooter } from "@/app/components/system/SiteFooter";
 import { instrumentSans, jetbrainsMono, jetbrainsMonoNumero, onest } from "@/app/lib/fonts";
 import { siteConfig } from "@/app/lib/site";
-import { enabledLocales } from "@/app/i18n/config";
-import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
+import { localeStaticParams } from "@/app/i18n/config";
+import { getLayoutDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 
 // Pages are static, so this keeps the footer's year from going stale between deploys.
 export const revalidate = 86400;
 
-export function generateStaticParams() {
-  return enabledLocales.map((locale) => ({ locale }));
-}
+export const generateStaticParams = localeStaticParams;
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
-  const { dictionary } = await getLocaleDictionary(props);
+  const { dictionary } = await getLayoutDictionary(props);
 
   return {
     metadataBase: new URL(siteConfig.url),
@@ -55,7 +53,7 @@ export default async function RootLayout({
 }: LocaleParams & {
   children: React.ReactNode;
 }) {
-  const { locale, dictionary } = await getLocaleDictionary(props);
+  const { locale, dictionary } = await getLayoutDictionary(props);
 
   return (
     <html

@@ -9,8 +9,8 @@ import {
   localeHref,
   localeNames,
   pathWithoutLocale,
+  withLocale,
   type Locale,
-  type LocalePath,
 } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { Container } from "@/app/components/system/Container";
@@ -278,7 +278,7 @@ function LanguageSwitcher({
       aria-label={copy.languageLabel}
     >
       <a
-        href={localeHref(targetLocale, pathname as LocalePath)}
+        href={withLocale(targetLocale, pathname)}
         hrefLang={targetLocale}
         title={copy.languages[targetLocale]}
         aria-label={copy.languages[targetLocale]}
