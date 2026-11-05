@@ -578,6 +578,31 @@
   }
 }
 
+/* Pulls the date block ahead, so it covers the last of the distance slower and stops without a jolt. */
+@keyframes dateSettle {
+  from {
+    transform: none;
+  }
+  25% {
+    transform: translateY(-1.125rem);
+  }
+  50% {
+    transform: translateY(-1.5rem);
+  }
+  75% {
+    transform: translateY(-1.125rem);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes dateHandover {
+  to {
+    opacity: 0;
+  }
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .stop {
@@ -619,6 +644,36 @@
 
     .when {
       animation-name: fadeEnter;
+    }
+
+    /* Hand over between pinned dates: the old one fades before the next stop pushes it out, and the next slows into place. */
+    @media (min-width: 901px) {
+      .stop {
+        --settle-distance: 6rem;
+        --handover-distance: 5rem;
+        /* Where a stop's end sits when it starts pushing its date block out. */
+        --handover-end: calc(var(--when-top) + 5.5rem + var(--stop-space));
+      }
+
+      .when {
+        animation:
+          fadeEnter linear both,
+          dateSettle linear both;
+        animation-timeline: view(), --timeline-stop;
+        animation-range:
+          entry 0% entry 40%,
+          exit-crossing calc(-1 * var(--when-top) - var(--settle-distance))
+          exit-crossing calc(-1 * var(--when-top));
+      }
+
+      .stop:not(:last-child) .period,
+      .stop:not(:last-child) .periodDetail {
+        animation: dateHandover linear both;
+        animation-timeline: --timeline-stop;
+        animation-range:
+          exit-crossing calc(100% - var(--handover-end) - var(--handover-distance))
+          exit-crossing calc(100% - var(--handover-end));
+      }
     }
   }
 }
