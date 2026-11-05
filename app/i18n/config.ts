@@ -12,6 +12,7 @@ export const defaultLocale: Locale = "en";
 /**
  * Locales the site currently serves. Japanese is switched off for now; add "ja"
  * back here to bring back the /ja pages, hreflang links and language switcher.
+ * <html lang> in app/layout.tsx and app/not-found.tsx would still be English.
  */
 export const enabledLocales: readonly Locale[] = ["en"];
 

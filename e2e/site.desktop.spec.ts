@@ -247,6 +247,15 @@ test("redirects locale prefixes on routes that aren't localized", async ({ reque
   }
 })
 
+test("includes the 404 page in the server's HTML", async ({ request }) => {
+  for (const path of ["/missing-page", "/missing-file.png", "/blog/missing-post"]) {
+    const response = await request.get(path)
+
+    expect(response.status()).toBe(404)
+    expect(await response.text()).toContain(`<h1>${en.notFound.title}</h1>`)
+  }
+})
+
 test("shows the site's 404 page for a missing file", async ({ page }) => {
   const response = await page.goto("/missing-file.png")
 

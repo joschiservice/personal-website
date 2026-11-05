@@ -1,5 +1,4 @@
 import { aboutMeSectionContent } from "@/app/data/aboutMeSection";
-import { statusCopy } from "@/app/i18n/statusCopy";
 import { flightRadarSectionContent } from "@/app/data/flightRadarSection";
 import { interestsSectionContent } from "@/app/data/interestsSection";
 import {
@@ -223,7 +222,11 @@ const en = {
     shareByEmail: "Share by email",
     backToAll: "Back to all posts",
   },
-  notFound: statusCopy.en.notFound,
+  notFound: {
+    label: "404",
+    title: "This page doesn’t exist.",
+    action: "Back to the homepage",
+  },
   imprint: {
     label: "Legal",
     title: "Imprint / Legal disclosure",
