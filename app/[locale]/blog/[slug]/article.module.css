@@ -229,7 +229,7 @@
   }
   @media (max-width: 760px) {
     & h1 {
-      font-size: clamp(2.1rem, 9vw, 2.8rem);
+      font-size: clamp(2.1rem, 9vw, 2.4rem);
     }
   }
 
