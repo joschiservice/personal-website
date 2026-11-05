@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    // These routes aren't localized, so they live outside app/[locale].
+    return ["cv", "sitemap.xml", "blog/rss.xml"].map((path) => ({
+      source: `/:locale(en|ja)/${path}`,
+      destination: `/${path}`,
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       {

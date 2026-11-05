@@ -25,6 +25,7 @@ export function proxy(request: NextRequest) {
 }
 
 // cv, sitemap.xml and blog/rss.xml aren't localized, so they live outside app/[locale].
+// Prefixed versions of those URLs are redirected in next.config.ts.
 export const config = {
-  matcher: ["/((?!_next|monitoring|cv$|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|gif|svg|ico|pdf|txt|xml)$).*)"],
+  matcher: ["/((?!_next|_vercel|monitoring|\\.well-known|cv$|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|gif|svg|ico|pdf|txt|xml)$).*)"],
 };
