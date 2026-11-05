@@ -31,15 +31,10 @@
 
 .tableScroll {
   width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--blog-border);
-  border-radius: 0.8rem;
-}
-
-:global(.blog-prose) .tableScroll {
   margin-top: 1.65rem;
   margin-bottom: 1.65rem;
-  border-color: var(--line-strong);
+  overflow-x: auto;
+  border: 1px solid var(--line-strong);
   border-radius: 0;
   background: var(--surface);
   box-shadow: none;

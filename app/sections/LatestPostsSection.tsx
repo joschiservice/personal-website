@@ -41,7 +41,8 @@ export function LatestPostsSection({
           copy={blogCopy}
           locale={locale}
           headingLevel={3}
-          className={`${styles.list} writing-section__list motion-section-content`}
+          compact
+          className={`${styles.list} motion-section-content`}
         />
         <Link href={localeHref(locale, "/blog")} className="text-action">
           {copy.allWriting}

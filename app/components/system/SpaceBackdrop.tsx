@@ -6,7 +6,7 @@ import styles from "./SpaceBackdrop.module.css";
 /**
  * A quiet space backdrop: a faint starfield plus one celestial feature per
  * variant (a moon, an orbit, a ring, flight arcs, a horizon). Purely
- * decorative; each variant's look lives in SpaceBackdrop.module.css under `.space--*`.
+ * decorative; each variant's look lives in SpaceBackdrop.module.css, in the class of the same name.
  */
 export type SpaceVariant =
   | "hero"

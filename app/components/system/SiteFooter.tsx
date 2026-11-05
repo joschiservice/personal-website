@@ -7,6 +7,9 @@ import { ActionLink } from "./ActionLink";
 import { SpaceBackdrop } from "./SpaceBackdrop";
 import styles from "./SiteFooter.module.css";
 
+/** Put this class on a page that should get the minimal footer, without the call to action. */
+export const quietFooterPage = styles.quietPage;
+
 export function SiteFooter({
   locale,
   copy,

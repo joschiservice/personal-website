@@ -149,17 +149,17 @@ html[lang="ja"] .cta h2 {
   }
 }
 
-body:has(:global(.contact-page)) .root {
+body:has(.quietPage) .root {
   padding-top: 2rem;
   background: var(--page-deep);
 }
 
-body:has(:global(.contact-page)) .horizon,
-body:has(:global(.contact-page)) .cta {
+body:has(.quietPage) .horizon,
+body:has(.quietPage) .cta {
   display: none;
 }
 
-body:has(:global(.contact-page)) .meta {
+body:has(.quietPage) .meta {
   margin-top: 0;
   background: var(--rule-center) top / 100% 1px no-repeat;
 }

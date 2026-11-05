@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ContactChannels } from "@/app/components/contact/ContactChannels";
 import { Container } from "@/app/components/system/Container";
+import { quietFooterPage } from "@/app/components/system/SiteFooter";
 import { localeAlternates, localeHref } from "@/app/i18n/config";
 import { getLocaleDictionary, type LocaleParams } from "@/app/i18n/getDictionary";
 import { siteConfig } from "@/app/lib/site";
@@ -31,7 +32,7 @@ export default async function ContactPage(props: LocaleParams) {
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
   return (
-    <div className={`${styles.page} contact-page`}>
+    <div className={`${styles.page} ${quietFooterPage}`}>
       <section className={styles.hero} aria-labelledby="contact-title">
         <div className={styles.heroArt} aria-hidden="true" />
         <SpaceBackdrop variant="contact" />

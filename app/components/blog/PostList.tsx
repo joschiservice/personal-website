@@ -14,6 +14,7 @@ export function PostList({
   locale,
   priorityFirst = false,
   headingLevel = 2,
+  compact = false,
   className,
 }: {
   posts: BlogPost[];
@@ -22,12 +23,17 @@ export function PostList({
   priorityFirst?: boolean;
   /** Level of each post title, so the list fits under the page's own headings. */
   headingLevel?: 2 | 3;
+  /** Tighter rows for showing a few posts inside another page. */
+  compact?: boolean;
   className?: string;
 }) {
   const Title = headingLevel === 3 ? "h3" : "h2";
+  const listClassName = [styles.list, compact && styles.compact, className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <ol className={className ? `${styles.list} ${className}` : styles.list}>
+    <ol className={listClassName}>
       {posts.map((post, index) => (
         <li key={post.slug} className={styles.row}>
           <Link
@@ -43,7 +49,7 @@ export function PostList({
               <span>{copy.readingTime(post.readingTimeMinutes)}</span>
             </p>
 
-            <div className="post-row__text">
+            <div>
               <Title className={styles.rowTitle}>{post.title}</Title>
               <p className={styles.rowDescription}>{post.description}</p>
               <ul className={styles.rowTags} aria-label={copy.tags}>

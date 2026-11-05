@@ -243,14 +243,14 @@
   }
 }
 
-:global(.blog-related) .card {
+.card.compact {
   border: 1px solid transparent;
   border-radius: 0;
   background-color: var(--surface-interactive);
   box-shadow: var(--depth-interactive);
 }
 
-:global(.blog-related) .card::before,
-:global(.blog-related) .card::after {
+.card.compact::before,
+.card.compact::after {
   display: block;
 }

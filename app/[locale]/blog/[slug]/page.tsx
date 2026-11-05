@@ -259,7 +259,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <section className={styles.articleBody}>
             <Container className={styles.reader}>
               <TableOfContents toc={post.toc} label={copy.onThisPage} ariaLabel={copy.tableOfContents} />
-              <div className={`${styles.prose} blog-prose`}>
+              <div className={styles.prose}>
                 <MdxContent code={post.compiledContent} components={mdxComponents} />
               </div>
               <ArticleEnd
@@ -298,7 +298,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           ) : null}
 
           {relatedPosts.length > 0 ? (
-            <section className={`site-container ${styles.related} blog-related`} aria-labelledby="related-writing-title">
+            <section className={`site-container ${styles.related}`} aria-labelledby="related-writing-title">
               <div className={styles.relatedHeading}>
                 <span>{copy.keepReading}</span>
                 <h2 id="related-writing-title">{copy.related}</h2>
