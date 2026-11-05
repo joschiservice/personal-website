@@ -1,5 +1,6 @@
 import type { CareerMilestone } from "@/app/data/timelineSection";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import { statusCopy } from "@/app/i18n/statusCopy";
 import en from "./en";
 
 type MilestoneTranslation = Pick<CareerMilestone, "title" | "subTitle" | "summary"> &
@@ -458,11 +459,7 @@ const ja: Dictionary = {
     shareByEmail: "メールでシェア",
     backToAll: "記事一覧に戻る",
   },
-  notFound: {
-    label: "404",
-    title: "このページは存在しません。",
-    action: "ホームに戻る",
-  },
+  notFound: statusCopy.ja.notFound,
   imprint: {
     label: "法的情報",
     title: "Impressum / 法的表示",
