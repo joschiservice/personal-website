@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 /**
  * Adds the small amount of state CSS cannot retain on its own: metrics reveal
- * once and stay visible, and the timeline rail follows the reading position.
+ * once and stay visible, and the timeline tracks the reading position.
  */
 export function HomeMotionRuntime() {
   useEffect(() => {
@@ -45,26 +45,43 @@ export function HomeMotionRuntime() {
 
     // The timeline's date blocks stick just below the nav. That sticky line is
     // the reading position: stops above it are reached, the one it falls in is
-    // active, and each stop's rail fills down to it.
+    // active, and each stop's rail fills down to it. CSS fills the rail where it can,
+    // because a scroll-driven animation doesn't fall behind fast scrolling. Safari draws
+    // that animation wrongly once a stop changes height, so it stays on the script.
+    const isSafari = /^((?!chrome|chromium|android|crios|fxios|edg).)*safari/i.test(
+      navigator.userAgent
+    );
+    const fillRailInScript =
+      !prefersReducedMotion && (isSafari || !CSS.supports("animation-timeline: view()"));
+    if (isSafari) root.dataset.timelineRail = "script";
     let timelineFrame = 0;
 
     const updateTimeline = () => {
       timelineFrame = 0;
       const readingLine = getReadingLine(timelineStops[0]);
 
-      timelineStops.forEach((stop) => {
+      // Read everything before writing, so a write doesn't force a layout for the next stop.
+      const states = timelineStops.map((stop) => {
         const rect = stop.getBoundingClientRect();
         const railStart = Number.parseFloat(
           getComputedStyle(stop).getPropertyValue("--rail-start")
         ) || 0;
-        const fill = Math.min(
-          Math.max(readingLine - rect.top - railStart, 0),
-          rect.height - railStart
-        );
 
-        stop.dataset.reached = String(readingLine >= rect.top + railStart);
-        stop.dataset.active = String(readingLine >= rect.top && readingLine < rect.bottom);
-        if (!prefersReducedMotion) stop.style.setProperty("--rail-fill", `${fill}px`);
+        return {
+          stop,
+          reached: String(readingLine >= rect.top + railStart),
+          active: String(readingLine >= rect.top && readingLine < rect.bottom),
+          fill: Math.min(
+            Math.max(readingLine - rect.top - railStart, 0),
+            rect.height - railStart
+          ),
+        };
+      });
+
+      states.forEach(({ stop, reached, active, fill }) => {
+        if (stop.dataset.reached !== reached) stop.dataset.reached = reached;
+        if (stop.dataset.active !== active) stop.dataset.active = active;
+        if (fillRailInScript) stop.style.setProperty("--rail-fill", `${fill}px`);
       });
     };
 
@@ -90,6 +107,7 @@ export function HomeMotionRuntime() {
         delete stop.dataset.active;
       });
       delete root.dataset.motionReady;
+      delete root.dataset.timelineRail;
     };
   }, []);
 

@@ -1,8 +1,9 @@
 /*
  * One rail runs down the left edge. Each stop draws its own slice of it, so the
  * rail, its marker and the entry always move together. While an entry is read,
- * its date block stays pinned and the marker travels down the rail; the runtime
- * in HomeMotionRuntime fills the rail up to the reading position.
+ * its date block stays pinned and the marker travels down the rail. The rail fills
+ * up to the reading position: with a scroll-driven animation where it's supported,
+ * so it keeps up with fast scrolling, and from HomeMotionRuntime everywhere else.
  */
 .timeline {
   --rail-x: 5px;
@@ -568,8 +569,47 @@
   }
 }
 
+@keyframes railFill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    .stop {
+      /* Where the sticky date block holds the marker. Matches getReadingLine in HomeMotionRuntime. */
+      --reading-line: calc(var(--when-top) + var(--marker-y));
+      view-timeline: --timeline-stop block;
+      @media (max-width: 900px) {
+        --reading-line: 30svh;
+      }
+    }
+
+    /* Measured from the top of the viewport: the rail starts at the reading line and ends with the stop. */
+    .stop::after {
+      bottom: 0;
+      height: auto;
+      max-height: none;
+      transform-origin: top;
+      animation: railFill linear both;
+      animation-timeline: --timeline-stop;
+      animation-range:
+        exit-crossing calc(var(--rail-start) - var(--reading-line))
+        exit-crossing calc(100% - var(--reading-line));
+    }
+
+    /* Safari draws this animation wrongly once a stop changes height, so HomeMotionRuntime fills the rail there. */
+    html[data-timeline-rail="script"] .stop::after {
+      bottom: auto;
+      height: var(--rail-fill, 0px);
+      max-height: calc(100% - var(--rail-start));
+      animation: none;
+    }
+
     .content,
     .when {
       animation: contentEnter linear both;
