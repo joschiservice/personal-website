@@ -21,11 +21,11 @@ html[lang="ja"] .root h1 {
     line-height: 1.04;
   }
 
-  & h1 span {
+  & h1 > span {
     display: block;
   }
 
-  & h1 span:last-child {
+  & h1 > span:last-child {
     color: var(--accent-soft);
   }
 
@@ -381,6 +381,42 @@ html[lang="ja"] .root h1 {
   transition: background-color 220ms ease;
 }
 
+/*
+ * The name and its nicknames share one grid cell, so the line never reflows. The
+ * widest one sets the width; the gap after a shorter one sits at the end of the line.
+ * Timed for the name plus two nicknames: the name holds for about 3s, each nickname for about 1.5s.
+ */
+.names {
+  display: inline-grid;
+
+  & > span {
+    grid-area: 1 / 1;
+  }
+
+  & > span + span {
+    opacity: 0;
+
+    &::before {
+      content: attr(data-nickname);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    & > span {
+      /* Starts partway into the name's hold, so the first swap comes just after the hero fades in. */
+      animation: hero-name 7s var(--motion-ease-standard) -1.7s infinite both;
+    }
+
+    & > span:nth-child(2) {
+      animation-name: hero-nickname-first;
+    }
+
+    & > span:nth-child(3) {
+      animation-name: hero-nickname-second;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glow,
   .continuationWheel {
@@ -421,5 +457,67 @@ html[lang="ja"] .root h1 {
   100% {
     opacity: 0;
     transform: translateY(0.6rem);
+  }
+}
+@keyframes hero-name {
+  0%,
+  40% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  48% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(-0.4em);
+  }
+  92% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(0.4em);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+@keyframes hero-nickname-first {
+  0%,
+  40% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(0.4em);
+  }
+  48%,
+  66% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  74%,
+  100% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(-0.4em);
+  }
+}
+@keyframes hero-nickname-second {
+  0%,
+  66% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(0.4em);
+  }
+  74%,
+  92% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(-0.4em);
   }
 }

@@ -52,7 +52,7 @@ export function HomePageHeroSection({
                 : undefined
             }
           >
-            <span>{copy.headlineLead}</span>
+            <HeadlineLead copy={copy} />
             <span>{copy.headlineAccent}</span>
           </h1>
           <p className={styles.description}>{copy.description}</p>
@@ -100,5 +100,32 @@ export function HomePageHeroSection({
         </a>
       </Container>
     </section>
+  );
+}
+
+/*
+ * Swaps the name for each nickname in turn. The nicknames are drawn from CSS, so the
+ * page text, search results and screen readers only ever get the real name.
+ */
+function HeadlineLead({ copy }: { copy: Dictionary["hero"] }) {
+  const [before, after] = copy.headlineLead.split(copy.headlineName);
+
+  if (copy.headlineNicknames.length === 0 || after === undefined) {
+    return <span>{copy.headlineLead}</span>;
+  }
+
+  return (
+    <span>
+      {before}
+      <span className={styles.names}>
+        <span>
+          {copy.headlineName}
+          {after}
+        </span>
+        {copy.headlineNicknames.map((nickname) => (
+          <span key={nickname} data-nickname={`${nickname}${after}`} aria-hidden="true" />
+        ))}
+      </span>
+    </span>
   );
 }

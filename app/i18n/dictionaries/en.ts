@@ -39,6 +39,9 @@ const en = {
   hero: {
     label: "Software engineer, based in Tokyo",
     headlineLead: "Hi, I’m Joschua.",
+    // The part of headlineLead that the hero swaps for each nickname in turn.
+    headlineName: "Joschua",
+    headlineNicknames: ["Joschi", "Josh"],
     headlineAccent: "Full-stack engineer, part-time aviation nerd.",
     description:
       "I grew up in northern Germany and now live in Tokyo. I work mostly with TypeScript and the web, and in my free time I’m usually reading about planes.",
