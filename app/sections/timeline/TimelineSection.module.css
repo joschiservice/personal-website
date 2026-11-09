@@ -216,6 +216,8 @@
   color: var(--body);
   font-size: 1.02rem;
   line-height: 1.75;
+  /* A summary can span paragraphs, separated by blank lines. */
+  white-space: pre-line;
 }
 
 .highlights {
@@ -279,49 +281,73 @@
 }
 
 /* Invitation: an open call attached to current work ---------------------- */
-.invitation {
-  max-width: 44rem;
-  margin-top: 2rem;
-  padding: 1.15rem 1.35rem;
-  border: 1px solid rgb(107 168 255 / 22%);
-  background:
-    linear-gradient(110deg, rgb(24 116 255 / 9%), transparent 60%),
-    rgb(9 17 30 / 60%);
+/* Stat values: the number counts up, then an improvement replaces its old value. */
+.impactValue {
+  transition: opacity 240ms ease;
 
-  & p {
-    margin: 0;
-    color: var(--body);
-    font-size: 0.95rem;
-    line-height: 1.7;
+  &[data-state="waiting"] {
+    opacity: 0;
+  }
+}
+
+.impactNumber {
+  font-variant-numeric: tabular-nums;
+}
+
+.improvement {
+  --strike-duration: 320ms;
+}
+
+.improvementBefore {
+  position: relative;
+  display: inline-block;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--strike-duration) ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 52%;
+    right: -0.1em;
+    left: -0.1em;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--warm);
+    transform-origin: left;
+    transition: transform var(--strike-duration) var(--motion-ease-standard);
+  }
+}
+
+.improvementAfter {
+  display: inline-block;
+  transition:
+    opacity 560ms ease calc(var(--strike-duration) * 0.8),
+    transform 560ms cubic-bezier(.22, .61, .36, 1) calc(var(--strike-duration) * 0.8);
+}
+
+/* Any state means it hasn't finished yet. */
+.improvement[data-state] {
+  & .improvementBefore {
+    color: inherit;
   }
 
-  & a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: 0.75rem;
-    color: var(--accent-soft);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 180ms ease;
+  & .improvementBefore::after {
+    transform: scaleX(0);
   }
 
-  & a:hover {
-    color: var(--text);
-  }
-  & svg {
-    width: 0.95rem;
-    height: 0.95rem;
-    transition: transform 180ms ease;
-  }
-  & a:hover svg {
-    transform: translateX(2px);
+  & .improvementAfter {
+    opacity: 0;
+    transform: translateX(-0.9em);
   }
 }
 
 /* Disclosure ------------------------------------------------------------- */
 .details {
+  /* The icon and the panel share one motion so they start and land together. */
+  --details-motion: 360ms cubic-bezier(.4, 0, .2, 1);
+
   margin-top: 1.75rem;
 
   & button {
@@ -346,18 +372,18 @@
   & button svg {
     width: 0.95rem;
     height: 0.95rem;
-    transition: transform 220ms var(--motion-ease-out);
+    transition: transform var(--details-motion);
   }
 
   &[data-open="true"] button svg {
-    transform: rotate(45deg);
+    transform: rotate(135deg);
   }
 
   &[data-open="true"] .detailsPanel {
     grid-template-rows: 1fr;
     visibility: visible;
     transition:
-      grid-template-rows 260ms ease,
+      grid-template-rows var(--details-motion),
       visibility 0s linear 0s;
   }
 }
@@ -368,8 +394,8 @@
   overflow: hidden;
   visibility: hidden;
   transition:
-    grid-template-rows 260ms ease,
-    visibility 0s linear 260ms;
+    grid-template-rows var(--details-motion),
+    visibility 0s linear 360ms;
 
   & ul {
     max-width: 44rem;
@@ -415,6 +441,9 @@
   list-style: none;
 
   & li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
     padding: 0.28rem 0.55rem;
     border-radius: 0.3rem;
     background: rgb(183 202 232 / 6%);
@@ -422,6 +451,16 @@
     font-family: var(--font-mono);
     font-size: 0.68rem;
     letter-spacing: 0.02em;
+  }
+
+  & li svg {
+    flex: none;
+    width: 1.15em;
+    height: 1.15em;
+
+    /* Keeps each brand recognizable while pulling it slightly toward the page's cool palette. */
+    color: var(--skill-color);
+    color: color-mix(in oklab, var(--skill-color) 85%, var(--body));
   }
 }
 
@@ -664,6 +703,15 @@
           entry 0% entry 40%,
           exit-crossing calc(-1 * var(--when-top) - var(--settle-distance))
           exit-crossing calc(-1 * var(--when-top));
+      }
+
+      /*
+       * The first stop's rail starts at its marker, so moving the marker would detach it.
+       * data-settle-paused is set by ExperienceDetails while a stop changes height.
+       */
+      .stop:first-child .when,
+      .stop[data-settle-paused] .when {
+        animation-name: fadeEnter, none;
       }
 
       .stop:not(:last-child) .period,

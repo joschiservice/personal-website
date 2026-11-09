@@ -11,7 +11,7 @@ import styles from "./TimelineSection.module.css";
  * height lets the panel keep its smooth animation while the border moves once.
  * The shared lock also prevents overlapping disclosures from releasing it early.
  */
-const SECTION_LOCK_FALLBACK_MS = 400;
+const SECTION_LOCK_FALLBACK_MS = 500;
 const sectionLocks = new WeakMap<
   HTMLElement,
   { owner: HTMLDivElement; timer: ReturnType<typeof setTimeout> }
@@ -24,6 +24,25 @@ function unlockSection(section: HTMLElement, owner: HTMLDivElement) {
   clearTimeout(lock.timer);
   section.style.minHeight = "";
   sectionLocks.delete(section);
+  section.querySelectorAll<HTMLElement>("[data-settle-paused]").forEach((stop) => {
+    delete stop.dataset.settlePaused;
+  });
+}
+
+/**
+ * A pinned date block's settle animation is scroll-driven over a range derived
+ * from its stop's height. While that height changes, the compositor can briefly
+ * use a stale range and replay the settle, bumping the block. It rests at no
+ * offset once pinned, so it can be switched off for the resize without a jump.
+ */
+function pauseDateSettle(details: HTMLElement | null) {
+  const stop = details?.closest<HTMLElement>("[data-timeline-stop]");
+  const when = stop?.querySelector("[data-timeline-marker]")?.parentElement;
+  if (!stop || !when) return;
+
+  if (new DOMMatrix(getComputedStyle(when).transform).isIdentity) {
+    stop.dataset.settlePaused = "true";
+  }
 }
 
 export function ExperienceDetails({
@@ -66,6 +85,7 @@ export function ExperienceDetails({
       : currentSectionHeight - currentPanelHeight;
 
     section.style.minHeight = `${Math.max(currentSectionHeight, targetSectionHeight)}px`;
+    pauseDateSettle(detailsRef.current);
     setIsOpen(nextIsOpen);
 
     const unlockTimer = setTimeout(() => {
