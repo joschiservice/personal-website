@@ -3,27 +3,16 @@ import type { Dictionary } from "@/app/i18n/getDictionary";
 import en from "./en";
 
 type MilestoneTranslation = Pick<CareerMilestone, "title" | "subTitle" | "summary"> &
-  Partial<Pick<CareerMilestone, "impact" | "tasks" | "skills" | "invitation">>;
+  Partial<Pick<CareerMilestone, "organization" | "attachedLabel" | "impact" | "tasks" | "skills">>;
 
 const milestoneTranslations: Record<string, MilestoneTranslation> = {
-  "auren-labs": {
-    title: "創業者・ソフトウェアエンジニア",
-    subTitle: "創業",
-    summary:
-      "Lumaを作るためにAuren Labsを立ち上げました。オンラインストアの裏側の仕事、つまり注文、在庫、出荷、仕入れを、すでに使っているツールをまたいで一つのワークスペースにまとめます。繰り返しの作業はWorkflowsが引き受け、大事な判断は人が承認します。きっかけは、Elektrohubでそのシステムを毎日使う人たちと一緒に働いた経験です。",
-    tasks: [
-      "プロダクトデザインからフルスタック開発、本番運用まで、Lumaの設計と開発をしています",
-      "ストアがすでに使っているシステムの注文、在庫、出荷、仕入れを一か所にまとめています",
-      "繰り返しの作業を引き受け、大事な判断は人が承認するWorkflowsを作っています",
-    ],
-    invitation:
-      "Lumaはまだ始まったばかりです。オンラインストアの運営をしている方、またはその人たちのためのツールを作っている方、手間がかかりすぎていることがあればぜひ聞かせてください。早期導入で一緒にLumaを形にしてもらえたらうれしいです。",
-  },
   "independent-products": {
-    title: "個人プロダクトエンジニア",
+    title: "独立ソフトウェアエンジニア",
+    organization: "個人プロジェクト・ドイツ、日本",
     subTitle: "独立",
     summary:
-      "2025年末から2026年春まで、自分のプロダクトに取り組んでいました。ShiftIQは介護サービスの管理者と一緒に、現場での実際のシフト作成の流れをもとに作り、パイロット導入の直前まで進めました。",
+      "Elektrohubの後は、自分のプロダクト作りに時間を使い、4か月間日本で日本語を勉強しました。\n\nまったく違う2つの課題に取り組みました。介護チームのシフト作成と、Eコマースの日々の業務の連携です。どちらも、設計やバックエンドからUI、自動化、デプロイまで一人で作りました。",
+    attachedLabel: "主なプロジェクト",
   },
   elektrohub: {
     title: "フルスタックエンジニア",
@@ -31,18 +20,18 @@ const milestoneTranslations: Record<string, MilestoneTranslation> = {
     summary:
       "Elektrohubでただ一人のエンジニアでした。オンラインショップと日々の業務を支えるプラットフォームを作り直し、その周りのこともすべて担当しました。何が必要かを聞き出すところから、設計、外部連携、リリース、本番環境を健全に保つことまでです。",
     impact: [
-      { label: "エンジニアチーム", value: "私ひとり" },
+      { label: "連携したシステム", value: "4つ＋自社B2Bショップ" },
       { label: "処理した注文", value: "10,000件以上" },
-      { label: "一番遅かった処理", value: "10分以上 → 数秒" },
+      { label: "一番遅かった処理", value: "10分以上 → 10秒未満" },
     ],
     tasks: [
       "保守、テスト、監視、拡張をしやすくするため、中核プラットフォームをLaravel・Vue.jsからNestJS、Next.js、TypeScript、PostgreSQLへ作り直しました",
       "4つの外部システム（Galaxus、JTL Wawi、JTL Fulfillment Network、Shopify）と自社のB2Bショップをつなぐコネクターの仕組みを設計しました",
       "20人以上が使うB2Bショップを、すばやい検索と注文を中心にした高速なReactアプリに作り直しました",
-      "重要なワークフローやデータベース処理を平均で約80%高速化しました。最も遅かった処理は10分以上から数秒になりました",
+      "重要なワークフローやデータベース処理を平均で約80%高速化しました",
       "プラットフォームの改善、分析ダッシュボード、自動テスト、日々の運用によって、10,000件以上の注文を滞りなく処理しました",
       "インフラと本番運用を担当しました。Docker、GitHub Actions、DigitalOcean、Vercel、PostgreSQL、Sentry、バックアップ、リリース、ときどき障害対応も",
-      "従業員、経営陣、B2B顧客と直接話し、価値と工数を比べながら次に作るものを決めました",
+      "従業員、経営陣、B2B顧客と直接話し、次に作るものを決めました",
       "Shopifyのブログ記事の下書きを手伝う社内LLMツールを作り、Symfony、PHP、Vue.jsでのクライアント案件も担当しました",
     ],
   },
@@ -50,18 +39,18 @@ const milestoneTranslations: Record<string, MilestoneTranslation> = {
     title: "ソフトウェア開発の職業訓練生",
     subTitle: "職業訓練（Ausbildung）",
     summary:
-      "通常3年の職業訓練を2年半で修了しました。お客さんが毎日使うデスクトップソフトの開発に関わり、古いC#・WPFのコードを新しくし、IHKの修了課題ではデータアクセスの整理とUIの応答性の改善に取り組みました。",
+      "Qualli.lifeという長く続くC#のデスクトップ製品で仕事を覚えました。古いコードを新しくし、本番の不具合を直し、新機能をリリースしました。IHKの修了課題では、連絡先モジュールの土台を作り直し、データアクセスを整理してUIの応答性を高めました。",
     impact: [
       { label: "期間", value: "3年 → 2.5年" },
       { label: "IHK評価", value: "83点（良）" },
     ],
     tasks: [
-      "C#、.NET Framework、WPF、XAML、MVVM、Entity Framework、リレーショナルデータベースを使い、Qualli.lifeデスクトップアプリの一部を刷新しました",
-      "Visual BasicからC#への移行、UIの改善、本番の不具合調査、テストを行い、お客さんが使う機能をリリースしました",
+      "C#、.NET Framework、WPF、XAML、MVVM、Entity Frameworkでアプリの一部を刷新しました",
+      "Visual BasicのコードをC#に移行し、あわせてUIも改善しました",
       "文書・印刷テンプレートのプレースホルダー向けに、IntelliSense風の自動補完とシンタックスハイライトを作りました",
       "別の医療データモジュールや、大規模で成熟したコードベースのデータベース処理にも携わりました",
       "IHKの修了課題として、連絡先モジュールの土台を設計し直しました。非同期読み込み、権限、印刷、複数ユーザー、データアクセスの一元化を含みます",
-      "その課題のデータベース処理を5回のクエリから1回に減らし、不要な書き込みもなくしました",
+      "データベース処理を見直し、クエリの回数を減らして不要な書き込みをなくしました",
     ],
   },
   senvion: {
@@ -76,15 +65,30 @@ const milestoneTranslations: Record<string, MilestoneTranslation> = {
     skills: ["組み込みシステム"],
   },
   shiftiq: {
-    title: "ShiftIQ：介護サービス向けのシフト作成",
-    subTitle: "勤務スケジューリングプロダクト",
+    title: "ShiftIQ",
+    subTitle: "勤務スケジューリング",
     summary:
-      "実際の介護サービスのシフト作成の流れから生まれたプロダクトです。雇用契約、欠勤、休暇、スタッフの希望、必要人数、さまざまなハード制約・ソフト制約を扱います。Python、FastAPI、OR-Toolsで作ったソルバーが数分でシフト案を作るので、何時間も悩む作業が、確認して調整する作業に変わります。MVPを超えてパイロット直前まで進みましたが、展開は止めました。お客さんが今のベンダーと契約で結ばれていて、乗り換えるメリットがなかったためです。",
+      "介護サービス向けのシフト作成プラットフォームを開発しました。制約最適化を使い、スタッフの都合、雇用契約、希望、現場の要件を考慮します。パイロット導入の直前まで進みましたが、導入先が既存ベンダーと契約していたため、展開は見送りました。",
     tasks: [
       "介護サービス管理者の実際のシフト作成の流れを、現場の考え方に合った要件とワークフローに落とし込みました",
       "スタッフ、雇用契約、欠勤、休暇、希望、必要人数、通知、印刷、シフト確認の機能を作りました",
       "設定可能なルールとスタッフの希望を扱う、Python、FastAPI、OR-Tools製の独立したソルバーを書きました",
       "お客さんが既存ベンダーとの契約に縛られていると、良いプロダクトだけでは足りないことを学びました",
+    ],
+  },
+  luma: {
+    title: "Luma",
+    subTitle: "コマース業務",
+    summary:
+      "Eコマース業務のための統合ワークスペースを作りました。注文、在庫、フルフィルメント、仕入れを、設定可能なワークフローでつなぎます。システム設計、ワークフロー実行、外部連携の設計に注力しました。",
+    tasks: [
+      "React製のWebアプリ、API、バックグラウンドワーカー、PostgreSQLからなるTypeScriptのモジュラーモノリスとして、プロダクトを設計・開発しました",
+      "Shopify、JTL、Cin7、Starshipit、Gmailのコネクターを作り、それぞれのデータを注文、在庫、フルフィルメント、返品の共通モデルにまとめました",
+      "Temporal上にワークフローエンジンを作りました。ワークフローはバージョン管理され、TypeScriptのステップはWebAssemblyのサンドボックスで動きます",
+      "外部システムへの変更はすべてポリシーチェックと承認を通し、監査ログを残して、変更が実際に反映されたかも別途確認するようにしました",
+      "PostgreSQLの行レベルセキュリティとテナント単位のデータアクセスで、顧客データを分離しました",
+      "ShopifyとJTLのシミュレーターを作り、実際のアカウントなしで一連の流れをテストできるようにしました",
+      "デリバリー周りも整えました。AWSのInfrastructure as Code、CIの品質ゲート、E2Eテストとブラウザテスト、負荷テストです",
     ],
   },
   "ihk-qualification": {
@@ -158,74 +162,74 @@ const toolTranslations: Record<
 > = {
   TypeScript: {
     title: "主人公",
-    flavor: "フロントエンドもバックエンドも、その間の型も。コードを書いているなら、たぶんこれです。",
+    flavor: "型システムのあるJavaScript。ユーザーより先に、あなたのミスを指摘してくれます。",
     stats: [
-      { label: "使用頻度", value: "毎日" },
-      { label: "慣れ", value: "ホーム" },
-      { label: "anyの数", value: "ごくわずか" },
+      { label: "登場", value: "2012" },
+      { label: "設計者", value: "C#の生みの親" },
+      { label: "Go版", value: "10倍高速" },
     ],
   },
   "Node.js": {
     title: "機関室",
-    flavor: "API、外部連携、止まるまで誰も気づかないバックグラウンド処理を動かしています。",
+    flavor: "ブラウザを飛び出したJavaScript。今ではサーバーやスクリプト、ビルドツールの半分を動かしています。",
     stats: [
-      { label: "使用頻度", value: "毎日" },
-      { label: "担当", value: "APIとジョブ" },
-      { label: "相棒", value: "NestJS" },
+      { label: "登場", value: "2009" },
+      { label: "エンジン", value: "ChromeのV8" },
+      { label: "JSの実行", value: "1スレッド" },
     ],
   },
   "Next.js": {
     title: "本拠地",
-    flavor: "UIがあるものなら、まずこれ。このサイトもNext.jsで動いています。",
+    flavor: "ルーティング、レンダリング、バンドルを整えてくれるReactフレームワーク。あとは何をキャッシュするか悩むだけです。",
     stats: [
-      { label: "使用頻度", value: "ほぼ全案件" },
-      { label: "動かすもの", value: "このサイト" },
-      { label: "アップデート", value: "頻繁" },
+      { label: "登場", value: "2016" },
+      { label: "ルート", value: "フォルダ" },
+      { label: "バンドラー", value: "Rust製" },
     ],
   },
   React: {
     title: "UI使い",
-    flavor: "インターフェースの考え方そのもの。小さな部品、はっきりした状態、想定外はなし。",
+    flavor: "小さなコンポーネントでUIを組み立てるライブラリ。見た目を書けば、何を変えるかは任せられます。",
     stats: [
-      { label: "使用頻度", value: "毎日" },
-      { label: "得意", value: "複雑なUI" },
-      { label: "再レンダリング", value: "管理下" },
+      { label: "登場", value: "2013" },
+      { label: "誕生", value: "Facebook" },
+      { label: "モバイル", value: "React Native" },
     ],
   },
   NestJS: {
     title: "バックエンド設計士",
-    flavor: "育っていくバックエンドが、スパゲッティになる前に構造を与えてくれます。",
+    flavor: "モジュールと依存性注入を持ち込むNode.jsフレームワーク。放っておくと荒れるバックエンドに効きます。",
     stats: [
-      { label: "用途", value: "サーバー" },
-      { label: "得意", value: "構造化" },
-      { label: "デコレーター", value: "たくさん" },
+      { label: "登場", value: "2017" },
+      { label: "影響元", value: "Angular" },
+      { label: "土台", value: "Express" },
     ],
   },
   PostgreSQL: {
     title: "データの番人",
-    flavor: "本物のデータが住む場所。EXPLAIN ANALYZEと楽しい時間をたくさん過ごしました。",
+    flavor: "Webより古いのに、毎年新しい技を覚えるリレーショナルデータベース。",
     stats: [
-      { label: "使用頻度", value: "全案件" },
-      { label: "得意", value: "実データ" },
-      { label: "好きなコマンド", value: "EXPLAIN" },
+      { label: "登場", value: "1986" },
+      { label: "誕生", value: "UCバークレー" },
+      { label: "マスコット", value: "Slonik" },
     ],
   },
   Docker: {
     title: "輸送コンテナ",
-    flavor: "ノートPCでも本番でも同じ環境。「自分の環境では動く」が減ります。",
+    flavor: "アプリと必要なものをコンテナに詰めて、「自分の環境では動く」論争をほぼ終わらせます。",
     stats: [
-      { label: "使用頻度", value: "どこでも" },
-      { label: "得意", value: "同じ環境" },
-      { label: "想定外", value: "少なめ" },
+      { label: "登場", value: "2013" },
+      { label: "初披露", value: "5分のトーク" },
+      { label: "マスコット", value: "Moby Dock" },
     ],
   },
   Sentry: {
     title: "バグレーダー",
-    flavor: "お客さんより先に、何かが壊れたことを教えてくれます。",
+    flavor: "本番のクラッシュを整ったスタックトレースに変えるエラー監視。悪い知らせも、きれいに整理。",
     stats: [
-      { label: "使う場所", value: "本番環境" },
-      { label: "見つけるもの", value: "早めのバグ" },
-      { label: "睡眠", value: "改善" },
+      { label: "登場", value: "2008" },
+      { label: "始まり", value: "Djangoアプリ" },
+      { label: "置き換えた", value: "エラーメール" },
     ],
   },
 };
@@ -240,7 +244,7 @@ const ja: Dictionary = {
   metadata: {
     title: "Joschua Haß（ヨシュア・ハス）",
     description:
-      "東京在住のソフトウェアエンジニア、ヨシュア・ハスのサイト。TypeScript、React、Next.js、NestJS、PostgreSQLでWebアプリを作っています。",
+      "ミュンヘン在住のソフトウェアエンジニア、ヨシュア・ハスのサイト。TypeScript、React、Next.js、NestJS、PostgreSQLでWebアプリを作っています。",
   },
   accessibility: {
     skipToContent: "メインコンテンツへ移動",
@@ -263,13 +267,14 @@ const ja: Dictionary = {
     languages: { en: "英語", ja: "日本語" },
   },
   hero: {
-    label: "東京在住のソフトウェアエンジニア",
+    label: "ミュンヘン在住",
     headlineLead: "こんにちは、ヨシュアです。",
     headlineName: "ヨシュア",
     headlineNicknames: [],
-    headlineAccent: "フルスタックエンジニア、ときどき航空オタク。",
+    headlineAccent: "フルスタックエンジニア、ときどきモノづくりオタク。",
     description:
-      "ドイツ北部で育ち、今は東京で暮らしています。仕事は主にTypeScriptとWeb開発で、休みの日はたいてい飛行機について調べています。",
+      "主にTypeScriptで、企業が頼れるWebアプリを作っています。仕事の外では、モノを分解したり、エンジニアリングの動画にハマったり、ときどき旅に出て頭をリセットしたりしています。",
+    descriptionHighlight: "TypeScript",
     primaryAction: "経歴を見る",
     secondaryAction: "CVをダウンロード",
     primaryActionLabel: "経歴を見る",
@@ -285,16 +290,25 @@ const ja: Dictionary = {
     annotationsLabel: "プロフィール",
     profileFactsLabel: "プロフィール",
     profileFacts: [
-      ["拠点", "東京"],
-      ["出身", "ドイツ北部"],
-      ["言語", "ドイツ語（母語）、英語（流暢）、日本語（勉強中・N5程度）"],
-      ["得意分野", "フルスタックのTypeScript"],
+      { label: "経験", value: "5年（短縮した2年半の職業訓練を含む）" },
+      { label: "言語", value: "ドイツ語（母語）、英語（流暢）、日本語（N5）" },
+      {
+        label: "コーヒーか紅茶か",
+        value: "コーヒー。でも日本に行ってから、お茶も少し好きになりました",
+        icon: "coffee",
+      },
+      {
+        label: "YouTubeの沼",
+        value: "BPS.spaceのロケット",
+        href: "https://www.youtube.com/@BPSspace",
+        icon: "rocket",
+      },
     ],
     paragraphs: [
-      "プログラミングを始めたきっかけは、トラックのシミュレーターゲームでした。友人たちとEuro Truck Simulator 2でバーチャル運送会社を運営していたのですが、みんなで使っていた管理ツールが終了してしまい、代わりのツールを自分で作りました。自分が作ったものを初めて人に使ってもらえた経験で、今でもそれがこの仕事でいちばん好きなところです。",
-      "今は主にTypeScriptを書いています。フロントエンドはReactとNext.js、その裏側はNestJSとPostgreSQLです。ここ数年はEコマース企業でただ一人のエンジニアだったので、何が必要かを聞き出すところから、本番で何か壊れたときの対応まで、すべて自分で担当するのが当たり前になりました。",
-      "いちばん楽しいのは、誰かが仕事を進めるために頼っているソフトウェアを作ることです。社内ツールや外部連携、会社を実際に動かしている少しごちゃっとしたシステム。そういうものを速く、安定して、少し使いやすくするのが好きです。",
-      "ドイツ北部で育ち、今は東京に住んでいます。コードを書いていないときは、たぶん日本語を勉強しているか、フライトシミュレーターで飛んでいるか、飛行機について調べています。",
+      "15歳でプログラミングを始めました。最初のプロジェクトのひとつは、友人たちとEuro Truck Simulator 2で運営していたバーチャル運送会社の管理ツールです。使っていたツールが終了したので、自分で作りました。自分が作ったものを初めて人に使ってもらい、役に立っているのを見られたことは、今でもこの仕事でいちばん好きなところです。",
+      "今は主にNext.jsとReactでWebアプリを作り、裏側はNestJSとPostgreSQLです。ここ数年はEコマース企業でただ一人のエンジニアだったので、何が本当に必要かを聞き出すところから、本番で問題が起きたときの素早い対応まで、すべて担当していました。",
+      "いちばん楽しいのは、人の毎日の仕事を楽にするソフトウェアです。ばらばらのシステムや外部連携を一か所にまとめることが多いです。設計の判断には時間をかけます。あとになっても自信を持てるようにするためです。",
+      "ドイツ北部で育ち、東京での4か月を除いて、今はミュンヘンに住んでいます。個人プロジェクトは、電気自動車のためのより良いアプリや、車に組み込んだ自作のライティングシステムのように、いじることから生まれます。",
     ],
   },
   writing: {
@@ -314,7 +328,6 @@ const ja: Dictionary = {
     present: "現在",
     now: "現在",
     alongside: "並行して",
-    sendMessage: "メッセージを送る",
     kinds: { experience: "職歴", project: "プロジェクト", certificate: "資格" },
     impactLabel: "ハイライト",
     stops: localizedStops,
@@ -323,12 +336,9 @@ const ja: Dictionary = {
     label: "ツール",
     title: "スターターデッキ",
     description:
-      "よく使う8つの技術をトレーディングカードにしました。ロゴを並べるだけでは退屈だったので。レアリティは使う頻度で決めています。",
-    deckLabel: "ヨシュアのデッキ · 2026",
-    completeSet: "全8枚、どれもよく使うもの",
+      "よく使う8つの技術をトレーディングカードにしました。ロゴを並べるだけでは退屈だったので。",
     rarityGuideLabel: "レアリティガイド",
     collectionLabel: "技術カード",
-    editionLabel: "2026年版",
     traitsLabel: "カードのステータス",
     rarities: { Common: "コモン", Rare: "レア", Epic: "エピック", Legendary: "レジェンド" },
     rarityNotes: {
@@ -345,21 +355,26 @@ const ja: Dictionary = {
     items: [
       {
         ...en.interests.items[0],
-        title: "日本",
+        title: "モノを分解すること",
         description:
-          "最初は旅行先のひとつでしたが、訪れるたびに住みたい場所になっていき、今は実際に住んでいます。にぎやかな駅から2分歩くだけで静かな路地がある感じや、日常のちょっとしたところに込められた気配りが今でも好きです。眺めているだけでなく、ここでの生活にちゃんと参加できるように日本語を勉強しています。",
+          "たいていのプロジェクトは、気になることから始まります。電気自動車に欲しい機能がなかったので、もっと良いアプリを作り、独自のライトシステムも組み込みました。",
       },
       {
         ...en.interests.items[1],
-        title: "航空",
+        title: "エンジニアリング沼",
         description:
-          "長く続けている趣味です。Microsoft Flight Simulatorで過ごす時間が長く、飛行機についてよく調べています。客室レイアウトやエンジン音、A350がいちばん好きな理由なら、何時間でも話せます。",
+          "Linus Tech Tips、BPS.space、Rich Rebuilds、Real Engineering、Billy Ellisで、一晩くらいは平気で溶かせます。ロケット、EV修理、iPhoneの脆弱性。テーマは何でもいいんです。",
+        videos: [
+          { ...en.interests.items[1].videos[0], topic: "モデルロケットの着陸" },
+          { ...en.interests.items[1].videos[1], topic: "事故EVの復活" },
+          { ...en.interests.items[1].videos[2], topic: "モノの作られ方" },
+        ],
       },
       {
         ...en.interests.items[2],
-        title: "個人開発",
+        title: "旅に出ること",
         description:
-          "コードを書くのは仕事であり、趣味でもあります。個人プロジェクトはたいてい、車のアプリに欲しい機能がないといった妙に具体的な不満から始まり、Webアプリやモバイルアプリ、小さなツールになります。",
+          "ときどき旅に出て頭をリセットします。日本は旅行先から東京での4か月になり、今も日本語を勉強しています。",
       },
     ],
     previous: "前の項目",
@@ -371,9 +386,19 @@ const ja: Dictionary = {
     label: "旅",
     title: "窓側の席をお願いします。",
     description:
-      "飛行機にはよく乗るので、すべてのフライトをFlightRadar24に記録しています。これまでの記録はこちらです。",
-    imageAlt: "FlightRadar24のフライト統計",
+      "すべてのフライトを記録していて、できるだけ窓側を選びます。好きな機体はA350で、飛べないときはMicrosoft Flight Simulatorです。",
     action: "フライト一覧を見る",
+    mapLabel: "ダブリンから仙台まで、28の空港の間を飛んだ路線の地図です。",
+    passLabel: "搭乗券",
+    aroundTheEarth: "地球一周",
+    flightsLabel: "フライト",
+    distanceLabel: "距離",
+    hoursLabel: "飛行時間",
+    airportsLabel: "空港",
+    windowSeatsLabel: "窓側の席",
+    mostFlownLabel: "最多路線",
+    flightSingular: "便",
+    flightPlural: "便",
   },
   footer: {
     label: "連絡先",
@@ -453,7 +478,7 @@ const ja: Dictionary = {
     related: "関連記事",
     writtenBy: "書いた人",
     authorBio:
-      "ドイツ北部出身、東京在住のソフトウェアエンジニアです。",
+      "ドイツ北部出身、ミュンヘン在住のソフトウェアエンジニアです。",
     getInTouch: "連絡する",
     share: "この記事をシェア",
     shareOn: (platform: string) => `${platform}でシェア`,

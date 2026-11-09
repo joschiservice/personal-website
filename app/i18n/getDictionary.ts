@@ -6,7 +6,11 @@ type StructuralLiteral =
   | "project"
   | "certificate"
   | "primary"
-  | "secondary";
+  | "secondary"
+  | "rocket"
+  | "car"
+  | "cog"
+  | "coffee";
 
 type WidenDictionary<T> = T extends StructuralLiteral
   ? T
