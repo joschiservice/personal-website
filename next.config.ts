@@ -17,13 +17,7 @@ const nextConfig: NextConfig = {
   // (by address on any 192.168.x.x network, or by its Bonjour name).
   allowedDevOrigins: ["192.168.*.*", "*.local"],
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "banners-my.flightradar24.com",
-        pathname: "/joschi_service.png",
-      },
-    ],
+    formats: ["image/avif", "image/webp"],
   },
   async redirects() {
     // These routes aren't localized, so they live outside app/[locale].

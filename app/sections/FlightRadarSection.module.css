@@ -13,120 +13,340 @@
     linear-gradient(180deg, #0b0b11, #05070d);
 }
 
-.log {
-  display: block;
-  color: inherit;
-  text-decoration: none;
+.board {
+  position: relative;
+}
+
+.map {
+  position: relative;
+  aspect-ratio: 1000 / 535;
+  background: url("/img/flight-map-land.svg") center / 100% 100% no-repeat;
 
   & svg {
-    transition:
-      color var(--motion-duration-control) ease,
-      transform var(--motion-duration-control) var(--motion-ease-standard);
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
   }
 }
 
-.logLine {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 2rem;
+.route {
+  fill: none;
+  stroke: var(--warm);
+  stroke-dasharray: 1;
+  stroke-opacity: 0.6;
+  stroke-width: calc(var(--route-weight) * 1.15px);
+  transition:
+    stroke-dashoffset 900ms var(--motion-ease-standard) var(--route-delay),
+    stroke-opacity 220ms ease;
 
-  &::before {
-    content: "";
-    position: absolute;
-    right: 0;
-    left: 0;
-    height: 1px;
-    background: linear-gradient(90deg, var(--warm), var(--accent), var(--line));
+  &[data-state="active"] {
+    stroke-opacity: 1;
+  }
+
+  &[data-state="muted"] {
+    stroke-opacity: 0.1;
+  }
+
+  @media (max-width: 760px) {
+    stroke-width: calc(var(--route-weight) * 2.2px);
+  }
+}
+
+.airport {
+  fill: var(--text);
+  stroke: var(--text);
+  stroke-width: 0.5px;
+  transition:
+    fill 200ms ease,
+    opacity 400ms ease 500ms,
+    stroke 200ms ease;
+
+  &[data-active="true"] {
+    fill: var(--warm);
+    stroke: var(--warm);
+    stroke-width: 5px;
+  }
+
+  @media (max-width: 760px) {
+    stroke-width: 4px;
+  }
+}
+
+.airportTarget {
+  cursor: pointer;
+  fill: transparent;
+}
+
+.airportLabel {
+  fill: var(--body);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: var(--page);
+  stroke-width: 4px;
+  transition: opacity 400ms ease 900ms;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+}
+
+.readout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  min-width: 11rem;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: var(--surface-interactive);
+  box-shadow: var(--depth-interactive);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.3rem);
+  transition:
+    opacity 180ms ease,
+    transform 260ms var(--motion-ease-standard);
+
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  & strong {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 
   & span {
-    position: relative;
-    width: 0.75rem;
-    height: 0.75rem;
-    border: 2px solid var(--accent);
-    border-radius: 999px;
-    background: #070d17;
-  }
-
-  & span:first-child {
-    border-color: var(--warm);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
   }
 }
 
-.logContent::after {
-  content: "";
+/* The stats as a boarding pass, lying on the empty south-west corner of the map. */
+.pass {
+  --pass-tilt: -1.2deg;
   position: absolute;
-  right: 0;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
-  height: 1px;
-  background: linear-gradient(
+  display: grid;
+  width: min(36rem, 62%);
+  grid-template-columns: minmax(0, 1fr) 9.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.8rem;
+  background-color: var(--surface-interactive);
+  background-image: linear-gradient(145deg, rgb(255 255 255 / 4%), transparent 42%);
+  box-shadow: var(--depth-interactive-hover);
+  transform: rotate(var(--pass-tilt));
+  transition:
+    opacity 500ms ease 450ms,
+    transform 800ms var(--motion-ease-standard) 450ms;
+
+  /* The punched notches where the stub tears off. */
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 2;
+    right: calc(9.5rem - 0.6rem);
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--page);
+    content: "";
+  }
+
+  &::before {
+    top: -0.65rem;
+  }
+
+  &::after {
+    bottom: -0.65rem;
+  }
+
+  @media (max-width: 980px) {
+    --pass-tilt: 0deg;
+    position: relative;
+    width: 100%;
+    margin-top: 1.5rem;
+    grid-template-columns: minmax(0, 1fr) 7.5rem;
+
+    &::before,
+    &::after {
+      right: calc(7.5rem - 0.6rem);
+    }
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: minmax(0, 1fr);
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.passBody {
+  min-width: 0;
+  padding: 1.15rem 1.35rem 1.2rem;
+
+  & header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  & header span:last-child {
+    color: var(--accent-soft);
+  }
+
+  & dl {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+  }
+
+  & dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  & dd {
+    margin: 0.2rem 0 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    white-space: nowrap;
+  }
+}
+
+.headline {
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+
+  & dd {
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
+
+.details {
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+  margin-top: 0.95rem !important;
+  padding-top: 0.85rem;
+  background: var(--rule-fade) top / 100% 1px no-repeat;
+
+  & dd {
+    font-size: 0.86rem;
+    font-weight: 600;
+  }
+}
+
+.stub {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.9rem;
+  padding: 1.15rem 1.1rem;
+  border-left: 1px dashed var(--line-strong);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 180ms ease;
+
+  &:hover {
+    color: var(--accent-soft);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: -2px;
+    border-radius: 0.8rem;
+  }
+
+  @media (max-width: 560px) {
+    border-top: 1px dashed var(--line-strong);
+    border-left: 0;
+  }
+}
+
+.barcode {
+  display: block;
+  height: 3.2rem;
+  background: repeating-linear-gradient(
     90deg,
-    var(--warm),
-    var(--accent) 58%,
-    transparent
+    currentcolor 0 2px,
+    transparent 2px 4px,
+    currentcolor 4px 5px,
+    transparent 5px 9px,
+    currentcolor 9px 12px,
+    transparent 12px 14px
   );
-  opacity: 0;
-  transition: opacity var(--motion-duration-control) ease;
+  opacity: 0.75;
 }
 
-/* The FlightRadar24 banner is a black-on-white PNG. Inverting it and screening it
-   onto the panel keeps only the text; the inset clip drops its 1px frame. */
-
-.logContent img {
-  width: min(20rem, 48vw);
-  height: auto;
-  clip-path: inset(3px);
-  filter: invert(1) grayscale(1);
-  mix-blend-mode: screen;
-  opacity: 0.9;
-}
-
-.logContent > span {
+.stubAction {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  color: var(--text);
-  font-size: 0.9rem;
-}
+  gap: 0.35rem;
 
-.log:is(:hover, :focus-visible) .logContent > span {
-  color: var(--accent-soft);
-}
+  & svg {
+    flex: none;
+    transition: transform 220ms var(--motion-ease-standard);
+  }
 
-.log:is(:hover, :focus-visible) .logContent::after {
-  opacity: 1;
-}
-
-.logContent {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 2.2rem 1.25rem;
-  background:
-    var(--rule-fade) bottom / 100% 1px no-repeat,
-    linear-gradient(
-      90deg,
-      rgb(13 25 41 / 82%),
-      rgb(13 25 41 / 24%) 72%,
-      transparent
-    );
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
-  transition: border-color var(--motion-duration-control) ease;
-  @media (max-width: 760px) {
-    align-items: flex-start;
-    flex-direction: column;
+  .stub:hover & svg {
+    transform: translate(2px, -2px);
   }
 }
 
-.log:is(:hover, :focus-visible) .logContent {
-  border-color: color-mix(in srgb, var(--accent) 54%, var(--line));
+/* Only hidden once the motion runtime is ready, so the section is complete without JavaScript. */
+html[data-motion-ready="true"] .board:not([data-visible="true"]) {
+  & .route {
+    stroke-dashoffset: 1;
+  }
+
+  & .airport,
+  & .airportLabel {
+    opacity: 0;
+  }
+
+  & .pass {
+    opacity: 0;
+    transform: translateY(1.5rem) rotate(var(--pass-tilt));
+  }
 }
 
-.log:is(:hover, :focus-visible) .logContent svg {
-  transform: translate(0.2rem, -0.2rem);
+@media (prefers-reduced-motion: reduce) {
+  .route,
+  .airport,
+  .airportLabel,
+  .readout,
+  .pass {
+    transition: none;
+  }
 }
