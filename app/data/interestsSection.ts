@@ -1,37 +1,66 @@
+export interface InterestVideoTile {
+  channel: string;
+  topic: string;
+  href: string;
+  icon: "rocket" | "car" | "cog";
+}
+
 export interface Interest {
   title: string;
   description: string;
-  image: string;
-  color: string;
-  icon?: string;
+  /** Up to three photos. The first one lies on top of the stack. */
+  images?: readonly string[];
+  /** Designed channel tiles, used instead of photos. */
+  videos?: readonly InterestVideoTile[];
 }
 
 export const interestsSectionContent = {
   title: "Things I’m into",
   items: [
     {
-      title: "Japan",
+      title: "Taking things apart",
       description:
-        "Japan started as a holiday destination and, trip by trip, turned into the place I wanted to live. Now I do. I still love how a quiet side street can be two minutes from a packed station, and how much care goes into everyday things. I’m learning the language so I can be part of life here rather than just watching it.",
-      image: "/img/interests/Japan.png",
-      color: "from-red-500/40 to-red-300/40",
-      icon: "🗾",
+        "Most of my projects start with something that annoys me. My electric car was missing features, so I built it a better app and wired in a custom lighting system.",
+      images: [
+        "/img/interests/tinkering-workshop.jpg",
+        "/img/interests/tinkering-car-app.jpg",
+        "/img/interests/tinkering-3d-print.jpg",
+      ],
     },
     {
-      title: "Aviation",
+      title: "Engineering rabbit holes",
       description:
-        "A hobby I’ve had for a long time. I spend a lot of time in Microsoft Flight Simulator, read a lot about aircraft, and could talk for hours about cabin layouts, engine sounds and why the A350 is my favorite plane.",
-      image: "/img/interests/Aviation.png",
-      color: "from-blue-500/40 to-blue-300/40",
-      icon: "✈️",
+        "I’ll happily lose an evening to Linus Tech Tips, BPS.space, Rich Rebuilds, Real Engineering or Billy Ellis. Rockets, EV repairs, iPhone exploits, it doesn’t really matter.",
+      videos: [
+        {
+          channel: "BPS.space",
+          topic: "Landing model rockets",
+          href: "https://www.youtube.com/@BPSspace",
+          icon: "rocket",
+        },
+        {
+          channel: "Rich Rebuilds",
+          topic: "Reviving wrecked EVs",
+          href: "https://www.youtube.com/@RichRebuilds",
+          icon: "car",
+        },
+        {
+          channel: "Real Engineering",
+          topic: "How things get built",
+          href: "https://www.youtube.com/@RealEngineering",
+          icon: "cog",
+        },
+      ],
     },
     {
-      title: "Side projects",
+      title: "Getting away",
       description:
-        "Coding is my job, and it’s also what I do for fun. Most of my side projects start with an annoyingly specific problem, like a car app that’s missing a feature, and end up as a web app, a mobile app, or a small tool.",
-      image: "/img/interests/Coding.png",
-      color: "from-purple-500/40 to-purple-300/40",
-      icon: "💻",
+        "Every now and then I go on a trip to clear my head. Japan went from a holiday to four months in Tokyo, and I’m still learning the language.",
+      images: [
+        "/img/interests/getting-away-japan.jpg",
+        "/img/interests/getting-away-airport.jpg",
+        "/img/interests/getting-away-greenhouse.jpg",
+      ],
     },
   ] as const satisfies readonly Interest[],
 } as const;

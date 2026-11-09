@@ -43,15 +43,15 @@ export default async function Home(props: LocaleParams) {
         localizedCvAvailable={localizedCvAvailable}
         newTabLabel={dictionary.accessibility.opensNewTab}
       />
-      <AboutMeSection copy={dictionary.about} />
+      <AboutMeSection copy={dictionary.about} newTabLabel={dictionary.accessibility.opensNewTab} />
       <LatestPostsSection
         copy={dictionary.writing}
         blogCopy={dictionary.blog}
         locale={locale}
       />
       <TimelineSection copy={dictionary.timeline} locale={locale} />
-      <ToolsSection copy={dictionary.tools} locale={locale} />
-      <InterestsSection copy={dictionary.interests} />
+      <ToolsSection copy={dictionary.tools} />
+      <InterestsSection copy={dictionary.interests} newTabLabel={dictionary.accessibility.opensNewTab} />
       <FlightRadarSection
         copy={dictionary.flightRadar}
         newTabLabel={dictionary.accessibility.opensNewTab}

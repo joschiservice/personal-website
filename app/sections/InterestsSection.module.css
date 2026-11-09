@@ -18,87 +18,284 @@
   }
 }
 
-.grid {
+.layout {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  @media (max-width: 980px) {
-    grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
-.story {
-  position: relative;
-  display: grid;
-  min-height: 39rem;
-  overflow: hidden;
-  background: var(--surface-static);
+.copy {
+  min-width: 0;
+}
 
-  &::after {
-    content: "";
+.picker {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & li {
+    background: var(--rule-fade) bottom / 100% 1px no-repeat;
+  }
+
+  & button {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 1.15rem 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition: color 260ms ease;
+  }
+
+  & button::after {
     position: absolute;
-    z-index: 2;
-    inset: 0;
-    pointer-events: none;
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 5%),
-      inset 1px 0 0 rgb(255 255 255 / 2%);
-  }
-
-  @media (max-width: 980px) {
-    min-height: 34rem;
-  }
-}
-
-.storyImage {
-  position: absolute;
-  inset: 0;
-
-  &::after {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--accent);
     content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgb(5 9 18 / 12%),
-      rgb(5 9 18 / 95%) 78%
-    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 460ms var(--motion-ease-standard);
   }
 
-  & img {
-    filter: saturate(0.75) contrast(1.06);
+  & button[aria-pressed="true"] {
+    color: var(--text);
   }
-}
 
-.storyContent {
-  position: relative;
-  z-index: 1;
-  align-self: end;
-  padding: 2rem;
+  & button[aria-pressed="true"]::after {
+    transform: scaleX(1);
+  }
+
+  & button:focus-visible {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: 2px;
+  }
 
   & h3 {
     margin: 0;
-    color: var(--text);
-    font-size: 1.7rem;
-    letter-spacing: -0.02em;
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
   }
+
+  & button span {
+    display: inline-block;
+    transition: transform 460ms var(--motion-ease-standard);
+  }
+
+  & button[aria-pressed="true"] span {
+    transform: translateX(0.35rem);
+  }
+}
+
+.details {
+  display: grid;
+  margin-top: 1.5rem;
 
   & p {
-    margin: 1rem 0 0;
+    grid-area: 1 / 1;
+    margin: 0;
     color: var(--body);
-    font-size: 0.95rem;
+    font-size: 1.02rem;
     line-height: 1.65;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 260ms ease,
+      transform 460ms var(--motion-ease-standard);
+    visibility: hidden;
   }
 
-  @media (min-width: 981px) {
-    align-self: stretch;
-    padding-top: 17rem;
+  & p[data-active="true"] {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+}
+
+/* Stays still and takes the pointer, while the photos inside it fan out. Only 2D transforms, for Safari. */
+.stage {
+  --spread: 1;
+  position: relative;
+  aspect-ratio: 1;
+  max-height: 36rem;
+  width: 100%;
+
+  &:hover {
+    --spread: 1.4;
   }
 
-  @media (max-width: 980px) {
-    & p {
-      max-width: 39rem;
-    }
+  @media (max-width: 900px) {
+    order: -1;
+    max-width: 30rem;
+    justify-self: center;
+  }
+}
+
+.pile {
+  position: absolute;
+  inset: 0;
+}
+
+.photo {
+  --x: 0%;
+  --angle: -2deg;
+  position: absolute;
+  z-index: 3;
+  top: 8%;
+  left: 21%;
+  overflow: hidden;
+  width: 58%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.8rem;
+  background: var(--surface-raised);
+  box-shadow: var(--depth-interactive-hover);
+  opacity: 0;
+  transform: translateY(2rem) rotate(calc(var(--angle) * 0.4)) scale(0.94);
+  transform-origin: 50% 90%;
+  transition:
+    opacity 280ms ease,
+    transform 560ms var(--motion-ease-standard);
+
+  &:nth-child(2) {
+    --x: 22%;
+    --angle: 6deg;
+    z-index: 2;
+    transition-delay: 60ms;
+  }
+
+  &:nth-child(3) {
+    --x: -22%;
+    --angle: -9deg;
+    z-index: 1;
+    transition-delay: 120ms;
+  }
+
+  .pile[data-active="true"] & {
+    opacity: 1;
+    transform: translateX(calc(var(--x) * var(--spread)))
+      rotate(calc(var(--angle) * var(--spread)));
+  }
+}
+
+.pile:not([data-active="true"]) {
+  pointer-events: none;
+}
+
+/* A designed stand-in for a video, for the interest that has no photos of its own. */
+.video {
+  --tile-color: var(--warm);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-interactive);
+  color: var(--text);
+  text-decoration: none;
+
+  &:nth-child(2) {
+    --tile-color: var(--accent-soft);
+  }
+
+  &:nth-child(3) {
+    --tile-color: #a195ff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: 2px;
+  }
+
+  &:hover .videoScreen > svg {
+    transform: translateY(-0.5rem) scale(1.08);
+  }
+
+  &:hover .videoPlay {
+    background: var(--tile-color);
+    color: var(--page-deep);
+  }
+}
+
+.videoScreen {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      color-mix(in srgb, var(--tile-color) 30%, transparent),
+      transparent 64%
+    ),
+    var(--page-deep);
+  color: var(--tile-color);
+  place-items: center;
+
+  & > svg {
+    width: 34%;
+    height: auto;
+    transition: transform 420ms var(--motion-ease-standard);
+  }
+}
+
+.videoPlay {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface-raised);
+  color: var(--text);
+  place-items: center;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
+
+  & svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+}
+
+.videoCaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.85rem 1rem 0.95rem;
+
+  & strong {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  & small {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .picker button span,
+  .picker button::after,
+  .details p,
+  .photo {
+    transition: none;
   }
 }
