@@ -138,8 +138,19 @@ html[lang="ja"] .cta h2 {
   font-size: 0.8rem;
 
   & a {
+    padding-bottom: 0.15rem;
+    background: linear-gradient(currentcolor, currentcolor) left bottom / 0 1px no-repeat;
     color: var(--text);
     text-decoration: none;
+    transition:
+      background-size 280ms var(--motion-ease-standard),
+      color var(--motion-duration-control) ease;
+  }
+
+  & a:hover,
+  & a:focus-visible {
+    background-size: 100% 1px;
+    color: var(--accent-soft);
   }
 
   @media (max-width: 760px) {
