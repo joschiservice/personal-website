@@ -51,10 +51,17 @@ export function TimelineSection({
               </div>
 
               <div className={styles.content}>
-                <ExperienceCard experience={experience} copy={copy} locale={locale} />
+                <ExperienceCard experience={experience} copy={copy} />
                 {attachedMilestones.length ? (
-                  <section className={styles.alongside} aria-label={copy.alongside}>
-                    <p className={styles.alongsideLabel}>{copy.alongside}</p>
+                  <section
+                    className={styles.alongside}
+                    aria-label={experience.attachedLabel ?? copy.alongside}
+                  >
+                    {experience.hideAttachedLabel ? null : (
+                      <p className={styles.alongsideLabel}>
+                        {experience.attachedLabel ?? copy.alongside}
+                      </p>
+                    )}
                     <ul>
                       {attachedMilestones.map((milestone) => (
                         <AlongsideItem

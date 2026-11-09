@@ -1,0 +1,176 @@
+html[lang="ja"] .cta h2 {
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+}
+
+.root {
+  position: relative;
+  padding: calc(var(--section-space) * 1.25) 0 2rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, #05070d, var(--page-deep) 60%);
+
+  & :global(.site-container) {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 760px) {
+    padding-top: 7.5rem;
+  }
+}
+
+/* The page ends on a horizon: a curved line of light with a soft glow rising behind it. */
+
+.horizon {
+  --horizon-apex: 8.5rem;
+  --horizon-depth: 20rem;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: calc(var(--horizon-apex) - 14rem);
+    left: 50%;
+    width: min(80rem, 110vw);
+    height: 28rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      rgb(36 124 255 / 30%),
+      rgb(98 112 255 / 13%) 45%,
+      rgb(124 98 255 / 4%) 70%,
+      transparent
+    );
+    filter: blur(36px);
+    transform: translateX(-50%);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: calc(var(--horizon-apex) - var(--horizon-depth));
+    left: 50%;
+    width: max(160vw, 110rem);
+    height: var(--horizon-depth);
+    border-top: 1px solid rgb(150 190 255 / 55%);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    background:
+      linear-gradient(180deg, rgb(24 116 255 / 11%), rgb(5 9 18 / 0%) 18rem),
+      var(--page-deep);
+    box-shadow: 0 -0.5rem 3rem -0.5rem rgb(36 124 255 / 45%);
+    mask-image: linear-gradient(
+      90deg,
+      transparent 12%,
+      #000 34%,
+      #000 66%,
+      transparent 88%
+    );
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 760px) {
+    --horizon-apex: 11rem;
+    --horizon-depth: 24rem;
+
+    &::after {
+      width: 240vw;
+    }
+  }
+}
+
+.cta {
+  position: relative;
+  max-width: 55rem;
+  padding-left: clamp(1.4rem, 3vw, 2.75rem);
+  background: linear-gradient(
+      180deg,
+      rgb(107 168 255 / 55%),
+      rgb(107 168 255 / 20%) 65%,
+      transparent
+    )
+    left / 1px 100% no-repeat;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 24%;
+    background: var(--accent-soft);
+    box-shadow: 0 0 1.2rem rgb(24 116 255 / 50%);
+    content: "";
+  }
+
+  & h2 {
+    text-wrap: balance;
+    margin: 1.1rem 0 0;
+    color: var(--text);
+    font-size: clamp(2.8rem, 6vw, 5.6rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+
+  & > p:not(:global(.system-label)) {
+    max-width: 34rem;
+    margin: 1.5rem 0 2.25rem;
+    color: var(--body);
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 760px) {
+    padding-left: 1.25rem;
+  }
+}
+
+.meta {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 7rem;
+  padding-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+
+  & a {
+    padding-bottom: 0.15rem;
+    background: linear-gradient(currentcolor, currentcolor) left bottom / 0 1px no-repeat;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      background-size 280ms var(--motion-ease-standard),
+      color var(--motion-duration-control) ease;
+  }
+
+  & a:hover,
+  & a:focus-visible {
+    background-size: 100% 1px;
+    color: var(--accent-soft);
+  }
+
+  @media (max-width: 760px) {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 5rem;
+  }
+}
+
+body:has(.quietPage) .root {
+  padding-top: 2rem;
+  background: var(--page-deep);
+}
+
+body:has(.quietPage) .horizon,
+body:has(.quietPage) .cta {
+  display: none;
+}
+
+body:has(.quietPage) .meta {
+  margin-top: 0;
+  background: var(--rule-center) top / 100% 1px no-repeat;
+}

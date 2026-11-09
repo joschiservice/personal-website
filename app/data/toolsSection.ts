@@ -1,4 +1,4 @@
-export const toolCategories = [
+const toolCategories = [
   "Languages",
   "Frameworks",
   "Libraries",
@@ -6,9 +6,9 @@ export const toolCategories = [
   "Cloud & Ops",
 ] as const;
 
-export type ToolCategory = (typeof toolCategories)[number];
+type ToolCategory = (typeof toolCategories)[number];
 
-export interface ToolStat {
+interface ToolStat {
   label: string;
   value: string;
 }
@@ -34,11 +34,11 @@ export const toolsSectionContent = {
       rarity: "Legendary",
       title: "The Main Character",
       flavor:
-        "Front end, back end and the types in between. If I’m writing code, it’s probably this.",
+        "JavaScript with a type system that points out your mistakes before your users do.",
       stats: [
-        { label: "Used", value: "Daily" },
-        { label: "Comfort", value: "Home turf" },
-        { label: "Uses of any", value: "Very few" },
+        { label: "Since", value: "2012" },
+        { label: "Designed by", value: "C#’s creator" },
+        { label: "Go rewrite", value: "10x faster" },
       ],
     },
     {
@@ -48,11 +48,11 @@ export const toolsSectionContent = {
       rarity: "Legendary",
       title: "Engine Room",
       flavor:
-        "Runs the APIs, integrations and background jobs nobody notices until they stop.",
+        "JavaScript that escaped the browser and now runs servers, scripts and half of your build tools.",
       stats: [
-        { label: "Used", value: "Daily" },
-        { label: "Runs", value: "APIs & jobs" },
-        { label: "Pairs with", value: "NestJS" },
+        { label: "Since", value: "2009" },
+        { label: "Engine", value: "Chrome’s V8" },
+        { label: "JS runs on", value: "1 thread" },
       ],
     },
     {
@@ -62,11 +62,11 @@ export const toolsSectionContent = {
       rarity: "Legendary",
       title: "Home Base",
       flavor:
-        "My default for anything with a UI. This site runs on it too.",
+        "A React framework that sorts out routing, rendering and bundling, then leaves you to debate what should be cached.",
       stats: [
-        { label: "Used", value: "Usually" },
-        { label: "Powers", value: "This site" },
-        { label: "Upgrades", value: "Frequent" },
+        { label: "Since", value: "2016" },
+        { label: "Routes are", value: "Folders" },
+        { label: "Bundler", value: "Rust-based" },
       ],
     },
     {
@@ -76,11 +76,11 @@ export const toolsSectionContent = {
       rarity: "Epic",
       title: "UI Wrangler",
       flavor:
-        "How I think about interfaces: small pieces, clear state, no surprises.",
+        "Build interfaces from small components, describe how they should look and let it work out what to change.",
       stats: [
-        { label: "Used", value: "Daily" },
-        { label: "Best for", value: "Tricky UIs" },
-        { label: "Rerenders", value: "Tamed" },
+        { label: "Since", value: "2013" },
+        { label: "Born at", value: "Facebook" },
+        { label: "On mobile", value: "React Native" },
       ],
     },
     {
@@ -90,11 +90,11 @@ export const toolsSectionContent = {
       rarity: "Epic",
       title: "Backend Architect",
       flavor:
-        "Gives a growing backend some structure before it turns into spaghetti.",
+        "A Node.js framework that brings modules and dependency injection to backends that would otherwise grow wild.",
       stats: [
-        { label: "Used", value: "Backends" },
-        { label: "Best for", value: "Structure" },
-        { label: "Decorators", value: "Plenty" },
+        { label: "Since", value: "2017" },
+        { label: "Inspired by", value: "Angular" },
+        { label: "Runs on", value: "Express" },
       ],
     },
     {
@@ -104,11 +104,11 @@ export const toolsSectionContent = {
       rarity: "Epic",
       title: "Source of Truth",
       flavor:
-        "Where the real data lives. I’ve spent many happy hours with EXPLAIN ANALYZE.",
+        "The relational database that’s older than the web and still picks up new tricks every year.",
       stats: [
-        { label: "Used", value: "Always" },
-        { label: "Best for", value: "Real data" },
-        { label: "Fav command", value: "EXPLAIN" },
+        { label: "Since", value: "1986" },
+        { label: "Born at", value: "UC Berkeley" },
+        { label: "Mascot", value: "Slonik" },
       ],
     },
     {
@@ -118,11 +118,11 @@ export const toolsSectionContent = {
       rarity: "Rare",
       title: "Shipping Crate",
       flavor:
-        "Same setup on my laptop and in production. Fewer “works on my machine” moments.",
+        "Packs an app and everything it needs into a container, ending most “works on my machine” debates.",
       stats: [
-        { label: "Used", value: "Everywhere" },
-        { label: "Best for", value: "Same setup" },
-        { label: "Surprises", value: "Fewer" },
+        { label: "Since", value: "2013" },
+        { label: "First demo", value: "5-min talk" },
+        { label: "Mascot", value: "Moby Dock" },
       ],
     },
     {
@@ -132,11 +132,11 @@ export const toolsSectionContent = {
       rarity: "Rare",
       title: "Bug Radar",
       flavor:
-        "Tells me something broke before a customer has to.",
+        "Error monitoring that turns production crashes into tidy stack traces. Bad news, neatly organized.",
       stats: [
-        { label: "Used", value: "Prod" },
-        { label: "Catches", value: "Bugs early" },
-        { label: "Sleep", value: "Improved" },
+        { label: "Since", value: "2008" },
+        { label: "Started as", value: "Django app" },
+        { label: "Replaced", value: "Error emails" },
       ],
     },
   ] satisfies Tool[],

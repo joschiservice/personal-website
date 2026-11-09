@@ -1,13 +1,16 @@
-import { headers } from "next/headers";
-import { cache } from "react";
-import { defaultLocale, isLocale, type Locale } from "./config";
+import { notFound } from "next/navigation";
+import { isEnabledLocale, type Locale } from "./config";
 
 type StructuralLiteral =
   | "experience"
   | "project"
   | "certificate"
   | "primary"
-  | "secondary";
+  | "secondary"
+  | "rocket"
+  | "car"
+  | "cog"
+  | "coffee";
 
 type WidenDictionary<T> = T extends StructuralLiteral
   ? T
@@ -32,18 +35,14 @@ const dictionaries: Record<Locale, () => Promise<Dictionary>> = {
   ja: () => import("./dictionaries/ja").then((module) => module.default),
 };
 
-export async function getDictionary(locale: Locale) {
-  return dictionaries[locale]();
+/** Params of every page under app/[locale]. */
+export interface LocaleParams {
+  params: Promise<{ locale: string }>;
 }
 
-export async function getRequestLocale(): Promise<Locale> {
-  const requestHeaders = await headers();
-  const locale = requestHeaders.get("x-site-locale");
-  return isLocale(locale) ? locale : defaultLocale;
-}
+export async function getLocaleDictionary({ params }: LocaleParams) {
+  const { locale } = await params;
+  if (!isEnabledLocale(locale)) notFound();
 
-export const getRequestDictionary = cache(async function getRequestDictionary() {
-  const locale = await getRequestLocale();
-  const dictionary = await getDictionary(locale);
-  return { locale, dictionary };
-});
+  return { locale, dictionary: await dictionaries[locale]() };
+}

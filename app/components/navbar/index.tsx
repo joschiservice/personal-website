@@ -9,10 +9,12 @@ import {
   localeHref,
   localeNames,
   pathWithoutLocale,
+  withLocale,
   type Locale,
 } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { Container } from "@/app/components/system/Container";
+import styles from "./navbar.module.css";
 
 const hasLanguageChoice = enabledLocales.length > 1;
 
@@ -23,7 +25,8 @@ export function Navbar({
   locale: Locale;
   copy: Dictionary["nav"];
 }) {
-  const pathname = usePathname();
+  // Prerendered pages see /en/blog while the browser sees /blog, so compare without the locale.
+  const pathname = pathWithoutLocale(usePathname());
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState("");
@@ -39,7 +42,7 @@ export function Navbar({
 
   useEffect(() => {
     // Route changes must dismiss the mobile dialog, regardless of navigation source.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
   }, [pathname]);
 
@@ -61,9 +64,9 @@ export function Navbar({
   }, []);
 
   useEffect(() => {
-    if (pathWithoutLocale(pathname) !== "/") {
+    if (pathname !== "/") {
       // Route changes must clear a section that was active on the homepage.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // oxlint-disable-next-line react-hooks/set-state-in-effect
       setActiveHash("");
       return;
     }
@@ -142,30 +145,30 @@ export function Navbar({
       window.removeEventListener("keydown", handleDialogKeyDown);
       document.body.style.overflow = previousOverflow;
       backgroundElements.forEach((element, index) => {
-        element.inert = previousInertStates[index];
+        element.inert = previousInertStates[index] ?? false;
       });
     };
   }, [isOpen]);
 
   return (
     <nav
-      className="site-nav"
+      className={styles.nav}
       data-scrolled={isScrolled ? "true" : "false"}
       data-menu-open={isOpen ? "true" : "false"}
       aria-label={copy.label}
     >
-      <Container className="site-nav__inner">
+      <Container className={styles.navInner}>
         <Link
           href={localeHref(locale, "/")}
-          className="site-nav__mark"
+          className={styles.navMark}
           aria-label={copy.home}
         >
-          <span className="site-nav__mark-full">{copy.identity}</span>
-          <span className="site-nav__mark-short">{copy.monogram}</span>
+          <span className={styles.navMarkFull}>{copy.identity}</span>
+          <span className={styles.navMarkShort}>{copy.monogram}</span>
         </Link>
 
-        <div className="site-nav__actions">
-          <div className="site-nav__links">
+        <div className={styles.navActions}>
+          <div className={styles.navLinks}>
             {items.map((item) => (
               <NavigationLink
                 key={item.href}
@@ -180,23 +183,23 @@ export function Navbar({
               locale={locale}
               pathname={pathname}
               copy={copy}
-              className="site-language--desktop"
+              className={styles.languageDesktop}
             />
           ) : null}
           <button
             ref={toggleRef}
             type="button"
-            className="site-nav__toggle"
+            className={styles.navToggle}
             onClick={() => setIsOpen((current) => !current)}
             aria-expanded={isOpen}
             aria-controls="mobile-nav"
             aria-label={isOpen ? copy.closeMenu : copy.openMenu}
           >
-            <span className="site-nav__toggle-icon" aria-hidden="true">
-              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--menu">
+            <span className={styles.navToggleIcon} aria-hidden="true">
+              <span className={`${styles.navToggleGlyph} ${styles.navToggleGlyphMenu}`}>
                 <HiBars3 />
               </span>
-              <span className="site-nav__toggle-glyph site-nav__toggle-glyph--close">
+              <span className={`${styles.navToggleGlyph} ${styles.navToggleGlyphClose}`}>
                 <HiXMark />
               </span>
             </span>
@@ -207,7 +210,7 @@ export function Navbar({
       <div
         ref={mobileMenuRef}
         id="mobile-nav"
-        className="site-nav__mobile"
+        className={styles.navMobile}
         data-open={isOpen ? "true" : "false"}
         role={isOpen ? "dialog" : undefined}
         aria-modal={isOpen ? "true" : undefined}
@@ -215,7 +218,7 @@ export function Navbar({
         aria-hidden={!isOpen}
         inert={!isOpen}
       >
-        <div className="site-nav__mobile-links">
+        <div className={styles.navMobileLinks}>
           {items.map((item, index) => (
             <Link
               ref={index === 0 ? firstMobileLinkRef : undefined}
@@ -238,7 +241,7 @@ export function Navbar({
               locale={locale}
               pathname={pathname}
               copy={copy}
-              className="site-language--mobile"
+              className={styles.languageMobile}
               style={
                 {
                   "--nav-delay": `${80 + items.length * 24}ms`,
@@ -265,18 +268,17 @@ function LanguageSwitcher({
   className: string;
   style?: React.CSSProperties;
 }) {
-  const href = pathWithoutLocale(pathname);
   const targetLocale =
     enabledLocales.find((candidate) => candidate !== locale) ?? locale;
 
   return (
     <div
-      className={`site-language ${className}`}
+      className={`${styles.language} ${className}`}
       style={style}
       aria-label={copy.languageLabel}
     >
       <a
-        href={localeHref(targetLocale, href)}
+        href={withLocale(targetLocale, pathname)}
         hrefLang={targetLocale}
         title={copy.languages[targetLocale]}
         aria-label={copy.languages[targetLocale]}
@@ -291,7 +293,7 @@ function LanguageSwitcher({
         {enabledLocales.map((candidate) => (
           <span
             key={candidate}
-            className="site-language__option"
+            className={styles.languageOption}
             data-current={candidate === locale ? "true" : "false"}
             lang={candidate}
             aria-hidden="true"
@@ -315,7 +317,7 @@ function NavigationLink({
   pathname: string;
   activeHash: string;
 }) {
-  const hrefPath = href.split("#")[0] || "/";
+  const hrefPath = pathWithoutLocale(href.split("#")[0] || "/");
   const hrefHash = href.includes("#") ? `#${href.split("#")[1]}` : "";
   const isCurrentSection = hrefHash !== "" && hrefHash === activeHash;
   const isActive =

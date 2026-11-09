@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test"
+import en from "../app/i18n/dictionaries/en"
 
 async function bodyScrollStyles(page: Page) {
   return page.locator("body").evaluate((body) => ({
@@ -30,7 +31,7 @@ test("locks and restores body scrolling when the menu toggles", async ({ page })
     "data-open",
     "true"
   )
-  await expect(page.getByRole("dialog", { name: "Mobile navigation" }).getByRole("link", { name: "Work" })).toBeFocused()
+  await expect(page.getByRole("dialog", { name: "Mobile navigation" }).getByRole("link", { name: en.nav.work })).toBeFocused()
   await expect
     .poll(() =>
       mobileMenu.evaluate((menu) => {
@@ -67,16 +68,16 @@ test("keeps the mobile menu free of a language toggle while Japanese is off", as
   await page.getByRole("button", { name: "Open menu" }).click()
   const navigation = page.getByRole("dialog", { name: "Mobile navigation" })
 
-  await expect(navigation.getByRole("link", { name: "Work" })).toBeFocused()
-  await expect(navigation.locator(".site-language")).toHaveCount(0)
+  await expect(navigation.getByRole("link", { name: en.nav.work })).toBeFocused()
+  await expect(navigation.getByLabel(en.nav.languageLabel)).toHaveCount(0)
 })
 
 test("keeps the hero actions clear of the continuation control and section edge", async ({ page }) => {
   await page.goto("/")
 
-  const spacing = await page.locator(".hero").evaluate((hero) => {
-    const actions = hero.querySelector(".hero__actions")
-    const continuation = hero.querySelector(".hero__continuation")
+  const spacing = await page.getByTestId("hero").evaluate((hero) => {
+    const actions = hero.querySelector("[data-testid=hero-actions]")
+    const continuation = hero.querySelector("[data-testid=hero-continuation]")
     if (!actions || !continuation) return null
 
     const heroRect = hero.getBoundingClientRect()
@@ -104,12 +105,12 @@ test("traps focus and closes the mobile menu with Escape", async ({ page }) => {
   const menuToggle = page.getByRole("button", { name: "Open menu" })
   await menuToggle.click()
   const mobileNavigation = page.getByRole("dialog", { name: "Mobile navigation" })
-  await expect(mobileNavigation.getByRole("link", { name: "Work" })).toBeFocused()
+  await expect(mobileNavigation.getByRole("link", { name: en.nav.work })).toBeFocused()
 
   await page.keyboard.press("Shift+Tab")
   await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
   await page.keyboard.press("Shift+Tab")
-  await expect(mobileNavigation.getByRole("link", { name: "Contact" })).toBeFocused()
+  await expect(mobileNavigation.getByRole("link", { name: en.nav.contact })).toBeFocused()
 
   await page.keyboard.press("Escape")
   await expect(page.locator("#mobile-nav")).toHaveAttribute("aria-hidden", "true")
@@ -121,7 +122,7 @@ test("navigates from the mobile menu and unlocks body scrolling", async ({ page 
 
   await page.getByRole("button", { name: "Open menu" }).click()
   const mobileNavigation = page.getByRole("dialog", { name: "Mobile navigation" })
-  await mobileNavigation.getByRole("link", { name: "About" }).click()
+  await mobileNavigation.getByRole("link", { name: en.nav.about }).click()
 
   await expect(page.locator("#mobile-nav")).toHaveAttribute("data-open", "false")
   await expect.poll(() => bodyScrollStyles(page)).toEqual({
@@ -144,8 +145,8 @@ test("reflows the editorial profile into a single reading column", async ({ page
   await page.goto("/#about-me")
   const profile = page.locator("#about-me")
   const layout = await profile.evaluate((element) => {
-    const narrative = element.querySelector(".about-section__narrative")
-    const annotations = element.querySelector(".about-section__annotations")
+    const narrative = element.querySelector("[data-testid=about-narrative]")
+    const annotations = element.querySelector("[data-testid=about-annotations]")
 
     return {
       narrativeColumns: narrative ? getComputedStyle(narrative).gridTemplateColumns : "",

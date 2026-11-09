@@ -1,5 +1,5 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
-import { compileMDX } from "@content-collections/mdx";
+import { compile } from "@mdx-js/mdx";
 import GithubSlugger from "github-slugger";
 import { toString } from "mdast-util-to-string";
 import rehypePrettyCode from "rehype-pretty-code";
@@ -9,7 +9,9 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
 import { z } from "zod";
-import type { Code, Heading, Root } from "mdast";
+import type { Root } from "mdast";
+import type {} from "mdast-util-mdx-jsx";
+import { loadDiagrams } from "./content-diagrams";
 import type { BlogTocItem } from "./content-types";
 
 const isoDate = z.iso.date();
@@ -17,9 +19,9 @@ const isoDate = z.iso.date();
 function extractHeadings(content: string) {
   const target: BlogTocItem[] = [];
   const slugger = new GithubSlugger();
-  const tree = unified().use(remarkParse).use(remarkGfm).parse(content) as Root;
+  const tree = unified().use(remarkParse).use(remarkGfm).parse(content);
 
-  visit(tree, "heading", (node: Heading) => {
+  visit(tree, "heading", (node) => {
     const title = toString(node).trim();
     if (!title) return;
 
@@ -44,24 +46,55 @@ function calculateReadingTime(content: string) {
 }
 
 function remarkMermaid() {
-  return (tree: Root) => {
-    visit(tree, "code", (node: Code, index, parent) => {
+  return async (tree: Root) => {
+    const sources = new Set<string>();
+    visit(tree, "code", (node) => {
+      if (node.lang === "mermaid") sources.add(node.value);
+    });
+    if (sources.size === 0) return;
+
+    const diagrams = await loadDiagrams(sources);
+
+    visit(tree, "code", (node, index, parent) => {
       if (node.lang !== "mermaid" || index === undefined || !parent) return;
 
-      (parent.children as unknown[])[index] = {
+      parent.children[index] = {
         type: "mdxJsxFlowElement",
         name: "MermaidDiagram",
         attributes: [
           {
             type: "mdxJsxAttribute",
-            name: "source",
-            value: node.value,
+            name: "svg",
+            value: diagrams.get(node.value) ?? null,
           },
         ],
         children: [],
       };
     });
   };
+}
+
+async function compilePost(path: string, content: string) {
+  try {
+    const compiled = await compile(content, {
+      outputFormat: "function-body",
+      remarkPlugins: [remarkGfm, remarkMermaid],
+      rehypePlugins: [
+        rehypeSlug,
+        [
+          rehypePrettyCode,
+          {
+            theme: "github-dark-dimmed",
+            keepBackground: false,
+          },
+        ],
+      ],
+    });
+
+    return String(compiled);
+  } catch (error) {
+    throw new Error(`${path}: ${String(error)}`, { cause: error });
+  }
 }
 
 const posts = defineCollection({
@@ -85,19 +118,9 @@ const posts = defineCollection({
   }),
   transform: async (post, context) => {
     const toc = extractHeadings(post.content);
-    const compiledContent = await compileMDX(context, post, {
-      remarkPlugins: [remarkGfm, remarkMermaid],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypePrettyCode,
-          {
-            theme: "github-dark-dimmed",
-            keepBackground: false,
-          },
-        ],
-      ],
-    });
+    const compiledContent = await context.cache(post.content, (content) =>
+      compilePost(`content/posts/${post._meta.filePath}`, content),
+    );
 
     const slug = post._meta.path;
 

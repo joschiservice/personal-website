@@ -5,6 +5,7 @@ import { postCoverTransitionName } from "@/app/components/system/PageTransition"
 import { formatBlogDate, type BlogPost } from "@/app/lib/blog";
 import { localeHref, type Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import styles from "./PostList.module.css";
 
 /** The blog index: one scannable row per post, newest first. */
 export function PostList({
@@ -13,6 +14,7 @@ export function PostList({
   locale,
   priorityFirst = false,
   headingLevel = 2,
+  compact = false,
   className,
 }: {
   posts: BlogPost[];
@@ -21,31 +23,36 @@ export function PostList({
   priorityFirst?: boolean;
   /** Level of each post title, so the list fits under the page's own headings. */
   headingLevel?: 2 | 3;
+  /** Tighter rows for showing a few posts inside another page. */
+  compact?: boolean;
   className?: string;
 }) {
   const Title = headingLevel === 3 ? "h3" : "h2";
+  const listClassName = [styles.list, compact && styles.compact, className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <ol className={className ? `post-list ${className}` : "post-list"}>
+    <ol className={listClassName}>
       {posts.map((post, index) => (
-        <li key={post.slug} className="post-row">
+        <li key={post.slug} className={styles.row}>
           <Link
             href={localeHref(locale, post.url)}
-            className="post-row__link"
+            className={styles.rowLink}
             aria-label={copy.readArticle(post.title)}
             transitionTypes={["nav-forward"]}
           >
-            <p className="post-row__meta">
+            <p className={styles.rowMeta}>
               <time dateTime={post.publishedAt}>
                 {formatBlogDate(post.publishedAt, locale)}
               </time>
               <span>{copy.readingTime(post.readingTimeMinutes)}</span>
             </p>
 
-            <div className="post-row__text">
-              <Title className="post-row__title">{post.title}</Title>
-              <p className="post-row__description">{post.description}</p>
-              <ul className="post-row__tags" aria-label={copy.tags}>
+            <div>
+              <Title className={styles.rowTitle}>{post.title}</Title>
+              <p className={styles.rowDescription}>{post.description}</p>
+              <ul className={styles.rowTags} aria-label={copy.tags}>
                 {post.tags.slice(0, 3).map((tag) => (
                   <li key={tag}>{tag}</li>
                 ))}
@@ -58,7 +65,7 @@ export function PostList({
               default="none"
             >
               <div
-                className="post-row__cover"
+                className={styles.rowCover}
                 data-fallback={post.cover ? undefined : "true"}
               >
                 <PostCover

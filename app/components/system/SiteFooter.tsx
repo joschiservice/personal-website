@@ -5,6 +5,10 @@ import { localeHref } from "@/app/i18n/config";
 import { Container } from "./Container";
 import { ActionLink } from "./ActionLink";
 import { SpaceBackdrop } from "./SpaceBackdrop";
+import styles from "./SiteFooter.module.css";
+
+/** Put this class on a page that should get the minimal footer, without the call to action. */
+export const quietFooterPage = styles.quietPage;
 
 export function SiteFooter({
   locale,
@@ -14,11 +18,11 @@ export function SiteFooter({
   copy: Dictionary["footer"];
 }) {
   return (
-    <footer className="site-footer" id="contact">
+    <footer className={styles.root} id="contact">
       <SpaceBackdrop variant="footer" />
-      <div className="site-footer__horizon" aria-hidden="true" />
+      <div className={styles.horizon} aria-hidden="true" />
       <Container>
-        <div className="site-footer__cta">
+        <div className={styles.cta}>
           <p className="system-label">{copy.label}</p>
           <h2>{copy.title}</h2>
           <p>{copy.body}</p>
@@ -26,7 +30,8 @@ export function SiteFooter({
             {copy.contact}
           </ActionLink>
         </div>
-        <div className="site-footer__meta">
+        <div className={styles.meta}>
+          {/* oxlint-disable-next-line react-hooks/purity -- server component, so this can't cause a hydration mismatch */}
           <span>© {new Date().getFullYear()} Joschua Haß. {copy.copyright}</span>
           <Link href={localeHref(locale, "/imprint")}>{copy.imprint}</Link>
         </div>

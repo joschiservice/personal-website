@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import styles from "./SpaceBackdrop.module.css";
 
 /**
  * A quiet space backdrop: a faint starfield plus one celestial feature per
  * variant (a moon, an orbit, a ring, flight arcs, a horizon). Purely
- * decorative; each variant's look lives in globals.css under `.space--*`.
+ * decorative; each variant's look lives in SpaceBackdrop.module.css, in the class of the same name.
  */
 export type SpaceVariant =
   | "hero"
@@ -38,10 +39,10 @@ export function SpaceBackdrop({
   }, []);
 
   return (
-    <div ref={ref} className={`space space--${variant}`} aria-hidden="true">
-      <span className="space__stars" />
-      <span className="space__feature" />
-      <span className="space__accent" />
+    <div ref={ref} className={`${styles.root} ${styles[variant]}`} aria-hidden="true">
+      <span className={styles.stars} />
+      <span className={styles.feature} />
+      <span className={styles.accent} />
       {children}
     </div>
   );

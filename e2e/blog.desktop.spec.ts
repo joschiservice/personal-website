@@ -1,18 +1,26 @@
 import { expect, test } from "@playwright/test"
+import { allPosts } from "content-collections"
+import en from "../app/i18n/dictionaries/en"
+import { getPublishedPosts } from "../app/lib/blog"
 import { buildRssFeed } from "../app/lib/rss"
+
+const publishedPosts = getPublishedPosts()
+const draftPosts = allPosts.filter((post) => post.draft)
 
 test("lists published posts and exposes RSS", async ({ page }) => {
   await page.goto("/blog")
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "Blog", exact: true })
+    page.getByRole("heading", { level: 1, name: en.blog.title, exact: true })
   ).toBeVisible()
-  await expect(page.locator(".blog-index-header .blog-back-link")).toHaveCount(0)
-  await expect(
-    page.getByRole("link", { name: /Read .*my take on AI and the future of work/ })
-  ).toBeVisible()
-  await expect(page.getByRole("heading", { name: "The first post is on its way." })).toHaveCount(0)
-  await expect(page.getByRole("link", { name: "RSS feed" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: en.blog.allWriting })).toHaveCount(0)
+  for (const post of publishedPosts) {
+    await expect(page.getByRole("link", { name: en.blog.readArticle(post.title) })).toBeVisible()
+  }
+  await expect(page.getByRole("heading", { name: en.blog.emptyTitle })).toHaveCount(
+    publishedPosts.length > 0 ? 0 : 1
+  )
+  await expect(page.getByRole("link", { name: en.blog.rss })).toHaveAttribute(
     "href",
     "/blog/rss.xml"
   )
@@ -36,8 +44,13 @@ test("serves a cacheable, valid RSS feed without draft entries", async ({ page, 
   )
   expect(body).toContain("<rss version=\"2.0\"")
   expect(body).toContain('<atom:link href="https://www.jhass.dev/blog/rss.xml" rel="self"')
-  expect(body).toContain("https://www.jhass.dev/blog/ai-and-the-future-of-work")
-  expect(body).not.toContain("Building a Blog That Feels Like Home")
+  for (const post of publishedPosts) {
+    expect(body).toContain(`https://www.jhass.dev${post.url}`)
+  }
+  expect(draftPosts.length).toBeGreaterThan(0)
+  for (const post of draftPosts) {
+    expect(body).not.toContain(post.url)
+  }
 
   const parsedFeed = await page.evaluate((xml) => {
     const document = new DOMParser().parseFromString(xml, "application/xml")
@@ -97,7 +110,8 @@ test("returns not found for an unknown article", async ({ page }) => {
   const response = await page.goto("/blog/does-not-exist")
 
   expect(response?.status()).toBe(404)
-  await expect(page.getByText("This page could not be found.")).toBeVisible()
+  await expect(page.getByRole("heading", { name: en.notFound.title })).toBeVisible()
+  await expect(page.getByRole("link", { name: en.notFound.action })).toHaveAttribute("href", "/")
 })
 
 test.describe("local draft preview", () => {
@@ -107,24 +121,25 @@ test.describe("local draft preview", () => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"])
     await page.goto("/blog")
 
-    await expect(page.getByRole("heading", { name: "Draft previews" })).toBeVisible()
+    await expect(page.getByRole("heading", { name: en.blog.drafts })).toBeVisible()
     await page
-      .getByRole("link", { name: "Read Building a Blog That Feels Like Home" })
+      .getByRole("link", { name: en.blog.readArticle("E2E fixture post") })
       .click()
 
-    await expect(page).toHaveURL(/\/blog\/building-the-blog$/)
+    // This test only runs against the dev server, where the first visit compiles the post route on demand.
+    await expect(page).toHaveURL(/\/blog\/e2e-fixture$/, { timeout: 15_000 })
     await expect(
-      page.getByRole("heading", { name: "Building a Blog That Feels Like Home" })
+      page.getByRole("heading", { name: "E2E fixture post" })
     ).toBeVisible()
-    await expect(page.locator(".blog-article-header .blog-back-link")).toHaveCSS(
+    await expect(page.getByTestId("blog-back-link")).toHaveCSS(
       "margin-bottom",
       "40px"
     )
-    await expect(page.getByText("Draft preview", { exact: true }).first()).toBeVisible()
-    await expect(page.locator(".blog-toc-desktop").getByText("On this page", { exact: true })).toBeVisible()
+    await expect(page.getByText(en.blog.draftPreview, { exact: true }).first()).toBeVisible()
+    await expect(page.getByTestId("toc-desktop").getByText(en.blog.onThisPage, { exact: true })).toBeVisible()
     const table = page.getByRole("table")
     await expect(table).toBeVisible()
-    await expect(page.locator(".blog-table-scroll")).toBeVisible()
+    await expect(page.getByTestId("blog-table-scroll")).toBeVisible()
     expect(
       await table.evaluate((element) => {
         const tableWidth = element.getBoundingClientRect().width
@@ -133,30 +148,32 @@ test.describe("local draft preview", () => {
         return Math.abs(tableWidth - containerWidth)
       })
     ).toBeLessThan(2)
-    await expect(page.getByRole("img", { name: /Abstract streams of light/ })).toBeVisible()
-    await expect(page.locator(".blog-diagram[data-status=\"ready\"] svg")).toBeVisible()
-    await expect(page.locator(".blog-diagram")).toContainText("From draft to published post")
+    await expect(page.getByRole("img", { name: "E2E inline image" })).toBeVisible()
+    await expect(page.getByTestId("blog-diagram").locator("svg")).toBeVisible()
+    await expect(page.getByTestId("blog-diagram")).toContainText("E2E diagram")
+    const articleHtml = await (await page.request.get("/blog/e2e-fixture")).text()
+    expect(articleHtml).toMatch(/data-testid="blog-diagram"[^>]*><div[^>]*><svg/)
 
     await page
-      .getByRole("button", { name: /Enlarge image: Luminous blue and violet/ })
+      .getByRole("button", { name: `${en.blog.enlargeImage}: E2E cover image` })
       .click()
     await expect(
-      page.getByRole("dialog", { name: /Fullscreen image: Luminous blue and violet/ })
+      page.getByRole("dialog", { name: `${en.blog.fullscreenImage}: E2E cover image` })
     ).toBeVisible()
     await page.keyboard.press("Escape")
-    await expect(page.getByRole("dialog", { name: /Fullscreen image/ })).toBeHidden()
+    await expect(page.getByRole("dialog", { name: en.blog.fullscreenImage })).toBeHidden()
 
     await page
-      .getByRole("button", { name: /Enlarge image: Abstract streams of light/ })
+      .getByRole("button", { name: `${en.blog.enlargeImage}: E2E inline image` })
       .click()
     await expect(
-      page.getByRole("dialog", { name: /Fullscreen image: Abstract streams of light/ })
+      page.getByRole("dialog", { name: `${en.blog.fullscreenImage}: E2E inline image` })
     ).toBeVisible()
-    await page.getByRole("button", { name: "Close fullscreen image" }).click()
-    await expect(page.getByRole("dialog", { name: /Fullscreen image/ })).toBeHidden()
+    await page.getByRole("button", { name: en.blog.closeFullscreenImage }).click()
+    await expect(page.getByRole("dialog", { name: en.blog.fullscreenImage })).toBeHidden()
 
-    await page.getByRole("button", { name: "Copy link" }).click()
-    await expect(page.getByRole("button", { name: "Copied" })).toBeVisible()
+    await page.getByRole("button", { name: en.blog.copyLink }).click()
+    await expect(page.getByRole("button", { name: en.blog.copied })).toBeVisible()
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",
       /noindex/

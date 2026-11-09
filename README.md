@@ -4,7 +4,7 @@ This repository contains the source for my personal website. It is a server-firs
 
 ### Tech stack
 - **Framework**: Next.js, React (App Router under `app/`)
-- **Styling**: Tailwind CSS v4 plus a token-based editorial design system
+- **Styling**: CSS Modules beside each component, with tokens and shared primitives in `app/globals.css`, and Tailwind CSS v4 for base styles
 - **TypeScript**: Strict typing via `tsconfig.json`
 - **Content**: Typed MDX through Content Collections
 - **Motion**: Motion for interactive transitions, with reduced-motion support
@@ -20,11 +20,12 @@ app/
   i18n/                     # Locale configuration and typed dictionaries
   lib/                      # Blog, CV, RSS, date, and site helpers
   sections/                 # Homepage sections
-  blog/                     # Blog index, article pages, and RSS route
-  page.tsx                  # Homepage
-  layout.tsx                # Root layout and shared chrome
-  globals.css               # Tailwind entrypoint and design system
+  [locale]/                 # Pages and root layout; proxy.ts rewrites /contact to /en/contact
+  blog/rss.xml/             # RSS route
+  cv/                       # CV download route
+  globals.css               # Tokens, base styles, and shared primitives
 content/posts/              # Validated MDX articles
+content/diagrams/           # Rendered Mermaid SVGs, generated and committed
 e2e/                        # Desktop and mobile Playwright coverage
 public/
   img/                      # Optimized local image assets
@@ -32,7 +33,7 @@ public/
 
 ### Getting started
 Prerequisites:
-- Node.js 20.9+ (Node.js 24 LTS recommended)
+- Node.js 26 LTS
 
 Install dependencies:
 ```bash
@@ -55,7 +56,18 @@ NEXT_PUBLIC_SOCIAL_GITHUB
 NEXT_PUBLIC_SOCIAL_INSTAGRAM
 ```
 
+Error reporting uses the optional `NEXT_PUBLIC_SENTRY_DSN` variable. It must be set at build time, and Sentry is disabled when it is unset.
+
 The CV route reads the latest localized `*_CV_EN.pdf`, `*_CV_DE.pdf`, etc. file from Vercel Blob and therefore requires the standard Vercel Blob credentials outside the test suite. Requests use the site locale (`/cv?lang=de`, for example), match its uppercase language code, and fall back to English when that language is unavailable. Legacy `*_CV.pdf` uploads are treated as English.
+
+Mermaid diagrams are written as ` ```mermaid ` blocks in a post and rendered ahead of time, so the site ships no Mermaid code:
+
+- `pnpm dev` and `pnpm build` render new or edited diagrams into `content/diagrams/`. Commit those files with the post. This needs Playwright's Chromium (`pnpm exec playwright install chromium`).
+- CI and Vercel never render diagrams, and the build fails if a diagram's file wasn't committed.
+- Run `pnpm diagrams` after upgrading Mermaid, or to remove files no post uses any more. It renders every diagram again.
+- The theme lives in `content-diagrams.ts`. Changing it renders every diagram again on the next `pnpm dev` or `pnpm build`.
+
+CSS Modules are type-checked, so a mistyped `styles.x` is a compile error. `pnpm dev` keeps the generated `*.module.d.css.ts` files current, and `pnpm lint` and `pnpm build` regenerate them. `pnpm lint` also fails on classes nothing uses.
 
 Build for production:
 ```bash
@@ -83,7 +95,7 @@ Run the Playwright smoke suite:
 pnpm test:e2e
 ```
 
-To intentionally test an already-running local server, set `PLAYWRIGHT_REUSE_EXISTING_SERVER=true`. The default remains an isolated server with deterministic test environment values.
+Stop `pnpm dev` first, because the tests start their own server with fixed test values.
 
 Open Playwright's interactive test runner:
 ```bash

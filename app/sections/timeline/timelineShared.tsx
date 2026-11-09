@@ -1,25 +1,25 @@
 import Link from "next/link";
-import { HiArrowRight, HiArrowUpRight } from "react-icons/hi2";
+import { HiArrowUpRight } from "react-icons/hi2";
 import type { CareerMilestone } from "@/app/data/timelineSection";
-import { localeHref, type Locale } from "@/app/i18n/config";
+import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { getFormattedTimeSpan } from "@/app/lib/date";
 import styles from "./TimelineSection.module.css";
 import { ExperienceDetails } from "./ExperienceDetails";
+import { ImpactValue } from "./ImpactValue";
+import { getSkillIcon } from "./skillIcons";
 
 type TimelineCopy = Dictionary["timeline"];
 
 export function ExperienceCard({
   experience,
   copy,
-  locale,
 }: {
   experience: CareerMilestone;
   copy: TimelineCopy;
-  locale: Locale;
 }) {
   return (
-    <div className={styles.experience}>
+    <div>
       <h3 className={styles.role}>{experience.title}</h3>
       {experience.organization ? (
         <p className={styles.organization}>
@@ -39,22 +39,18 @@ export function ExperienceCard({
           className={styles.highlights}
           aria-label={`${experience.organization ?? experience.title} ${copy.impactLabel}`}
         >
-          {experience.impact.map((item) => (
+          {experience.impact.map((item, index, impact) => (
             <div key={item.label} data-motion-metric>
               <dt>{item.label}</dt>
-              <dd>{item.value}</dd>
+              <dd>
+                <ImpactValue
+                  value={item.value}
+                  earlierValues={impact.slice(0, index).map((earlier) => earlier.value)}
+                />
+              </dd>
             </div>
           ))}
         </dl>
-      ) : null}
-      {experience.invitation ? (
-        <div className={styles.invitation}>
-          <p>{experience.invitation}</p>
-          <Link href={localeHref(locale, "/contact")}>
-            {copy.sendMessage}
-            <HiArrowRight aria-hidden="true" />
-          </Link>
-        </div>
       ) : null}
       <ExperienceDetails tasks={experience.tasks} label={copy.readMore} />
       <SkillList skills={experience.skills} />
@@ -116,9 +112,21 @@ function SkillList({
 
   return (
     <ul className={small ? `${styles.skills} ${styles.skillsSmall}` : styles.skills}>
-      {skills.map((skill) => (
-        <li key={skill}>{skill}</li>
-      ))}
+      {skills.map((skill) => {
+        const icon = getSkillIcon(skill);
+
+        return (
+          <li key={skill}>
+            {icon && (
+              <icon.Icon
+                aria-hidden="true"
+                style={{ "--skill-color": icon.color } as React.CSSProperties}
+              />
+            )}
+            {skill}
+          </li>
+        );
+      })}
     </ul>
   );
 }

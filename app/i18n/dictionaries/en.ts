@@ -1,4 +1,4 @@
-import { aboutMeSectionContent } from "@/app/data/aboutMeSection";
+import { aboutMeSectionContent, type ProfileFact } from "@/app/data/aboutMeSection";
 import { flightRadarSectionContent } from "@/app/data/flightRadarSection";
 import { interestsSectionContent } from "@/app/data/interestsSection";
 import {
@@ -11,7 +11,7 @@ const en = {
   metadata: {
     title: "Joschua Haß",
     description:
-      "Joschua Haß is a software engineer in Tokyo who builds web apps with TypeScript, React, Next.js, NestJS and PostgreSQL.",
+      "Joschua Haß is a software engineer based in Munich who builds web apps with TypeScript, React, Next.js, NestJS and PostgreSQL.",
   },
   accessibility: {
     skipToContent: "Skip to main content",
@@ -37,11 +37,16 @@ const en = {
     },
   },
   hero: {
-    label: "Software engineer, based in Tokyo",
+    label: "Based in Munich",
     headlineLead: "Hi, I’m Joschua.",
-    headlineAccent: "Full-stack engineer, part-time aviation nerd.",
+    // The part of headlineLead that the hero swaps for each nickname in turn.
+    headlineName: "Joschua",
+    headlineNicknames: ["Joschi", "Josh"],
+    headlineAccent: "Full-stack engineer, part-time tinkerer.",
     description:
-      "I grew up in northern Germany and now live in Tokyo. I work mostly with TypeScript and the web, and in my free time I’m usually reading about planes.",
+      "I mostly build web apps in TypeScript that businesses can rely on. Outside of work, I take things apart, nerd out over engineering videos and every now and then go on a trip to clear my head.",
+    // The word in the description that gets the TypeScript underline and logo.
+    descriptionHighlight: "TypeScript",
     primaryAction: "See my work",
     secondaryAction: "Download CV",
     primaryActionLabel: "See my work",
@@ -57,11 +62,16 @@ const en = {
     annotationsLabel: "Quick facts",
     profileFactsLabel: "Quick facts",
     profileFacts: [
-      ["Based in", "Tokyo, Japan"],
-      ["Originally from", "Northern Germany"],
-      ["Languages", "German (native), English (fluent), Japanese (learning, around N5)"],
-      ["Focus", "Full-stack TypeScript"],
-    ],
+      { label: "Experience", value: "5 years, including a shortened 2.5-year apprenticeship" },
+      { label: "Languages", value: "German (native), English (fluent), Japanese (N5)" },
+      { label: "Coffee or tea", value: "Coffee, though Japan made me appreciate tea a bit more", icon: "coffee" },
+      {
+        label: "Favorite YouTube rabbit hole",
+        value: "BPS.space rockets",
+        href: "https://www.youtube.com/@BPSspace",
+        icon: "rocket",
+      },
+    ] as readonly ProfileFact[],
     paragraphs: aboutMeSectionContent.paragraphs,
   },
   writing: {
@@ -81,7 +91,6 @@ const en = {
     present: "Present",
     now: "Now",
     alongside: "Alongside",
-    sendMessage: "Send me a message",
     kinds: {
       experience: "Experience",
       project: "Project",
@@ -94,12 +103,9 @@ const en = {
     label: "Tools",
     title: toolsSectionContent.title,
     description:
-      "The eight things I reach for most, as trading cards, because a row of logos felt boring. Rarity is based on how often I use them.",
-    deckLabel: "Joschua’s deck · 2026",
-    completeSet: "8 cards, all in regular use",
+      "The eight things I reach for most, as trading cards, because a row of logos felt boring.",
     rarityGuideLabel: "Rarity guide",
     collectionLabel: "Technology cards",
-    editionLabel: "2026 edition",
     traitsLabel: "Card stats",
     rarities: {
       Common: "Common",
@@ -129,9 +135,18 @@ const en = {
     title: flightRadarSectionContent.title,
     description: flightRadarSectionContent.description,
     href: flightRadarSectionContent.href,
-    imageSrc: flightRadarSectionContent.imageSrc,
-    imageAlt: flightRadarSectionContent.imageAlt,
     action: "See all my flights",
+    mapLabel: "Map of the routes I’ve flown between 28 airports, from Dublin in the west to Sendai in the east.",
+    passLabel: "Boarding pass",
+    aroundTheEarth: "around the Earth",
+    flightsLabel: "Flights",
+    distanceLabel: "Distance",
+    hoursLabel: "In the air",
+    airportsLabel: "Airports",
+    windowSeatsLabel: "Window seats",
+    mostFlownLabel: "Most flown",
+    flightSingular: "flight",
+    flightPlural: "flights",
   },
   footer: {
     label: "Get in touch",
@@ -215,12 +230,17 @@ const en = {
     related: "Related posts",
     writtenBy: "Written by",
     authorBio:
-      "Software engineer from northern Germany, now living in Tokyo.",
+      "Software engineer from northern Germany, now living in Munich.",
     getInTouch: "Get in touch",
     share: "Share this post",
     shareOn: (platform: string) => `Share on ${platform}`,
     shareByEmail: "Share by email",
     backToAll: "Back to all posts",
+  },
+  notFound: {
+    label: "404",
+    title: "This page doesn’t exist.",
+    action: "Back to the homepage",
   },
   imprint: {
     label: "Legal",

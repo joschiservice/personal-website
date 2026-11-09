@@ -36,7 +36,8 @@ export function ActionLink({
     </>
   );
 
-  if (href.startsWith("mailto:") || href.startsWith("http")) {
+  // Links opening a new tab skip <Link>, whose prefetching would hit routes like /cv on page load.
+  if (target === "_blank" || href.startsWith("mailto:") || href.startsWith("http")) {
     return (
       <a
         href={href}
@@ -53,8 +54,6 @@ export function ActionLink({
   return (
     <Link
       href={href}
-      target={target}
-      rel={target ? "noopener noreferrer" : undefined}
       className={`action-link action-link--${variant}`}
       aria-label={resolvedAriaLabel}
     >

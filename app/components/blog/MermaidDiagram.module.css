@@ -1,0 +1,65 @@
+.diagramCanvas {
+  width: 100%;
+  overflow-x: auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  overscroll-behavior-inline: contain;
+  scrollbar-color: rgba(141, 216, 255, 0.35) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(141, 216, 255, 0.28);
+  }
+
+  /* The rendered SVGs name the font directly, but next/font gives it a generated name. */
+
+  & svg,
+  & svg * {
+    font-family: var(--font-mono) !important;
+  }
+
+  & svg {
+    display: block;
+    width: max(100%, 32rem) !important;
+    min-width: 32rem !important;
+    max-width: none !important;
+    height: auto;
+    margin: auto;
+  }
+}
+
+.diagram :global(.edgeLabel),
+.diagram :global(.edgeLabel) p {
+  background-color: #0b1626 !important;
+}
+.diagram {
+  position: relative;
+  width: min(58rem, calc(100vw - 2rem));
+  min-height: 12rem;
+  margin-left: 50%;
+  overflow: hidden;
+  border: 1px solid var(--blog-border);
+  background:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(66, 165, 245, 0.09),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 90% 100%,
+      rgba(186, 104, 200, 0.08),
+      transparent 38%
+    ),
+    #08101d;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  transform: translateX(-50%);
+  border-radius: 0;
+}

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { BlogPost } from "@/app/lib/blog";
+import styles from "./PostCover.module.css";
 
 /**
  * A post's cover image, or for posts without one a quiet tile tinted per post,
@@ -29,7 +30,7 @@ export function PostCover({
 
   return (
     <span
-      className="post-cover-fallback"
+      className={styles.fallback}
       style={{ "--cover-hue": hueFor(post.slug) } as React.CSSProperties}
       aria-hidden="true"
     >

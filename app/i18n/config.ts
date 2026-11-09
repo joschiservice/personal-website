@@ -1,4 +1,4 @@
-export const locales = ["en", "ja"] as const;
+const locales = ["en", "ja"] as const;
 
 export type Locale = (typeof locales)[number];
 
@@ -12,6 +12,7 @@ export const defaultLocale: Locale = "en";
 /**
  * Locales the site currently serves. Japanese is switched off for now; add "ja"
  * back here to bring back the /ja pages, hreflang links and language switcher.
+ * <html lang> in app/layout.tsx and app/not-found.tsx would still be English.
  */
 export const enabledLocales: readonly Locale[] = ["en"];
 
@@ -23,10 +24,28 @@ export function isEnabledLocale(value: string | null | undefined): value is Loca
   return enabledLocales.includes(value as Locale);
 }
 
-export function localeHref(locale: Locale, href: string) {
-  if (locale === defaultLocale || !href.startsWith("/")) return href;
-  if (href === "/") return `/${locale}`;
-  return `/${locale}${href}`;
+/** Pages under app/[locale]. Add new pages here, so a mistyped internal link fails type checking. */
+export type LocalePath =
+  | "/"
+  | `/#${string}`
+  | "/blog"
+  | `/blog/${string}`
+  | "/contact"
+  | "/imprint";
+
+/** Params for generateStaticParams in every route under app/[locale]. */
+export function localeStaticParams() {
+  return enabledLocales.map((locale) => ({ locale }));
+}
+
+/** Adds the locale to a path only known at runtime. Use localeHref for links written in code. */
+export function withLocale(locale: Locale, path: string) {
+  if (locale === defaultLocale) return path;
+  return path === "/" ? `/${locale}` : `/${locale}${path}`;
+}
+
+export function localeHref(locale: Locale, href: LocalePath) {
+  return withLocale(locale, href);
 }
 
 export function pathWithoutLocale(pathname: string) {
@@ -36,7 +55,7 @@ export function pathWithoutLocale(pathname: string) {
 }
 
 export function localeAlternates(
-  href: string
+  href: LocalePath
 ): Partial<Record<Locale, string>> & { "x-default": string } {
   const localized = Object.fromEntries(
     enabledLocales.map((locale) => [locale, localeHref(locale, href)])

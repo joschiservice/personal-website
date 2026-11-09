@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineCheck, HiOutlineExclamationTriangle, HiOutlineLink } from "react-icons/hi2";
+import styles from "./CopyLinkButton.module.css";
 
 type CopyStatus = "idle" | "copied" | "failed";
 
@@ -45,7 +46,7 @@ export function CopyLinkButton({
     <button
       type="button"
       onClick={copyLink}
-      className="blog-copy-link"
+      className={styles.root}
       aria-live="polite"
     >
       {status === "copied" ? (

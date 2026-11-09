@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { BlogTocItem } from "@/content-types";
+import styles from "./TableOfContents.module.css";
 
 /** Share of the viewport height a heading must pass before its section counts as current. */
 const READING_LINE = 0.3;
@@ -73,14 +74,14 @@ export function TableOfContents({
 
   return (
     <>
-      <details className="blog-toc-mobile">
+      <details className={styles.mobile} data-testid="toc-mobile">
         <summary>{label}</summary>
         {links}
       </details>
-      <aside className="blog-toc-desktop" aria-label={ariaLabel}>
+      <aside className={styles.desktop} data-testid="toc-desktop" aria-label={ariaLabel}>
         <p>{label}</p>
-        <div ref={trackRef} className="blog-toc-track">
-          <span ref={indicatorRef} className="blog-toc-indicator" aria-hidden="true" />
+        <div ref={trackRef} className={styles.track}>
+          <span ref={indicatorRef} className={styles.indicator} aria-hidden="true" />
           {links}
         </div>
       </aside>
@@ -114,7 +115,7 @@ function useActiveHeading(toc: BlogTocItem[]) {
         if (heading.getBoundingClientRect().top <= line) current = heading.id;
         else break;
       }
-      if (atBottom && window.scrollY > 0) current = headings[headings.length - 1].id;
+      if (atBottom && window.scrollY > 0) current = headings.at(-1)?.id;
 
       setActiveId(current);
     };

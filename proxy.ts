@@ -1,37 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
-import { defaultLocale, isEnabledLocale, isLocale } from "@/app/i18n/config";
+import { NextResponse, type NextRequest } from "next/server";
+import {
+  defaultLocale,
+  isEnabledLocale,
+  isLocale,
+  pathWithoutLocale,
+} from "@/app/i18n/config";
 
 export function proxy(request: NextRequest) {
-  const requestHeaders = new Headers(request.headers);
-  const forwardedLocale = requestHeaders.get("x-site-locale");
+  const { pathname } = request.nextUrl;
+  const [requestedLocale] = pathname.split("/").filter(Boolean);
+  const url = request.nextUrl.clone();
 
-  // A rewrite passes through Proxy again. Keep the locale selected by the
-  // original localized URL instead of replacing it with the default locale.
-  if (isEnabledLocale(forwardedLocale)) {
-    return NextResponse.next({ request: { headers: requestHeaders } });
-  }
+  if (isLocale(requestedLocale)) {
+    if (isEnabledLocale(requestedLocale)) return NextResponse.next();
 
-  const segments = request.nextUrl.pathname.split("/").filter(Boolean);
-  const requestedLocale = segments[0];
-
-  // Disabled locales send visitors to the default-language version of the page.
-  if (isLocale(requestedLocale) && !isEnabledLocale(requestedLocale)) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${segments.slice(1).join("/")}`;
+    // Disabled locales send visitors to the default-language version of the page.
+    url.pathname = pathWithoutLocale(pathname);
     return NextResponse.redirect(url, 307);
   }
 
-  if (isLocale(requestedLocale)) {
-    requestHeaders.set("x-site-locale", requestedLocale);
-    const url = request.nextUrl.clone();
-    url.pathname = `/${segments.slice(1).join("/")}` || "/";
-    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-  }
-
-  requestHeaders.set("x-site-locale", defaultLocale);
-  return NextResponse.next({ request: { headers: requestHeaders } });
+  // Pages live under app/[locale], so URLs without a locale serve the default one.
+  url.pathname = pathname === "/" ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`;
+  return NextResponse.rewrite(url);
 }
 
+// cv, sitemap.xml and blog/rss.xml aren't localized, so they live outside app/[locale].
+// Prefixed versions of those URLs are redirected in next.config.ts.
 export const config = {
-  matcher: ["/((?!_next|monitoring|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|gif|svg|ico|pdf|txt)$).*)"],
+  matcher: ["/((?!_next|_vercel|monitoring|\\.well-known|cv$|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|gif|svg|ico|pdf|txt|xml)$).*)"],
 };

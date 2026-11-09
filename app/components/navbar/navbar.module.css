@@ -1,0 +1,402 @@
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  height: 72px;
+  /* Keeps the nav still while page content transitions underneath it. */
+  view-transition-name: site-header;
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    backdrop-filter 220ms ease,
+    -webkit-backdrop-filter 220ms ease;
+  /* The frosted background sits on the nav itself: its view-transition-name makes it a
+   backdrop root, so a blurred pseudo-element inside it could not see the page behind. */
+
+  &[data-scrolled="true"] {
+    border-color: var(--line);
+    background-color: rgb(5 9 18 / 72%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+  }
+
+  &[data-menu-open="true"] {
+    border-color: transparent;
+  }
+
+  &[data-scrolled="false"] .navMarkFull {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &[data-scrolled="false"] .navMarkShort {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &[data-scrolled="true"] .navMark {
+    width: 2rem;
+  }
+
+  &[data-scrolled="true"] .navMarkFull {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-0.5rem);
+  }
+
+  &[data-scrolled="true"] .navMarkShort {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  &[data-scrolled="true"]:hover .navMark,
+  &[data-scrolled="true"]:focus-within .navMark {
+    width: 10.25rem;
+  }
+
+  &[data-scrolled="true"]:hover .navMarkFull,
+  &[data-scrolled="true"]:focus-within .navMarkFull {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  &[data-scrolled="true"]:hover .navMarkShort,
+  &[data-scrolled="true"]:focus-within .navMarkShort {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(0.4rem);
+  }
+
+  @media (max-width: 760px) {
+    height: 64px;
+
+    &[data-scrolled="true"] {
+      background-color: rgb(5 9 18 / 84%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      backdrop-filter: blur(14px) saturate(120%);
+    }
+
+    &[data-menu-open="true"] {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+}
+
+.navInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navMark {
+  display: grid;
+  grid-template-areas: "mark";
+  width: 10.25rem;
+  align-items: center;
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: width 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.navMarkFull,
+.navMarkShort {
+  grid-area: mark;
+  transition:
+    opacity 180ms ease,
+    transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.navMarkShort {
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
+  opacity: 0;
+  transform: translateX(-0.4rem);
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.1rem, 2.3vw, 2rem);
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.4rem, 3vw, 2.8rem);
+
+  & a {
+    position: relative;
+    padding: 0.5rem 0;
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  & a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    clip-path: inset(0 100% 0 0);
+    visibility: hidden;
+    transition:
+      clip-path 180ms ease,
+      visibility 0s linear 180ms;
+  }
+
+  & a:hover::after,
+  & a[aria-current="page"]::after,
+  & a[aria-current="location"]::after {
+    clip-path: inset(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+}
+
+.navToggle {
+  display: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+
+  &[aria-expanded="true"] .navToggleGlyphMenu {
+    opacity: 0;
+    transform: rotate(35deg) scale(0.82);
+  }
+
+  &[aria-expanded="true"] .navToggleGlyphClose {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    display: grid;
+    cursor: pointer;
+  }
+}
+
+.navToggleIcon,
+.navToggleGlyph {
+  display: grid;
+  place-items: center;
+}
+
+.navToggleGlyph {
+  grid-area: 1 / 1;
+  transition:
+    opacity 140ms ease,
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navToggleGlyphClose {
+  opacity: 0;
+  transform: rotate(-35deg) scale(0.82);
+}
+
+.navMobile {
+  display: none;
+  @media (max-width: 760px) {
+    &::before {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      background: #050912;
+      clip-path: inset(0 0 100% 0);
+      content: "";
+      transition: clip-path 240ms cubic-bezier(0.4, 0, 1, 1);
+    }
+
+    &[data-open="true"] {
+      pointer-events: auto;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    &[data-open="true"]::before {
+      clip-path: inset(0);
+      transition-duration: 360ms;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &[data-open="true"] .navMobileLinks > a {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 180ms ease-out var(--nav-delay),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1) var(--nav-delay);
+    }
+
+    &[data-open="true"] .navMobileLinks > .languageMobile {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 180ms ease-out var(--nav-delay),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1) var(--nav-delay);
+    }
+  }
+}
+
+.language {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgb(9 17 30 / 60%);
+  font-family: var(--font-mono);
+
+  & a {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 1.8rem;
+    place-items: stretch;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  & a:hover {
+    color: var(--text);
+  }
+}
+
+.languageOption {
+  display: grid;
+  min-width: 2.2rem;
+  min-height: 1.8rem;
+  place-items: center;
+  padding: 0 0.52rem;
+  border-radius: 999px;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+
+  &[data-current="true"] {
+    color: var(--text);
+    background: rgb(107 168 255 / 14%);
+    box-shadow: inset 0 0 0 1px rgb(107 168 255 / 18%);
+  }
+}
+
+.languageMobile {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .languageDesktop {
+    display: none;
+  }
+
+  .navMobile {
+    position: fixed;
+    z-index: 0;
+    inset: 64px 0 0;
+    display: grid;
+    align-items: center;
+    padding: 2rem var(--gutter);
+    background: transparent;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 240ms;
+  }
+
+  .navMobileLinks {
+    position: relative;
+    z-index: 1;
+    display: grid;
+  }
+
+  .navMobileLinks > a,
+  .navMobileLinks > .languageMobile {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 120ms ease-in,
+      transform 180ms cubic-bezier(0.4, 0, 1, 1);
+  }
+
+  .navMobileLinks > a {
+    display: block;
+    font-family: var(--font-display);
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+
+  .navMobileLinks > a[aria-current="location"] {
+    color: var(--accent-soft);
+  }
+
+  .navMobileLinks .languageMobile {
+    display: flex;
+    width: max-content;
+    margin-top: 2rem;
+    padding: 0.3rem;
+  }
+
+  .navMobileLinks .languageMobile a {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 2.4rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  .navMobileLinks .languageMobile a > span {
+    color: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+  }
+
+  .navMobileLinks .languageMobile .languageOption {
+    min-width: 4.5rem;
+    min-height: 2.4rem;
+    padding: 0 0.8rem;
+  }
+
+  .navMobileLinks .languageMobile .languageOption[data-current="true"] {
+    color: var(--text);
+  }
+}

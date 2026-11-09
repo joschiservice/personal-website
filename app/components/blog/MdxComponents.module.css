@@ -1,0 +1,41 @@
+.headingLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: inherit;
+  text-decoration: none;
+
+  & svg {
+    transition:
+      color 180ms ease,
+      transform 180ms ease;
+    flex-shrink: 0;
+    width: 0.75em;
+    height: 0.75em;
+    transform: translateX(-0.3rem);
+    color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & svg {
+      transition: none;
+    }
+  }
+
+  &:hover svg,
+  &:focus-visible svg {
+    transform: translateX(0);
+    color: var(--accent-soft);
+  }
+}
+
+.tableScroll {
+  width: 100%;
+  margin-top: 1.65rem;
+  margin-bottom: 1.65rem;
+  overflow-x: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
+}

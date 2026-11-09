@@ -1,41 +1,10 @@
-import type { Metadata } from "next";
-import "@fontsource-variable/onest";
-import "@fontsource-variable/instrument-sans";
-import "@fontsource-variable/jetbrains-mono";
-import "./globals.css";
+import "@/app/globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { instrumentSans, jetbrainsMono, jetbrainsMonoNumero, onest } from "@/app/lib/fonts";
 
-import { Navbar } from "./components/navbar";
-import { SiteFooter } from "./components/system/SiteFooter";
-import { siteConfig } from "./lib/site";
-import { getRequestDictionary } from "./i18n/getDictionary";
-
-export async function generateMetadata(): Promise<Metadata> {
-  const { dictionary } = await getRequestDictionary();
-
-  return {
-    metadataBase: new URL(siteConfig.url),
-    title: {
-      default: dictionary.metadata.title,
-      template: `%s · ${siteConfig.name}`,
-    },
-    description: dictionary.metadata.description,
-    openGraph: {
-      type: "website",
-      siteName: siteConfig.name,
-      title: dictionary.metadata.title,
-      description: dictionary.metadata.description,
-    },
-    twitter: {
-      card: "summary_large_image",
-    },
-    appleWebApp: {
-      capable: true,
-      statusBarStyle: "black-translucent",
-    },
-  };
-}
+// Pages are static, so this keeps the footer's year from going stale between deploys.
+export const revalidate = 86400;
 
 export const viewport = {
   themeColor: "#050912",
@@ -43,24 +12,15 @@ export const viewport = {
   initialScale: 1,
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { locale, dictionary } = await getRequestDictionary();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={locale} data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${onest.variable} ${instrumentSans.variable} ${jetbrainsMono.variable} ${jetbrainsMonoNumero.variable}`}
+    >
       <body>
-        <a href="#main-content" className="skip-link">
-          {dictionary.accessibility.skipToContent}
-        </a>
-        <Navbar locale={locale} copy={dictionary.nav} />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <SiteFooter locale={locale} copy={dictionary.footer} />
+        {children}
         <SpeedInsights />
         <Analytics />
       </body>

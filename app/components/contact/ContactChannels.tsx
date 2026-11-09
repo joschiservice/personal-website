@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import {
   HiArrowRight,
   HiArrowUpRight,
-  HiCheck,
-  HiClipboard,
   HiEnvelope,
-  HiExclamationTriangle,
+  HiOutlineCheck,
+  HiOutlineClipboard,
+  HiOutlineExclamationTriangle,
 } from "react-icons/hi2";
 import type { Dictionary } from "@/app/i18n/getDictionary";
+import styles from "./contact.module.css";
 
 type CopyState = "idle" | "copied" | "failed";
 
@@ -65,21 +66,21 @@ export function ContactChannels({
 
   const CopyIcon =
     copyState === "copied"
-      ? HiCheck
+      ? HiOutlineCheck
       : copyState === "failed"
-        ? HiExclamationTriangle
-        : HiClipboard;
+        ? HiOutlineExclamationTriangle
+        : HiOutlineClipboard;
 
   return (
-    <div className="contact-channels">
-      <article className="contact-channel contact-channel--email">
-        <div className="contact-channel__topline">
-          <span className="contact-channel__index">{copy.emailLabel}</span>
-          <span className="contact-channel__priority">{copy.primaryChannel}</span>
+    <div className={styles.channels}>
+      <article className={`${styles.channel} ${styles.channelEmail}`}>
+        <div className={styles.channelTopline}>
+          <span className={styles.channelIndex}>{copy.emailLabel}</span>
+          <span className={styles.channelPriority}>{copy.primaryChannel}</span>
         </div>
 
-        <div className="contact-channel__body">
-          <span className="contact-channel__icon" aria-hidden="true">
+        <div className={styles.channelBody}>
+          <span className={styles.channelIcon} aria-hidden="true">
             <HiEnvelope />
           </span>
           <div>
@@ -89,16 +90,16 @@ export function ContactChannels({
         </div>
 
         {email ? (
-          <div className="contact-channel__email-actions">
-            <a href={`mailto:${email}`} className="contact-channel__email-link">
+          <div className={styles.channelEmailActions}>
+            <a href={`mailto:${email}`} className={styles.channelEmailLink}>
               <span>{email}</span>
-              <span className="contact-channel__arrow" aria-hidden="true">
+              <span className={styles.channelArrow} aria-hidden="true">
                 <HiArrowRight />
               </span>
             </a>
             <button
               type="button"
-              className="contact-channel__copy"
+              className={styles.channelCopy}
               data-state={copyState}
               onClick={copyEmail}
               aria-live="polite"
@@ -108,29 +109,29 @@ export function ContactChannels({
             </button>
           </div>
         ) : (
-          <p className="contact-channel__unavailable">{copy.unavailable}</p>
+          <p className={styles.channelUnavailable}>{copy.unavailable}</p>
         )}
       </article>
 
-      <div className="contact-proof" aria-label={copy.proofLabel}>
+      <div className={styles.proof} aria-label={copy.proofLabel}>
         {linkedin ? (
           <a
             href={linkedin}
             target="_blank"
             rel="noreferrer"
-            className="contact-channel contact-channel--proof contact-channel--linkedin"
+            className={`${styles.channel} ${styles.channelProof} ${styles.channelLinkedin}`}
             aria-label={`LinkedIn · ${newTabLabel}`}
           >
-            <span className="contact-channel__index">{copy.professionalProfile}</span>
-            <span className="contact-channel__icon" aria-hidden="true">
+            <span className={styles.channelIndex}>{copy.professionalProfile}</span>
+            <span className={styles.channelIcon} aria-hidden="true">
               <FaLinkedinIn />
             </span>
-            <span className="contact-channel__proof-copy">
+            <span className={styles.channelProofCopy}>
               <strong>LinkedIn</strong>
               <small>{copy.socials.linkedin}</small>
               <em>{copy.linkedinProof}</em>
             </span>
-            <span className="contact-channel__arrow" aria-hidden="true">
+            <span className={styles.channelArrow} aria-hidden="true">
               <HiArrowUpRight />
             </span>
           </a>
@@ -141,19 +142,19 @@ export function ContactChannels({
             href={github}
             target="_blank"
             rel="noreferrer"
-            className="contact-channel contact-channel--proof contact-channel--github"
+            className={`${styles.channel} ${styles.channelProof} ${styles.channelGithub}`}
             aria-label={`GitHub · ${newTabLabel}`}
           >
-            <span className="contact-channel__index">{copy.buildingInPublic}</span>
-            <span className="contact-channel__icon" aria-hidden="true">
+            <span className={styles.channelIndex}>{copy.buildingInPublic}</span>
+            <span className={styles.channelIcon} aria-hidden="true">
               <FaGithub />
             </span>
-            <span className="contact-channel__proof-copy">
+            <span className={styles.channelProofCopy}>
               <strong>GitHub</strong>
               <small>{copy.socials.github}</small>
               <em>{copy.githubProof}</em>
             </span>
-            <span className="contact-channel__arrow" aria-hidden="true">
+            <span className={styles.channelArrow} aria-hidden="true">
               <HiArrowUpRight />
             </span>
           </a>
@@ -165,15 +166,15 @@ export function ContactChannels({
           href={instagram}
           target="_blank"
           rel="noreferrer"
-          className="contact-personal-link"
+          className={styles.personalLink}
           aria-label={`Instagram · ${newTabLabel}`}
         >
-          <span className="contact-personal-link__label">
+          <span className={styles.personalLinkLabel}>
             <FaInstagram aria-hidden="true" />
             {copy.personalLabel}
           </span>
           <span>{copy.socials.instagram}</span>
-          <span className="contact-personal-link__action">
+          <span className={styles.personalLinkAction}>
             Instagram
             <HiArrowUpRight aria-hidden="true" />
           </span>

@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, type PointerEvent } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
+import { motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
-import type { Locale } from "@/app/i18n/config";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import { getToolStatIcon } from "./toolStatIcons";
+import styles from "./ToolsSection.module.css";
 
 type ToolCopy = Dictionary["tools"];
 type Rarity = "Rare" | "Epic" | "Legendary";
@@ -21,6 +22,7 @@ const RARITY_LEVELS: Record<Rarity, number> = {
 
 const MAX_TILT_DEG = 7;
 const HOVER_LIFT_PX = -6;
+const SHADOW_SHIFT_PX = 28;
 /** Share of the remaining distance covered per 60 Hz frame; lower is softer. */
 const POINTER_EASE = 0.14;
 
@@ -35,16 +37,67 @@ interface CardMotion {
   lastTime: number;
 }
 
-const CARD_TRANSITION = {
+/** Seconds between neighbouring cards being dealt, and between a card's sockets powering on. */
+const DEAL_STAGGER = 0.09;
+const SOCKET_STAGGER = 0.09;
+/** How long after its deal starts a card has turned far enough to show its sockets. */
+const SOCKETS_START = 0.7;
+
+const DEAL_TRANSITION = {
   type: "spring" as const,
-  stiffness: 360,
-  damping: 30,
-  mass: 0.8,
+  stiffness: 90,
+  damping: 16,
+  mass: 0.9,
 };
 
-export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale }) {
+/**
+ * Flips a card face-up as it's dealt. Which side shows follows the rotation itself:
+ * Safari flattens this flip, so backface-visibility and depth can't be relied on.
+ */
+function DealtCard({
+  column,
+  delay,
+  instant,
+  children,
+}: {
+  column: number;
+  delay: number;
+  instant: boolean;
+  children: ReactNode;
+}) {
+  const rotateY = useMotionValue(180);
+  const backVisibility = useTransform(rotateY, (angle) => (angle > 90 ? "visible" : "hidden"));
+
+  return (
+    // Opacity would flatten the flip, so it stays on the slot around this.
+    <motion.div
+      className={styles.flipper}
+      style={{ rotateY }}
+      variants={{
+        waiting: { rotateY: 180, rotateZ: (column - 1.5) * 3, y: -64, scale: 0.94 },
+        dealt: {
+          rotateY: 0,
+          rotateZ: 0,
+          y: 0,
+          scale: 1,
+          transition: instant ? { duration: 0 } : { ...DEAL_TRANSITION, delay },
+        },
+      }}
+    >
+      {children}
+      <motion.div className={styles.cardBack} style={{ visibility: backVisibility }} aria-hidden="true">
+        <span>JH</span>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export function ToolsSection({ copy }: { copy: ToolCopy }) {
   const prefersReducedMotion = useReducedMotion();
   const items = copy.items;
+  const [hoveredRarity, setHoveredRarity] = useState<Rarity | null>(null);
+  const [pinnedRarity, setPinnedRarity] = useState<Rarity | null>(null);
+  const spotlitRarity = hoveredRarity ?? pinnedRarity;
 
   const cardMotions = useRef(new Map<HTMLElement, CardMotion>());
 
@@ -82,6 +135,10 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
         card.style.setProperty("--tilt-x", `${((0.5 - state.y) * MAX_TILT_DEG).toFixed(3)}deg`);
         card.style.setProperty("--tilt-y", `${((state.x - 0.5) * MAX_TILT_DEG).toFixed(3)}deg`);
         card.style.setProperty("--lift", `${state.lift.toFixed(2)}px`);
+        // How far the card's layers have separated, and the shadow it casts away from the tilt.
+        card.style.setProperty("--depth", (state.lift / HOVER_LIFT_PX).toFixed(3));
+        card.style.setProperty("--shadow-x", `${((0.5 - state.x) * SHADOW_SHIFT_PX).toFixed(1)}px`);
+        card.style.setProperty("--shadow-y", `${((0.5 - state.y) * SHADOW_SHIFT_PX).toFixed(1)}px`);
       }
 
       if (settled) {
@@ -113,13 +170,16 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
     return state;
   };
 
+  // Pointer events land on the stationary slot, never on the moving card inside it.
+  // A lifting card would otherwise slide out from under a still pointer and lose its hover.
   const trackPointer = (event: PointerEvent<HTMLElement>) => {
     if (event.pointerType !== "mouse") return;
 
-    const card = event.currentTarget;
-    // Measure the untransformed slot: the card's own box moves as it tilts,
-    // which would feed back into the pointer position and make it jitter.
-    const rect = (card.parentElement ?? card).getBoundingClientRect();
+    const slot = event.currentTarget;
+    const card = slot.querySelector<HTMLElement>("[data-tilt]");
+    if (!card) return;
+
+    const rect = slot.getBoundingClientRect();
     const state = getCardMotion(card);
 
     state.targetX = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
@@ -129,7 +189,9 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
   };
 
   const releasePointer = (event: PointerEvent<HTMLElement>) => {
-    const card = event.currentTarget;
+    const card = event.currentTarget.querySelector<HTMLElement>("[data-tilt]");
+    if (!card) return;
+
     const state = getCardMotion(card);
 
     state.targetX = 0.5;
@@ -141,7 +203,7 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
   return (
     <section
       id="tools"
-      className="editorial-section tools-section"
+      className={`editorial-section ${styles.section}`}
       aria-labelledby="tools-heading"
     >
       <SpaceBackdrop variant="tools" />
@@ -154,37 +216,62 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
           align="split"
         />
 
-        <div className="tool-deck__register motion-section-content">
-          <div className="tool-deck__edition">
-            <span>{copy.deckLabel}</span>
-            <strong>{copy.completeSet}</strong>
-          </div>
-
+        <div className={`${styles.register} motion-section-content`}>
           <div
-            className="tool-deck__rarities"
+            className={styles.rarities}
             role="list"
             aria-label={copy.rarityGuideLabel}
+            // Cleared here, not per tile, so crossing the gap between tiles keeps the spotlight.
+            onPointerLeave={() => setHoveredRarity(null)}
           >
             {RARITY_ORDER.map((rarity) => {
               const count = items.filter((item) => item.rarity === rarity).length;
 
               return (
-                <div
-                  key={rarity}
-                  role="listitem"
-                  data-rarity={rarity.toLowerCase()}
-                >
-                  <span className="tool-deck__rarity-mark" aria-hidden="true">
-                    {Array.from(
-                      { length: RARITY_LEVELS[rarity] },
-                      (_, index) => <i key={index} />,
-                    )}
-                  </span>
-                  <span>
-                    <strong>{copy.rarities[rarity]}</strong>
-                    <small>{copy.rarityNotes[rarity]}</small>
-                  </span>
-                  <b>{String(count).padStart(2, "0")}</b>
+                <div key={rarity} className={styles.raritySlot} role="listitem">
+                  <button
+                    type="button"
+                    className={styles.rarityButton}
+                    data-rarity={rarity.toLowerCase()}
+                    aria-pressed={pinnedRarity === rarity}
+                    onClick={() => setPinnedRarity((pinned) => (pinned === rarity ? null : rarity))}
+                    onPointerEnter={(event) => {
+                      trackPointer(event);
+                      if (event.pointerType === "mouse") setHoveredRarity(rarity);
+                    }}
+                    onPointerMove={trackPointer}
+                    onPointerLeave={releasePointer}
+                  >
+                    <span className={styles.rarityTile} data-tilt>
+                    <span className={styles.foil} aria-hidden="true" />
+                    {/* One miniature for each card of this rarity. */}
+                    <span className={styles.stack} aria-hidden="true">
+                      {Array.from({ length: count }, (_, cardIndex) => (
+                        <span
+                          key={cardIndex}
+                          className={styles.miniCard}
+                          style={
+                            {
+                              "--card-index": cardIndex,
+                              "--card-offset": cardIndex - (count - 1) / 2,
+                            } as React.CSSProperties
+                          }
+                        >
+                          {cardIndex === count - 1 &&
+                            Array.from(
+                              { length: RARITY_LEVELS[rarity] },
+                              (_, pipIndex) => <i key={pipIndex} />,
+                            )}
+                        </span>
+                      ))}
+                    </span>
+                    <span className={styles.rarityText}>
+                      <strong>{copy.rarities[rarity]}</strong>
+                      <small>{copy.rarityNotes[rarity]}</small>
+                    </span>
+                    <b>{String(count).padStart(2, "0")}</b>
+                    </span>
+                  </button>
                 </div>
               );
             })}
@@ -192,44 +279,52 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
         </div>
 
         <div
-          className="tool-card-grid motion-section-content"
+          className={`${styles.grid} motion-section-content`}
           role="list"
           aria-label={copy.collectionLabel}
+          data-spotlight={spotlitRarity?.toLowerCase()}
         >
           {items.map((item, index) => {
             const rarity = item.rarity as Rarity;
             const cardNumber = String(index + 1).padStart(2, "0");
             const total = String(items.length).padStart(2, "0");
+            const column = index % 4;
+            const dealDelay = prefersReducedMotion ? 0 : column * DEAL_STAGGER;
 
             return (
               <motion.div
                 key={item.name}
-                className="tool-card-slot"
+                className={styles.slot}
                 role="listitem"
-                initial={{ opacity: 0, y: 24, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                initial="waiting"
+                whileInView="dealt"
                 viewport={{ once: true, amount: 0.12 }}
-                transition={
-                  prefersReducedMotion
-                    ? { duration: 0 }
-                    : { ...CARD_TRANSITION, delay: (index % 4) * 0.055 }
-                }
+                onPointerEnter={trackPointer}
+                onPointerMove={trackPointer}
+                onPointerLeave={releasePointer}
+                variants={{
+                  waiting: { opacity: 0 },
+                  dealt: {
+                    opacity: 1,
+                    transition: { duration: prefersReducedMotion ? 0 : 0.18, delay: dealDelay },
+                  },
+                }}
               >
+                <DealtCard column={column} delay={dealDelay} instant={prefersReducedMotion === true}>
                 <article
-                  className="tool-card"
+                  className={styles.card}
                   data-rarity={rarity.toLowerCase()}
                   data-tool={item.name}
-                  onPointerEnter={trackPointer}
-                  onPointerMove={trackPointer}
-                  onPointerLeave={releasePointer}
+                  data-tilt
                 >
-                  <div className="tool-card__foil" aria-hidden="true" />
-                  <div className="tool-card__frame">
-                    <header className="tool-card__header">
-                      <span className="tool-card__number">
+                  <div className={styles.foil} aria-hidden="true" />
+                  <div className={styles.dim} aria-hidden="true" />
+                  <div className={styles.frame}>
+                    <header className={styles.header}>
+                      <span className={styles.number}>
                         № {cardNumber}<i>/</i>{total}
                       </span>
-                      <span className="tool-card__rarity">
+                      <span className={styles.rarity}>
                         <span aria-hidden="true">
                           {Array.from(
                             { length: RARITY_LEVELS[rarity] },
@@ -240,9 +335,9 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                       </span>
                     </header>
 
-                    <div className="tool-card__art" aria-hidden="true">
+                    <div className={styles.art} aria-hidden="true">
                       {item.imageName ? (
-                        <span className="tool-card__logo">
+                        <span className={styles.logo}>
                           <Image
                             src={`/img/tools/${item.imageName}.png`}
                             alt=""
@@ -252,35 +347,71 @@ export function ToolsSection({ copy, locale }: { copy: ToolCopy; locale: Locale 
                           />
                         </span>
                       ) : (
-                        <span className="tool-card__monogram">
+                        <span className={styles.monogram}>
                           {item.name.slice(0, 2).toUpperCase()}
                         </span>
                       )}
-                      <span className="tool-card__category">{item.category}</span>
                     </div>
 
-                    <div className="tool-card__identity">
+                    <div className={styles.identity}>
                       <p>{item.title}</p>
                       <h3>{item.name}</h3>
                     </div>
 
-                    <p className="tool-card__flavor">{item.flavor}</p>
+                    <p className={styles.flavor}>{item.flavor}</p>
 
-                    <dl className="tool-card__traits" aria-label={copy.traitsLabel}>
-                      {item.stats.map((stat) => (
-                        <div key={stat.label}>
-                          <dt>{stat.label}</dt>
-                          <dd>{stat.value}</dd>
-                        </div>
-                      ))}
+                    <dl className={styles.traits} aria-label={copy.traitsLabel}>
+                      {item.stats.map((stat, statIndex) => {
+                        const icon = getToolStatIcon(item.name, statIndex);
+
+                        return (
+                          <motion.div
+                            key={stat.label}
+                            variants={{
+                              waiting: { opacity: 0, scale: 0.8 },
+                              dealt: {
+                                opacity: 1,
+                                scale: 1,
+                                transition: prefersReducedMotion
+                                  ? { duration: 0 }
+                                  : {
+                                      ...DEAL_TRANSITION,
+                                      stiffness: 260,
+                                      delay: dealDelay + SOCKETS_START + statIndex * SOCKET_STAGGER,
+                                    },
+                              },
+                            }}
+                          >
+                            <dt>
+                              {icon && (
+                                <span
+                                  className={styles.socket}
+                                  data-animation={icon.animation}
+                                  style={
+                                    {
+                                      "--stat-color": icon.color,
+                                      "--stat-index": statIndex,
+                                    } as React.CSSProperties
+                                  }
+                                  aria-hidden="true"
+                                >
+                                  <icon.Icon />
+                                </span>
+                              )}
+                              {stat.label}
+                            </dt>
+                            <dd>{stat.value}</dd>
+                          </motion.div>
+                        );
+                      })}
                     </dl>
 
-                    <footer className="tool-card__footer">
-                      <span>{copy.editionLabel}</span>
-                      <span>{locale === "ja" ? `JH・${cardNumber}` : `JH · ${cardNumber}`}</span>
+                    <footer className={styles.footer}>
+                      <span>{item.category}</span>
                     </footer>
                   </div>
                 </article>
+                </DealtCard>
               </motion.div>
             );
           })}

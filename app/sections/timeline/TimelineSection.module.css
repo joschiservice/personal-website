@@ -1,8 +1,9 @@
 /*
  * One rail runs down the left edge. Each stop draws its own slice of it, so the
  * rail, its marker and the entry always move together. While an entry is read,
- * its date block stays pinned and the marker travels down the rail; the runtime
- * in HomeMotionRuntime fills the rail up to the reading position.
+ * its date block stays pinned and the marker travels down the rail. The rail fills
+ * up to the reading position: with a scroll-driven animation where it's supported,
+ * so it keeps up with fast scrolling, and from HomeMotionRuntime everywhere else.
  */
 .timeline {
   --rail-x: 5px;
@@ -14,6 +15,9 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  @media (max-width: 900px) {
+    --stop-space: 4rem;
+  }
 }
 
 .stop {
@@ -24,40 +28,70 @@
   grid-template-columns: minmax(12rem, 0.65fr) minmax(0, 1.65fr);
   gap: clamp(2rem, 7vw, 8rem);
   padding-bottom: var(--stop-space);
-}
 
-.stop:first-child { --rail-start: var(--marker-y); }
-.stop:last-child { padding-bottom: 2rem; }
+  &:first-child {
+    --rail-start: var(--marker-y);
+  }
+  &:last-child {
+    padding-bottom: 2rem;
+  }
 
-.stop::before,
-.stop::after {
-  content: "";
-  position: absolute;
-  top: var(--rail-start);
-  left: var(--rail-x);
-  width: 1px;
-  pointer-events: none;
-}
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: var(--rail-start);
+    left: var(--rail-x);
+    width: 1px;
+    pointer-events: none;
+  }
 
-.stop::before {
-  bottom: 0;
-  background: rgb(183 202 232 / 18%);
-}
+  &::before {
+    bottom: 0;
+    background: rgb(183 202 232 / 18%);
+  }
 
-.stop::after {
-  height: var(--rail-fill, 0px);
-  max-height: calc(100% - var(--rail-start));
-  background: linear-gradient(180deg, var(--accent), var(--accent-soft));
-  box-shadow: 0 0 0.6rem rgb(24 116 255 / 35%);
-}
+  &::after {
+    height: var(--rail-fill, 0px);
+    max-height: calc(100% - var(--rail-start));
+    background: linear-gradient(180deg, var(--accent), var(--accent-soft));
+    box-shadow: 0 0 0.6rem rgb(24 116 255 / 35%);
+  }
 
-.stop:first-child::after {
-  background: linear-gradient(180deg, var(--warm), var(--accent) 18rem, var(--accent-soft));
-}
+  &:first-child::after {
+    background: linear-gradient(
+      180deg,
+      var(--warm),
+      var(--accent) 18rem,
+      var(--accent-soft)
+    );
+  }
 
-.stop:last-child::before,
-.stop:last-child::after {
-  mask-image: linear-gradient(180deg, #000 calc(100% - 10rem), transparent);
+  &:last-child::before,
+  &:last-child::after {
+    mask-image: linear-gradient(180deg, #000 calc(100% - 10rem), transparent);
+  }
+
+  &[data-reached="true"] .marker {
+    border-color: var(--accent-soft);
+    background: var(--accent-soft);
+  }
+
+  &[data-active="true"] .marker {
+    box-shadow:
+      0 0 0 4px rgb(24 116 255 / 16%),
+      0 0 0.9rem rgb(24 116 255 / 55%);
+  }
+
+  &[data-active="true"] .period {
+    color: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-left: 2rem;
+  }
 }
 
 /* Date column ------------------------------------------------------------ */
@@ -66,6 +100,10 @@
   top: var(--when-top);
   align-self: start;
   padding-left: 2.25rem;
+  @media (max-width: 900px) {
+    position: static;
+    padding-left: 0;
+  }
 }
 
 .marker {
@@ -78,18 +116,13 @@
   border: 1.5px solid rgb(183 202 232 / 45%);
   border-radius: 999px;
   background: var(--page);
-  transition: border-color 300ms ease, background-color 300ms ease, box-shadow 300ms ease;
-}
-
-.stop[data-reached="true"] .marker {
-  border-color: var(--accent-soft);
-  background: var(--accent-soft);
-}
-
-.stop[data-active="true"] .marker {
-  box-shadow:
-    0 0 0 4px rgb(24 116 255 / 16%),
-    0 0 0.9rem rgb(24 116 255 / 55%);
+  transition:
+    border-color 300ms ease,
+    background-color 300ms ease,
+    box-shadow 300ms ease;
+  @media (max-width: 900px) {
+    left: calc(var(--rail-x) + 0.5px - var(--marker-size) / 2 - 2rem);
+  }
 }
 
 .period {
@@ -102,9 +135,10 @@
   letter-spacing: -0.02em;
   line-height: 28px;
   transition: color 300ms ease;
+  @media (max-width: 900px) {
+    font-size: 1.1rem;
+  }
 }
-
-.stop[data-active="true"] .period { color: var(--text); }
 
 .periodDetail {
   display: flex;
@@ -116,10 +150,22 @@
   font-size: 0.7rem;
   letter-spacing: 0.02em;
   line-height: 1.6;
+  @media (max-width: 900px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 0.5rem;
+    margin-top: 0.15rem;
+    & span + span::before {
+      content: "·";
+      margin-right: 0.5rem;
+    }
+  }
 }
 
 /* Experience ------------------------------------------------------------- */
-.content { min-width: 0; }
+.content {
+  min-width: 0;
+}
 
 .role {
   margin: 0;
@@ -135,27 +181,34 @@
   color: var(--body);
   font-size: 1rem;
   font-weight: 500;
+
+  & a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: inherit;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  & a:hover {
+    color: var(--accent-soft);
+  }
+
+  & svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    color: var(--muted);
+    transition:
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  & a:hover svg {
+    color: var(--accent-soft);
+    transform: translate(1px, -1px);
+  }
 }
-
-.organization a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: inherit;
-  text-decoration: none;
-  transition: color 180ms ease;
-}
-
-.organization a:hover { color: var(--accent-soft); }
-
-.organization svg {
-  width: 0.9rem;
-  height: 0.9rem;
-  color: var(--muted);
-  transition: color 180ms ease, transform 180ms ease;
-}
-
-.organization a:hover svg { color: var(--accent-soft); transform: translate(1px, -1px); }
 
 .summary {
   max-width: 44rem;
@@ -163,6 +216,8 @@
   color: var(--body);
   font-size: 1.02rem;
   line-height: 1.75;
+  /* A summary can span paragraphs, separated by blank lines. */
+  white-space: pre-line;
 }
 
 .highlights {
@@ -170,138 +225,210 @@
   max-width: 46rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 2.25rem 0 0;
-}
 
-.highlights > div {
-  display: flex;
-  min-width: 0;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  padding: 0.2rem 1.5rem;
-  background: linear-gradient(180deg, transparent, var(--line-strong) 25%, var(--line-strong) 75%, transparent) left / 1px 100% no-repeat;
-}
+  & > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding: 0.2rem 1.5rem;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        var(--line-strong) 25%,
+        var(--line-strong) 75%,
+        transparent
+      )
+      left / 1px 100% no-repeat;
+  }
 
-.highlights > div:first-child {
-  padding-left: 0;
-  background: none;
-}
+  & > div:first-child {
+    padding-left: 0;
+    background: none;
+  }
 
-.highlights dt {
-  margin-top: 0.45rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.4;
-}
+  & dt {
+    margin-top: 0.45rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
 
-.highlights dd {
-  margin: 0;
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
+  & dd {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
+
+    & > div {
+      padding: 0.85rem 0;
+      background: linear-gradient(90deg, var(--line), transparent 85%) top /
+        100% 1px no-repeat;
+    }
+
+    & > div:first-child {
+      padding-top: 0;
+      background: none;
+    }
+  }
 }
 
 /* Invitation: an open call attached to current work ---------------------- */
-.invitation {
-  max-width: 44rem;
-  margin-top: 2rem;
-  padding: 1.15rem 1.35rem;
-  border: 1px solid rgb(107 168 255 / 22%);
-  background:
-    linear-gradient(110deg, rgb(24 116 255 / 9%), transparent 60%),
-    rgb(9 17 30 / 60%);
+/* Stat values: the number counts up, then an improvement replaces its old value. */
+.impactValue {
+  transition: opacity 240ms ease;
+
+  &[data-state="waiting"] {
+    opacity: 0;
+  }
 }
 
-.invitation p {
-  margin: 0;
-  color: var(--body);
-  font-size: 0.95rem;
-  line-height: 1.7;
+.impactNumber {
+  font-variant-numeric: tabular-nums;
 }
 
-.invitation a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.75rem;
-  color: var(--accent-soft);
-  font-size: 0.9rem;
-  font-weight: 500;
+.improvement {
+  --strike-duration: 320ms;
+}
+
+.improvementBefore {
+  position: relative;
+  display: inline-block;
+  color: var(--muted);
   text-decoration: none;
-  transition: color 180ms ease;
+  white-space: nowrap;
+  transition: color var(--strike-duration) ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 52%;
+    right: -0.1em;
+    left: -0.1em;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--warm);
+    transform-origin: left;
+    transition: transform var(--strike-duration) var(--motion-ease-standard);
+  }
 }
 
-.invitation a:hover { color: var(--text); }
-.invitation svg { width: 0.95rem; height: 0.95rem; transition: transform 180ms ease; }
-.invitation a:hover svg { transform: translateX(2px); }
+.improvementAfter {
+  display: inline-block;
+  transition:
+    opacity 560ms ease calc(var(--strike-duration) * 0.8),
+    transform 560ms cubic-bezier(.22, .61, .36, 1) calc(var(--strike-duration) * 0.8);
+}
+
+/* Any state means it hasn't finished yet. */
+.improvement[data-state] {
+  & .improvementBefore {
+    color: inherit;
+  }
+
+  & .improvementBefore::after {
+    transform: scaleX(0);
+  }
+
+  & .improvementAfter {
+    opacity: 0;
+    transform: translateX(-0.9em);
+  }
+}
 
 /* Disclosure ------------------------------------------------------------- */
-.details { margin-top: 1.75rem; }
+.details {
+  /* The icon and the panel share one motion so they start and land together. */
+  --details-motion: 360ms cubic-bezier(.4, 0, .2, 1);
 
-.details button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0;
-  border: 0;
-  background: transparent;
-  color: var(--accent-soft);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 180ms ease;
+  margin-top: 1.75rem;
+
+  & button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--accent-soft);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 180ms ease;
+  }
+
+  & button:hover {
+    color: var(--text);
+  }
+
+  & button svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    transition: transform var(--details-motion);
+  }
+
+  &[data-open="true"] button svg {
+    transform: rotate(135deg);
+  }
+
+  &[data-open="true"] .detailsPanel {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition:
+      grid-template-rows var(--details-motion),
+      visibility 0s linear 0s;
+  }
 }
-
-.details button:hover { color: var(--text); }
-
-.details button svg {
-  width: 0.95rem;
-  height: 0.95rem;
-  transition: transform 220ms var(--motion-ease-out);
-}
-
-.details[data-open="true"] button svg { transform: rotate(45deg); }
 
 .detailsPanel {
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
   visibility: hidden;
-  transition: grid-template-rows 260ms ease, visibility 0s linear 260ms;
+  transition:
+    grid-template-rows var(--details-motion),
+    visibility 0s linear 360ms;
+
+  & ul {
+    max-width: 44rem;
+    margin: 0;
+    padding: 0.85rem 0 0.25rem;
+    list-style: none;
+    color: var(--body);
+    line-height: 1.7;
+  }
+
+  & li {
+    position: relative;
+    padding-left: 1.35rem;
+  }
+  & li + li {
+    margin-top: 0.6rem;
+  }
+
+  & li::before {
+    content: "";
+    position: absolute;
+    top: 0.85em;
+    left: 0;
+    width: 0.55rem;
+    height: 1px;
+    background: var(--accent-soft);
+    opacity: 0.7;
+  }
 }
 
-.detailsPanelInner { min-height: 0; overflow: hidden; }
-
-.details[data-open="true"] .detailsPanel {
-  grid-template-rows: 1fr;
-  visibility: visible;
-  transition: grid-template-rows 260ms ease, visibility 0s linear 0s;
-}
-
-.detailsPanel ul {
-  max-width: 44rem;
-  margin: 0;
-  padding: 0.85rem 0 0.25rem;
-  list-style: none;
-  color: var(--body);
-  line-height: 1.7;
-}
-
-.detailsPanel li { position: relative; padding-left: 1.35rem; }
-.detailsPanel li + li { margin-top: 0.6rem; }
-
-.detailsPanel li::before {
-  content: "";
-  position: absolute;
-  top: 0.85em;
-  left: 0;
-  width: 0.55rem;
-  height: 1px;
-  background: var(--accent-soft);
-  opacity: 0.7;
+.detailsPanelInner {
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* Skills ----------------------------------------------------------------- */
@@ -312,26 +439,56 @@
   margin: 1.5rem 0 0;
   padding: 0;
   list-style: none;
+
+  & li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.28rem 0.55rem;
+    border-radius: 0.3rem;
+    background: rgb(183 202 232 / 6%);
+    color: #9aa6b8;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+  }
+
+  & li svg {
+    flex: none;
+    width: 1.15em;
+    height: 1.15em;
+
+    /* Keeps each brand recognizable while pulling it slightly toward the page's cool palette. */
+    color: var(--skill-color);
+    color: color-mix(in oklab, var(--skill-color) 85%, var(--body));
+  }
 }
 
-.skills li {
-  padding: 0.28rem 0.55rem;
-  border-radius: 0.3rem;
-  background: rgb(183 202 232 / 6%);
-  color: #9aa6b8;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.02em;
+.skillsSmall {
+  margin-top: 1rem;
+  & li {
+    padding: 0.22rem 0.45rem;
+    font-size: 0.64rem;
+  }
 }
-
-.skillsSmall { margin-top: 1rem; }
-.skillsSmall li { padding: 0.22rem 0.45rem; font-size: 0.64rem; }
 
 /* Alongside: projects and credentials from the same period ---------------- */
 .alongside {
   margin-top: 3rem;
   padding-top: 1.75rem;
-  background: linear-gradient(90deg, var(--line-strong), var(--line) 50%, transparent) top / 100% 1px no-repeat;
+  background: linear-gradient(
+      90deg,
+      var(--line-strong),
+      var(--line) 50%,
+      transparent
+    )
+    top / 100% 1px no-repeat;
+
+  & > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 }
 
 .alongsideLabel {
@@ -341,21 +498,25 @@
   font-weight: 500;
 }
 
-.alongside > ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 .alongsideItem {
   display: grid;
   grid-template-columns: 9rem minmax(0, 1fr);
   gap: 1.5rem;
   padding: 1.35rem 0;
-}
 
-.alongsideItem + .alongsideItem {
-  background: linear-gradient(90deg, var(--line), transparent 80%) top / 100% 1px no-repeat;
+  & + .alongsideItem {
+    background: linear-gradient(90deg, var(--line), transparent 80%) top / 100%
+      1px no-repeat;
+  }
+
+  & .details {
+    margin-top: 0.85rem;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+  }
 }
 
 .alongsideMeta {
@@ -369,9 +530,17 @@
   font-size: 0.66rem;
   letter-spacing: 0.02em;
   line-height: 1.5;
-}
 
-.alongsideMeta span:first-child { color: #8d9ab0; }
+  & span:first-child {
+    color: #8d9ab0;
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 0.75rem;
+  }
+}
 
 .alongsideTitle {
   margin: 0;
@@ -380,23 +549,35 @@
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.35;
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+  & a:hover {
+    color: var(--accent-soft);
+  }
+
+  & svg {
+    display: inline-block;
+    width: 0.85rem;
+    height: 0.85rem;
+    margin-left: 0.3rem;
+    color: var(--muted);
+    vertical-align: -0.05em;
+  }
+
+  & a:hover svg {
+    color: var(--accent-soft);
+  }
 }
 
-.alongsideTitle a { color: inherit; text-decoration: none; transition: color 180ms ease; }
-.alongsideTitle a:hover { color: var(--accent-soft); }
-
-.alongsideTitle svg {
-  display: inline-block;
-  width: 0.85rem;
-  height: 0.85rem;
-  margin-left: 0.3rem;
-  color: var(--muted);
-  vertical-align: -0.05em;
+.alongsideSubtitle {
+  margin: 0.3rem 0 0;
+  color: var(--accent-soft);
+  font-size: 0.85rem;
 }
-
-.alongsideTitle a:hover svg { color: var(--accent-soft); }
-
-.alongsideSubtitle { margin: 0.3rem 0 0; color: var(--accent-soft); font-size: 0.85rem; }
 
 .alongsideSummary {
   max-width: 40rem;
@@ -406,21 +587,93 @@
   line-height: 1.7;
 }
 
-.alongsideItem .details { margin-top: 0.85rem; }
-
 /* Entrance: content rises in, the date block only fades so the marker never leaves the rail. */
 @keyframes contentEnter {
-  from { opacity: 0; transform: translateY(1.25rem); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes fadeEnter {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes railFill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Pulls the date block ahead, so it covers the last of the distance slower and stops without a jolt. */
+@keyframes dateSettle {
+  from {
+    transform: none;
+  }
+  25% {
+    transform: translateY(-1.125rem);
+  }
+  50% {
+    transform: translateY(-1.5rem);
+  }
+  75% {
+    transform: translateY(-1.125rem);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes dateHandover {
+  to {
+    opacity: 0;
+  }
 }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    .stop {
+      /* Where the sticky date block holds the marker. Matches getReadingLine in HomeMotionRuntime. */
+      --reading-line: calc(var(--when-top) + var(--marker-y));
+      view-timeline: --timeline-stop block;
+      @media (max-width: 900px) {
+        --reading-line: 30svh;
+      }
+    }
+
+    /* Measured from the top of the viewport: the rail starts at the reading line and ends with the stop. */
+    .stop::after {
+      bottom: 0;
+      height: auto;
+      max-height: none;
+      transform-origin: top;
+      animation: railFill linear both;
+      animation-timeline: --timeline-stop;
+      animation-range:
+        exit-crossing calc(var(--rail-start) - var(--reading-line))
+        exit-crossing calc(100% - var(--reading-line));
+    }
+
+    /* Safari draws this animation wrongly once a stop changes height, so HomeMotionRuntime fills the rail there. */
+    html[data-timeline-rail="script"] .stop::after {
+      bottom: auto;
+      height: var(--rail-fill, 0px);
+      max-height: calc(100% - var(--rail-start));
+      animation: none;
+    }
+
     .content,
     .when {
       animation: contentEnter linear both;
@@ -428,44 +681,56 @@
       animation-range: entry 0% entry 40%;
     }
 
-    .when { animation-name: fadeEnter; }
+    .when {
+      animation-name: fadeEnter;
+    }
+
+    /* Hand over between pinned dates: the old one fades before the next stop pushes it out, and the next slows into place. */
+    @media (min-width: 901px) {
+      .stop {
+        --settle-distance: 6rem;
+        --handover-distance: 5rem;
+        /* Where a stop's end sits when it starts pushing its date block out. */
+        --handover-end: calc(var(--when-top) + 5.5rem + var(--stop-space));
+      }
+
+      .when {
+        animation:
+          fadeEnter linear both,
+          dateSettle linear both;
+        animation-timeline: view(), --timeline-stop;
+        animation-range:
+          entry 0% entry 40%,
+          exit-crossing calc(-1 * var(--when-top) - var(--settle-distance))
+          exit-crossing calc(-1 * var(--when-top));
+      }
+
+      /*
+       * The first stop's rail starts at its marker, so moving the marker would detach it.
+       * data-settle-paused is set by ExperienceDetails while a stop changes height.
+       */
+      .stop:first-child .when,
+      .stop[data-settle-paused] .when {
+        animation-name: fadeEnter, none;
+      }
+
+      .stop:not(:last-child) .period,
+      .stop:not(:last-child) .periodDetail {
+        animation: dateHandover linear both;
+        animation-timeline: --timeline-stop;
+        animation-range:
+          exit-crossing calc(100% - var(--handover-end) - var(--handover-distance))
+          exit-crossing calc(100% - var(--handover-end));
+      }
+    }
   }
-}
-
-@media (max-width: 900px) {
-  .timeline { --stop-space: 4rem; }
-
-  .stop {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
-    padding-left: 2rem;
-  }
-
-  .when { position: static; padding-left: 0; }
-  .marker { left: calc(var(--rail-x) + 0.5px - var(--marker-size) / 2 - 2rem); }
-  .period { font-size: 1.1rem; }
-
-  .periodDetail { flex-direction: row; flex-wrap: wrap; gap: 0 0.5rem; margin-top: 0.15rem; }
-  .periodDetail span + span::before { content: "·"; margin-right: 0.5rem; }
-}
-
-@media (max-width: 640px) {
-  .highlights { grid-template-columns: minmax(0, 1fr); }
-
-  .highlights > div {
-    padding: 0.85rem 0;
-    background: linear-gradient(90deg, var(--line), transparent 85%) top / 100% 1px no-repeat;
-  }
-
-  .highlights > div:first-child { padding-top: 0; background: none; }
-
-  .alongsideItem { grid-template-columns: minmax(0, 1fr); gap: 0.6rem; }
-  .alongsideMeta { flex-direction: row; flex-wrap: wrap; column-gap: 0.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .detailsPanel,
   .details button svg,
   .marker,
-  .period { transition: none; }
+  .period {
+    transition: none;
+  }
 }
