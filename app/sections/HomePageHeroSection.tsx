@@ -55,7 +55,9 @@ export function HomePageHeroSection({
             <HeadlineLead copy={copy} />
             <span>{copy.headlineAccent}</span>
           </h1>
-          <p className={styles.description}>{copy.description}</p>
+          <p className={styles.description}>
+            <Description copy={copy} />
+          </p>
           <div className={styles.actions} data-testid="hero-actions">
             <ActionLink href="#experience" variant="primary">
               {copy.primaryAction}
@@ -127,5 +129,38 @@ function HeadlineLead({ copy }: { copy: Dictionary["hero"] }) {
         ))}
       </span>
     </span>
+  );
+}
+
+/* Underlines the highlighted word, drawn in once, and puts its logo next to it. */
+function Description({ copy }: { copy: Dictionary["hero"] }) {
+  const highlightStart = copy.descriptionHighlight
+    ? copy.description.indexOf(copy.descriptionHighlight)
+    : -1;
+
+  if (highlightStart === -1) {
+    return copy.description;
+  }
+
+  const before = copy.description.slice(0, highlightStart);
+  const after = copy.description.slice(highlightStart + copy.descriptionHighlight.length);
+
+  return (
+    <>
+      {before}
+      <span className={styles.highlight}>
+        <span className={styles.highlightWord}>
+          {copy.descriptionHighlight}
+          <svg className={styles.highlightLine} viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true">
+            {/* One pen stroke, nearly flat and lifting at the end: thin where it starts, fuller in the middle, tapering off. */}
+            <path d="M3 8.4C70 7.6 140 6.4 197 2.4C199.4 2.2 200 4.6 197.6 5C140 10.4 70 11.4 3 10.4C1.2 10.2 1.2 8.6 3 8.4Z" />
+          </svg>
+        </span>
+        <span className={styles.highlightLogo} aria-hidden="true">
+          <span>TS</span>
+        </span>
+      </span>
+      {after}
+    </>
   );
 }

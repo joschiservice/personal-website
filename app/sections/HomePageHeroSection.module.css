@@ -381,6 +381,75 @@ html[lang="ja"] .root h1 {
   transition: background-color 220ms ease;
 }
 
+/* TypeScript in the description: a pen-stroke underline, drawn in once, and the logo. */
+.highlight {
+  --highlight-blue: #3178c6;
+  white-space: nowrap;
+}
+
+.highlightWord {
+  position: relative;
+  color: var(--text);
+  transition: color 220ms ease;
+}
+
+.highlightLine {
+  position: absolute;
+  bottom: -0.5em;
+  left: -0.05em;
+  width: calc(100% + 0.1em);
+  height: 0.7em;
+  overflow: visible;
+  fill: #6aa5ea;
+  opacity: 0.8;
+  transition: opacity 220ms ease;
+}
+
+/* The TypeScript logo, as tall as a capital letter so it sits on the baseline like the T beside it. */
+.highlightLogo {
+  position: relative;
+  display: inline-block;
+  width: 1cap;
+  height: 1cap;
+  margin-left: 0.3em;
+  overflow: hidden;
+  border-radius: 0.12em;
+  background: var(--highlight-blue);
+  transition: transform 220ms var(--motion-ease-standard);
+
+  & > span {
+    position: absolute;
+    right: 0.08em;
+    bottom: 0.03em;
+    color: #fff;
+    font-size: 0.42em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+}
+
+.highlight:hover {
+  & .highlightWord {
+    color: #fff;
+  }
+
+  & .highlightLine {
+    opacity: 1;
+  }
+
+  & .highlightLogo {
+    transform: translateY(-0.08em) rotate(-6deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Draws in after the hero has faded in, just before the first nickname swap. */
+  .highlightLine {
+    animation: hero-highlight-draw 750ms var(--motion-ease-out) 600ms both;
+  }
+}
+
 /*
  * The name and its nicknames share one grid cell, so the line never reflows. The
  * widest one sets the width; the gap after a shorter one sits at the end of the line.
@@ -519,5 +588,13 @@ html[lang="ja"] .root h1 {
     opacity: 0;
     filter: blur(6px);
     transform: translateY(-0.4em);
+  }
+}
+@keyframes hero-highlight-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
   }
 }
