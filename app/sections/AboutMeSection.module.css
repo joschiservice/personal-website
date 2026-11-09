@@ -171,3 +171,119 @@
     line-height: 1.45;
   }
 }
+
+.factLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.22em;
+  transition: color 180ms ease, text-decoration-color 180ms ease;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--accent-soft);
+    text-decoration-color: currentcolor;
+  }
+}
+
+.factIcon {
+  display: inline-flex;
+  padding: 0.2em;
+  margin: -0.2em -0.2em -0.2em 0.2em;
+  overflow: hidden;
+  color: var(--accent-soft);
+  vertical-align: -0.2em;
+
+  & svg {
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  /* The steam lines above the cup. */
+  & svg path:not(:nth-child(3)) {
+    transform-box: fill-box;
+  }
+}
+
+.factLink .factIcon {
+  margin-left: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The rocket idles with a slight hover, and on hover it launches off and comes back in from below. */
+  .factIcon[data-icon="rocket"] svg {
+    animation: about-rocket-idle 2.4s ease-in-out infinite;
+  }
+
+  .factLink:hover .factIcon[data-icon="rocket"] svg,
+  .factLink:focus-visible .factIcon[data-icon="rocket"] svg {
+    animation: about-rocket-launch 900ms var(--motion-ease-standard) both;
+  }
+
+  /* The coffee keeps steaming, one line after another. */
+  .factIcon[data-icon="coffee"] svg path:not(:nth-child(3)) {
+    animation: about-coffee-steam 2.4s ease-in-out infinite both;
+  }
+
+  .factIcon[data-icon="coffee"] svg path:nth-child(1) {
+    animation-delay: 0.8s;
+  }
+
+  .factIcon[data-icon="coffee"] svg path:nth-child(2) {
+    animation-delay: 1.6s;
+  }
+}
+
+@keyframes about-coffee-steam {
+  0% {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-90%);
+  }
+}
+
+@keyframes about-rocket-idle {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translate(0.06em, -0.08em);
+  }
+}
+
+@keyframes about-rocket-launch {
+  0% {
+    transform: none;
+  }
+  12% {
+    transform: translate(-0.06em, 0.06em);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(1.2em, -1.2em);
+  }
+  46% {
+    opacity: 0;
+    transform: translate(1.2em, -1.2em);
+  }
+  47% {
+    opacity: 0;
+    transform: translate(-1.2em, 1.2em);
+  }
+  48% {
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}

@@ -2,12 +2,15 @@ import { Container } from "@/app/components/system/Container";
 import { SectionIntro } from "@/app/components/system/SectionIntro";
 import type { Dictionary } from "@/app/i18n/getDictionary";
 import { SpaceBackdrop } from "@/app/components/system/SpaceBackdrop";
+import { LuCoffee, LuRocket } from "react-icons/lu";
 import styles from "./AboutMeSection.module.css";
 
 export function AboutMeSection({
   copy,
+  newTabLabel,
 }: {
   copy: Dictionary["about"];
+  newTabLabel: string;
 }) {
   return (
     <section
@@ -44,12 +47,38 @@ export function AboutMeSection({
             <div className={styles.annotationGroup}>
               <p className="system-label">{copy.profileFactsLabel}</p>
               <dl className={styles.profileFactList} data-testid="about-facts">
-                {copy.profileFacts.map(([title, description]) => (
-                  <div key={title}>
-                    <dt>{title}</dt>
-                    <dd>{description}</dd>
-                  </div>
-                ))}
+                {copy.profileFacts.map(({ label, value, href, icon }) => {
+                  const iconElement = icon ? (
+                    <span className={styles.factIcon} data-icon={icon} aria-hidden="true">
+                      {icon === "rocket" ? <LuRocket /> : <LuCoffee />}
+                    </span>
+                  ) : null;
+
+                  return (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>
+                        {href ? (
+                          <a
+                            className={styles.factLink}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${value} · ${newTabLabel}`}
+                          >
+                            {value}
+                            {iconElement}
+                          </a>
+                        ) : (
+                          <>
+                            {value}
+                            {iconElement}
+                          </>
+                        )}
+                      </dd>
+                    </div>
+                  );
+                })}
               </dl>
             </div>
           </aside>
